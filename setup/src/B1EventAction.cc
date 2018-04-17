@@ -71,6 +71,12 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetDEVAInY()).clear();
 	(fRunAction->GetDEVAInZ()).clear();
 
+	(fRunAction->GetScint72DepEne()).clear();
+	(fRunAction->GetScint74DepEne()).clear();
+
+	(fRunAction->GetVectorCross()).clear();
+
+
 	
 	fDEVAEneTot1=0;
 	fDEVAEneTot2=0;

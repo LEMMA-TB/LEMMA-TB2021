@@ -78,7 +78,7 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	//  y0 = G4RandGauss::shoot(0.,sizeY);
 	//    if ( abs(x0)<cut && abs(y0)<cut ) break;
 	//    }
-	z0 = -1.e-5*mm;
+	z0 = -1*mm; //was -1.e-5 until 6.4.18, but is inside T1!!!
 	
 	
 	
