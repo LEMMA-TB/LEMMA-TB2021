@@ -259,14 +259,16 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	//New Muon Chambers:
 	G4double Mu_sizeX=65*cm;
 	G4double Mu_sizeY=65*cm;
-	G4double Mu_sizeZ=20*cm; //??
+	G4double Mu_sizeZ=1.3*cm; //?? 1.3 single layer
+	G4double Mu_gapZ=34.6*cm;
 
 	//Calorimeter holding structure:
 	G4double CaloTable_sizeX=Mu_sizeX;
 	G4double CaloTable_sizeY=Mu_sizeY;
-	G4double CaloTable_sizeZ=160*cm;
+	G4double CaloTable_sizeZ=140*cm;
 	
 	G4double DistPbCe=10*cm;
+	G4double DistTableMu=5*cm;
 
 	/*
 	 
@@ -301,7 +303,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xPb2c=-xPb1c; //Det
 	G4double xCe1=0; //Det
 	G4double xCe2=-xCe1; //Det
-	G4double xMu1=0; //Det
+	G4double xMu1=48*cm; //Det
 	G4double xMu2=-xMu1; //Det
 	G4double xCaloTable1=42*cm; //Det
 	G4double xCaloTable2=-xCaloTable1; //Det
@@ -366,11 +368,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zPb2c=zPb1c; //Det
 	G4double zCe1=-CaloTable_sizeZ/2. +LeadGlass_sizeZ + Cerenkov_sizeZ/2. + DistPbCe; //Det
 	G4double zCe2=zCe1; //Det
-	G4double zMu1=CaloTable_sizeZ/2.-Mu_sizeZ/2.; //Det
-	G4double zMu2=zMu1; //Det
-	
 	G4double zCaloTable=2220*cm+CaloTable_sizeZ/2.; //Det
-
+	G4double zMu1=zCaloTable+CaloTable_sizeZ/2.+Mu_sizeZ/2.+DistTableMu; //Det
+	G4double zMu2=zMu1; //Det
 	
 	// ============
 	//   Vactors
@@ -875,16 +875,28 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	//-- Muon chamber 1
 	G4Box* solidMu1 = new G4Box("Mu1",Mu_sizeX/2,Mu_sizeY/2,Mu_sizeZ/2);
 	G4LogicalVolume* logicMu1 = new G4LogicalVolume(solidMu1, aria,"Mu1");
-//	new G4PVPlacement(G4Transform3D(*RotMu1, posMu1),logicMu1,"Mu1",logicWorld,false,0,checkOverlaps);
-	new G4PVPlacement(0, posMu1,logicMu1,"Mu1",logicCaloTable1,false,0,checkOverlaps);
+	
+
+	
+	
+//	new G4PVPlacement(0, posMu1,logicMu1,"Mu1",logicWorld,false,0,checkOverlaps);
+
+//	new G4PVPlacement(0, posMu1,logicMu1,"Mu1",logicCaloTable1,false,0,checkOverlaps);
 
 	//-- Muon chamber 2
 	G4Box* solidMu2 = new G4Box("Mu2",Mu_sizeX/2,Mu_sizeY/2,Mu_sizeZ/2);
 	G4LogicalVolume* logicMu2 = new G4LogicalVolume(solidMu2, aria,"Mu2");
-	new G4PVPlacement(0,posMu2,logicMu2,"Mu2",logicCaloTable2,false,0,checkOverlaps);
+//	new G4PVPlacement(0, posMu2,logicMu2,"Mu2",logicWorld,false,0,checkOverlaps);
+//	new G4PVPlacement(0,posMu2,logicMu2,"Mu2",logicCaloTable2,false,0,checkOverlaps);
 	
-	
-	
+	for (int ii=0; ii<4; ii++) {
+		new G4PVPlacement(0, G4ThreeVector(posMu1.x(), posMu1.y(), posMu1.z()+(ii+0.5)*Mu_sizeZ),logicMu1,"Mu1",logicWorld,false,0,checkOverlaps);
+		new G4PVPlacement(0, G4ThreeVector(posMu2.x(), posMu2.y(), posMu2.z()+(ii+0.5)*Mu_sizeZ),logicMu2,"Mu2",logicWorld,false,0,checkOverlaps);
+	}
+	for (int ii=4; ii<8; ii++) {
+		new G4PVPlacement(0, G4ThreeVector(posMu1.x(), posMu1.y(), posMu1.z()+(ii+0.5)*Mu_sizeZ+Mu_gapZ),logicMu1,"Mu1",logicWorld,false,0,checkOverlaps);
+		new G4PVPlacement(0, G4ThreeVector(posMu2.x(), posMu2.y(), posMu2.z()+(ii+0.5)*Mu_sizeZ+Mu_gapZ),logicMu2,"Mu2",logicWorld,false,0,checkOverlaps);
+	}
 	
 	// ###################################################################################
 	// ###################################################################################

@@ -56,7 +56,7 @@ fExtSourceFlagMu(ExtSourceFlagMu)
 			G4cout<<"I am simulating a Mu- primary beam of energy "<<fBeamEnergy/GeV<<" GeV"<<G4endl;
 		} else if(fProdMuonBeamFlag) {
 			particle = particleTable->FindParticle(particleName="mu+"); //Primary Muon Beam for Calib after Target
-			G4cout<<"I am simulating a mu+ primary beam of energy "<<fBeamEnergy/GeV<<" GeV STARTING AFTER THE TARGET"<<G4endl;
+			G4cout<<"I am simulating a Mu+ primary beam of energy in 15-30 GeV to simulate pair production STARTING AFTER THE TARGET"<<G4endl;
 		}else if(fElectronBeamFlag) {
 			particle = particleTable->FindParticle(particleName="e-"); //Primary Electron Beam
 			G4cout<<"I am simulating a e- primary beam of energy "<<fBeamEnergy/GeV<<" GeV"<<G4endl;

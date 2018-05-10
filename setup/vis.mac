@@ -51,10 +51,10 @@
 #/vis/scene/add/hits
 #
 # To draw only gammas:
-/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/create/particleFilter
 #/vis/filtering/trajectories/particleFilter-0/add e+
-/vis/filtering/trajectories/particleFilter-0/add mu+
-/vis/filtering/trajectories/particleFilter-0/add mu-
+#/vis/filtering/trajectories/particleFilter-0/add mu+
+#/vis/filtering/trajectories/particleFilter-0/add mu-
 #
 # To invert the above, drawing all particles except gammas,
 #/vis/filtering/trajectories/create/particleFilter
@@ -64,7 +64,7 @@
 #
 # Many other options are available with /vis/modeling and /vis/filtering.
 # For example, to select colour by particle ID:
-#/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/create/drawByParticleID
 #/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts true
 # To select or override default colours (note: e+ is blue by default):
 #/vis/modeling/trajectories/list

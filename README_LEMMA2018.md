@@ -65,7 +65,7 @@ Please note that due to Geant4 issues regarding multi core root output, multi th
 ### TO MERGE MULTIPLE ROOT OUTPUT FILES:
 TChain * chain = new TChain("LEMMA")
 chain->Add("LemmaMC_t*.root")
-TFile *file = TFile::Open("LemmaMC2018_ProdMu_NoT_Mf.root","RECREATE");
+TFile *file = TFile::Open("LemmaMC2018_ProdMuP_T_Mf.root","RECREATE");
 chain->CloneTree(-1,"fast");
 file->Write();
 
@@ -108,73 +108,15 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - created README file
 - added CalibMuonBeamFlag
 
-2017.09.12 by collamaf
-- fixed subdet table to match data
-- added magnetic field scaling due to actual current
-
-2017.10.19 by collamaf
-- added global flag (ElectronBeamFlag) to generate electrons as primary particle (thus removing the target). To generate a positron beam at the current time it's enought to make false both ElectronBeamFlag and CalibMuonBeamFlag
-
-2017.10.23 by collamaf
-- fixed the problem with the magnetic field, that was showing remarkable differences between map and fixed values. It was due to an error in the handling of the ZOffset in GetFieldValue of PurgMagTabulatedField3D.cc (now changed the sign of the offset passed to it by DetectorConstruction.c). Now very good agreement between map and fixed field!
-
-2017.10.24 by collamaf
-- added 12-leyer structure for the muon chamber
-- moved all flags to mainMCMC.cc
-
-2017.10.27 by collamaf
-- added exact structure of DEVA calorimeter (12 plastic scintillator tiles and 11 lead absorbers)
-- first approach to scoring of deposited energy into DEVA. For now simply saving total energy deposited in each of 12 layers using 12 (+1 total) entries in the root file
-
-2017.10.28 by collamaf
-- expanded scoring of energy depositon into DEVA, dividing for Total, Photons, Electrons and Positrons contribution. However, probably this division does not have much sense in MC.. have to think about it
-- reduced number of reading channel in DEVA from 12 (as layers) to 6 (as in experiment)
-- added a flag to the main to decide if to score calorimeter info
-
-2017.10.30 by collamaf
-- added scoring of CopyNb to know in which layer of DEVA the interaction happens
-- corrected DEVA container material (was full of iron!)
-
-2017.11.28 by collamaf
-- new system of naming for total .root file (not the one(s) produced by Geant, but the ones done with root)
-
-2017.11.29 by collamaf
-- fixed a lot of X and Z positions, due to found error in Z placing of T6 (was moved towards target ~1m, and thus also the chamber position was wrong)
-
-2017.12.15 by collamaf (@Padova)
-- added additional scoring of XYZ of particles entering DEVA to compare with data analysis
-
-2017.12.29 by collamaf
-- added possibility to use external generator for primary events: there are now 2 new flags in mainMCMC.cc (ExtSourceFlagBha and ExtSourceFlagMu): if true default settings for source are overrided
-- moved from PrimaryAction to StackingAction the lines to save on the root file info on primary particles, in order to be able to do so also for externally generated particels
-- changed structure in the root output file to house more than 1 primary per event: now BeamX etc are vectors
-- at the current stage the origin of primary external particles is decided with the generator (e.g. they are all generated at the center of the target), but we will work on it
-
-2018.01.31 by collamaf
-- fixed error in SourceZ entry in output root file (was identical to Y)
-- reorganization of output root file (ordering)
-
-2018.02.02 by collamaf
-- corrected shape of target, from box to cyl
-- removed offset for Det30
-- added correct structure of Cerenkov absorber
-- added possibility to exclude from output root file photons with energy lower than a certain threshold to be set in main
-- first implementation of killing of muons produced outside the target (in StackingAction), useful in case of high bias of cross section. Works, but reamains to be understood the impact on physics... (e.g.: the positron does however disappear...:( )
-
-2018.02.12 by collamaf
-- Fixed up Calo scoring: now for DEVA just one vector with 6 elements, one for couple of layers. Same for Cerenkov and PbGlass
-- Added Cerenkov process for both Cerenkov and PbGlass detectors (optical properties for the latter to be checked, for now same as Cerenkov since others seem not to work)
-- There is a cut in Cerenkov Photons lambda (now at 200nm for Cerenkov, 0 for PbGlass) for scoring them to simulate PMT response, changeable in SteppingAction
-
-2018.02.15 by collamaf
-- Added support structure for T3 (Si30) of alluminum
+2018.05.10 by collamaf
+- Uploaded new geometry
+- Chamber is removed from "calo table", remains orthogonal to beam (not tilted)
+- Chamber is now divided into 4+4 planes
+- Scoring condition is now ONLY "step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary"
 
 
 TODO LIST
-- forzatura punto di generazione dei mu/bhabha con generatore esterno - PER ORA RINUNCIO! LA TRACCIA ORIGINARIA SEMBRA INTOCCABILE DENTRO (CONST...) STACKING ACTION
-- aggiungere supporto Si 20 per vedere se genera cose
-- controllare parametri ottici PbGlass
-- nome file di ouptut contenente dati simulazione
+- recuperare generatore esterno (i file ora hanno le posizioni dell'altro setup..)
 
 
 
