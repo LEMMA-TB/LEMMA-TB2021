@@ -56,16 +56,16 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn("BeamEne");   //6
 	analysisManager->CreateNtupleDColumn("BeamPart");   //7
 */
-	analysisManager->CreateNtupleDColumn("BeamX", RunVectorBeamX);   //0
-	analysisManager->CreateNtupleDColumn("BeamY", RunVectorBeamY);   //1
-	analysisManager->CreateNtupleDColumn("BeamZ", RunVectorBeamZ);   //2
-	analysisManager->CreateNtupleDColumn("BeamCX", RunVectorBeamCX);   //3
-	analysisManager->CreateNtupleDColumn("BeamCY", RunVectorBeamCY);   //4
-	analysisManager->CreateNtupleDColumn("BeamCZ", RunVectorBeamCZ);   //5
-	analysisManager->CreateNtupleDColumn("BeamEne", RunVectorBeamEne);   //6
-	analysisManager->CreateNtupleDColumn("BeamPart", RunVectorBeamPart);   //7
+	analysisManager->CreateNtupleDColumn(0,"BeamX", RunVectorBeamX);   //0
+	analysisManager->CreateNtupleDColumn(0,"BeamY", RunVectorBeamY);   //1
+	analysisManager->CreateNtupleDColumn(0,"BeamZ", RunVectorBeamZ);   //2
+	analysisManager->CreateNtupleDColumn(0,"BeamCX", RunVectorBeamCX);   //3
+	analysisManager->CreateNtupleDColumn(0,"BeamCY", RunVectorBeamCY);   //4
+	analysisManager->CreateNtupleDColumn(0,"BeamCZ", RunVectorBeamCZ);   //5
+	analysisManager->CreateNtupleDColumn(0,"BeamEne", RunVectorBeamEne);   //6
+	analysisManager->CreateNtupleDColumn(0,"BeamPart", RunVectorBeamPart);   //7
 	
-	analysisManager->CreateNtupleDColumn("nhits");   //8
+	analysisManager->CreateNtupleDColumn(0,"nhits");   //8
 
 	
 	analysisManager->CreateNtupleDColumn(0,"subdet", RunVectorSubdet);
@@ -123,33 +123,25 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(0,"BCross", RunVectorCross);
 
 	
+	
+	analysisManager->CreateNtuple("Beam", "SimulatedBeamInfo");
+	
+	analysisManager->CreateNtupleDColumn(1, "BeamX", BeamInfoX);   //0
+	analysisManager->CreateNtupleDColumn(1, "BeamY", BeamInfoY);   //1
+	analysisManager->CreateNtupleDColumn(1, "BeamZ", BeamInfoZ);   //2
+	analysisManager->CreateNtupleDColumn(1, "BeamCX", BeamInfoCX);   //3
+	analysisManager->CreateNtupleDColumn(1, "BeamCY", BeamInfoCY);   //4
+	analysisManager->CreateNtupleDColumn(1, "BeamCZ", BeamInfoCZ);   //5
+	analysisManager->CreateNtupleDColumn(1, "BeamEne", BeamInfoEne);   //6
+	analysisManager->CreateNtupleDColumn(1, "BeamPart", BeamInfoPart);   //7
+	
+	
+	analysisManager->FinishNtuple(0);
 
-	/*
-  analysisManager->CreateNtupleIColumn("subdet");
-  analysisManager->CreateNtupleIColumn("idp");
-  analysisManager->CreateNtupleIColumn("ipar");
-  analysisManager->CreateNtupleIColumn("itrack");
-  analysisManager->CreateNtupleDColumn("time");
-  analysisManager->CreateNtupleDColumn("xh");
-  analysisManager->CreateNtupleDColumn("yh");
-  analysisManager->CreateNtupleDColumn("zh");
-  analysisManager->CreateNtupleDColumn("p");
-  analysisManager->CreateNtupleDColumn("pxh");
-  analysisManager->CreateNtupleDColumn("pyh");
-  analysisManager->CreateNtupleDColumn("pzh");
-  analysisManager->CreateNtupleDColumn("xv");
-  analysisManager->CreateNtupleDColumn("yv");
-  analysisManager->CreateNtupleDColumn("zv");
-  analysisManager->CreateNtupleDColumn("kinev");
-  analysisManager->CreateNtupleDColumn("pxvdir");
-  analysisManager->CreateNtupleDColumn("pyvdir");
-  analysisManager->CreateNtupleDColumn("pzvdir");
-  analysisManager->CreateNtupleIColumn("pro");
-  analysisManager->CreateNtupleIColumn("iev");
-  analysisManager->CreateNtupleIColumn("istep");
-  analysisManager->CreateNtupleIColumn("inextstep");
-	 */
-	analysisManager->FinishNtuple();
+	analysisManager->FinishNtuple(1);
+
+	
+	
 	// Creating histograms
 	analysisManager->CreateH1("gamma-gamma","Energy",10,0.,45000.); // id=0 <=== !!!
 }

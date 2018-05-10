@@ -35,7 +35,7 @@ INTERACTIONS vector (one entry per interaction happening at the border between t
 - subdet[]: number of subdetector in which the interactio happened
 - Idp[]: PDG code of particle interacting (11=e-, -11=e+, 22=gamma, 13=mu-...);
 - ipar[]: parent ID of the track (0 is primary...);
-- Itrack[]: track ID of the track;
+- itrack[]: track ID of the track;
 - Time[]: time age of the track [ns];
 - xh[]: X coordinate of the interaction [cm];
 - yh[]: Y coordinate of the interaction [cm];
@@ -65,9 +65,21 @@ Please note that due to Geant4 issues regarding multi core root output, multi th
 ### TO MERGE MULTIPLE ROOT OUTPUT FILES:
 TChain * chain = new TChain("LEMMA")
 chain->Add("LemmaMC_t*.root")
-TFile *file = TFile::Open("LemmaMC_Pos22_NoT_Ff.root","RECREATE");
+TFile *file = TFile::Open("LemmaMC2018_ProdMu_NoT_Mf.root","RECREATE");
 chain->CloneTree(-1,"fast");
 file->Write();
+
+
+TChain * chain = new TChain("LEMMA")
+chain->Add("LemmaMC_t*.root")
+TChain * chain2 = new TChain("Beam")
+chain2->Add("LemmaMC_t*.root")
+TFile *file = TFile::Open("LemmaMC2018_Pos45_T_MfCurrent650_10k_PreStepZ.root","RECREATE");
+chain->CloneTree(-1,"fast");
+chain2->CloneTree(-1,"fast");
+file->Write();
+
+LemmaMC2018_Pos45_T_MfCurrent650
 
 ### FILE NAMES FOR OUTPUT
 TFile *file = TFile::Open("LemmaMC_Tot45PosT_bias.root","RECREATE");
@@ -94,14 +106,14 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 2017.09.11 Modified by collamaf (francesco.collamati@roma1.infn.it)
 - added Cerenkov absorber (with generic dimensions)
 - created README file
-- added MuonBeamFlag
+- added CalibMuonBeamFlag
 
 2017.09.12 by collamaf
 - fixed subdet table to match data
 - added magnetic field scaling due to actual current
 
 2017.10.19 by collamaf
-- added global flag (ElectronBeamFlag) to generate electrons as primary particle (thus removing the target). To generate a positron beam at the current time it's enought to make false both ElectronBeamFlag and MuonBeamFlag
+- added global flag (ElectronBeamFlag) to generate electrons as primary particle (thus removing the target). To generate a positron beam at the current time it's enought to make false both ElectronBeamFlag and CalibMuonBeamFlag
 
 2017.10.23 by collamaf
 - fixed the problem with the magnetic field, that was showing remarkable differences between map and fixed values. It was due to an error in the handling of the ZOffset in GetFieldValue of PurgMagTabulatedField3D.cc (now changed the sign of the offset passed to it by DetectorConstruction.c). Now very good agreement between map and fixed field!

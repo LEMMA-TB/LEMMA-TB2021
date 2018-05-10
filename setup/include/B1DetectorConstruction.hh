@@ -13,53 +13,69 @@ class PurgMagTabulatedField3D;
 class B1DetectorConstruction : public G4VUserDetectorConstruction
 {
 public:
-	B1DetectorConstruction(G4bool MuonBeamFlag,G4bool ElectronBeamFlag, G4bool TargetFlag, G4bool FlipFieldFlag, G4bool MagMapFlag);
+	B1DetectorConstruction(G4bool CalibMuonBeamFlag,G4bool ElectronBeamFlag, G4bool TargetFlag, G4bool FlipFieldFlag, G4bool MagMapFlag);
 	virtual ~B1DetectorConstruction();
 	virtual G4VPhysicalVolume* Construct();
 	virtual void ConstructSDandField();
-	
-	G4LogicalVolume* GetScoringVolume_Trk1() const { return fScoringVolume_Trk1; }
-	G4LogicalVolume* GetScoringVolume_Trk2() const { return fScoringVolume_Trk2; }
-	G4LogicalVolume* GetScoringVolume_T1()   const { return fScoringVolume_T1; }
-	G4LogicalVolume* GetScoringVolume_Trk3() const { return fScoringVolume_Trk3; }
-	G4LogicalVolume* GetScoringVolume_Trk4() const { return fScoringVolume_Trk4; }
-	G4LogicalVolume* GetScoringVolume_Trk5a() const { return fScoringVolume_Trk5a; }
-	G4LogicalVolume* GetScoringVolume_Trk5b() const { return fScoringVolume_Trk5b; }
-	G4LogicalVolume* GetScoringVolume_Trk6a() const { return fScoringVolume_Trk6a; }
-	G4LogicalVolume* GetScoringVolume_Trk6b() const { return fScoringVolume_Trk6b; }
-	G4LogicalVolume* GetScoringVolume_Chamber()   const { return fScoringVolume_Chamber; }
-	G4LogicalVolume* GetScoringVolume_ScintA()   const { return fScoringVolume_ScintA; }
-	G4LogicalVolume* GetScoringVolume_ScintB()   const { return fScoringVolume_ScintB; }
-	G4LogicalVolume* GetScoringVolume_Ecal()   const { return fScoringVolume_Ecal; }
-	G4LogicalVolume* GetScoringVolume_DEVA()   const { return fScoringVolume_DEVA; }
-	G4LogicalVolume* GetScoringVolume_Gcal()   const { return fScoringVolume_Gcal; }
-	G4LogicalVolume* GetScoringVolume_Cerenkov()   const { return fScoringVolume_Cerenkov; }
-	G4LogicalVolume* GetScoringVolume_PbGlass()   const { return fScoringVolume_PbGlass; }
+
+	G4LogicalVolume* GetScoringVolume_S1() const { return fScoringVolume_S1; }
+	G4LogicalVolume* GetScoringVolume_T1() const { return fScoringVolume_T1; }
+	G4LogicalVolume* GetScoringVolume_T2() const { return fScoringVolume_T2; }
+	G4LogicalVolume* GetScoringVolume_Targ()   const { return fScoringVolume_Targ; }
+	G4LogicalVolume* GetScoringVolume_C0() const { return fScoringVolume_C0; }
+	G4LogicalVolume* GetScoringVolume_C1() const { return fScoringVolume_C1; }
+	G4LogicalVolume* GetScoringVolume_C2() const { return fScoringVolume_C2; }
+	G4LogicalVolume* GetScoringVolume_C3() const { return fScoringVolume_C3; }
+	G4LogicalVolume* GetScoringVolume_C4() const { return fScoringVolume_C4; }
+	G4LogicalVolume* GetScoringVolume_C5() const { return fScoringVolume_C5; }
+	G4LogicalVolume* GetScoringVolume_C6() const { return fScoringVolume_C6; }
+	G4LogicalVolume* GetScoringVolume_C7() const { return fScoringVolume_C7; }
+	G4LogicalVolume* GetScoringVolume_S2() const { return fScoringVolume_S2; }
+	G4LogicalVolume* GetScoringVolume_S3() const { return fScoringVolume_S3; }
+	G4LogicalVolume* GetScoringVolume_Pb1a() const { return fScoringVolume_Pb1a; }
+	G4LogicalVolume* GetScoringVolume_Pb1b() const { return fScoringVolume_Pb1b; }
+	G4LogicalVolume* GetScoringVolume_Pb1c() const { return fScoringVolume_Pb1c; }
+	G4LogicalVolume* GetScoringVolume_Pb2a() const { return fScoringVolume_Pb2a; }
+	G4LogicalVolume* GetScoringVolume_Pb2b() const { return fScoringVolume_Pb2b; }
+	G4LogicalVolume* GetScoringVolume_Pb2c() const { return fScoringVolume_Pb2c; }
+	G4LogicalVolume* GetScoringVolume_Ce1() const { return fScoringVolume_Ce1; }
+	G4LogicalVolume* GetScoringVolume_Ce2() const { return fScoringVolume_Ce2; }
+	G4LogicalVolume* GetScoringVolume_Mu1() const { return fScoringVolume_Mu1; }
+	G4LogicalVolume* GetScoringVolume_Mu2() const { return fScoringVolume_Mu2; }
+
 
 protected:
-	G4LogicalVolume*  fScoringVolume_Trk1;
-	G4LogicalVolume*  fScoringVolume_Trk2;
+	G4LogicalVolume*  fScoringVolume_S1;
 	G4LogicalVolume*  fScoringVolume_T1;
-	G4LogicalVolume*  fScoringVolume_Trk3;
-	G4LogicalVolume*  fScoringVolume_Trk4;
-	G4LogicalVolume*  fScoringVolume_Trk5a;
-	G4LogicalVolume*  fScoringVolume_Trk5b;
-	G4LogicalVolume*  fScoringVolume_Trk6a;
-	G4LogicalVolume*  fScoringVolume_Trk6b;
-	G4LogicalVolume*  fScoringVolume_Chamber;
-	G4LogicalVolume*  fScoringVolume_ScintA;
-	G4LogicalVolume*  fScoringVolume_ScintB;
-	G4LogicalVolume*  fScoringVolume_Ecal;
-	G4LogicalVolume*  fScoringVolume_DEVA;
-	G4LogicalVolume*  fScoringVolume_Gcal;
-	G4LogicalVolume*  fScoringVolume_Cerenkov;
-	G4LogicalVolume*  fScoringVolume_PbGlass;
+	G4LogicalVolume*  fScoringVolume_T2;
+	G4LogicalVolume*  fScoringVolume_Targ;
+	G4LogicalVolume*  fScoringVolume_C0;
+	G4LogicalVolume*  fScoringVolume_C1;
+	G4LogicalVolume*  fScoringVolume_C2;
+	G4LogicalVolume*  fScoringVolume_C3;
+	G4LogicalVolume*  fScoringVolume_C4;
+	G4LogicalVolume*  fScoringVolume_C5;
+	G4LogicalVolume*  fScoringVolume_C6;
+	G4LogicalVolume*  fScoringVolume_C7;
+	G4LogicalVolume*  fScoringVolume_S2;
+	G4LogicalVolume*  fScoringVolume_S3;
+	G4LogicalVolume*  fScoringVolume_Pb1a;
+	G4LogicalVolume*  fScoringVolume_Pb1b;
+	G4LogicalVolume*  fScoringVolume_Pb1c;
+	G4LogicalVolume*  fScoringVolume_Pb2a;
+	G4LogicalVolume*  fScoringVolume_Pb2b;
+	G4LogicalVolume*  fScoringVolume_Pb2c;
+	G4LogicalVolume*  fScoringVolume_Ce1;
+	G4LogicalVolume*  fScoringVolume_Ce2;
+	G4LogicalVolume*  fScoringVolume_Mu1;
+	G4LogicalVolume*  fScoringVolume_Mu2;
+
 
 
 private:
 	G4bool channeling;
 	G4String ctype;
-//	G4bool fMuonBeamFlag;
+//	G4bool fCalibMuonBeamFlag;
 //	G4bool fElectronBeamFlag;
 	G4bool fTargetFlag;
 	G4bool fFlipFieldFlag;

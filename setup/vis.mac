@@ -42,8 +42,8 @@
 # Draw smooth trajectories at end of event, showing trajectory points
 # as markers 2 pixels wide:
 /vis/scene/add/trajectories smooth
-/vis/modeling/trajectories/create/drawByCharge
-/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts false
+#/vis/modeling/trajectories/create/drawByCharge
+#/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts false
 #/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2
 # (if too many tracks cause core dump => /tracking/storeTrajectory 0)
 #
@@ -51,13 +51,14 @@
 #/vis/scene/add/hits
 #
 # To draw only gammas:
-#/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/create/particleFilter
 #/vis/filtering/trajectories/particleFilter-0/add e+
-#/vis/filtering/trajectories/particleFilter-0/add mu-
+/vis/filtering/trajectories/particleFilter-0/add mu+
+/vis/filtering/trajectories/particleFilter-0/add mu-
 #
 # To invert the above, drawing all particles except gammas,
-/vis/filtering/trajectories/create/particleFilter
-/vis/filtering/trajectories/particleFilter-0/add opticalphoton
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add opticalphoton
 # keep the above two lines but also add:
 #/vis/filtering/trajectories/particleFilter-0/invert true
 #
@@ -85,7 +86,7 @@
 # Axes, scale, etc.
 #/vis/scene/add/scale   # Simple scale line
 #/vis/scene/add/scale 31.324 m z 0 1 0 manual 0 0 15.662 m
-/vis/scene/add/scale 27.71 m z 0 1 0 manual 0 0 13.855 m
+/vis/scene/add/scale 22.20 m z 0 1 0 manual 0 0 11.1 m
 /vis/scene/add/axes    # Simple axes: x=red, y=green, z=blue.
 /vis/scene/add/eventID # Drawn at end of event
 #/vis/scene/add/date    # Date stamp
@@ -109,31 +110,40 @@
 /vis/geometry/set/visibility Envelope 0 false
 #/vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
-/vis/geometry/set/colour Pipe12 0 0.5 0.5 0.5 1
-/vis/geometry/set/colour Pipe34 0 0.5 0.5 0.5 1
-/vis/geometry/set/colour Bend 0 1 0 0 1
-/vis/geometry/set/colour Trk1 0 1 1 0 1
-/vis/geometry/set/colour Trk2 0 1 1 0 1
-/vis/geometry/set/colour Trk3 0 1 1 0 1
+/vis/geometry/set/colour BP1 0 0.5 0.5 0.5 1
+/vis/geometry/set/colour BP2 0 0.5 0.5 0.5 1
+/vis/geometry/set/colour Mag 0 1 0 0 1
+/vis/geometry/set/colour T1 0 1 1 0 1
+/vis/geometry/set/colour T2 0 1 1 0 1
+/vis/geometry/set/colour C0 0 1 1 0 1
 /vis/geometry/set/colour Target 0 0 1 0 1
-/vis/geometry/set/colour Trk4 0 1 1 0 1
-/vis/geometry/set/colour Trk5a 0 1 1 0 1
-/vis/geometry/set/colour Trk5b 0 1 1 0 1
-/vis/geometry/set/colour Trk6a 0 1 1 0 1
-/vis/geometry/set/colour Trk6b 0 1 1 0 1
-/vis/geometry/set/colour Ecal 0 1 1 0 1
-/vis/geometry/set/colour Gcal 0 0 1 1 1
-/vis/geometry/set/colour IronBlock 0 0.5 .5 .5 1
-/vis/geometry/set/colour Shield 0 0.5 .5 .5 1
-/vis/geometry/set/colour IronColumn 0 0.5 .5 .5 1
-/vis/geometry/set/colour Chamber 0 0 1 0 1
-/vis/geometry/set/colour ScintA 0 0 0 1 1
-/vis/geometry/set/colour ScintB 0 0 0 1  1
-/vis/geometry/set/colour LeadGlass 0 0 1 1   1
-/vis/geometry/set/colour Cerenkov 0 0.5 .5 .5 0.1
-/vis/geometry/set/colour CerenkovAlu 0 0.7 .7 .7 .3
-/vis/geometry/set/colour CerenkovFe 0 0.2 .2 .2 1
-/vis/geometry/set/colour CerenkovSiO 0 1 1 1 1
+/vis/geometry/set/colour C1 0 1 1 0 1
+/vis/geometry/set/colour C2 0 1 1 0 1
+/vis/geometry/set/colour C3 0 1 1 0 1
+/vis/geometry/set/colour C4 0 1 1 0 1
+/vis/geometry/set/colour C5 0 1 1 0 1
+/vis/geometry/set/colour C6 0 1 1 0 1
+/vis/geometry/set/colour C7 0 1 1 0 1
+/vis/geometry/set/colour S1 0 0 0 1 1
+/vis/geometry/set/colour S2 0 0 0 1 1
+/vis/geometry/set/colour S3 0 0 0 1 1
+/vis/geometry/set/colour Pb1a 0 0 1 1   1
+/vis/geometry/set/colour Pb1b 0 0 1 1   1
+/vis/geometry/set/colour Pb1c 0 0 1 1   1
+/vis/geometry/set/colour Pb2a 0 0 1 1   1
+/vis/geometry/set/colour Pb2b 0 0 1 1   1
+/vis/geometry/set/colour Pb2c 0 0 1 1   1
+/vis/geometry/set/colour Ce1 0 0.5 .5 .5 0.1
+/vis/geometry/set/colour Ce1Alu 0 0.7 .7 .7 .3
+/vis/geometry/set/colour Ce1Fe 0 0.2 .2 .2 1
+/vis/geometry/set/colour Ce1SiO 0 1 1 1 1
+/vis/geometry/set/colour Ce2 0 0.5 .5 .5 0.1
+/vis/geometry/set/colour Ce2Alu 0 0.7 .7 .7 .3
+/vis/geometry/set/colour Ce2Fe 0 0.2 .2 .2 1
+/vis/geometry/set/colour Ce2SiO 0 1 1 1 1
+/vis/geometry/set/colour Mu1 0 0 1 0 1
+/vis/geometry/set/colour Mu2 0 0 1 0 1
+
 
 #/vis/geometry/set/colour [logic name] depth R G B opacity
 #/vis/viewer/set/viewpointThetaPhi 120 150

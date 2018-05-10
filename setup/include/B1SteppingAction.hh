@@ -23,23 +23,30 @@ private:
 	B1EventAction* fEventAction;
 	B1RunAction* runStepAction;
 
-	G4LogicalVolume* fScoringVolume_Trk1;
-	G4LogicalVolume* fScoringVolume_Trk2;
-	G4LogicalVolume* fScoringVolume_T1;
-	G4LogicalVolume* fScoringVolume_Trk3;
-	G4LogicalVolume* fScoringVolume_Trk4;
-	G4LogicalVolume* fScoringVolume_Trk5a;
-	G4LogicalVolume* fScoringVolume_Trk5b;
-	G4LogicalVolume* fScoringVolume_Trk6a;
-	G4LogicalVolume* fScoringVolume_Trk6b;
-	G4LogicalVolume* fScoringVolume_Chamber;
-	G4LogicalVolume* fScoringVolume_ScintA;
-	G4LogicalVolume* fScoringVolume_ScintB;
-	G4LogicalVolume* fScoringVolume_Ecal;
-	G4LogicalVolume* fScoringVolume_DEVA;
-	G4LogicalVolume* fScoringVolume_Gcal;
-	G4LogicalVolume* fScoringVolume_PbGlass;
-	G4LogicalVolume* fScoringVolume_Cerenkov;
+	G4LogicalVolume*  fScoringVolume_S1;
+	G4LogicalVolume*  fScoringVolume_T1;
+	G4LogicalVolume*  fScoringVolume_T2;
+	G4LogicalVolume*  fScoringVolume_Targ;
+	G4LogicalVolume*  fScoringVolume_C0;
+	G4LogicalVolume*  fScoringVolume_C1;
+	G4LogicalVolume*  fScoringVolume_C2;
+	G4LogicalVolume*  fScoringVolume_C3;
+	G4LogicalVolume*  fScoringVolume_C4;
+	G4LogicalVolume*  fScoringVolume_C5;
+	G4LogicalVolume*  fScoringVolume_C6;
+	G4LogicalVolume*  fScoringVolume_C7;
+	G4LogicalVolume*  fScoringVolume_S2;
+	G4LogicalVolume*  fScoringVolume_S3;
+	G4LogicalVolume*  fScoringVolume_Pb1a;
+	G4LogicalVolume*  fScoringVolume_Pb1b;
+	G4LogicalVolume*  fScoringVolume_Pb1c;
+	G4LogicalVolume*  fScoringVolume_Pb2a;
+	G4LogicalVolume*  fScoringVolume_Pb2b;
+	G4LogicalVolume*  fScoringVolume_Pb2c;
+	G4LogicalVolume*  fScoringVolume_Ce1;
+	G4LogicalVolume*  fScoringVolume_Ce2;
+	G4LogicalVolume*  fScoringVolume_Mu1;
+	G4LogicalVolume*  fScoringVolume_Mu2;
 
 	G4bool fStoreCaloEnDepFlag;
 	

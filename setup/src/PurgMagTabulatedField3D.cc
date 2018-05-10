@@ -56,7 +56,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 	double fieldUnit= tesla;
 	
 	double NominalCurrent=500; //500 mA
-	double ActualCurrent=437.5; //437.5 mA quella dichiarata, 476.96 per avere mappa con max 1.26T
+	double ActualCurrent=650; //437.5 mA quella dichiarata, 476.96 per avere mappa con max 1.26T: 2018: 650 possible guess?
 	double ScaleFactor=ActualCurrent/NominalCurrent; //0.875 --> 1.155T
 	
 	//	G4LogicalVolume* logicBend = G4LogicalVolumeStore::GetInstance()->GetVolume("Bend");

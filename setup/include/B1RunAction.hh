@@ -67,6 +67,16 @@ class B1RunAction : public G4UserRunAction
 	std::vector<G4double>& GetVectorCross() {return RunVectorCross; }
 
 	
+	std::vector<G4double>& GetBeamInfoX() {return BeamInfoX; }
+	std::vector<G4double>& GetBeamInfoY() {return BeamInfoY; }
+	std::vector<G4double>& GetBeamInfoZ() {return BeamInfoZ; }
+	std::vector<G4double>& GetBeamInfoCX() {return BeamInfoCX; }
+	std::vector<G4double>& GetBeamInfoCY() {return BeamInfoCY; }
+	std::vector<G4double>& GetBeamInfoCZ() {return BeamInfoCZ; }
+	std::vector<G4double>& GetBeamInfoEne() {return BeamInfoEne; }
+	std::vector<G4double>& GetBeamInfoPart() {return BeamInfoPart; }
+	
+	
 //	std::vector<G4double>& GetNHits() {return RunVectorNHits; }
 //	std::vector<G4double>& GetItrack() {return RunVectorItrack; }
 
@@ -118,6 +128,16 @@ private:
 
 	std::vector<G4double> RunVectorCross;
 
+	
+	
+	std::vector<G4double> BeamInfoX;
+	std::vector<G4double> BeamInfoY;
+	std::vector<G4double> BeamInfoZ;
+	std::vector<G4double> BeamInfoCX;
+	std::vector<G4double> BeamInfoCY;
+	std::vector<G4double> BeamInfoCZ;
+	std::vector<G4double> BeamInfoEne;
+	std::vector<G4double> BeamInfoPart;
 	
 	
 //	std::vector<G4double> RunVectorNHits;

@@ -17,21 +17,30 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
 : G4UserSteppingAction(),
 fEventAction(eventAction),
 runStepAction(runAction),
-fScoringVolume_Trk1(0),
-fScoringVolume_Trk2(0),
+fScoringVolume_S1(0),
 fScoringVolume_T1(0),
-fScoringVolume_Trk3(0),
-fScoringVolume_Trk4(0),
-fScoringVolume_Trk5a(0),
-fScoringVolume_Trk5b(0),
-fScoringVolume_Trk6a(0),
-fScoringVolume_Trk6b(0),
-fScoringVolume_Chamber(0),
-fScoringVolume_ScintA(0),
-fScoringVolume_ScintB(0),
-fScoringVolume_Ecal(0),
-fScoringVolume_DEVA(0),
-fScoringVolume_Gcal(0),
+fScoringVolume_T2(0),
+fScoringVolume_Targ(0),
+fScoringVolume_C0(0),
+fScoringVolume_C1(0),
+fScoringVolume_C2(0),
+fScoringVolume_C3(0),
+fScoringVolume_C4(0),
+fScoringVolume_C5(0),
+fScoringVolume_C6(0),
+fScoringVolume_C7(0),
+fScoringVolume_S2(0),
+fScoringVolume_S3(0),
+fScoringVolume_Pb1a(0),
+fScoringVolume_Pb1b(0),
+fScoringVolume_Pb1c(0),
+fScoringVolume_Pb2a(0),
+fScoringVolume_Pb2b(0),
+fScoringVolume_Pb2c(0),
+fScoringVolume_Ce1(0),
+fScoringVolume_Ce2(0),
+fScoringVolume_Mu1(0),
+fScoringVolume_Mu2(0),
 fStoreCaloEnDepFlag(StoreCaloEnDepFlag),
 fEThr(EThr)
 {}
@@ -45,23 +54,32 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	const G4double CerFotLambdaCut=0.2; //in [um], cut due to PMT sensitivity
 	const B1DetectorConstruction* detectorConstruction = static_cast<const B1DetectorConstruction*>
 	(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-	if (!fScoringVolume_Trk1) {fScoringVolume_Trk1 = detectorConstruction->GetScoringVolume_Trk1();}
-	if (!fScoringVolume_Trk2) {fScoringVolume_Trk2 = detectorConstruction->GetScoringVolume_Trk2();}
-	if (!fScoringVolume_T1)   {fScoringVolume_T1   = detectorConstruction->GetScoringVolume_T1();}
-	if (!fScoringVolume_Trk3) {fScoringVolume_Trk3 = detectorConstruction->GetScoringVolume_Trk3();}
-	if (!fScoringVolume_Trk4) {fScoringVolume_Trk4 = detectorConstruction->GetScoringVolume_Trk4();}
-	if (!fScoringVolume_Trk5a) {fScoringVolume_Trk5a = detectorConstruction->GetScoringVolume_Trk5a();}
-	if (!fScoringVolume_Trk5b) {fScoringVolume_Trk5b = detectorConstruction->GetScoringVolume_Trk5b();}
-	if (!fScoringVolume_Trk6a) {fScoringVolume_Trk6a = detectorConstruction->GetScoringVolume_Trk6a();}
-	if (!fScoringVolume_Trk6b) {fScoringVolume_Trk6b = detectorConstruction->GetScoringVolume_Trk6b();}
-	if (!fScoringVolume_Chamber)   {fScoringVolume_Chamber   = detectorConstruction->GetScoringVolume_Chamber();}
-	if (!fScoringVolume_ScintA)   {fScoringVolume_ScintA   = detectorConstruction->GetScoringVolume_ScintA();}
-	if (!fScoringVolume_ScintB)   {fScoringVolume_ScintB   = detectorConstruction->GetScoringVolume_ScintB();}
-	if (!fScoringVolume_Ecal)   {fScoringVolume_Ecal   = detectorConstruction->GetScoringVolume_Ecal();}
-	if (!fScoringVolume_DEVA)   {fScoringVolume_DEVA   = detectorConstruction->GetScoringVolume_DEVA();}
-	if (!fScoringVolume_Gcal)   {fScoringVolume_Gcal   = detectorConstruction->GetScoringVolume_Gcal();}
-	if (!fScoringVolume_PbGlass)   {fScoringVolume_PbGlass   = detectorConstruction->GetScoringVolume_PbGlass();}
-	if (!fScoringVolume_Cerenkov)   {fScoringVolume_Cerenkov   = detectorConstruction->GetScoringVolume_Cerenkov();}	//	G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+	if (!fScoringVolume_S1) {fScoringVolume_S1 = detectorConstruction->GetScoringVolume_S1();}
+	if (!fScoringVolume_T1) {fScoringVolume_T1 = detectorConstruction->GetScoringVolume_T1();}
+	if (!fScoringVolume_T2) {fScoringVolume_T2 = detectorConstruction->GetScoringVolume_T2();}
+	if (!fScoringVolume_Targ) {fScoringVolume_Targ = detectorConstruction->GetScoringVolume_Targ();}
+	if (!fScoringVolume_C0) {fScoringVolume_C0 = detectorConstruction->GetScoringVolume_C0();}
+	if (!fScoringVolume_C1) {fScoringVolume_C1 = detectorConstruction->GetScoringVolume_C1();}
+	if (!fScoringVolume_C2) {fScoringVolume_C2 = detectorConstruction->GetScoringVolume_C2();}
+	if (!fScoringVolume_C3) {fScoringVolume_C3 = detectorConstruction->GetScoringVolume_C3();}
+	if (!fScoringVolume_C4) {fScoringVolume_C4 = detectorConstruction->GetScoringVolume_C4();}
+	if (!fScoringVolume_C5) {fScoringVolume_C5 = detectorConstruction->GetScoringVolume_C5();}
+	if (!fScoringVolume_C6) {fScoringVolume_C6 = detectorConstruction->GetScoringVolume_C6();}
+	if (!fScoringVolume_C7) {fScoringVolume_C7 = detectorConstruction->GetScoringVolume_C7();}
+	if (!fScoringVolume_S2) {fScoringVolume_S2 = detectorConstruction->GetScoringVolume_S2();}
+	if (!fScoringVolume_S3) {fScoringVolume_S3 = detectorConstruction->GetScoringVolume_S3();}
+	if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a = detectorConstruction->GetScoringVolume_Pb1a();}
+	if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b = detectorConstruction->GetScoringVolume_Pb1b();}
+	if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c = detectorConstruction->GetScoringVolume_Pb1c();}
+	if (!fScoringVolume_Pb2a) {fScoringVolume_Pb2a = detectorConstruction->GetScoringVolume_Pb2a();}
+	if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstruction->GetScoringVolume_Pb2b();}
+	if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstruction->GetScoringVolume_Pb2c();}
+	if (!fScoringVolume_Ce1) {fScoringVolume_Ce1 = detectorConstruction->GetScoringVolume_Ce1();}
+	if (!fScoringVolume_Ce2) {fScoringVolume_Ce2 = detectorConstruction->GetScoringVolume_Ce2();}
+	if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstruction->GetScoringVolume_Mu1();}
+	if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstruction->GetScoringVolume_Mu2();}
+
+	G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 	
 	
 	G4LogicalVolume* volume =
@@ -73,24 +91,30 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	G4bool SHOW = false;
 	G4bool dofill = false;
 	G4int subdet=-10;
-	if      (volume==fScoringVolume_Trk1) {subdet=10; dofill=true;}  // Trk1
-	else if (volume==fScoringVolume_Trk2) {subdet=20; dofill=true;}  // Trk2
-	else if (volume==fScoringVolume_T1)   {subdet=25; dofill=true;}  // T1 target
-	else if (volume==fScoringVolume_Trk3) {subdet=30; dofill=true;}  // Trk3
-	else if (volume==fScoringVolume_Trk4) {subdet=40; dofill=true;}  // Trk4
-	else if (volume==fScoringVolume_Trk5a) {subdet=51; dofill=true;}  // Trk5a
-	else if (volume==fScoringVolume_Trk5b) {subdet=50; dofill=true;}  // Trk5b
-	else if (volume==fScoringVolume_Trk6a) {subdet=56; dofill=true;}  // Trk6a
-	else if (volume==fScoringVolume_Trk6b) {subdet=55; dofill=true;}  // Trk6b
-	else if (volume==fScoringVolume_Chamber)   {subdet=70; dofill=true;}  // chamber
-	else if (volume==fScoringVolume_ScintA)   {subdet=72; dofill=true;}  // scintA
-	else if (volume==fScoringVolume_ScintB)   {subdet=74; dofill=true;}  // scintB
-	else if (volume==fScoringVolume_Ecal)   {subdet=76; dofill=true;}  // Ecal - DEVA
-	else if (volume==fScoringVolume_DEVA)   {subdet=77; dofill=true;}  // Ecal - DEVA active components
-	else if (volume==fScoringVolume_Gcal)   {subdet=78; dofill=true;}  // Gcal
-	else if (volume==fScoringVolume_PbGlass)   {subdet=79; dofill=true;}  // PbGlass detector
-	else if (volume==fScoringVolume_Cerenkov)   {subdet=80; dofill=true;}  // Cerenkov detector
+	if      (volume==fScoringVolume_S1) {subdet=9; dofill=true;}  //
+	else if (volume==fScoringVolume_T1) {subdet=10; dofill=true;}  //
+	else if (volume==fScoringVolume_T2)   {subdet=20; dofill=true;}  //
+	else if (volume==fScoringVolume_Targ)   {subdet=25; dofill=true;}  //
+	else if (volume==fScoringVolume_C0)   {subdet=30; dofill=true;}  //
+	else if (volume==fScoringVolume_C1)   {subdet=31; dofill=true;}  //
+	else if (volume==fScoringVolume_C2)   {subdet=32; dofill=true;}  //
+	else if (volume==fScoringVolume_C3)   {subdet=33; dofill=true;}  //
+	else if (volume==fScoringVolume_C4)   {subdet=34; dofill=true;}  //
+	else if (volume==fScoringVolume_C5)   {subdet=35; dofill=true;}  //
+	else if (volume==fScoringVolume_C6)   {subdet=36; dofill=true;}  //
+	else if (volume==fScoringVolume_C7)   {subdet=37; dofill=true;}  //
+	else if (volume==fScoringVolume_Pb1a)   {subdet=41; dofill=true;}  //
+	else if (volume==fScoringVolume_Pb1b)   {subdet=42; dofill=true;}  //
+	else if (volume==fScoringVolume_Pb1c)   {subdet=43; dofill=true;}  //
+	else if (volume==fScoringVolume_Pb2a)   {subdet=46; dofill=true;}  //
+	else if (volume==fScoringVolume_Pb2b)   {subdet=45; dofill=true;}  //
+	else if (volume==fScoringVolume_Pb2c)   {subdet=44; dofill=true;}  //
+	else if (volume==fScoringVolume_Ce1)   {subdet=51; dofill=true;}  //
+	else if (volume==fScoringVolume_Ce2)   {subdet=52; dofill=true;}  //
+	else if (volume==fScoringVolume_Mu1)   {subdet=61; dofill=true;}  //
+	else if (volume==fScoringVolume_Mu2)   {subdet=62; dofill=true;}  //
 
+	
 	
 	//Score energy deposition into DEVA elements (if fStoreCaloEnDepFlag true in main!)
 	G4int CopyNb=step->GetPostStepPoint()->GetTouchableHandle()->GetCopyNumber();
@@ -119,7 +143,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		}
 	}
 	
-	if (subdet==79 && DepEne>0 && fStoreCaloEnDepFlag) { //PbGlass deposited energy
+	if (subdet==41 || subdet==42 || subdet==43 && DepEne>0 && fStoreCaloEnDepFlag) { //PbGlass TOP deposited energy
 		fEventAction->AddPbGlassEne(DepEne);
 	}
 	
@@ -186,14 +210,14 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	//	if (dofill && ((step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary)
 	//				   || (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary)) && !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<EThr) ) { //If Output Cut required do not store photons under a certain energy
 	//#### NORMAL
-	if (dofill && ((step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary) || (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary)) && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
+//	if (dofill && ((step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary) || (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary)) && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
   //### FINE NORMAL
 
 //	ALL
 //	if (dofill  && subdet!=76  && subdet!=77  && subdet!=78 && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
 
-	// SOLO PRE/POST
-//	if (dofill && (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary) && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
+	// SOLO PRE/POST - PRE
+	if (dofill && (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary) && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
 		
 		G4int iev = -999;
 		const G4Event* evt = G4RunManager::GetRunManager()->GetCurrentEvent();
@@ -226,6 +250,30 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		xvertex = step->GetTrack()->GetVertexPosition();
 		
 		if(subdet==77) (runStepAction->GetCopyNb()).push_back(CopyNb);  //I'm interested in CopyNb only for DEVA active components (subdet==77)
+		
+		G4PrimaryVertex* primaryVertex = evt->GetPrimaryVertex();
+		G4PrimaryParticle* primaryParticle = primaryVertex->GetPrimary();
+		G4double ke = primaryParticle->GetKineticEnergy();
+		G4double xx = primaryVertex->GetPosition().x();
+		G4double yy = primaryVertex->GetPosition().y();
+		G4double zz = primaryVertex->GetPosition().z();
+		G4double cx = primaryParticle->GetMomentumDirection().x();
+		G4double cy = primaryParticle->GetMomentumDirection().y();
+		G4double cz = primaryParticle->GetMomentumDirection().z();
+		G4int particella=primaryParticle->GetPDGcode();
+		
+		//		G4cout<<ke<<G4endl;
+#if 1
+		runStepAction->GetBeamX().push_back(xx/mm);
+		runStepAction->GetBeamY().push_back(yy/mm);
+		runStepAction->GetBeamZ().push_back(zz/mm);
+		runStepAction->GetBeamCX().push_back(cx);
+		runStepAction->GetBeamCY().push_back(cy);
+		runStepAction->GetBeamCZ().push_back(cz);
+		runStepAction->GetBeamEne().push_back(ke/GeV);
+		runStepAction->GetBeamPart().push_back(particella);
+#endif
+		
 		(runStepAction->GetSubdet()).push_back(subdet);
 		(runStepAction->GetIdp()).push_back(Idp);
 		(runStepAction->GetIpar()).push_back(Ipar);
@@ -253,14 +301,16 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		//		(runStepAction->GetItrack()).push_back(-999);
 		
 
-		if (step->GetPreStepPoint() && step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary) {
+		if (step->GetPreStepPoint() && step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary && step->GetPostStepPoint() && step->GetPostStepPoint()->GetStepStatus()!=fGeomBoundary) { //se la traccia NASCEVA sul bordo E NON ci moriva
 			(runStepAction->GetVectorCross()).push_back(-1);
-		} else	if (step->GetPostStepPoint() && step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary) {
+		} else	if (step->GetPostStepPoint() && step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary && step->GetPreStepPoint() && step->GetPreStepPoint()->GetStepStatus()!=fGeomBoundary) { //se la traccia MORIVA sul bordo E NON ci nasceva
 			(runStepAction->GetVectorCross()).push_back(1);
 //		} else 	{
 //			(runStepAction->GetVectorCross()).push_back(0);
-		}
+		}else if (step->GetPreStepPoint() && step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary && step->GetPostStepPoint() && step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary) { //se la traccia NASCEVA sul bordo E CI MORIVA pure
+			(runStepAction->GetVectorCross()).push_back(17);
 			
+		}
 			
 			
 			

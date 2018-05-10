@@ -47,15 +47,16 @@ G4ClassificationOfNewTrack B1StackingAction::ClassifyNewTrack(const G4Track* atr
 		G4cout<<", la imposto a 13 = "<<atrack->GetPosition().x()/mm
 		<<G4endl;
 		*/
-		
-		frunAction->GetBeamX().push_back(atrack->GetPosition().x()/mm);
-		frunAction->GetBeamY().push_back(atrack->GetPosition().y()/mm);
-		frunAction->GetBeamZ().push_back(atrack->GetPosition().z()/mm);
-		frunAction->GetBeamCX().push_back(atrack->GetMomentumDirection().x());
-		frunAction->GetBeamCY().push_back(atrack->GetMomentumDirection().y());
-		frunAction->GetBeamCZ().push_back(atrack->GetMomentumDirection().z());
-		frunAction->GetBeamEne().push_back(atrack->GetKineticEnergy()/GeV);
-		frunAction->GetBeamPart().push_back(atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+#if 1
+		frunAction->GetBeamInfoX().push_back(atrack->GetPosition().x()/mm);
+		frunAction->GetBeamInfoY().push_back(atrack->GetPosition().y()/mm);
+		frunAction->GetBeamInfoZ().push_back(atrack->GetPosition().z()/mm);
+		frunAction->GetBeamInfoCX().push_back(atrack->GetMomentumDirection().x());
+		frunAction->GetBeamInfoCY().push_back(atrack->GetMomentumDirection().y());
+		frunAction->GetBeamInfoCZ().push_back(atrack->GetMomentumDirection().z());
+		frunAction->GetBeamInfoEne().push_back(atrack->GetKineticEnergy()/GeV);
+		frunAction->GetBeamInfoPart().push_back(atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+#endif
 		/*
 		feventAction->SetBeamX(atrack->GetPosition().x());
 		feventAction->SetBeamY(atrack->GetPosition().y());
