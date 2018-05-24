@@ -1,5 +1,5 @@
 # simulation
-Geant4 simulation of LEMMA test beam, done @CERN on ~August 2017.
+Geant4 simulation of LEMMA test beam, to be performed @CERN on ~August 2018.
 
 ### HOW TO RUN
 - You have to have Geant4 up and running
@@ -65,7 +65,7 @@ Please note that due to Geant4 issues regarding multi core root output, multi th
 ### TO MERGE MULTIPLE ROOT OUTPUT FILES:
 TChain * chain = new TChain("LEMMA")
 chain->Add("LemmaMC_t*.root")
-TFile *file = TFile::Open("LemmaMC2018_ProdMuP_T_Mf.root","RECREATE");
+TFile *file = TFile::Open("LemmaMC2018_Pos45_T_MfCurrent650_1k_PreStepZ_Pb.root","RECREATE");
 chain->CloneTree(-1,"fast");
 file->Write();
 
@@ -113,11 +113,12 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Chamber is removed from "calo table", remains orthogonal to beam (not tilted)
 - Chamber is now divided into 4+4 planes
 - Scoring condition is now ONLY "step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary"
+- Added Lead shielding around chambers: 3cm thick, +-5cm high, side 50cm
 
 
 TODO LIST
 - recuperare generatore esterno (i file ora hanno le posizioni dell'altro setup..)
-
+- aggiungere piombo tutto attorno alle camere: spesso 3cm, alto +-5cm e lungo 50cm (da Berto)
 
 
 

@@ -67,7 +67,7 @@ HepMC::GenEvent* HepMCG4AsciiReader::GenerateHepMCEvent()
 {
 	HepMC::GenEvent* evt= asciiInput-> read_next_event();
 	if(!evt) return 0; // no more event
-	
+//	G4cout<<"DEBUG HEP: stampo evento "<<G4endl;
 	if(verbose>0) evt-> print();
 	
 	return evt;

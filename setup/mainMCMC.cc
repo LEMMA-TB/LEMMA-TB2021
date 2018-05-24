@@ -41,7 +41,7 @@ int main(int argc,char** argv)
   G4Random::setTheSeed(seed);
   
 //#ifdef G4MULTITHREADED
-#if 1
+#if 0
 	G4MTRunManager* runManager = new G4MTRunManager;
   runManager->SetNumberOfThreads( G4Threading::G4GetNumberOfCores() );
 #else
@@ -50,7 +50,7 @@ int main(int argc,char** argv)
 	
 	// FLAG DEFINITION TO CHOOSE THE DESIRED CONFIGURATION
 	G4bool CalibMuonBeamFlag=false;  //switching on this flag generates mu- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
-	G4bool ProdMuonBeamFlag=true;  //switching on this flag generates mu- beam at the end of the target, to simulate the muon production
+	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu- beam at the end of the target, to simulate the muon production
 
 	G4bool ElectronBeamFlag=false;  //switching on this flag generates e- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
 	G4double BeamEnergy=45.*GeV; //Primary Beam Energy (18, 22, 26 GeV options for e+ calibration) - 45 GeV for real TB

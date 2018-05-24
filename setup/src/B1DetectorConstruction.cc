@@ -98,7 +98,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double trk_sizeZ5 = 0.8*mm;
 	G4double trk_sizeZ6 = 0.8*mm;
 	
-	G4double ZoomFactor=10;
+	G4double ZoomFactor=1;
 //	ZoomFactor=1;
 	G4double T1_sizeX = ZoomFactor*2*cm;
 	G4double T1_sizeY = ZoomFactor*2*cm;
@@ -257,10 +257,13 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double Cerenkov_FeZ = 500*mm;
 	
 	//New Muon Chambers:
-	G4double Mu_sizeX=65*cm;
-	G4double Mu_sizeY=65*cm;
+	G4double Mu_sizeX=50*cm; //was 65 until 2018.05.11
+	G4double Mu_sizeY=50*cm;
 	G4double Mu_sizeZ=1.3*cm; //?? 1.3 single layer
 	G4double Mu_gapZ=34.6*cm;
+	G4double MuLead_sizeX=50*cm;
+	G4double MuLead_sizeY=10*cm;
+	G4double MuLead_sizeZ=3*cm;
 
 	//Calorimeter holding structure:
 	G4double CaloTable_sizeX=Mu_sizeX;
@@ -307,6 +310,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xMu2=-xMu1; //Det
 	G4double xCaloTable1=42*cm; //Det
 	G4double xCaloTable2=-xCaloTable1; //Det
+	G4double xMuLeadSide1=xMu1-Mu_sizeX/2-MuLead_sizeZ/2.;
+	G4double xMuLeadSide2=-xMuLeadSide1;
+
 	
 	if (ZoomFactor>1) {
 		xC2=C2_sizeX/2.;
@@ -369,9 +375,15 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zCe1=-CaloTable_sizeZ/2. +LeadGlass_sizeZ + Cerenkov_sizeZ/2. + DistPbCe; //Det
 	G4double zCe2=zCe1; //Det
 	G4double zCaloTable=2220*cm+CaloTable_sizeZ/2.; //Det
-	G4double zMu1=zCaloTable+CaloTable_sizeZ/2.+Mu_sizeZ/2.+DistTableMu; //Det
+	G4double zMu1=zCaloTable+CaloTable_sizeZ/2.+Mu_sizeZ/2.+DistTableMu; //Det =23656.5
 	G4double zMu2=zMu1; //Det
+	G4double zMuLeadFront1=zMu1-MuLead_sizeZ/2.;
+	G4double zMuLeadFront2=zMu2-MuLead_sizeZ/2.;
+	G4double zMuLeadSide1=zMu1+Mu_sizeZ*4+Mu_gapZ/2.;
+	G4double zMuLeadSide2=zMu2+Mu_sizeZ*4+Mu_gapZ/2.;
+
 	
+//	cout<<"ZMU1= "<<zMu1<<endl;
 	// ============
 	//   Vactors
 	// ============
@@ -405,7 +417,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4ThreeVector posMu2  = G4ThreeVector(xMu2,yMu2,zMu2); // Subdet
 	G4ThreeVector posCaloTable1  = G4ThreeVector(xCaloTable1,yCaloTable1,zCaloTable); // Subdet
 	G4ThreeVector posCaloTable2  = G4ThreeVector(xCaloTable2,yCaloTable1,zCaloTable); // Subdet
+	G4ThreeVector posMuLeadFront1  = G4ThreeVector(xMu1,yMu1,zMuLeadFront1); // Subdet
+	G4ThreeVector posMuLeadFront2  = G4ThreeVector(xMu2,yMu2,zMuLeadFront2); // Subdet
+	G4ThreeVector posMuLeadSide1  = G4ThreeVector(xMuLeadSide1,yMu1,zMuLeadSide1); // Subdet
+	G4ThreeVector posMuLeadSide2  = G4ThreeVector(xMuLeadSide2,yMu2,zMuLeadSide2); // Subdet
 
+	
 	
 	// ################################
 	// CERENKOV DETECTOR ELEMENTS
@@ -897,6 +914,25 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 		new G4PVPlacement(0, G4ThreeVector(posMu1.x(), posMu1.y(), posMu1.z()+(ii+0.5)*Mu_sizeZ+Mu_gapZ),logicMu1,"Mu1",logicWorld,false,0,checkOverlaps);
 		new G4PVPlacement(0, G4ThreeVector(posMu2.x(), posMu2.y(), posMu2.z()+(ii+0.5)*Mu_sizeZ+Mu_gapZ),logicMu2,"Mu2",logicWorld,false,0,checkOverlaps);
 	}
+	
+	
+	
+	//-- Lead Plate Front
+	G4Box* solidMuLeadFront = new G4Box("MuLeadFront",MuLead_sizeX/2,MuLead_sizeY/2,MuLead_sizeZ/2);
+	G4LogicalVolume* logicMuLeadFront = new G4LogicalVolume(solidMuLeadFront, piombo,"MuLeadFront");
+	new G4PVPlacement(0, posMuLeadFront1,logicMuLeadFront,"MuLeadFront1",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0, posMuLeadFront2,logicMuLeadFront,"MuLeadFront2",logicWorld,false,0,checkOverlaps);
+
+	//-- Lead Plate Side
+	G4Box* solidMuLeadSide = new G4Box("MuLeadSide",MuLead_sizeZ/2,MuLead_sizeY/2,MuLead_sizeX/2); //rotation by simply switching X and Y
+	G4LogicalVolume* logicMuLeadSide = new G4LogicalVolume(solidMuLeadSide, piombo,"MuLeadSide");
+	new G4PVPlacement(0, posMuLeadSide1,logicMuLeadSide,"MuLeadSide1",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0, posMuLeadSide2,logicMuLeadSide,"MuLeadSide2",logicWorld,false,0,checkOverlaps);
+	
+	
+	
+	
+	
 	
 	// ###################################################################################
 	// ###################################################################################
