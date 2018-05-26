@@ -74,7 +74,7 @@ TChain * chain = new TChain("LEMMA")
 chain->Add("LemmaMC_t*.root")
 TChain * chain2 = new TChain("Beam")
 chain2->Add("LemmaMC_t*.root")
-TFile *file = TFile::Open("LemmaMC2018_Pos45_T_MfCurrent650_10k_PreStepZ.root","RECREATE");
+TFile *file = TFile::Open("LemmaMC2018_MuMuBert_T_MfCurrent650_10k_PreStepZ.root","RECREATE");
 chain->CloneTree(-1,"fast");
 chain2->CloneTree(-1,"fast");
 file->Write();
@@ -87,6 +87,10 @@ TFile *file = TFile::Open("LemmaMC_Tot22PosNoT_simple.root","RECREATE");
 
 TFile *file = TFile::Open("LemmaMC_Pos22s_NoT_Ff_calo.root","RECREATE");  //Fixed field  flipped
 TFile *file = TFile::Open("LemmaMC_Pos22_NoT_M_calo.root","RECREATE");    //Map field not flipped
+
+
+TFile *file = TFile::Open("LemmaMC2018_MuMuBert_T_MfCurrent650_10k_PreStepZ.root","RECREATE");
+TFile *file = TFile::Open("LemmaMC2018_Pos45_T_MfCurrent650_10k_PreStepZ.root","RECREATE");
 
 
 
@@ -115,10 +119,19 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Scoring condition is now ONLY "step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary"
 - Added Lead shielding around chambers: 3cm thick, +-5cm high, side 50cm
 
+2018.05.26 by collamaf
+- Added back possibility to use external generator: note that the data file produced by Bertolin does not work if directly passed to geant, but has to be opened and copy and pasted into a brand new .txt/.dat. Mistero! Something like this should work: 
+`head -n 250004 /Users/francesco/Downloads/MCmumu.dat >> ExtData_mm.dat`
+- Now the format of the output filename is created in the main according to various flags and printed as very last text in the terminal to be issed as a command (both in case of MT or ST)
+- The Zoom Factor for transverse enlargment of T and C detecors is now moved to main
+
+
+
 
 TODO LIST
-- recuperare generatore esterno (i file ora hanno le posizioni dell'altro setup..)
-- aggiungere piombo tutto attorno alle camere: spesso 3cm, alto +-5cm e lungo 50cm (da Berto)
+
+
+head -n 250004 /Users/francesco/Downloads/MCmumu.dat >> CIAO.dat
 
 
 

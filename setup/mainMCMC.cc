@@ -39,9 +39,11 @@ int main(int argc,char** argv)
   G4Random::setTheEngine(new CLHEP::RanecuEngine);
   G4long seed = time(NULL);
   G4Random::setTheSeed(seed);
-  
+	
+	G4bool MTFlag=FALSE;
 //#ifdef G4MULTITHREADED
 #if 0
+	MTFlag=TRUE;
 	G4MTRunManager* runManager = new G4MTRunManager;
   runManager->SetNumberOfThreads( G4Threading::G4GetNumberOfCores() );
 #else
@@ -49,8 +51,8 @@ int main(int argc,char** argv)
 #endif
 	
 	// FLAG DEFINITION TO CHOOSE THE DESIRED CONFIGURATION
-	G4bool CalibMuonBeamFlag=false;  //switching on this flag generates mu- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
-	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu- beam at the end of the target, to simulate the muon production
+	G4bool CalibMuonBeamFlag=true;  //switching on this flag generates mu- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
+	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu- beam at the end of the target, to simulate the muon production: E in 15-30 GeV, along Z
 
 	G4bool ElectronBeamFlag=false;  //switching on this flag generates e- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
 	G4double BeamEnergy=45.*GeV; //Primary Beam Energy (18, 22, 26 GeV options for e+ calibration) - 45 GeV for real TB
@@ -67,19 +69,63 @@ int main(int argc,char** argv)
 	//Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
 	//These flags ovverride previous ones (CalibMuonBeamFlag, ElectronBeamFlag etc) and also BeamEnergy
 	G4bool ExtSourceFlagBha=false;
-	G4bool ExtSourceFlagMu=false;
+	G4bool ExtSourceFlagMu=true;
 	
 	//Flag to cut on output file: photons with energy lower than this value will not be written. Set negative to write them all
 	G4double RootCutThr=1*GeV;
 	
+	G4double GeometryZoom=1; //Transverse zoom of trackers (Ts and Cs det)
 	
+	G4String OutputFilename = "LemmaMC2018";
+	G4String OutputFilenameFirstNote ="_Bert";
+	OutputFilename.append(OutputFilenameFirstNote);
+
+	
+	if (ExtSourceFlagMu) OutputFilename.append("_MuMu");
+	else if (ExtSourceFlagBha) OutputFilename.append("_Bhabha");
+	else if (ElectronBeamFlag) OutputFilename.append("_Ele"+ std::to_string(G4int (BeamEnergy)) );
+	else if (CalibMuonBeamFlag) OutputFilename.append("_CalibMuM"+ std::to_string(G4int (BeamEnergy)) );
+	else if (ProdMuonBeamFlag) OutputFilename.append("_ProdMuM");
+	else OutputFilename.append("_Pos"+ std::to_string(G4int (BeamEnergy)) );
+	
+	if (SimpleFlag) OutputFilename.append("_simple");
+
+	
+	if (TargetFlag) OutputFilename.append("_T");
+	else  OutputFilename.append("_NoT");
+
+	if (MagMapFlag) OutputFilename.append("_M"); //Map
+	else  OutputFilename.append("_F"); //Fixed
+
+	if (FlipFieldFlag) OutputFilename.append("f");
+	
+	if (StoreCaloEnDepFlag) OutputFilename.append("_calo");
+	
+	if (GeometryZoom!=1) OutputFilename.append("_Z" + std::to_string(G4int (GeometryZoom) ));
+
+	G4String OutputFilenameSecondNote ="";
+	OutputFilename.append(OutputFilenameSecondNote);
+	
+	/*
+	 
+	 TFile *file = TFile::Open("LemmaMC_Tot45PosT_bias.root","RECREATE");
+	 TFile *file = TFile::Open("LemmaMC_Tot22PosNoT_simple.root","RECREATE");
+	 
+	 TFile *file = TFile::Open("LemmaMC_Pos22s_NoT_Ff_calo.root","RECREATE");  //Fixed field  flipped
+	 TFile *file = TFile::Open("LemmaMC_Pos22_NoT_M_calo.root","RECREATE");    //Map field not flipped
+	 
+	 
+	 TFile *file = TFile::Open("LemmaMC2018_MuMuBert_T_MfCurrent650_10k_PreStepZ.root","RECREATE");
+	 TFile *file = TFile::Open("LemmaMC2018_Pos45_T_MfCurrent650_10k_PreStepZ.root","RECREATE");
+	 
+	 */
 	
 //==================================================
   G4bool FTFP = false; // standard Geant4 PhysicsList
   G4bool channeling = false;
   G4String ctype = "Si" ;  // "C" or "Si"
 //==================================================
-  B1DetectorConstruction* detector =new B1DetectorConstruction(CalibMuonBeamFlag, ElectronBeamFlag, TargetFlag, FlipFieldFlag, MagMapFlag);
+  B1DetectorConstruction* detector =new B1DetectorConstruction(CalibMuonBeamFlag, ElectronBeamFlag, TargetFlag, FlipFieldFlag, MagMapFlag, GeometryZoom);
   detector->SetChanneling(channeling,ctype);
   
   if ( FTFP ){
@@ -134,10 +180,30 @@ int main(int argc,char** argv)
     delete ui;
 #endif
   }
+	
+
+//	std::string OutputFilename = "LemmaMC2018_" + std::to_string(G4int (10*inputTargZ)) + "_N" + std::to_string(inputX0) + "_Mat" + std::to_string(inputMat) + "_BeamP" + std::to_string(inputBeamPart) + "_BeamE" + std::to_string(G4int (10*inputBeamEne))+ "_S" + std::to_string(inputSimpleFlag) +  + ".dat";
+	
   
 #ifdef G4VIS_USE
   delete visManager;
 #endif
-  delete runManager;  
-  return 0;
+  delete runManager;
+
+	if (MTFlag) {
+		G4cout<<
+		"\n ##################################### \n ##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\")\n ;TFile *file = TFile::Open(\""<< OutputFilename<<".root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n file->Write();\n ##################################### \n ##################################### "
+		<<G4endl;
+		//	"########### TO ANALYZE THIS SIMULATION \n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\")\n ;TFile *file = TFile::Open(\"LemmaMC2018_MuMuBert_T_MfCurrent650_10k_PreStepZ_Large.root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n file->Write(); "
+	} else {
+		
+		G4cout<<
+		"\n ##################################### \n ##################################### \n ########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n mv LemmaMC.root "<< OutputFilename<<".root\n ##################################### \n ##################################### "
+		<<G4endl;
+		
+	}
+
+	return 0;
+	
+
 }

@@ -43,13 +43,14 @@ fExtSourceFlagMu(ExtSourceFlagMu)
 //		hepmcAscii = new HepMCG4AsciiReader("ExtDataBhabha.dat"); //path must be relative to where the code runs (eg build directory)
 #ifdef HEPFLAG
 		hepmcAscii = new HepMCG4AsciiReader("ExtData_ep.dat"); //path must be relative to where the code runs (eg build directory)
-//		hepmcAscii = new HepMCG4AsciiReader("ProveExt.dat"); //path must be relative to where the code runs (eg build directory)
 #endif
 	} else if(fExtSourceFlagMu) {
 		G4cout<<"# # # # # # # # # # # # # # # # # # # # # # # # # # # "<<G4endl<<"I am using as primary particles externally generated mu+mu- pairs"<<G4endl;
 //		hepmcAscii = new HepMCG4AsciiReader("ExtDataBhabha.dat");
 #ifdef HEPFLAG
-		hepmcAscii = new HepMCG4AsciiReader("ExtData_mm.dat");
+//		hepmcAscii = new HepMCG4AsciiReader("ExtData_mm.dat");
+		hepmcAscii = new HepMCG4AsciiReader("ExtData_mm.dat"); //path must be relative to where the code runs (eg build directory)
+
 #endif
 	} else {
 		if(fCalibMuonBeamFlag) {

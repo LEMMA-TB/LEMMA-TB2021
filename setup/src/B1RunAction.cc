@@ -151,6 +151,8 @@ void B1RunAction::EndOfRunAction(const G4Run* run){
 	G4int nofEvents = run->GetNumberOfEvent();
 	if (nofEvents == 0) return;
 	
+
+	
 	//save histograms
 	G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 	analysisManager->Write();

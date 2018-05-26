@@ -37,7 +37,7 @@
 
 
 
-B1DetectorConstruction::B1DetectorConstruction(G4bool CalibMuonBeamFlag, G4bool ElectronBeamFlag, G4bool TargetFlag, G4bool FlipFieldFlag, G4bool MagMapFlag)
+B1DetectorConstruction::B1DetectorConstruction(G4bool CalibMuonBeamFlag, G4bool ElectronBeamFlag, G4bool TargetFlag, G4bool FlipFieldFlag, G4bool MagMapFlag, G4double GeometryZoom)
 : G4VUserDetectorConstruction(),
  fScoringVolume_S1(0),
  fScoringVolume_T1(0),
@@ -65,7 +65,8 @@ B1DetectorConstruction::B1DetectorConstruction(G4bool CalibMuonBeamFlag, G4bool 
  fScoringVolume_Mu2(0),
 fTargetFlag(TargetFlag),
 fFlipFieldFlag(FlipFieldFlag),
-fMagMapFlag(MagMapFlag)
+fMagMapFlag(MagMapFlag),
+fGeometryZoom(GeometryZoom)
 { }
 
 
@@ -98,7 +99,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double trk_sizeZ5 = 0.8*mm;
 	G4double trk_sizeZ6 = 0.8*mm;
 	
-	G4double ZoomFactor=1;
+	G4double ZoomFactor=fGeometryZoom;
 //	ZoomFactor=1;
 	G4double T1_sizeX = ZoomFactor*2*cm;
 	G4double T1_sizeY = ZoomFactor*2*cm;
