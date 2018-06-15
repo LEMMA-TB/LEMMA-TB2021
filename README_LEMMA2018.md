@@ -14,6 +14,11 @@ Please note that if any changes are done to ../setup/*.mac you need to cmake -XX
 ### GEOMETRY
 The geometry is the one of the final configuration
 
+## TYPICAL NUMBER OF PRIMARIES FOR EACH CONFIGURATION
+Ext MuMu: 100k
+Ext BhaBha: 10k
+45GeV Positron Physics: 1000
+
 ### PRIMARY PARTICLE
 The simulation is set to simulate primary positrons starting at the origin (0,0,0). It is possible to simulate a realistic beam (energy, angular and position spread), but there is a flag (SimpleFlag) in B1PrimaryGeneratorAction.cc to select the simple case of ideal beam.
 There are flags in the mainMCMC.cc to generate other particles (electrons, muons) and other energies.
@@ -60,7 +65,8 @@ INTERACTIONS vector (one entry per interaction happening at the border between t
 - DEVEInZ: Z entering point in DEVA
 - DEVAENEXXX?: energy release in DEVA layers
 
-Please note that due to Geant4 issues regarding multi core root output, multi thread is currently disabled (can be enabled in mainMCMC.cc, but creates N-root files named LemmaMC_t?.root)
+
+### Pleaste note that when using external generators the info in BeamXX in the LEMMA vector is not reliable, since info are written only for the first primary particle in each event in the source file
 
 ### TO MERGE MULTIPLE ROOT OUTPUT FILES:
 TChain * chain = new TChain("LEMMA")
@@ -122,16 +128,51 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 2018.05.26 by collamaf
 - Added back possibility to use external generator: note that the data file produced by Bertolin does not work if directly passed to geant, but has to be opened and copy and pasted into a brand new .txt/.dat. Mistero! Something like this should work: 
 `head -n 250004 /Users/francesco/Downloads/MCmumu.dat >> ExtData_mm.dat`
+`lines=$(wc -l < /Users/francesco/Downloads/MCmumu.dat) ; head -n $lines /Users/francesco/Downloads/MCmumu.dat >> ExtData_mm.dat`
 - Now the format of the output filename is created in the main according to various flags and printed as very last text in the terminal to be issed as a command (both in case of MT or ST)
 - The Zoom Factor for transverse enlargment of T and C detecors is now moved to main
 
+2018.06.13 by collamaf
+- Now visualization starts with the same setup as the drawing scheme
+- Cleaning of abandoned variables and arguments
+- Modified structure of root file to house new calorimeter channels
+- Scintillators where for some reason of Silicon instead of plastic... corrected
 
+2018.06.15 by collamaf
+- Now the numbere of primaries generated is stored in the suggested filename
+
+
+`cp link.txt CMakeFiles/mainMCMC.dir/`
 
 
 TODO LIST
+- 
 
 
-head -n 250004 /Users/francesco/Downloads/MCmumu.dat >> CIAO.dat
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

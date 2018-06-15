@@ -9,16 +9,14 @@
 #include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
-//#define HEPFLAG //Toggle this flag to enable HepMC External generator at pre-processor level
+#define HEPFLAG //Toggle this flag to enable HepMC External generator at pre-processor level
 #ifdef HEPFLAG
 #include "HepMCG4AsciiReader.hh"
 #endif
 
-B1PrimaryGeneratorAction::B1PrimaryGeneratorAction(B1EventAction* eventAction, G4double BeamEnergy, G4bool CalibMuonBeamFlag, G4bool ProdMuonBeamFlag, G4bool ElectronBeamFlag, G4bool SimpleFlag, G4bool ExtSourceFlagBha, G4bool ExtSourceFlagMu)
+B1PrimaryGeneratorAction::B1PrimaryGeneratorAction(G4double BeamEnergy, G4bool CalibMuonBeamFlag, G4bool ProdMuonBeamFlag, G4bool ElectronBeamFlag, G4bool SimpleFlag, G4bool ExtSourceFlagBha, G4bool ExtSourceFlagMu)
 : G4VUserPrimaryGeneratorAction(),
 fParticleGun(0),
-fEnvelopeBox(0),
-evtPrimAction(eventAction),
 fBeamEnergy(BeamEnergy),
 fCalibMuonBeamFlag(CalibMuonBeamFlag),
 fProdMuonBeamFlag(ProdMuonBeamFlag),

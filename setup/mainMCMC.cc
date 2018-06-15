@@ -5,6 +5,7 @@
 #endif
 //----------------------------------
 #include "G4UImanager.hh"
+#include "G4Run.hh"
 #include "B1DetectorConstruction.hh"
 #include "B1ActionInitialization.hh"
 #include "G4StepLimiterPhysics.hh"
@@ -51,7 +52,7 @@ int main(int argc,char** argv)
 #endif
 	
 	// FLAG DEFINITION TO CHOOSE THE DESIRED CONFIGURATION
-	G4bool CalibMuonBeamFlag=true;  //switching on this flag generates mu- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
+	G4bool CalibMuonBeamFlag=false;  //switching on this flag generates mu- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
 	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu- beam at the end of the target, to simulate the muon production: E in 15-30 GeV, along Z
 
 	G4bool ElectronBeamFlag=false;  //switching on this flag generates e- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
@@ -59,9 +60,9 @@ int main(int argc,char** argv)
 	G4bool SimpleFlag=false;
 
 	G4bool TargetFlag=true;
-	G4bool FlipFieldFlag=true; //non-flipped (=false) field sends positrons towards the "clean channel" (just chamber, no calos), flipped (=true) sends positrons to "busy" channel ("final" setup)
+	G4bool FlipFieldFlag=true; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
 	G4bool MagMapFlag=true;
-	G4bool StoreCaloEnDepFlag=true; //to disable scoring of energy deposition (gamma, e+, e-, total) in DEVA calorimeter (sparing ~15% of disk space)
+	G4bool StoreCaloEnDepFlag=false; //to disable scoring of energy deposition (gamma, e+, e-, total) in DEVA calorimeter (sparing ~15% of disk space)
 	// INITIALIZE
 
 	
@@ -74,37 +75,10 @@ int main(int argc,char** argv)
 	//Flag to cut on output file: photons with energy lower than this value will not be written. Set negative to write them all
 	G4double RootCutThr=1*GeV;
 	
-	G4double GeometryZoom=1; //Transverse zoom of trackers (Ts and Cs det)
+	G4double GeometryZoom=10; //Transverse zoom of trackers (Ts and Cs det)
 	
-	G4String OutputFilename = "LemmaMC2018";
-	G4String OutputFilenameFirstNote ="_Bert";
-	OutputFilename.append(OutputFilenameFirstNote);
 
-	
-	if (ExtSourceFlagMu) OutputFilename.append("_MuMu");
-	else if (ExtSourceFlagBha) OutputFilename.append("_Bhabha");
-	else if (ElectronBeamFlag) OutputFilename.append("_Ele"+ std::to_string(G4int (BeamEnergy)) );
-	else if (CalibMuonBeamFlag) OutputFilename.append("_CalibMuM"+ std::to_string(G4int (BeamEnergy)) );
-	else if (ProdMuonBeamFlag) OutputFilename.append("_ProdMuM");
-	else OutputFilename.append("_Pos"+ std::to_string(G4int (BeamEnergy)) );
-	
-	if (SimpleFlag) OutputFilename.append("_simple");
 
-	
-	if (TargetFlag) OutputFilename.append("_T");
-	else  OutputFilename.append("_NoT");
-
-	if (MagMapFlag) OutputFilename.append("_M"); //Map
-	else  OutputFilename.append("_F"); //Fixed
-
-	if (FlipFieldFlag) OutputFilename.append("f");
-	
-	if (StoreCaloEnDepFlag) OutputFilename.append("_calo");
-	
-	if (GeometryZoom!=1) OutputFilename.append("_Z" + std::to_string(G4int (GeometryZoom) ));
-
-	G4String OutputFilenameSecondNote ="";
-	OutputFilename.append(OutputFilenameSecondNote);
 	
 	/*
 	 
@@ -125,7 +99,7 @@ int main(int argc,char** argv)
   G4bool channeling = false;
   G4String ctype = "Si" ;  // "C" or "Si"
 //==================================================
-  B1DetectorConstruction* detector =new B1DetectorConstruction(CalibMuonBeamFlag, ElectronBeamFlag, TargetFlag, FlipFieldFlag, MagMapFlag, GeometryZoom);
+  B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagMapFlag, GeometryZoom);
   detector->SetChanneling(channeling,ctype);
   
   if ( FTFP ){
@@ -148,9 +122,14 @@ int main(int argc,char** argv)
   
   runManager->SetUserInitialization(detector);
   runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr));
-  runManager->Initialize();  // init kernel
-  
-  
+	
+//	const G4Run* run=runManager->GetCurrentRun();
+//	G4cout<<"CIAO "<<run->GetNumberOfEventToBeProcessed()<<G4endl;
+//	runManager->SetNumberOfEventsToBeProcessed(17);
+	runManager->Initialize();  // init kernel
+	
+
+	
 #ifdef G4VIS_USE
   // Initialize visualization
   G4VisManager* visManager = new G4VisExecutive;
@@ -165,6 +144,10 @@ int main(int argc,char** argv)
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
     UImanager->ApplyCommand(command+fileName);
+//		G4String Mycommand = "/run/beamOn ";
+//		G4String NoOfPrimToGen = argv[1];
+//		UImanager->ApplyCommand(Mycommand+NoOfPrimToGen);
+
     //UImanager->ApplyCommand("/control/execute init.mac"); 
   }
   else {
@@ -181,10 +164,39 @@ int main(int argc,char** argv)
 #endif
   }
 	
-
-//	std::string OutputFilename = "LemmaMC2018_" + std::to_string(G4int (10*inputTargZ)) + "_N" + std::to_string(inputX0) + "_Mat" + std::to_string(inputMat) + "_BeamP" + std::to_string(inputBeamPart) + "_BeamE" + std::to_string(G4int (10*inputBeamEne))+ "_S" + std::to_string(inputSimpleFlag) +  + ".dat";
+	//RETRIEVE RUN TO GET THE NUMBER OF EVENTS I AM SIMULATING
+	const G4Run* run=runManager->GetCurrentRun();
+//	run->SetNumberOfEventToBeProcessed(17); // does not work
+	G4String OutputFilename = "LemmaMC2018";
+	G4String OutputFilenameFirstNote ="";
+	OutputFilename.append(OutputFilenameFirstNote);
 	
-  
+	
+	if (ExtSourceFlagMu) OutputFilename.append("_MuMu");
+	else if (ExtSourceFlagBha) OutputFilename.append("_Bhabha");
+	else if (ElectronBeamFlag) OutputFilename.append("_Ele"+ std::to_string(G4int (BeamEnergy)) );
+	else if (CalibMuonBeamFlag) OutputFilename.append("_CalibMuM"+ std::to_string(G4int (BeamEnergy)) );
+	else if (ProdMuonBeamFlag) OutputFilename.append("_ProdMuM");
+	else OutputFilename.append("_Pos"+ std::to_string(G4int (BeamEnergy)) );
+	
+	if (SimpleFlag) OutputFilename.append("_simple");
+	
+	if (TargetFlag) OutputFilename.append("_T");
+	else  OutputFilename.append("_NoT");
+	
+	if (MagMapFlag) OutputFilename.append("_M"); //Map
+	else  OutputFilename.append("_F"); //Fixed
+	
+	if (FlipFieldFlag) OutputFilename.append("f");
+	
+	if (StoreCaloEnDepFlag) OutputFilename.append("_calo");
+	
+	if (GeometryZoom!=1) OutputFilename.append("_Z" + std::to_string(G4int (GeometryZoom) ));
+	
+	G4String OutputFilenameSecondNote ="";
+	OutputFilename.append("_N" + std::to_string ((G4int) (run->GetNumberOfEventToBeProcessed())));
+	OutputFilename.append(OutputFilenameSecondNote);
+	
 #ifdef G4VIS_USE
   delete visManager;
 #endif

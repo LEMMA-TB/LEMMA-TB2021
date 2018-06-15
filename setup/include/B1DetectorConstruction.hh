@@ -13,7 +13,7 @@ class PurgMagTabulatedField3D;
 class B1DetectorConstruction : public G4VUserDetectorConstruction
 {
 public:
-	B1DetectorConstruction(G4bool CalibMuonBeamFlag,G4bool ElectronBeamFlag, G4bool TargetFlag, G4bool FlipFieldFlag, G4bool MagMapFlag, G4double GeometryZoom);
+	B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFieldFlag, G4bool MagMapFlag, G4double GeometryZoom);
 	virtual ~B1DetectorConstruction();
 	virtual G4VPhysicalVolume* Construct();
 	virtual void ConstructSDandField();

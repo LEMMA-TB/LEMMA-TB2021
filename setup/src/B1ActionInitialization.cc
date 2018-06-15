@@ -25,10 +25,12 @@ void B1ActionInitialization::Build() const
 {
 //	SetUserAction(new B1RunAction);
 	B1RunAction* runAction = new B1RunAction;
+//	runAction = new B1RunAction();
+//	frunAction=runAction;
 	SetUserAction(runAction);
 	
 	B1EventAction* eventAction = new B1EventAction(runAction);
-	SetUserAction(new B1PrimaryGeneratorAction(eventAction, fBeamEnergy, fCalibMuonBeamFlag, fProdMuonBeamFlag, fElectronBeamFlag, fSimpleFlag, fExtSourceFlagBha, fExtSourceFlagMu));
+	SetUserAction(new B1PrimaryGeneratorAction(fBeamEnergy, fCalibMuonBeamFlag, fProdMuonBeamFlag, fElectronBeamFlag, fSimpleFlag, fExtSourceFlagBha, fExtSourceFlagMu));
 	SetUserAction(eventAction);
 	SetUserAction(new B1SteppingAction(eventAction, runAction, fStoreCaloEnDepFlag, fEThr));
 	SetUserAction(new B1StackingAction(eventAction, runAction));

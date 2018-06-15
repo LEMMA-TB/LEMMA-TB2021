@@ -79,14 +79,14 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstruction->GetScoringVolume_Mu1();}
 	if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstruction->GetScoringVolume_Mu2();}
 
-	G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+//	G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 	
 	
 	G4LogicalVolume* volume =
 	step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
 	
-	G4VPhysicalVolume* ThisVol = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
-	G4VPhysicalVolume* NextVol = step->GetPostStepPoint()->GetTouchableHandle()->GetVolume();
+//	G4VPhysicalVolume* ThisVol = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
+//	G4VPhysicalVolume* NextVol = step->GetPostStepPoint()->GetTouchableHandle()->GetVolume();
 	
 	G4bool SHOW = false;
 	G4bool dofill = false;
@@ -103,6 +103,8 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	else if (volume==fScoringVolume_C5)   {subdet=35; dofill=true;}  //
 	else if (volume==fScoringVolume_C6)   {subdet=36; dofill=true;}  //
 	else if (volume==fScoringVolume_C7)   {subdet=37; dofill=true;}  //
+	else if (volume==fScoringVolume_S2)   {subdet=38; dofill=true;}  //
+	else if (volume==fScoringVolume_S3)   {subdet=39; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb1a)   {subdet=41; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb1b)   {subdet=42; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb1c)   {subdet=43; dofill=true;}  //
@@ -122,60 +124,22 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	G4int Pid=step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding();
 	
 
-	if (subdet==77 && DepEne>0 && fStoreCaloEnDepFlag) { //DEVA deposited energy - avoiding saving 0ene events spares about 20% of disk space...
-		fEventAction->AddDEVAEneTot(DepEne);
-		if (CopyNb==0 || CopyNb==1) {
-			(runStepAction->GetDEVADepo())[0]+=DepEne;
-		} else if (CopyNb==2 || CopyNb==3) {
-			(runStepAction->GetDEVADepo())[1]+=DepEne;
-		}
-		if (CopyNb==4 || CopyNb==5) {
-			(runStepAction->GetDEVADepo())[2]+=DepEne;
-		}
-		if (CopyNb==6 || CopyNb==7) {
-			(runStepAction->GetDEVADepo())[3]+=DepEne;
-		}
-		if (CopyNb==8 || CopyNb==9) {
-			(runStepAction->GetDEVADepo())[4]+=DepEne;
-		}
-		if (CopyNb==10 || CopyNb==11) {
-			(runStepAction->GetDEVADepo())[5]+=DepEne;
-		}
-	}
 	
-	if (subdet==41 || subdet==42 || subdet==43 && DepEne>0 && fStoreCaloEnDepFlag) { //PbGlass TOP deposited energy
-		fEventAction->AddPbGlassEne(DepEne);
+#if 1
+	// CALORIMETER SCORING
+	if (fStoreCaloEnDepFlag && ((subdet>=41 && subdet <=46) || subdet==51 || subdet==52)) {
+		std::vector<G4int>::iterator it;
+		G4int CaloChannelToSearch=100*subdet+CopyNb;
+		it = find(ChannelMap.begin(), ChannelMap.end(),CaloChannelToSearch); //cerco l'attuale isotopo nella lista di quelli già visti
+		if (it != ChannelMap.end()) { //se l'isotopo c'era già
+			(runStepAction->GetCaloEnDep())[it-ChannelMap.begin()]+=DepEne;
+		}
+		if (0)		G4cout<<"DEBUG !!! subdet= "<<subdet<<" Nome= "<<step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName()<<" CopyNb="<<CopyNb<<" Cerco canale "<<CaloChannelToSearch<<" Trovato in pos= "<<(G4int) (it-ChannelMap.begin())<<G4endl;
+
 	}
+#endif
 	
-	if (subdet==80 && DepEne>0 && fStoreCaloEnDepFlag) { //Cerenkov deposited energy (only 4 of 6 channels were red): Channels go from 0 to 6 bottom-forward to top-backward wrt beam entering direction: Iacoangeli says 2,3,5,6 were on
-		fEventAction->AddCerenkovEneTot(DepEne);
-		if (CopyNb==0 ) {
-			(runStepAction->GetCerenkovDepo())[1]+=DepEne;
-		}
-		if (CopyNb==1) {
-			(runStepAction->GetCerenkovDepo())[2]+=DepEne;
-		}
-		if (CopyNb==3) {
-			(runStepAction->GetCerenkovDepo())[4]+=DepEne;
-		}
-		if (CopyNb==4 ) {
-			(runStepAction->GetCerenkovDepo())[5]+=DepEne;
-		}
-	}
-	
-	if (subdet==72 && DepEne>0 && fStoreCaloEnDepFlag) { //Scint72 deposited energy
-		(runStepAction->GetScint72DepEne()).push_back(DepEne);
-	}
-	if (subdet==74 && DepEne>0 && fStoreCaloEnDepFlag) { //Scint74 deposited energy
-		(runStepAction->GetScint74DepEne()).push_back(DepEne);
-	}
-	//added on 15.12.17 @ Padova - What enters DEVA
-	if (NextVol && ThisVol->GetName()=="EcalDummy" && NextVol->GetName()=="Ecal") {
-		runStepAction->GetDEVAInX().push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
-		runStepAction->GetDEVAInY().push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
-		runStepAction->GetDEVAInZ().push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
-	}
-	
+
 	if (fEThr>0) fCutFlag=true;
 	
 	if (step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "Cerenkov") { //se sto facendo uno step di tipo cerenkov
@@ -216,6 +180,15 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 //	ALL
 //	if (dofill  && subdet!=76  && subdet!=77  && subdet!=78 && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
 
+	/* //tentativo di capire perchè quando si usa generatore esterno l'infomrazione in GetPrimaryVertex è sempre relativa alla prima riga del file di dati esterni.. PACE!
+	G4int temp=G4RunManager::GetRunManager()->GetCurrentEvent()->GetPrimaryVertex()->GetPrimary()->GetPDGcode();
+	G4double tempEne=G4RunManager::GetRunManager()->GetCurrentEvent()->GetPrimaryVertex()->GetPrimary()->GetKineticEnergy();
+	if (0&&temp!=13) G4cout<<"CIAO "<<temp<<G4endl;
+	
+	if (step->GetTrack()->GetParentID()==0 && step->GetTrack()->GetCurrentStepNumber()==1) G4cout<< "DEBUG ParentId="<< step->GetTrack()->GetParentID()<<" Part= "<<step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()<<" Ene="<< step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/keV<<" temp= "<<temp<<" tempEne=" <<tempEne/keV<<G4endl;
+*/
+	
+	
 	// SOLO PRE/POST - PRE
 	if (dofill && (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary) && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
 		
@@ -249,7 +222,6 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		//			if (Itrack!=1) { // different from gun particle
 		xvertex = step->GetTrack()->GetVertexPosition();
 		
-		if(subdet==77) (runStepAction->GetCopyNb()).push_back(CopyNb);  //I'm interested in CopyNb only for DEVA active components (subdet==77)
 		
 		G4PrimaryVertex* primaryVertex = evt->GetPrimaryVertex();
 		G4PrimaryParticle* primaryParticle = primaryVertex->GetPrimary();

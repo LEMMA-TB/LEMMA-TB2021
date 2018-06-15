@@ -87,8 +87,11 @@
 #/vis/scene/add/scale   # Simple scale line
 #/vis/scene/add/scale 31.324 m z 0 1 0 manual 0 0 15.662 m
 /vis/scene/add/scale 22.20 m z 0 1 0 manual 0 0 11.1 m
+/vis/scene/add/scale 22.90 m z 0 0 1 manual 0 0 11.45 m
 /vis/scene/add/axes    # Simple axes: x=red, y=green, z=blue.
 /vis/scene/add/eventID # Drawn at end of event
+/vis/scene/add/scale 38.34 cm x 1 0 0 manual 0.1917 0 22.2 m
+#/vis/scene/add/scale  6 m z 1 0 0 manual 0 0 19.20 m
 #/vis/scene/add/date    # Date stamp
 /vis/scene/add/logo2D  # Simple logo
 #/vis/scene/add/logo    # 3D logo
@@ -148,8 +151,10 @@
 #/vis/geometry/set/colour [logic name] depth R G B opacity
 #/vis/viewer/set/viewpointThetaPhi 120 150
 #/vis/viewer/set/viewpointThetaPhi 90 0
-/vis/viewer/set/viewpointThetaPhi -90 270 deg
+#/vis/viewer/set/viewpointThetaPhi -90 270 deg
 #
+#/vis/viewer/set/upVector 1 0 0
+/vis/viewer/set/viewpointThetaPhi 90 90
 # Re-establish auto refreshing and verbosity:
 /vis/viewer/set/autoRefresh true
 /vis/verbose warnings

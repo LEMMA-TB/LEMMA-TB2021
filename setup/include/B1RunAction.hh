@@ -53,6 +53,9 @@ class B1RunAction : public G4UserRunAction
 	std::vector<G4double>& GetInextStep() {return RunVectorInextStep; }
 	std::vector<G4double>& GetCopyNb() {return RunVectorCopyNb; }
 	
+	std::vector<G4double>& GetCaloEnDep() {return RunVectorCaloEnDep; }
+
+	
 	std::vector<G4double>& GetDEVADepo() {return RunVectorDEVADepo; }
 	std::vector<G4double>& GetCerenkovDepo() {return RunVectorCerenkovDepo; }
 	std::vector<G4int>& GetCerenkovDepoOpt() {return RunVectorCerenkovDepoOpt; }
@@ -79,6 +82,7 @@ class B1RunAction : public G4UserRunAction
 	
 //	std::vector<G4double>& GetNHits() {return RunVectorNHits; }
 //	std::vector<G4double>& GetItrack() {return RunVectorItrack; }
+	
 
 private:
 	std::vector<G4double> RunVectorBeamX;
@@ -114,6 +118,8 @@ private:
 	std::vector<G4double> RunVectorStep;
 	std::vector<G4double> RunVectorInextStep;
 	std::vector<G4double> RunVectorCopyNb;
+	
+	std::vector<G4double> RunVectorCaloEnDep;
 	
 	std::vector<G4double> RunVectorDEVADepo;
 	std::vector<G4double> RunVectorCerenkovDepo;

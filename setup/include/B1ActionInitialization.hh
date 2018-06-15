@@ -3,6 +3,8 @@
 
 #include "G4VUserActionInitialization.hh"
 #include "globals.hh"
+#include "B1RunAction.hh"
+
 /// Action initialization class.
 
 class B1ActionInitialization : public G4VUserActionInitialization
@@ -13,6 +15,8 @@ class B1ActionInitialization : public G4VUserActionInitialization
 
     virtual void BuildForMaster() const;
     virtual void Build() const;
+	
+//	virtual B1RunAction* GetRunAction() {return frunAction;};
 	
 	private:
 	G4double fBeamEnergy;

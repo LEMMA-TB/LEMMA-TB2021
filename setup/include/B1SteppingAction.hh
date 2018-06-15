@@ -53,8 +53,10 @@ private:
 	
 	G4double fEThr;
 	G4bool fCutFlag=false;
-
 	
+//	static const int ChannelMapRaw[]={410, 420, 430, 440, 450, 460, 510, 511, 512, 513, 514, 515, 520, 521, 522, 523, 524, 525};
+//	std::vector<int> ChannelMap(ChannelMapRaw, ChannelMapRaw + sizeof(ChannelMapRaw)/sizeof(ChannelMapRaw[0]));
+	std::vector<int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600, 5100, 5101, 5102, 5103, 5104, 5105, 5200, 5201, 5202, 5203, 5204, 5205};
 };
 
 #endif

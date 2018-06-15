@@ -37,7 +37,7 @@
 
 
 
-B1DetectorConstruction::B1DetectorConstruction(G4bool CalibMuonBeamFlag, G4bool ElectronBeamFlag, G4bool TargetFlag, G4bool FlipFieldFlag, G4bool MagMapFlag, G4double GeometryZoom)
+B1DetectorConstruction::B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFieldFlag, G4bool MagMapFlag, G4double GeometryZoom)
 : G4VUserDetectorConstruction(),
  fScoringVolume_S1(0),
  fScoringVolume_T1(0),
@@ -80,24 +80,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	// Detector parameters and size
 	// =============================
 	
-	G4bool Si30Shift=false; //toggle shift of Si30 wrt beam center
 	
 	//--> WORLD:
 	G4double world_sizeX = 8*m;
 	G4double world_sizeY = 8*m;
 	G4double world_sizeZ = 80*m;
 	
-	//--> trackers (TrkX): Si-trackers
-	G4double trk_sizeXa = 2*cm; 
-	G4double trk_sizeYa = 2*cm;
-	G4double trk_sizeXb = 10*cm;
-	G4double trk_sizeYb = 10*cm;
-	G4double trk_sizeZ1 = 0.2*mm;
-	G4double trk_sizeZ2 = 0.2*mm;
-	G4double trk_sizeZ3 = 0.4*mm;
-	G4double trk_sizeZ4 = 0.8*mm;
-	G4double trk_sizeZ5 = 0.8*mm;
-	G4double trk_sizeZ6 = 0.8*mm;
 	
 	G4double ZoomFactor=fGeometryZoom;
 //	ZoomFactor=1;
@@ -141,22 +129,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double C7_sizeY = ZoomFactor*10*cm;
 	G4double C7_sizeZ = 0.8*mm;
 	
-	
-	G4double Si30Box_sizeX=125*mm;
-	G4double Si30Box_sizeY=125*mm;
-	G4double Si30Box_sizeZ=45*mm; //was 40...
-	G4double Si30Box_AluThicknessX=10*mm;
-	G4double Si30Box_AluThicknessY=10*mm;
-	G4double Si30Box_AluThicknessZ=3.3*mm;
-	G4double Si30AluBar_sizeX=100*mm;
-	G4double Si30AluBar_sizeY=13*mm;
-	G4double Si30AluBar_sizeZ=13*mm;
-	G4double DistXSi30Bar=0;
-	G4double DistYSi30Bar=-Si30Box_sizeY/2.+Si30Box_AluThicknessY+Si30AluBar_sizeY/2.;
-	G4double DistZSi30Bar=-Si30Box_sizeZ/2.+Si30Box_AluThicknessZ+Si30AluBar_sizeZ/2.;
-	G4double Si30Vetronite_sizeX=100*mm;
-	G4double Si30Vetronite_sizeY=100*mm;
-	G4double Si30Vetronite_sizeZ=11*mm;
+
 
 	//--> Be amorphous crystal target:
 
@@ -167,10 +140,6 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double Mag_R = 100.*cm;
 	G4double Mag_sizeY = 40.*cm;
 	
-	
-	G4double innerRadius = 0.*cm;
-	G4double outerRadius = 100.*cm;
-	G4double hBdipole = 20.*cm; // half-height
 	G4double startAngle = 0.*deg;
 	G4double spanningAngle = 360.*deg;
 	
@@ -179,64 +148,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double BP1_sizeZ = 220*cm;
 	G4double BP2_R = 10*cm;
 	G4double BP2_sizeZ = 800*cm;
-	
-	G4double PipeinnerRadius = 0*cm;
-	G4double PipeouterRadius = 10.*cm;
-	G4double PipeH12 = 474.8*cm;
-	G4double PipeH34 = 492.3*cm;
-	
-	// G-cal:
-	G4double Gcal_sizeX = 13.5*cm;
-	G4double Gcal_sizeY = 13.5*cm;
-	G4double Gcal_sizeZ = 230.*mm; // ~25Xo
-	
-	// Iron blocks:
-	G4double Iblock_sizeX = 20*cm;
-	G4double Iblock_sizeY = 20*cm;
-	G4double Iblock_sizeZ = 400*mm;
-	
-	// Iron column:
-	G4double Icol_sizeX = 30*cm;
-	G4double Icol_sizeY = 100*cm;
-	G4double Icol_sizeZ = 30*cm;
-	
-	// E-cal: "DEVA" - this is the alluminum container
-	G4double DEVAenv_sizeX = 22*cm;
-	G4double DEVAenv_sizeY = 30*cm;
-	G4double DEVAenv_sizeZ = 400.*mm; // ~23Xo
-	
-	// DEVA Active element - this is the active element
-	G4double DEVAact_sizeX = 15.*cm;
-	G4double DEVAact_sizeY = 15.*cm;
-	G4double DEVAact_sizeZ = 2.*cm;
-	
-	// DEVA Active element - this is the active element
-	G4double DEVAabs_sizeX = 12.*cm;
-	G4double DEVAabs_sizeY = 12.*cm;
-	G4double DEVAabs_sizeZ = .5*cm;
-	G4double DEVAabs_sizeZbis = 1.*cm;
-	
-	// shield wall:
-	G4double shield_sizeX = 1.62*m;
-	G4double shield_sizeY = 2.6*m;
-	G4double shield_sizeZ = 0.4*m;
-	
-	//--> detectors (D-ghost): // ghost-detectors
-	G4double Chamber_sizeX = 2.55*m;
-	G4double Chamber_sizeY = 2.55*m;
-	G4double Chamber_sizeZTot = 29*cm; //entire chamber
-	G4double Chamber_sizeZ = 0.1*cm; //chamber layer is 1.2, but use smaller value since we just use z position
-	
+
 	// Scintillator A behind T6a:
 	G4double ScintA_sizeX = ZoomFactor*10*cm;
 	G4double ScintA_sizeY = ZoomFactor*4*cm;
 	G4double ScintA_sizeZ = 2*cm;
 	
-	// Scintillator B behind T6b:
-	G4double ScintB_sizeX = ZoomFactor*10*cm;
-	G4double ScintB_sizeY = ZoomFactor*10*cm;
-	G4double ScintB_sizeZ = 2*cm;
-
 	
 	// Lead Glass :
 	G4double LeadGlass_sizeX = 11.5*cm;
@@ -246,7 +163,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	// Cerenkov counter and various elements:
 	G4double Cerenkov_sizeX = 30*cm;
 	G4double Cerenkov_sizeY = 30*cm;
-	G4double Cerenkov_sizeZ = 868.6*mm;
+	G4double Cerenkov_sizeZ = 86.86*cm;
 	G4double Cerenkov_AluZ = 4*mm;
 	G4double Cerenkov_SiOX = 29.5*cm;
 	G4double Cerenkov_SiOZ = 25.4*mm;
@@ -293,11 +210,11 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xBP2=0*cm; //Det
 	G4double xC1=0*cm; //Det
 	G4double xMag=0*cm; //Det
-	G4double xC2=10*cm; //Det
+	G4double xC2=8*cm; //Det //position from Tommaso
 	G4double xC3=-xC2; //Det
-	G4double xC4=20*cm; //Det
+	G4double xC4=16*cm; //Det //position from Tommaso
 	G4double xC5=-xC4; //Det
-	G4double xC6=27*cm; //Det
+	G4double xC6=22*cm; //Det //position from Tommaso
 	G4double xC7=-xC6; //Det
 	G4double xPb1a=-LeadGlass_sizeX; //Det
 	G4double xPb2a=-xPb1a; //Det
@@ -375,7 +292,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zPb2c=zPb1c; //Det
 	G4double zCe1=-CaloTable_sizeZ/2. +LeadGlass_sizeZ + Cerenkov_sizeZ/2. + DistPbCe; //Det
 	G4double zCe2=zCe1; //Det
-	G4double zCaloTable=2220*cm+CaloTable_sizeZ/2.; //Det
+	G4double zCaloTable=2220*cm+CaloTable_sizeZ/2.; //Det The table starts at 2220
 	G4double zMu1=zCaloTable+CaloTable_sizeZ/2.+Mu_sizeZ/2.+DistTableMu; //Det =23656.5
 	G4double zMu2=zMu1; //Det
 	G4double zMuLeadFront1=zMu1-MuLead_sizeZ/2.;
@@ -417,7 +334,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4ThreeVector posMu1  = G4ThreeVector(xMu1,yMu1,zMu1); // Subdet
 	G4ThreeVector posMu2  = G4ThreeVector(xMu2,yMu2,zMu2); // Subdet
 	G4ThreeVector posCaloTable1  = G4ThreeVector(xCaloTable1,yCaloTable1,zCaloTable); // Subdet
-	G4ThreeVector posCaloTable2  = G4ThreeVector(xCaloTable2,yCaloTable1,zCaloTable); // Subdet
+	G4ThreeVector posCaloTable2  = G4ThreeVector(xCaloTable2,yCaloTable2,zCaloTable); // Subdet
 	G4ThreeVector posMuLeadFront1  = G4ThreeVector(xMu1,yMu1,zMuLeadFront1); // Subdet
 	G4ThreeVector posMuLeadFront2  = G4ThreeVector(xMu2,yMu2,zMuLeadFront2); // Subdet
 	G4ThreeVector posMuLeadSide1  = G4ThreeVector(xMuLeadSide1,yMu1,zMuLeadSide1); // Subdet
@@ -444,96 +361,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4ThreeVector posCeAlu2  = G4ThreeVector(0, 0,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ+Cerenkov_AirZ+Cerenkov_FeZ +Cerenkov_Air2Z +Cerenkov_SiOZ+Cerenkov_AluZ/2.); //in Cerenkov mother volume
 																																																																																						//##################################
 	
-	
-	
-	G4double xTrk5a=3.9*cm+trk_sizeXb/2.; //Det 51
-	G4double xTrk5b=-5*cm-trk_sizeXb/2.; //Det 50
-	G4double zTrk5=1563*cm;
-	G4double zBendMagn=zTrk5-260*cm;  //1563-260=1303
-	
-	//	G4double xTrk6=14.85*cm+trk_sizeXb/2.; //before 2017-11-28
-	//	G4double zTrk6=2137.4*cm;   //before 2017-11-28
-//	G4double xTrk6=10.5*cm+2.6*cm+trk_sizeXb/2.; //before 3.3.18
-	G4double xTrk6a=11.3*cm+trk_sizeXb/2.; //Det 56
-	G4double xTrk6b=-12.5*cm-trk_sizeXb/2.; //Det 55
-	//	G4double zTrk6=1852*cm; //correcting for 280cm pre T1 offset
-	G4double zTrk6=1776*cm; //believing my measured distance from last geom measurement: 2137.4-280=1852 is measured by geom, but then was moved by Mario and Fabio to match the beam. At the end I add 213cm fro T5 -> 1776cm
-	
-	//	G4double xScintA=5.1*cm+ScintA_sizeX/2.;
-	//	G4double zCalo=2941*cm; //before 2017-11-28
-	G4double zCalo=zTrk6+804*cm; //=2580 using measured distance from T5
-	
-	//	G4double zChamber=3132.4*cm;//before 2017-11-28
-	G4double zChamber=zTrk6+995*cm;//=2771 using measured distance from T5
-	
-	//	G4double zShield=3082.4*cm;//before 2017-11-28
-	G4double zShield=zChamber-70*cm; //=2701 using measured distance from chamber
-	
-	
-	//	G4double zLeadGlass=3132.4*cm+29*cm+10*cm;//before 2017-11-28
-	G4double zLeadGlass=zChamber+29*cm+10*cm; //= 2810 using measured distance from chamber
-	
-	//	G4double zCerenkov=3132.4*cm+29*cm+10*cm + 10*cm + LeadGlass_sizeZ/2. + Cerenkov_sizeZ/2.;//before 2017-11-28
-	G4double zCerenkov=zChamber+29*cm+10*cm + LeadGlass_sizeZ; //= BOH using measured distance from chamber
-	// ############################################
-	// ##########################
-	G4double CaloOffset=-.0*cm; //post 2017-11-29: 0 cm becca bene, 5 cm spizza, 10 quasi tutto fuori (OLD 5cm iniziale - 15cm per iniziare a beccarlo al bordo sotto - 20cm sembra ben centrato) per 22GeV
-	// ##########################
-	// ############################################
-	G4double DistXGcalIron=5*cm;
-	G4double DistXIronEcal=4*cm; //was 2, but 4 fits better photos
-	G4double DistXEcalColumn=10*cm;
-	G4double DistZGcalIron=5*cm;
-	G4double DistLeadCerenkov=10*cm;
-	G4double ChamberOffsetX=3*cm;
-	G4double X3Corr=-1.052*cm; //was 1.cm according to exp data, changed to 0 on 2018-01-31 by collamaf after discussion with Bertolin - changed to -1.052cm on 3-3-18 according to M Rotondo
-	G4double Y3Corr=-.885*cm; //was -.5cm according to exp data, changed to 0 on 2018-01-31 by collamaf after discussion with Bertolin - changed to -0.885cm on 3-3-18 according to M Rotondo
-	if (!Si30Shift) {
-		X3Corr=0;
-		Y3Corr=0;
-	}
-	G4double ChamberLayerZ[12]={-10.75*cm, -9.45*cm, -8.15*cm, -6.85*cm,  7.45*cm, 8.75*cm, 10.05*cm,11.35*cm, 12.85*cm, 14.15*cm, 15.45*cm, 16.75*cm}; //meas. from Bertolin
-	//	G4double ChamberLayerZ[12]={0*cm, 1.5*cm, 3*cm, 4.5*cm, 6*cm, 7.5*cm, 9*cm, 10.5*cm, 12*cm, 13.5*cm, 15*cm, 16.5*cm};
-	
-	
-	G4ThreeVector posTrk1  = G4ThreeVector(0.,0.,0*mm); // Si-Trk1  Subdet 10
-	G4ThreeVector posPipe12  = G4ThreeVector(0.,0.,277.4*cm); // Pipe between T1 and T2
-	G4ThreeVector posTrk2  = G4ThreeVector(0.,0.,516.8*cm); // Si-Trk2  Subdet 20
-	G4ThreeVector posTarg1 = G4ThreeVector(0.,0.,545.8*cm); // TARGET
-	G4ThreeVector posTrk3  = G4ThreeVector(X3Corr,Y3Corr,577.8*cm); // Si-Trk3  Subdet 30
-	G4ThreeVector Hole30Shift= G4ThreeVector(2.35*cm,2.65*cm,0); //calculated to have the active area @e.6cm from bottom and 2.9 cm from right edges
-	G4ThreeVector posBox30  = posTrk3+Hole30Shift; // Si-Trk3  Subdet 30
-	G4ThreeVector posVetronite30  = posTrk3+Hole30Shift; // Si-Trk3  Subdet 30
-//	G4ThreeVector posAlu30Bar  = G4ThreeVector(DistXSi30Bar,DistYSi30Bar,DistZSi30Bar); // added on 2018.03.28
-//	G4ThreeVector posAlu30Bar  = G4ThreeVector(posTrk3.x()+DistXSi30Bar,posTrk3.y()+DistYSi30Bar,posTrk3.z()+DistZSi30Bar); // added on 2018.03.28
-	G4ThreeVector posAlu30Bar  = posBox30+G4ThreeVector(DistXSi30Bar, DistYSi30Bar, DistZSi30Bar); // added on 2018.03.28
-	G4ThreeVector posTrk3HoleF  = G4ThreeVector(0,0,-Si30Box_sizeZ/2.+Si30Box_AluThicknessZ/2.)-Hole30Shift; // added on 2018.03.28
-	G4ThreeVector posTrk3HoleB  = G4ThreeVector(0,0,Si30Box_sizeZ/2.-Si30Box_AluThicknessZ/2.)-Hole30Shift; // added on 2018.03.28
-	G4ThreeVector posPipe34  = G4ThreeVector(0.,0.,903.95*cm); // Pipe between T3 and T4
-	G4ThreeVector posTrk4  = G4ThreeVector(0.,0.,1152.1*cm); // Si-Trk4  Subdet 40
-	G4ThreeVector posBend  = G4ThreeVector(0.,0.,zBendMagn); // Dipole magnet center era 1203
-	G4ThreeVector posTrk5a  = G4ThreeVector(xTrk5a,0.,zTrk5); // Si-Trk5a
-	G4ThreeVector posTrk5b  = G4ThreeVector(xTrk5b,0.,zTrk5); // Si-Trk5b
-	G4ThreeVector posTrk6a  = G4ThreeVector(xTrk6a,0.,zTrk6); // Si-Trk6a
-	G4ThreeVector posTrk6b  = G4ThreeVector(xTrk6b,0.,zTrk6); // Si-Trk6b
-	G4ThreeVector posScintA  = G4ThreeVector(xTrk6a,0.,zTrk6+ScintA_sizeZ/2.+1*cm); // ScintA behind T6a
-	G4ThreeVector posScintB  = G4ThreeVector(xTrk6b,0.,zTrk6+ScintB_sizeZ/2.+1*cm); // ScintB behind T6b
-	G4ThreeVector posGcal  = G4ThreeVector(CaloOffset,0.,zCalo+Gcal_sizeZ/2.); // GCAL center
-	G4ThreeVector posIblock  = G4ThreeVector(CaloOffset+Gcal_sizeX/2.+Iblock_sizeX/2.+DistXGcalIron,0.,zCalo+Iblock_sizeZ/2.+DistZGcalIron); // Iron Block center
-	G4ThreeVector posEcal  = G4ThreeVector(CaloOffset+Gcal_sizeX/2.+Iblock_sizeX+DistXIronEcal+DistXGcalIron+DEVAenv_sizeX/2.,0.,zCalo+DEVAenv_sizeZ/2.); // ECAL center
-	//	G4ThreeVector posEcalDummy  = G4ThreeVector(CaloOffset+Gcal_sizeX/2.+Iblock_sizeX+DistXIronEcal+DistXGcalIron+DEVAenv_sizeX/2.,0.,zCalo-1*cm/2); // ECALDummy center
-	G4ThreeVector posEcalDummy  = G4ThreeVector(CaloOffset+Gcal_sizeX/2.+Iblock_sizeX+DistXIronEcal+DistXGcalIron+DEVAenv_sizeX/2.,0.,zCalo+DEVAenv_sizeZ/2.); // ECALDummy center
-	G4ThreeVector posDevaAct=G4ThreeVector(0, 0, 0);
-	G4ThreeVector posDevaAbs=G4ThreeVector(0, 0, 0);
-	
-	G4ThreeVector posIcol  = G4ThreeVector(CaloOffset+Gcal_sizeX/2.+Iblock_sizeX+DistXIronEcal+DistXGcalIron+DEVAenv_sizeX+Icol_sizeX/2.+DistXEcalColumn,0.,zCalo+Icol_sizeZ/2.); // ECAL center
-	
-	
-	//	 G4Transform3D transform1 = G4Transform3D(rotEcal,posEcal);
-	G4ThreeVector posShield= G4ThreeVector(92.7/2.*cm,0.*cm,zShield+shield_sizeZ/2.); // Shield center
-	G4ThreeVector posChamber  = G4ThreeVector(ChamberOffsetX,0.,zChamber); // D-ghost Subdet 70
-	G4ThreeVector posLeadGlass  = G4ThreeVector(-40*cm-LeadGlass_sizeX/2.,0.,zLeadGlass+LeadGlass_sizeZ/2.);
 
+	
 
 	G4double AngleRot=3*CLHEP::deg;
 
@@ -604,9 +433,6 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	PbWO4->AddElement(elPb,natoms=1);
 	
 	G4Element* elSi = new G4Element("Silicon" ,"Si" , 14., 28.09*g/mole);
-	
-
-	
 	
 	G4Material* SiO2 =
 	new G4Material("quartz",d= 2.200*g/cm3, natoms=2);
@@ -694,7 +520,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 		crystalLogic = new G4LogicalCrystalVolume(crystalSolid,Crystal,"crystal.logic");
 		G4RotationMatrix* rot = new G4RotationMatrix;
 		rot->rotateX(0.E-6 * CLHEP::rad); // add rotation angle of the crystal here
-		new G4PVPlacement(rot,posTarg1,crystalLogic,"crystal.physic",logicWorld,false,0);
+		new G4PVPlacement(rot,posTarg,crystalLogic,"crystal.physic",logicWorld,false,0);
 	}
 	else{
 		//-- amorphous Be TARGET
@@ -711,7 +537,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	//-- Scint1 (pre T1) (subdet=)
 	G4Box* geoS1 = new G4Box("S1", ScintA_sizeX/2, ScintA_sizeY/2, ScintA_sizeZ/2);
-	G4LogicalVolume* logicS1 = new G4LogicalVolume(geoS1, silicio, "S1");
+	G4LogicalVolume* logicS1 = new G4LogicalVolume(geoS1, plastica, "S1");
 	new G4PVPlacement(0,posS1,logicS1,"S1",logicWorld,false,0,checkOverlaps);
 	
 	//-- T1-Si (subdet=)
@@ -785,12 +611,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	//-- Scint2 (post C6) (subdet=)
 	G4Box* geoS2 = new G4Box("S2", ScintA_sizeX/2, ScintA_sizeY/2, ScintA_sizeZ/2);
-	G4LogicalVolume* logicS2 = new G4LogicalVolume(geoS2, silicio, "S2");
+	G4LogicalVolume* logicS2 = new G4LogicalVolume(geoS2, plastica, "S2");
 	new G4PVPlacement(0,posS2,logicS2,"S2",logicWorld,false,0,checkOverlaps);
 	
 	//-- Scint3 (post C7) (subdet=)
 	G4Box* geoS3 = new G4Box("S3", ScintA_sizeX/2, ScintA_sizeY/2, ScintA_sizeZ/2);
-	G4LogicalVolume* logicS3 = new G4LogicalVolume(geoS3, silicio, "S3");
+	G4LogicalVolume* logicS3 = new G4LogicalVolume(geoS3, plastica, "S3");
 	new G4PVPlacement(0,posS3,logicS3,"S3",logicWorld,false,0,checkOverlaps);
 	
 	
@@ -930,10 +756,10 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	new G4PVPlacement(0, posMuLeadSide1,logicMuLeadSide,"MuLeadSide1",logicWorld,false,0,checkOverlaps);
 	new G4PVPlacement(0, posMuLeadSide2,logicMuLeadSide,"MuLeadSide2",logicWorld,false,0,checkOverlaps);
 	
-	
-	
-	
-	
+	/*
+	G4cout<<"##################################\nSUMMARIZING GEOMETRY\n"<<G4endl;
+	G4cout<<"physCe2Fe->z="<<physCe2Fe->GetTranslation().z()<<G4endl;
+	*/
 	
 	// ###################################################################################
 	// ###################################################################################
@@ -964,8 +790,10 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	fScoringVolume_Pb2a=logicPb2a;
 	fScoringVolume_Pb2b=logicPb2b;
 	fScoringVolume_Pb2c=logicPb2c;
-	fScoringVolume_Ce1=logicCe1;
-	fScoringVolume_Ce2=logicCe2;
+//	fScoringVolume_Ce1=logicCe1;
+//	fScoringVolume_Ce2=logicCe2;
+	fScoringVolume_Ce1=logicCe1SiO;
+	fScoringVolume_Ce2=logicCe2SiO;
 	fScoringVolume_Mu1=logicMu1;
 	fScoringVolume_Mu2=logicMu2;
 	

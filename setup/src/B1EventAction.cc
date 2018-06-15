@@ -59,6 +59,9 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetInextStep()).clear();
 	(fRunAction->GetCopyNb()).clear();
 	
+	(fRunAction->GetCaloEnDep()).clear();
+	(fRunAction->GetCaloEnDep()).assign(18,0);
+	
 	(fRunAction->GetDEVADepo()).clear();
 	(fRunAction->GetCerenkovDepo()).clear();
 	(fRunAction->GetCerenkovDepoOpt()).clear();
@@ -133,11 +136,11 @@ void B1EventAction::EndOfEventAction(const G4Event*){
 	auto analysisManager = G4AnalysisManager::Instance();
 
 	analysisManager->FillNtupleDColumn(0,8,fNHits);
-	analysisManager->FillNtupleDColumn(0,32,fDEVAEneTot);
-	analysisManager->FillNtupleDColumn(0,34,fCerenkovEneTot);
+//	analysisManager->FillNtupleDColumn(0,32,fDEVAEneTot);
+//	analysisManager->FillNtupleDColumn(0,34,fCerenkovEneTot);
 
-	analysisManager->FillNtupleIColumn(0,37,fPbGlass_PulseHeight);
-	analysisManager->FillNtupleDColumn(0,38,fPbGlass_DepEne);
+//	analysisManager->FillNtupleIColumn(0,37,fPbGlass_PulseHeight);
+//	analysisManager->FillNtupleDColumn(0,38,fPbGlass_DepEne);
 
 	
 	
