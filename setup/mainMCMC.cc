@@ -33,140 +33,200 @@
 #include "G4UIExecutive.hh"
 #endif
 
+#include <stdio.h>      /* printf, NULL */
+#include <stdlib.h>
+
+using namespace std;
 
 int main(int argc,char** argv)
 {
 	
-  G4Random::setTheEngine(new CLHEP::RanecuEngine);
-  G4long seed = time(NULL);
-  G4Random::setTheSeed(seed);
+	G4Random::setTheEngine(new CLHEP::RanecuEngine);
+	G4long seed = time(NULL);
+	G4Random::setTheSeed(seed);
 	
 	G4bool MTFlag=FALSE;
-//#ifdef G4MULTITHREADED
+	//#ifdef G4MULTITHREADED
 #if 0
 	MTFlag=TRUE;
 	G4MTRunManager* runManager = new G4MTRunManager;
-  runManager->SetNumberOfThreads( G4Threading::G4GetNumberOfCores() );
+	runManager->SetNumberOfThreads( G4Threading::G4GetNumberOfCores() );
 #else
-  G4RunManager* runManager = new G4RunManager;
+	G4RunManager* runManager = new G4RunManager;
 #endif
 	
-	// FLAG DEFINITION TO CHOOSE THE DESIRED CONFIGURATION
+	// FLAG DEFINITION TO CHOOSE THE DESIRED CONFIGURATION - These are defaults, can be overridden by command line
 	G4bool CalibMuonBeamFlag=false;  //switching on this flag generates mu- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
 	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu- beam at the end of the target, to simulate the muon production: E in 15-30 GeV, along Z
-
 	G4bool ElectronBeamFlag=false;  //switching on this flag generates e- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
 	G4double BeamEnergy=45.*GeV; //Primary Beam Energy (18, 22, 26 GeV options for e+ calibration) - 45 GeV for real TB
 	G4bool SimpleFlag=false;
-
 	G4bool TargetFlag=true;
 	G4bool FlipFieldFlag=true; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
 	G4bool MagMapFlag=true;
 	G4bool StoreCaloEnDepFlag=false; //to disable scoring of energy deposition (gamma, e+, e-, total) in DEVA calorimeter (sparing ~15% of disk space)
-	// INITIALIZE
-
-	
-	//Flags to force use of externally generated primary files (for bhabha and muon pair production)
-	//Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
-	//These flags ovverride previous ones (CalibMuonBeamFlag, ElectronBeamFlag etc) and also BeamEnergy
+																	 //Flags to force use of externally generated primary files (for bhabha and muon pair production)
+																	 //Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
+																	 //These flags ovverride previous ones (CalibMuonBeamFlag, ElectronBeamFlag etc) and also BeamEnergy
 	G4bool ExtSourceFlagBha=false;
-	G4bool ExtSourceFlagMu=true;
+	G4bool ExtSourceFlagMu=false;
 	
 	//Flag to cut on output file: photons with energy lower than this value will not be written. Set negative to write them all
 	G4double RootCutThr=1*GeV;
+	G4double GeometryZoom=1; //Transverse zoom of trackers (Ts and Cs det)
 	
-	G4double GeometryZoom=10; //Transverse zoom of trackers (Ts and Cs det)
 	
+	G4bool VisFlag=false;
+	G4int NoOfPrimToGen=1000, Verbose=0;
+	G4String MacroName="";
+	G4String FileNameLabel="";
+	G4UIExecutive* ui = 0;
+	
+	
+	for(int i=1;i<argc;i++)
+		if(argv[i][0] =='-')
+		{
+			G4String option(argv[i]);
+			G4cout<<"option: "<<i<<" "<<option<<G4endl;
+			if(option.compare("-CalibMu")==0)
+			{
+				CalibMuonBeamFlag=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-ProdMu")==0)
+			{
+				ProdMuonBeamFlag=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-Ele")==0)
+			{
+				ElectronBeamFlag=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-BeamEne")==0)
+			{
+				BeamEnergy=strtod (argv[++i], NULL)*GeV;;
+			}
+			else if(option.compare("-Simple")==0)
+			{
+				SimpleFlag=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-Target")==0)
+			{
+				TargetFlag=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-FlipField")==0)
+			{
+				MagMapFlag=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-MapField")==0)
+			{
+				TargetFlag=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-Calo")==0)
+			{
+				StoreCaloEnDepFlag=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-ExtBhaBha")==0)
+			{
+				ExtSourceFlagBha=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-ExtMuMu")==0)
+			{
+				ExtSourceFlagMu=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-DetZoom")==0)
+			{
+				GeometryZoom=strtod (argv[++i], NULL);;
+			}
+			else if(option.compare("-NPrim")==0)
+			{
+				NoOfPrimToGen=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-Verbose")==0)
+			{
+				Verbose=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-Vis")==0)
+			{
+				VisFlag=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-Label")==0)
+			{
+				FileNameLabel= argv[++i];;
+			}
+		}
+		else
+		{
+			MacroName = argv[i]; //se ho trovato una macro (senza il "-" davanti) significa che NON voglio l'interattivo
+			VisFlag=false;
+		}
+	
+	//==================================================
+	G4bool FTFP = false; // standard Geant4 PhysicsList
+	G4bool channeling = false;
+	G4String ctype = "Si" ;  // "C" or "Si"
+													 //==================================================
+	B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagMapFlag, GeometryZoom);
+	detector->SetChanneling(channeling,ctype);
+	
+	if ( FTFP ){
+		G4PhysListFactory *physListFactory = new G4PhysListFactory();
+		G4VModularPhysicsList* physics =
+		physListFactory->GetReferencePhysList("FTFP_BERT_EMV"); // default
+		physics->SetVerboseLevel(1);
+		if(channeling){
+			G4GenericBiasingPhysics* biasingPhysics = new G4GenericBiasingPhysics();
+			physics->RegisterPhysics(new G4ChannelingPhysics());
+			//physics->ReplacePhysics(new G4EmStandardPhysicsSS());
+			biasingPhysics->PhysicsBiasAllCharged();
+			physics->RegisterPhysics(biasingPhysics);
+			//          detector->SetChanneling(true);
+		}
+		runManager->SetUserInitialization(physics);
+	} else { // use my own PhysicsList.cc
+		runManager->SetUserInitialization(new PhysicsList());
+	}
+	
+	runManager->SetUserInitialization(detector);
+	runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr));
 
-
-	
-	/*
-	 
-	 TFile *file = TFile::Open("LemmaMC_Tot45PosT_bias.root","RECREATE");
-	 TFile *file = TFile::Open("LemmaMC_Tot22PosNoT_simple.root","RECREATE");
-	 
-	 TFile *file = TFile::Open("LemmaMC_Pos22s_NoT_Ff_calo.root","RECREATE");  //Fixed field  flipped
-	 TFile *file = TFile::Open("LemmaMC_Pos22_NoT_M_calo.root","RECREATE");    //Map field not flipped
-	 
-	 
-	 TFile *file = TFile::Open("LemmaMC2018_MuMuBert_T_MfCurrent650_10k_PreStepZ.root","RECREATE");
-	 TFile *file = TFile::Open("LemmaMC2018_Pos45_T_MfCurrent650_10k_PreStepZ.root","RECREATE");
-	 
-	 */
-	
-//==================================================
-  G4bool FTFP = false; // standard Geant4 PhysicsList
-  G4bool channeling = false;
-  G4String ctype = "Si" ;  // "C" or "Si"
-//==================================================
-  B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagMapFlag, GeometryZoom);
-  detector->SetChanneling(channeling,ctype);
-  
-  if ( FTFP ){
-    G4PhysListFactory *physListFactory = new G4PhysListFactory();
-    G4VModularPhysicsList* physics = 
-      physListFactory->GetReferencePhysList("FTFP_BERT_EMV"); // default
-    physics->SetVerboseLevel(1);
-    if(channeling){
-      G4GenericBiasingPhysics* biasingPhysics = new G4GenericBiasingPhysics();
-      physics->RegisterPhysics(new G4ChannelingPhysics());
-      //physics->ReplacePhysics(new G4EmStandardPhysicsSS());
-      biasingPhysics->PhysicsBiasAllCharged();
-      physics->RegisterPhysics(biasingPhysics);
-      //          detector->SetChanneling(true);
-    }    
-    runManager->SetUserInitialization(physics);
-  } else { // use my own PhysicsList.cc 
-    runManager->SetUserInitialization(new PhysicsList());
-  }
-  
-  runManager->SetUserInitialization(detector);
-  runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr));
-	
-//	const G4Run* run=runManager->GetCurrentRun();
-//	G4cout<<"CIAO "<<run->GetNumberOfEventToBeProcessed()<<G4endl;
-//	runManager->SetNumberOfEventsToBeProcessed(17);
 	runManager->Initialize();  // init kernel
-	
 
 	
+	
 #ifdef G4VIS_USE
-  // Initialize visualization
-  G4VisManager* visManager = new G4VisExecutive;
-  visManager->Initialize();
+	// Initialize visualization
+	G4VisManager* visManager = new G4VisExecutive;
+	visManager->Initialize();
 #endif
-  
-  // Get the pointer to the User Interface manager
-  G4UImanager* UImanager = G4UImanager::GetUIpointer();
-  
-  if (argc!=1) {
-    // batch mode
-    G4String command = "/control/execute ";
-    G4String fileName = argv[1];
-    UImanager->ApplyCommand(command+fileName);
-//		G4String Mycommand = "/run/beamOn ";
-//		G4String NoOfPrimToGen = argv[1];
-//		UImanager->ApplyCommand(Mycommand+NoOfPrimToGen);
-
-    //UImanager->ApplyCommand("/control/execute init.mac"); 
-  }
-  else {
-    // interactive mode : define UI session
-#ifdef G4UI_USE
-    G4UIExecutive* ui = new G4UIExecutive(argc, argv);
-#ifdef G4VIS_USE
-    UImanager->ApplyCommand("/control/execute init_vis.mac"); 
-#else
-    UImanager->ApplyCommand("/control/execute init.mac"); 
-#endif
-    ui->SessionStart();
-    delete ui;
-#endif
-  }
+	
+	// Get the pointer to the User Interface manager
+	G4UImanager* UImanager = G4UImanager::GetUIpointer();
+	
+	if ( VisFlag ) { //Prepare for vis
+		ui = new G4UIExecutive(argc, argv);
+	}
+	
+	if ( ! ui ) {
+		// batch mode
+		if (MacroName!="") {
+			G4String command = "/control/execute ";
+			//		G4String fileName = argv[13];
+			UImanager->ApplyCommand(command+MacroName);
+		} else {
+			UImanager->ApplyCommand("/tracking/verbose " + std::to_string(Verbose));
+			UImanager->ApplyCommand("/run/beamOn " + std::to_string(NoOfPrimToGen));
+			//			UImanager->ApplyCommand("/run/beamOn 100");
+		}
+	}
+	else {
+		// interactive mode
+		UImanager->ApplyCommand("/control/execute init_vis.mac");
+		ui->SessionStart();
+		delete ui;
+	}
 	
 	//RETRIEVE RUN TO GET THE NUMBER OF EVENTS I AM SIMULATING
 	const G4Run* run=runManager->GetCurrentRun();
-//	run->SetNumberOfEventToBeProcessed(17); // does not work
+	//	run->SetNumberOfEventToBeProcessed(17); // does not work
 	G4String OutputFilename = "LemmaMC2018";
 	G4String OutputFilenameFirstNote ="";
 	OutputFilename.append(OutputFilenameFirstNote);
@@ -194,14 +254,15 @@ int main(int argc,char** argv)
 	if (GeometryZoom!=1) OutputFilename.append("_Z" + std::to_string(G4int (GeometryZoom) ));
 	
 	G4String OutputFilenameSecondNote ="";
+	OutputFilename.append("_" + FileNameLabel);
 	OutputFilename.append("_N" + std::to_string ((G4int) (run->GetNumberOfEventToBeProcessed())));
 	OutputFilename.append(OutputFilenameSecondNote);
 	
 #ifdef G4VIS_USE
-  delete visManager;
+	delete visManager;
 #endif
-  delete runManager;
-
+	delete runManager;
+	
 	if (MTFlag) {
 		G4cout<<
 		"\n ##################################### \n ##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\")\n ;TFile *file = TFile::Open(\""<< OutputFilename<<".root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n file->Write();\n ##################################### \n ##################################### "
@@ -214,8 +275,8 @@ int main(int argc,char** argv)
 		<<G4endl;
 		
 	}
-
+	
 	return 0;
 	
-
+	
 }

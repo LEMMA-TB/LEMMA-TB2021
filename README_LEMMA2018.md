@@ -140,6 +140,7 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 
 2018.06.15 by collamaf
 - Now the numbere of primaries generated is stored in the suggested filename
+- Deep reorganation of main: now all arguments can be passed by command line. Also number of primaries. Macros are no more needed!
 
 
 `cp link.txt CMakeFiles/mainMCMC.dir/`
