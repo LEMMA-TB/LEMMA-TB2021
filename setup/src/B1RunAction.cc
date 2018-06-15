@@ -46,16 +46,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	
 	analysisManager->OpenFile(filename);
 	analysisManager->CreateNtuple("LEMMA", "LemmaMCNtuple");
-	/*
-	analysisManager->CreateNtupleDColumn("BeamX");   //0
-	analysisManager->CreateNtupleDColumn("BeamY");   //1
-	analysisManager->CreateNtupleDColumn("BeamZ");   //2
-	analysisManager->CreateNtupleDColumn("BeamCX");   //3
-	analysisManager->CreateNtupleDColumn("BeamCY");   //4
-	analysisManager->CreateNtupleDColumn("BeamCZ");   //5
-	analysisManager->CreateNtupleDColumn("BeamEne");   //6
-	analysisManager->CreateNtupleDColumn("BeamPart");   //7
-*/
+	
 	analysisManager->CreateNtupleDColumn(0,"BeamX", RunVectorBeamX);   //0
 	analysisManager->CreateNtupleDColumn(0,"BeamY", RunVectorBeamY);   //1
 	analysisManager->CreateNtupleDColumn(0,"BeamZ", RunVectorBeamZ);   //2
@@ -91,37 +82,8 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(0,"Step", RunVectorStep);
 	analysisManager->CreateNtupleDColumn(0,"InextStep", RunVectorInextStep);
 	analysisManager->CreateNtupleDColumn(0,"CopyNb", RunVectorCopyNb);
-	
 	analysisManager->CreateNtupleDColumn(0,"Calo_EnDep", RunVectorCaloEnDep);
-
-#if 0
-	analysisManager->CreateNtupleDColumn("PbGlass_DepEneTot");   //32
-
-	analysisManager->CreateNtupleDColumn(0,"PbGlass_PulseHeight", RunVectorDEVADepo);
-	analysisManager->CreateNtupleDColumn("Cerenkov_DepEneTot");   //34
-
-	analysisManager->CreateNtupleIColumn(0,"Cerenkov_PulseHeight", RunVectorCerenkovDepoOpt);
-	analysisManager->CreateNtupleDColumn(0,"Cerenkov_DepEne", RunVectorCerenkovDepo);
-//	analysisManager->CreateNtupleIColumn("PbGlass_PulseHeight");   //37
-//	analysisManager->CreateNtupleDColumn("PbGlass_DepEne");   //38
-
-	
-	//added on 15.12.2017 @ Padova to compare with data analysis of enetring points in DEVA
-
-	analysisManager->CreateNtupleDColumn(0,"DEVAInX", RunVectorDEVAInX);
-	analysisManager->CreateNtupleDColumn(0,"DEVAInY", RunVectorDEVAInY);
-	analysisManager->CreateNtupleDColumn(0,"DEVAInZ", RunVectorDEVAInZ);
-
-//	analysisManager->CreateNtupleDColumn(0,"nhits", RunVectorNHits);
-//	analysisManager->CreateNtupleDColumn(0,"itrack", RunVectorItrack);
-#endif
-	
 	analysisManager->CreateNtupleIColumn(0,"Proc", RunVectorProcess);
-
-	
-	analysisManager->CreateNtupleDColumn(0,"Scint72DepEne", RunVectorScint72DepEne);
-	analysisManager->CreateNtupleDColumn(0,"Scint74DepEne", RunVectorScint74DepEne);
-
 	analysisManager->CreateNtupleDColumn(0,"BCross", RunVectorCross);
 
 	
@@ -145,7 +107,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	
 	
 	// Creating histograms
-	analysisManager->CreateH1("gamma-gamma","Energy",10,0.,45000.); // id=0 <=== !!!
+//	analysisManager->CreateH1("gamma-gamma","Energy",10,0.,45000.); // id=0 <=== !!!
 }
 
 void B1RunAction::EndOfRunAction(const G4Run* run){

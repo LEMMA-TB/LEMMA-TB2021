@@ -64,7 +64,7 @@ int main(int argc,char** argv)
 	G4bool TargetFlag=true;
 	G4bool FlipFieldFlag=true; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
 	G4bool MagMapFlag=true;
-	G4bool StoreCaloEnDepFlag=false; //to disable scoring of energy deposition (gamma, e+, e-, total) in DEVA calorimeter (sparing ~15% of disk space)
+	G4bool StoreCaloEnDepFlag=false; //to disable scoring of energy deposition (gamma, e+, e-, total) in calorimeters (sparing ~15% of disk space)
 																	 //Flags to force use of externally generated primary files (for bhabha and muon pair production)
 																	 //Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
 																	 //These flags ovverride previous ones (CalibMuonBeamFlag, ElectronBeamFlag etc) and also BeamEnergy

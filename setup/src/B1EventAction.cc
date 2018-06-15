@@ -62,21 +62,6 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetCaloEnDep()).clear();
 	(fRunAction->GetCaloEnDep()).assign(18,0);
 	
-	(fRunAction->GetDEVADepo()).clear();
-	(fRunAction->GetCerenkovDepo()).clear();
-	(fRunAction->GetCerenkovDepoOpt()).clear();
-
-	(fRunAction->GetDEVADepo()).resize(6);
-	(fRunAction->GetCerenkovDepo()).resize(4);
-	(fRunAction->GetCerenkovDepoOpt()).resize(4);
-
-	(fRunAction->GetDEVAInX()).clear();
-	(fRunAction->GetDEVAInY()).clear();
-	(fRunAction->GetDEVAInZ()).clear();
-
-	(fRunAction->GetScint72DepEne()).clear();
-	(fRunAction->GetScint74DepEne()).clear();
-
 	(fRunAction->GetVectorCross()).clear();
 
 	
@@ -90,45 +75,8 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetBeamInfoPart()).clear();
 
 	
-	fDEVAEneTot1=0;
-	fDEVAEneTot2=0;
-	fDEVAEneTot3=0;
-	fDEVAEneTot4=0;
-	fDEVAEneTot5=0;
-	fDEVAEneTot6=0;
-	fDEVAEneTot=0;
-	
-	fDEVAEneFot1=0;
-	fDEVAEneFot2=0;
-	fDEVAEneFot3=0;
-	fDEVAEneFot4=0;
-	fDEVAEneFot5=0;
-	fDEVAEneFot6=0;
-	fDEVAEneFot=0;
-	
-	fDEVAEnePos1=0;
-	fDEVAEnePos2=0;
-	fDEVAEnePos3=0;
-	fDEVAEnePos4=0;
-	fDEVAEnePos5=0;
-	fDEVAEnePos6=0;
-	fDEVAEnePos=0;
-	
-	fDEVAEneEle1=0;
-	fDEVAEneEle2=0;
-	fDEVAEneEle3=0;
-	fDEVAEneEle4=0;
-	fDEVAEneEle5=0;
-	fDEVAEneEle6=0;
-	fDEVAEneEle=0;
-	
 	fNHits=0;
-	fPbGlass_PulseHeight=0;
-	fPbGlass_DepEne=0;
-	fCerenkovEneTot=0;
-	
-	fNCerenkov=0;
-	fNCerenkovPbGlass=0;
+
 }
 
 void B1EventAction::EndOfEventAction(const G4Event*){
@@ -136,7 +84,6 @@ void B1EventAction::EndOfEventAction(const G4Event*){
 	auto analysisManager = G4AnalysisManager::Instance();
 
 	analysisManager->FillNtupleDColumn(0,8,fNHits);
-//	analysisManager->FillNtupleDColumn(0,32,fDEVAEneTot);
 //	analysisManager->FillNtupleDColumn(0,34,fCerenkovEneTot);
 
 //	analysisManager->FillNtupleIColumn(0,37,fPbGlass_PulseHeight);

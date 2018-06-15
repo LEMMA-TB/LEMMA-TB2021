@@ -25,8 +25,6 @@ class B1RunAction : public G4UserRunAction
 	std::vector<G4double>& GetBeamCZ() {return RunVectorBeamCZ; }
 	std::vector<G4double>& GetBeamEne() {return RunVectorBeamEne; }
 	std::vector<G4double>& GetBeamPart() {return RunVectorBeamPart; }
-
-	
 	
 	std::vector<G4double>& GetSubdet() {return RunVectorSubdet; }
 	std::vector<G4double>& GetIdp() {return RunVectorIdp; }
@@ -55,21 +53,8 @@ class B1RunAction : public G4UserRunAction
 	
 	std::vector<G4double>& GetCaloEnDep() {return RunVectorCaloEnDep; }
 
-	
-	std::vector<G4double>& GetDEVADepo() {return RunVectorDEVADepo; }
-	std::vector<G4double>& GetCerenkovDepo() {return RunVectorCerenkovDepo; }
-	std::vector<G4int>& GetCerenkovDepoOpt() {return RunVectorCerenkovDepoOpt; }
-
-	std::vector<G4double>& GetDEVAInX() {return RunVectorDEVAInX; }
-	std::vector<G4double>& GetDEVAInY() {return RunVectorDEVAInY; }
-	std::vector<G4double>& GetDEVAInZ() {return RunVectorDEVAInZ; }
-	
-	std::vector<G4double>& GetScint72DepEne() {return RunVectorScint72DepEne; }
-	std::vector<G4double>& GetScint74DepEne() {return RunVectorScint74DepEne; }
-
 	std::vector<G4double>& GetVectorCross() {return RunVectorCross; }
 
-	
 	std::vector<G4double>& GetBeamInfoX() {return BeamInfoX; }
 	std::vector<G4double>& GetBeamInfoY() {return BeamInfoY; }
 	std::vector<G4double>& GetBeamInfoZ() {return BeamInfoZ; }
@@ -121,16 +106,8 @@ private:
 	
 	std::vector<G4double> RunVectorCaloEnDep;
 	
-	std::vector<G4double> RunVectorDEVADepo;
-	std::vector<G4double> RunVectorCerenkovDepo;
-	std::vector<G4int> RunVectorCerenkovDepoOpt;
-
-	std::vector<G4double> RunVectorDEVAInX;
-	std::vector<G4double> RunVectorDEVAInY;
-	std::vector<G4double> RunVectorDEVAInZ;
-	
-	std::vector<G4double> RunVectorScint72DepEne;
-	std::vector<G4double> RunVectorScint74DepEne;
+//	std::vector<G4double> RunVectorCerenkovDepo;
+//	std::vector<G4int> RunVectorCerenkovDepoOpt;
 
 	std::vector<G4double> RunVectorCross;
 

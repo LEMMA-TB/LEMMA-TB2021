@@ -118,7 +118,6 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 
 	
 	
-	//Score energy deposition into DEVA elements (if fStoreCaloEnDepFlag true in main!)
 	G4int CopyNb=step->GetPostStepPoint()->GetTouchableHandle()->GetCopyNumber();
 	G4double DepEne=step->GetTotalEnergyDeposit()/GeV;
 	G4int Pid=step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding();
@@ -154,11 +153,11 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 
 						// se sono nel detector di PbGlass
 						if (subdet==79 && CerFotLambda>0) {
-							(fEventAction->AddPbGlassCere(1)); //incremento di 1 il contatore di fotoni cerenkov
+//							(fEventAction->AddPbGlassCere(1)); //incremento di 1 il contatore di fotoni cerenkov
 						}
 						// se sono nel detector di Cerenkov
 						else if (subdet==80 && CerFotLambda>CerFotLambdaCut) {
-							(runStepAction->GetCerenkovDepoOpt())[CopyNb]+=1; //incremento di 1 il contatore di fotoni cerenkov del rispettivo canale
+//							(runStepAction->GetCerenkovDepoOpt())[CopyNb]+=1; //incremento di 1 il contatore di fotoni cerenkov del rispettivo canale
 						}
 //						G4cout<<"DEBUG Cerenkov!!! Energia fotone= "<<CerFotEne<<", lamda [um]= "<< CerFotLambda<<", subdet= "<<subdet<<  G4endl;
 					}
