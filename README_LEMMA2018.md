@@ -139,9 +139,12 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Scintillators where for some reason of Silicon instead of plastic... corrected
 
 2018.06.15 by collamaf
-- Now the numbere of primaries generated is stored in the suggested filename
+- Now the number of primaries generated is stored in the suggested filename
 - Deep reorganation of main: now all arguments can be passed by command line. Also number of primaries. Macros are no more needed!
 - Further cleanings: removed all references to DEVA
+
+2018.06.22 by collamaf
+- Now the map of channels into Calo_EnDep is defined in main and given to SteppAc and RunAct and saved to a TH1F in the output file to be easily retrieved by Analysis (can be drawn with CaloMap->Draw("HISTOtext") )
 
 
 
@@ -150,6 +153,7 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 
 TODO LIST
 - Make it more elegant how to select between ST and MT running
+- Capire perche l'info in "Beam" nella tupla LEMMA non si riferisce alla vera particella di quel vertice ma sempre e solo all'elettrone (in caso di generatore esterno)
 
 
 

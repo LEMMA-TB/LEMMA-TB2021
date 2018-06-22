@@ -11,7 +11,7 @@ class B1RunAction;
 class B1EventAction : public G4UserEventAction
 {
 public:
-  B1EventAction(B1RunAction* runAction);
+  B1EventAction(B1RunAction* runAction, G4int NOfCaloChannels);
   virtual ~B1EventAction();    
   virtual void BeginOfEventAction(const G4Event* evt);
   virtual void EndOfEventAction(const G4Event* evt);
@@ -47,6 +47,7 @@ private:
 	G4double fBeamCY;
 	G4double fBeamCZ;
 	G4int fNHits;
+	G4int fNOfCaloChannels;
 //	G4int NHitsCounter;
 
 //	G4int fNCerenkov;

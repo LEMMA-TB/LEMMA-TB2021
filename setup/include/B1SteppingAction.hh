@@ -14,7 +14,7 @@ class G4LogicalVolume;
 class B1SteppingAction : public G4UserSteppingAction
 {
 public:
-	B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4double EThr=-1*GeV);
+	B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4double EThr, const std::vector<G4int> & ChannelMap);
 	virtual ~B1SteppingAction();
 	// method from the base class
 	virtual void UserSteppingAction(const G4Step*);
@@ -56,7 +56,8 @@ private:
 	
 //	static const int ChannelMapRaw[]={410, 420, 430, 440, 450, 460, 510, 511, 512, 513, 514, 515, 520, 521, 522, 523, 524, 525};
 //	std::vector<int> ChannelMap(ChannelMapRaw, ChannelMapRaw + sizeof(ChannelMapRaw)/sizeof(ChannelMapRaw[0]));
-	std::vector<int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600, 5100, 5101, 5102, 5103, 5104, 5105, 5200, 5201, 5202, 5203, 5204, 5205};
+//	std::vector<int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600, 5100, 5101, 5102, 5103, 5104, 5105, 5200, 5201, 5202, 5203, 5204, 5205};
+	std::vector<int> fChannelMap;
 };
 
 #endif

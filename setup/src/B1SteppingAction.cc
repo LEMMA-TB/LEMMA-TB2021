@@ -13,7 +13,7 @@
 #include "G4ProcessType.hh"
 #include "G4OpticalPhoton.hh"
 
-B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4double EThr)
+B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4double EThr, const std::vector<G4int> & ChannelMap)
 : G4UserSteppingAction(),
 fEventAction(eventAction),
 runStepAction(runAction),
@@ -42,7 +42,8 @@ fScoringVolume_Ce2(0),
 fScoringVolume_Mu1(0),
 fScoringVolume_Mu2(0),
 fStoreCaloEnDepFlag(StoreCaloEnDepFlag),
-fEThr(EThr)
+fEThr(EThr),
+fChannelMap(ChannelMap)
 {}
 
 B1SteppingAction::~B1SteppingAction()
@@ -129,11 +130,11 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	if (fStoreCaloEnDepFlag && ((subdet>=41 && subdet <=46) || subdet==51 || subdet==52)) {
 		std::vector<G4int>::iterator it;
 		G4int CaloChannelToSearch=100*subdet+CopyNb;
-		it = find(ChannelMap.begin(), ChannelMap.end(),CaloChannelToSearch); //cerco l'attuale isotopo nella lista di quelli già visti
-		if (it != ChannelMap.end()) { //se l'isotopo c'era già
-			(runStepAction->GetCaloEnDep())[it-ChannelMap.begin()]+=DepEne;
+		it = find(fChannelMap.begin(), fChannelMap.end(),CaloChannelToSearch); //cerco l'attuale isotopo nella lista di quelli già visti
+		if (it != fChannelMap.end()) { //se l'isotopo c'era già
+			(runStepAction->GetCaloEnDep())[it-fChannelMap.begin()]+=DepEne;
 		}
-		if (0)		G4cout<<"DEBUG !!! subdet= "<<subdet<<" Nome= "<<step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName()<<" CopyNb="<<CopyNb<<" Cerco canale "<<CaloChannelToSearch<<" Trovato in pos= "<<(G4int) (it-ChannelMap.begin())<<G4endl;
+		if (0)		G4cout<<"DEBUG !!! subdet= "<<subdet<<" Nome= "<<step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName()<<" CopyNb="<<CopyNb<<" Cerco canale "<<CaloChannelToSearch<<" Trovato in pos= "<<(G4int) (it-fChannelMap.begin())<<G4endl;
 
 	}
 #endif

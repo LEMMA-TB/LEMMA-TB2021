@@ -7,10 +7,11 @@
 #include "B5Analysis.hh"
 #include "B1RunAction.hh"
 
-B1EventAction::B1EventAction(B1RunAction* runAction)
+B1EventAction::B1EventAction(B1RunAction* runAction, G4int NOfCaloChannels)
   : G4UserEventAction(),
 fRunAction(runAction),
-fNHits(0)
+fNHits(0),
+fNOfCaloChannels(NOfCaloChannels)
 {} 
 
 B1EventAction::~B1EventAction(){}
@@ -60,7 +61,7 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetCopyNb()).clear();
 	
 	(fRunAction->GetCaloEnDep()).clear();
-	(fRunAction->GetCaloEnDep()).assign(18,0);
+	(fRunAction->GetCaloEnDep()).assign(fNOfCaloChannels,0);
 	
 	(fRunAction->GetVectorCross()).clear();
 

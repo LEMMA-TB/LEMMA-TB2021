@@ -35,6 +35,7 @@
 
 #include <stdio.h>      /* printf, NULL */
 #include <stdlib.h>
+#include <vector>
 
 using namespace std;
 
@@ -159,6 +160,9 @@ int main(int argc,char** argv)
 			VisFlag=false;
 		}
 	
+	
+	std::vector<G4int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600, 5100, 5101, 5102, 5103, 5104, 5105, 5200, 5201, 5202, 5203, 5204, 5205};
+	
 	//==================================================
 	G4bool FTFP = false; // standard Geant4 PhysicsList
 	G4bool channeling = false;
@@ -186,7 +190,7 @@ int main(int argc,char** argv)
 	}
 	
 	runManager->SetUserInitialization(detector);
-	runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr));
+	runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap));
 
 	runManager->Initialize();  // init kernel
 
@@ -254,7 +258,7 @@ int main(int argc,char** argv)
 	if (GeometryZoom!=1) OutputFilename.append("_Z" + std::to_string(G4int (GeometryZoom) ));
 	
 	G4String OutputFilenameSecondNote ="";
-	OutputFilename.append("_" + FileNameLabel);
+	if (FileNameLabel!="") OutputFilename.append("_" + FileNameLabel);
 	OutputFilename.append("_N" + std::to_string ((G4int) (run->GetNumberOfEventToBeProcessed())));
 	OutputFilename.append(OutputFilenameSecondNote);
 	

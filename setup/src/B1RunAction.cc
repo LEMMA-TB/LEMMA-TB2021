@@ -12,8 +12,8 @@
 #include "time.h"
 #include <sstream>
 
-B1RunAction::B1RunAction()
-: G4UserRunAction()
+B1RunAction::B1RunAction(const std::vector<G4int> & ChannelMap)
+: G4UserRunAction(), fChannelMap(ChannelMap)
 {}
 
 B1RunAction::~B1RunAction(){}
@@ -103,8 +103,13 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->FinishNtuple(0);
 
 	analysisManager->FinishNtuple(1);
-
 	
+	analysisManager->CreateH1("CaloMap","CaloMap",fChannelMap.size(),0.,fChannelMap.size());
+	analysisManager->SetH1XAxisTitle(0,"Channel");
+	analysisManager->SetH1YAxisTitle(0,"Detector-SubDet");
+
+	for (int ii=0; ii<(int)fChannelMap.size(); ii++)
+		analysisManager->FillH1(0, ii, fChannelMap[ii]);
 	
 	// Creating histograms
 //	analysisManager->CreateH1("gamma-gamma","Energy",10,0.,45000.); // id=0 <=== !!!
