@@ -111,6 +111,9 @@
 # To get nice view
 /vis/geometry/set/visibility World 0 false
 /vis/geometry/set/visibility Envelope 0 false
+/vis/geometry/set/visibility CaloTable1 0 false
+/vis/geometry/set/visibility CaloTable2 0 false
+
 #/vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/geometry/set/colour BP1 0 0.5 0.5 0.5 1
@@ -146,6 +149,12 @@
 /vis/geometry/set/colour Ce2SiO 0 1 1 1 1
 /vis/geometry/set/colour Mu1 0 0 1 0 1
 /vis/geometry/set/colour Mu2 0 0 1 0 1
+/vis/geometry/set/colour Ce1W 0 1 0 0  1
+/vis/geometry/set/colour Ce1SiO 0 0 1 0 1
+/vis/geometry/set/colour Ce2W 0 1 0 0  1
+/vis/geometry/set/colour Ce2SiO 0 0 1 0 1
+/vis/geometry/set/colour Ce1SiOtilt 0 0 1 0 1
+
 
 
 #/vis/geometry/set/colour [logic name] depth R G B opacity

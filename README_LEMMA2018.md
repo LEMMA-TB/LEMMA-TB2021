@@ -146,12 +146,16 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 2018.06.22 by collamaf
 - Now the map of channels into Calo_EnDep is defined in main and given to SteppAc and RunAct and saved to a TH1F in the output file to be easily retrieved by Analysis (can be drawn with CaloMap->Draw("HISTOtext") )
 
+2018.06.28 by collamaf
+- Completed the new structure for Cerenkov calos: added all channels and implemented the differences between the 2 detectors
+
 
 
 `cp link.txt CMakeFiles/mainMCMC.dir/`
 
 
 TODO LIST
+- Check scoring with new cerenkovs
 - Make it more elegant how to select between ST and MT running
 - Capire perche l'info in "Beam" nella tupla LEMMA non si riferisce alla vera particella di quel vertice ma sempre e solo all'elettrone (in caso di generatore esterno)
 

@@ -163,16 +163,28 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	// Cerenkov counter and various elements:
 	G4double Cerenkov_sizeX = 30*cm;
 	G4double Cerenkov_sizeY = 30*cm;
-	G4double Cerenkov_sizeZ = 86.86*cm;
+	G4double Cerenkov_sizeZ = 891.6*mm; //was 86.6
 	G4double Cerenkov_AluZ = 4*mm;
-	G4double Cerenkov_SiOX = 29.5*cm;
-	G4double Cerenkov_SiOZ = 25.4*mm;
+	G4double Cerenkov_SiOX = 8*2.54*cm; //8 inch
+	G4double Cerenkov_SiOZ = 2.54*cm; //1 inch
 	G4double Cerenkov_SiOY = Cerenkov_SiOZ;
+	G4double Cerenkov_SiOXtilt = 2.54*cm; //1 inch
+	G4double Cerenkov_SiOZtilt = 2.54*cm; //1 inch
+	G4double Cerenkov_SiOYtilt = 3*2.54*cm; //3 inch
+
 	G4double Cerenkov_AirZ = 209.4*mm;
 	G4double Cerenkov_Air2Z = 100*mm;
 	G4double Cerenkov_FeX = Cerenkov_SiOX;
 	G4double Cerenkov_FeY = 3*Cerenkov_SiOY;
 	G4double Cerenkov_FeZ = 500*mm;
+	
+	G4double Cerenkov_DistAluFirst=45*mm;
+	G4double Cerenkov_DistFirst=4*mm;
+	G4double Cerenkov_DistAroundSiO=2.4*mm;
+	G4double Cerenkov_Wx=8*25.4*mm;
+	G4double Cerenkov_Wy=3*25.4*mm;
+	G4double Cerenkov_Wz=10*mm;
+
 	
 	//New Muon Chambers:
 	G4double Mu_sizeX=50*cm; //was 65 until 2018.05.11
@@ -345,18 +357,147 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	// ################################
 	// CERENKOV DETECTOR ELEMENTS
 //	G4ThreeVector posCerenkov  = G4ThreeVector(-40*cm-LeadGlass_sizeX/2.,0.,zCerenkov+ Cerenkov_sizeZ/2.+DistLeadCerenkov);  //centered behing LeadGlass
+	G4double zCe01Si[8];
 	
+	zCe01Si[0]=-Cerenkov_sizeZ/2.+Cerenkov_AluZ + Cerenkov_DistAluFirst+ Cerenkov_DistFirst + Cerenkov_DistAroundSiO +Cerenkov_SiOZ/2;
+	zCe01Si[1]=zCe01Si[0] +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 3*Cerenkov_Wz + Cerenkov_SiOZ/2 ;
+	zCe01Si[2]=zCe01Si[1] +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 5*Cerenkov_Wz + Cerenkov_SiOZ/2 ;
+	zCe01Si[3]=zCe01Si[2] +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 5*Cerenkov_Wz + Cerenkov_SiOZ/2 ;
+	zCe01Si[4]=zCe01Si[3] +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 5*Cerenkov_Wz + Cerenkov_SiOZ/2 ;
+	zCe01Si[5]=zCe01Si[4] +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 5*Cerenkov_Wz + Cerenkov_SiOZ/2 ;
+	zCe01Si[6]=zCe01Si[5] +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 30*Cerenkov_Wz + Cerenkov_SiOZ/2 ;
+	zCe01Si[7]=zCe01Si[6] +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 3*Cerenkov_Wz + Cerenkov_SiOZ/2 ;
+	
+	G4double yCe01Si[3] ={-Cerenkov_SiOY, 0, Cerenkov_SiOY};
+	
+#if 1
+	// First 3 slices: 0, 1, 2
+	G4double zCe01W[56];
+	zCe01W[0]=zCe01Si[0] + Cerenkov_SiOZ/2 + Cerenkov_DistAroundSiO + Cerenkov_Wz/2.;
+	zCe01W[1]=zCe01W[0] + Cerenkov_Wz;
+	zCe01W[2]=zCe01W[1] + Cerenkov_Wz;
+	
+	// 5 slices: 3, 4, 5, 6, 7
+	zCe01W[3]=zCe01Si[1] + Cerenkov_SiOZ/2 + Cerenkov_DistAroundSiO + Cerenkov_Wz/2.;
+	for (int ii=0; ii<4; ii++) zCe01W[4+ii]=zCe01W[3] + (1+ii)*Cerenkov_Wz;
+	
+	// 5 slices: 8, 9, 10, 11, 12
+	zCe01W[8]=zCe01Si[2] + Cerenkov_SiOZ/2 + Cerenkov_DistAroundSiO + Cerenkov_Wz/2.;
+	for (int ii=0; ii<4; ii++) zCe01W[9+ii]=zCe01W[8] + (1+ii)*Cerenkov_Wz;
+	
+	// 5 slices:  13, 14, 15, 16, 17
+	zCe01W[13]=zCe01Si[3] + Cerenkov_SiOZ/2 + Cerenkov_DistAroundSiO + Cerenkov_Wz/2.;
+	for (int ii=0; ii<4; ii++) zCe01W[14+ii]=zCe01W[13] + (1+ii)*Cerenkov_Wz;
+	
+	// 5 slices:  18, 19, 20, 21, 22
+	zCe01W[18]=zCe01Si[4] + Cerenkov_SiOZ/2 + Cerenkov_DistAroundSiO + Cerenkov_Wz/2.;
+	for (int ii=0; ii<4; ii++) zCe01W[19+ii]=zCe01W[18] + (1+ii)*Cerenkov_Wz;
+	
+	
+	// 30 slices:  from 23 to 52
+	zCe01W[23]=zCe01Si[5] + Cerenkov_SiOZ/2 + Cerenkov_DistAroundSiO + Cerenkov_Wz/2.;
+	for (int ii=0; ii<29; ii++) zCe01W[24+ii]=zCe01W[23] + (1+ii)*Cerenkov_Wz;
+	
+	// last 3 slices: 53, 54, 55
+	zCe01W[53]=zCe01Si[6] + Cerenkov_SiOZ/2 + Cerenkov_DistAroundSiO + Cerenkov_Wz/2.;
+	for (int ii=0; ii<2; ii++) zCe01W[54+ii]=zCe01W[53] + (1+ii)*Cerenkov_Wz;
+#endif
+	
+	G4double xCe01SiTilt[8];
+	G4double yCe01SiTilt[8];
+	
+	for (int ii=0; ii<8; ii++) {
+		xCe01SiTilt[ii]=(-3.5+ii)*Cerenkov_SiOXtilt;
+		yCe01SiTilt[ii]=0;
+
+	}
+//		for (int ii=0; ii<8; ii++) G4cout<<"CIAONE x= "<< xCe01SiTilt[ii]<<" y= "<<yCe01SiTilt[ii]<<G4endl;
+
+	
+	/*
+	 
+	G4double zCeSiO1=-Cerenkov_sizeZ/2.+Cerenkov_AluZ + Cerenkov_DistAluFirst+ Cerenkov_DistFirst + Cerenkov_DistAroundSiO +Cerenkov_SiOZ/2;
+	G4double zCeSiO2=zCeSiO1 +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 3*Cerenkov_W_z + Cerenkov_SiOZ/2 ;
+	G4double zCeSiO3=zCeSiO2 +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 5*Cerenkov_W_z + Cerenkov_SiOZ/2 ;
+	G4double zCeSiO4=zCeSiO3 +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 5*Cerenkov_W_z + Cerenkov_SiOZ/2 ;
+	G4double zCeSiO5=zCeSiO4 +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 5*Cerenkov_W_z + Cerenkov_SiOZ/2 ;
+	G4double zCeSiO6=zCeSiO5 +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 5*Cerenkov_W_z + Cerenkov_SiOZ/2 ;
+	G4double zCeSiO7=zCeSiO6 +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 30*Cerenkov_W_z + Cerenkov_SiOZ/2 ;
+	G4double zCeSiO8=zCeSiO7 +Cerenkov_SiOZ/2 + 2*Cerenkov_DistAroundSiO + 3*Cerenkov_W_z + Cerenkov_SiOZ/2 ;
+
+	G4cout<<"CIAONE zCeSiO1= "<<zCeSiO1/mm<<G4endl;
+	G4cout<<"zCeSiO2= "<<zCeSiO2/mm<<G4endl;
+	G4cout<<"zCeSiO3= "<<zCeSiO3/mm<<G4endl;
+	G4cout<<"zCeSiO4= "<<zCeSiO4/mm<<G4endl;
+	G4cout<<"zCeSiO5= "<<zCeSiO5/mm<<G4endl;
+	G4cout<<"zCeSiO6= "<<zCeSiO6/mm<<G4endl;
+	G4cout<<"zCeSiO7= "<<zCeSiO7/mm<<G4endl;
+	G4cout<<"zCeSiO8= "<<zCeSiO8/mm<<G4endl;
+*/
 	G4ThreeVector posCeAlu1  = G4ThreeVector(0, 0,-Cerenkov_sizeZ/2.+Cerenkov_AluZ/2.); //in Cerenkov mother volume
+
+	G4ThreeVector *posCeSiO[8][3];
+	for (int ii=0; ii<8; ii++ ) {
+		for (int jj=0; jj<3; jj++) posCeSiO[ii][jj]= new G4ThreeVector(0,yCe01Si[jj],zCe01Si[ii]);
+	}
+#if 1
+	G4ThreeVector *posCeW[56];
+	for (int ii=0; ii<56; ii++ ) {
+		posCeW[ii]= new G4ThreeVector(0,0,zCe01W[ii]);
+	}
+#endif
 	
-	G4ThreeVector posCeSiO1A  = G4ThreeVector(0, -Cerenkov_SiOY,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ/2); //in Cerenkov mother volume
-	G4ThreeVector posCeSiO1B  = G4ThreeVector(0, 0,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ/2); //in Cerenkov mother volume
-	G4ThreeVector posCeSiO1C  = G4ThreeVector(0, +Cerenkov_SiOY,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ/2); //in Cerenkov mother volume
+#if 1
+	G4ThreeVector *posCeSiOTilt[8][2];
+	for (int ii=0; ii<8; ii++ ) {
+		posCeSiOTilt[ii][0]= new G4ThreeVector(xCe01SiTilt[ii],yCe01SiTilt[ii],zCe01Si[0]);
+		posCeSiOTilt[ii][1]= new G4ThreeVector(xCe01SiTilt[ii],yCe01SiTilt[ii],zCe01Si[7]);
+	}
+#endif
+	
+	/*
+	G4ThreeVector posCeSiO1A  = G4ThreeVector(0, -Cerenkov_SiOY, zCeSiO1); //in Cerenkov mother volume
+	G4ThreeVector posCeSiO1B  = G4ThreeVector(0, 0,zCeSiO1); //in Cerenkov mother volume
+	G4ThreeVector posCeSiO1C  = G4ThreeVector(0, +Cerenkov_SiOY,zCeSiO1); //in Cerenkov mother volume
+	
+	G4ThreeVector posCeSiO2A=G4ThreeVector(0, -Cerenkov_SiOY,zCeSiO2);
+	G4ThreeVector posCeSiO2B=G4ThreeVector(0, 0,zCeSiO2);
+	G4ThreeVector posCeSiO2C=G4ThreeVector(0, Cerenkov_SiOY,zCeSiO2);
+	
+	G4ThreeVector posCeSiO3A=G4ThreeVector(0, -Cerenkov_SiOY,zCeSiO3);
+	G4ThreeVector posCeSiO3B=G4ThreeVector(0, 0,zCeSiO3);
+	G4ThreeVector posCeSiO3C=G4ThreeVector(0, Cerenkov_SiOY,zCeSiO3);
+	
+	G4ThreeVector posCeSiO4A=G4ThreeVector(0, -Cerenkov_SiOY,zCeSiO4);
+	G4ThreeVector posCeSiO4B=G4ThreeVector(0, 0,zCeSiO4);
+	G4ThreeVector posCeSiO4C=G4ThreeVector(0, Cerenkov_SiOY,zCeSiO4);
+	
+	G4ThreeVector posCeSiO5A=G4ThreeVector(0, -Cerenkov_SiOY,zCeSiO5);
+	G4ThreeVector posCeSiO5B=G4ThreeVector(0, 0,zCeSiO5);
+	G4ThreeVector posCeSiO5C=G4ThreeVector(0, Cerenkov_SiOY,zCeSiO5);
+	
+	G4ThreeVector posCeSiO6A=G4ThreeVector(0, -Cerenkov_SiOY,zCeSiO6);
+	G4ThreeVector posCeSiO6B=G4ThreeVector(0, 0,zCeSiO6);
+	G4ThreeVector posCeSiO6C=G4ThreeVector(0, Cerenkov_SiOY,zCeSiO6);
+	
+	G4ThreeVector posCeSiO7A=G4ThreeVector(0, -Cerenkov_SiOY,zCeSiO7);
+	G4ThreeVector posCeSiO7B=G4ThreeVector(0, 0,zCeSiO7);
+	G4ThreeVector posCeSiO7C=G4ThreeVector(0, Cerenkov_SiOY,zCeSiO7);
+	
+	G4ThreeVector posCeSiO8A=G4ThreeVector(0, -Cerenkov_SiOY,zCeSiO8);
+	G4ThreeVector posCeSiO8B=G4ThreeVector(0, 0,zCeSiO8);
+	G4ThreeVector posCeSiO8C=G4ThreeVector(0, Cerenkov_SiOY,zCeSiO8);
+	*/
 	
 	G4ThreeVector posCeFe  = G4ThreeVector(0, 0,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ+Cerenkov_AirZ+Cerenkov_FeZ/2.); //in Cerenkov mother volume
 	
+	/*
 	G4ThreeVector posCeSiO2A  = G4ThreeVector(0, -Cerenkov_SiOY,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ+Cerenkov_AirZ+Cerenkov_FeZ +Cerenkov_Air2Z +Cerenkov_SiOZ/2.); //in Cerenkov mother volume
 	G4ThreeVector posCeSiO2B  = G4ThreeVector(0, 0,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ+Cerenkov_AirZ+Cerenkov_FeZ +Cerenkov_Air2Z +Cerenkov_SiOZ/2.); //in Cerenkov mother volume
 	G4ThreeVector posCeSiO2C  = G4ThreeVector(0, +Cerenkov_SiOY,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ+Cerenkov_AirZ+Cerenkov_FeZ +Cerenkov_Air2Z +Cerenkov_SiOZ/2.); //in Cerenkov mother volume
+	*/
+	
+
 	
 	G4ThreeVector posCeAlu2  = G4ThreeVector(0, 0,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ+Cerenkov_AirZ+Cerenkov_FeZ +Cerenkov_Air2Z +Cerenkov_SiOZ+Cerenkov_AluZ/2.); //in Cerenkov mother volume
 																																																																																						//##################################
@@ -391,6 +532,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4Material* plastica = nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE");
 	G4Material* alluminium = nist->FindOrBuildMaterial("G4_ALUMINUM_OXIDE");
 	G4Material* piombo = nist->FindOrBuildMaterial("G4_Pb");
+	G4Material* Tungsteno = nist->FindOrBuildMaterial("G4_W");
 
 	// ================
 	// Optical parameters for Cerenkov detectors
@@ -676,6 +818,50 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	G4Box* solidCe1SiO = new G4Box("Ce1SiO",Cerenkov_SiOX/2,Cerenkov_SiOY/2,Cerenkov_SiOZ/2);
 	G4LogicalVolume* logicCe1SiO = new G4LogicalVolume(solidCe1SiO,  SiO2,"Ce1SiO");
+	
+	
+#if 1
+	for (int ii=1; ii<7; ii++) {
+		int kk=0;
+		for (int jj=0; jj<3; jj++) {
+			G4String VolName="Ce1SiO";
+			G4String SubName[3]={"a","b","c"};
+			new G4PVPlacement(0,*posCeSiO[ii][jj],logicCe1SiO,VolName.append(std::to_string(ii) + SubName[jj]),logicCe1,false,kk++,checkOverlaps);
+		}
+	}
+#endif
+	
+	G4Box* solidCe1SiOtilt = new G4Box("Ce1SiOtilt",Cerenkov_SiOXtilt/2,Cerenkov_SiOYtilt/2,Cerenkov_SiOZtilt/2);
+	G4LogicalVolume* logicCe1SiOtilt = new G4LogicalVolume(solidCe1SiOtilt,  SiO2,"Ce1SiOtilt");
+	
+#if 1
+	for (int ii=0; ii<2; ii++) {
+		int kk=0;
+		for (int jj=0; jj<8; jj++) {
+			G4String VolName="Ce1SiOtilt";
+			G4String SubName[8]={"a","b","c","d", "e", "f", "g", "h"};
+			new G4PVPlacement(0,*posCeSiOTilt[jj][ii],logicCe1SiOtilt,VolName.append(std::to_string(ii) + SubName[jj]),logicCe1,false,kk++,checkOverlaps);
+		}
+	}
+#endif
+	
+	
+	G4Box* solidCe1W = new G4Box("Ce1W",Cerenkov_Wx/2,Cerenkov_Wy/2,Cerenkov_Wz/2);
+	G4LogicalVolume* logicCe1W = new G4LogicalVolume(solidCe1W,  Tungsteno,"Ce1W");
+	
+#if 1
+	for (int ii=0; ii<56; ii++) {
+		int kk=0;
+		G4String VolName="Ce1W";
+		new G4PVPlacement(0,*posCeW[ii],logicCe1W,VolName.append(""/*std::to_string(ii)*/),logicCe1,false,kk++,checkOverlaps);
+		
+	}
+#endif
+	
+	
+	
+	
+	/*
 	new G4PVPlacement(0,posCeSiO1A,logicCe1SiO,"Ce1SiO1a",logicCe1,false,0,checkOverlaps);
 	new G4PVPlacement(0,posCeSiO1B,logicCe1SiO,"Ce1SiO1b",logicCe1,false,1,checkOverlaps);
 	new G4PVPlacement(0,posCeSiO1C,logicCe1SiO,"Ce1SiO1c",logicCe1,false,2,checkOverlaps);
@@ -684,9 +870,34 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	new G4PVPlacement(0,posCeSiO2B,logicCe1SiO,"Ce1SiO2b",logicCe1,false,4,checkOverlaps);
 	new G4PVPlacement(0,posCeSiO2C,logicCe1SiO,"Ce1SiO2c",logicCe1,false,5,checkOverlaps);
 	
+	new G4PVPlacement(0,posCeSiO3A,logicCe1SiO,"Ce1SiO3a",logicCe1,false,6,checkOverlaps);
+	new G4PVPlacement(0,posCeSiO3B,logicCe1SiO,"Ce1SiO3b",logicCe1,false,7,checkOverlaps);
+	new G4PVPlacement(0,posCeSiO3C,logicCe1SiO,"Ce1SiO3c",logicCe1,false,8,checkOverlaps);
+	
+	new G4PVPlacement(0,posCeSiO4A,logicCe1SiO,"Ce1SiO4a",logicCe1,false,9,checkOverlaps);
+	new G4PVPlacement(0,posCeSiO4B,logicCe1SiO,"Ce1SiO4b",logicCe1,false,10,checkOverlaps);
+	new G4PVPlacement(0,posCeSiO4C,logicCe1SiO,"Ce1SiO4c",logicCe1,false,11,checkOverlaps);
+	
+	new G4PVPlacement(0,posCeSiO5A,logicCe1SiO,"Ce1SiO5a",logicCe1,false,12,checkOverlaps);
+	new G4PVPlacement(0,posCeSiO5B,logicCe1SiO,"Ce1SiO5b",logicCe1,false,13,checkOverlaps);
+	new G4PVPlacement(0,posCeSiO5C,logicCe1SiO,"Ce1SiO5c",logicCe1,false,14,checkOverlaps);
+	
+	new G4PVPlacement(0,posCeSiO6A,logicCe1SiO,"Ce1SiO6a",logicCe1,false,15,checkOverlaps);
+	new G4PVPlacement(0,posCeSiO6B,logicCe1SiO,"Ce1SiO6b",logicCe1,false,16,checkOverlaps);
+	new G4PVPlacement(0,posCeSiO6C,logicCe1SiO,"Ce1SiO6c",logicCe1,false,17,checkOverlaps);
+	
+	new G4PVPlacement(0,posCeSiO7A,logicCe1SiO,"Ce1SiO7a",logicCe1,false,18,checkOverlaps);
+	new G4PVPlacement(0,posCeSiO7B,logicCe1SiO,"Ce1SiO7b",logicCe1,false,19,checkOverlaps);
+	new G4PVPlacement(0,posCeSiO7C,logicCe1SiO,"Ce1SiO7c",logicCe1,false,20,checkOverlaps);
+	
+	new G4PVPlacement(0,posCeSiO8A,logicCe1SiO,"Ce1SiO8a",logicCe1,false,21,checkOverlaps);
+	new G4PVPlacement(0,posCeSiO8B,logicCe1SiO,"Ce1SiO8b",logicCe1,false,22,checkOverlaps);
+	new G4PVPlacement(0,posCeSiO8C,logicCe1SiO,"Ce1SiO8c",logicCe1,false,23,checkOverlaps);
+	
 	G4Box* solidCe1Fe = new G4Box("Ce1Fe",Cerenkov_FeX/2,Cerenkov_FeY/2,Cerenkov_FeZ/2);
 	G4LogicalVolume* logicCe1Fe = new G4LogicalVolume(solidCe1Fe,  ferro,"Ce1Fe");
-	new G4PVPlacement(0,posCeFe,logicCe1Fe,"Ce1Fe",logicCe1,false,0,checkOverlaps);
+	 */
+//	new G4PVPlacement(0,posCeFe,logicCe1Fe,"Ce1Fe",logicCe1,false,0,checkOverlaps);
 	
 
 	
@@ -703,6 +914,33 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	G4Box* solidCe2SiO = new G4Box("Ce2SiO",Cerenkov_SiOX/2,Cerenkov_SiOY/2,Cerenkov_SiOZ/2);
 	G4LogicalVolume* logicCe2SiO = new G4LogicalVolume(solidCe2SiO,  SiO2,"Ce2SiO");
+	
+
+	
+	
+	for (int ii=0; ii<8; ii++) {
+		int kk=0;
+		for (int jj=0; jj<3; jj++) {
+			G4String VolName="Ce2SiO";
+			G4String SubName[3]={"a","b","c"};
+			new G4PVPlacement(0,*posCeSiO[ii][jj],logicCe2SiO,VolName.append(std::to_string(ii) + SubName[jj]),logicCe2,false,kk++,checkOverlaps);
+		}
+	}
+	
+	G4Box* solidCe2W = new G4Box("Ce2W",Cerenkov_Wx/2,Cerenkov_Wy/2,Cerenkov_Wz/2);
+	G4LogicalVolume* logicCe2W = new G4LogicalVolume(solidCe2W,  Tungsteno,"Ce2W");
+	
+#if 1
+	for (int ii=0; ii<56; ii++) {
+		int kk=0;
+		G4String VolName="Ce2W";
+		new G4PVPlacement(0,*posCeW[ii],logicCe2W,VolName.append(""/*std::to_string(ii)*/),logicCe2,false,kk++,checkOverlaps);
+	}
+#endif
+	
+	
+	
+	/*
 	new G4PVPlacement(0,posCeSiO1A,logicCe2SiO,"Ce2SiO1a",logicCe2,false,0,checkOverlaps);
 	new G4PVPlacement(0,posCeSiO1B,logicCe2SiO,"Ce2SiO1b",logicCe2,false,1,checkOverlaps);
 	new G4PVPlacement(0,posCeSiO1C,logicCe2SiO,"Ce2SiO1c",logicCe2,false,2,checkOverlaps);
@@ -710,11 +948,13 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	new G4PVPlacement(0,posCeSiO2A,logicCe2SiO,"Ce2SiO2a",logicCe2,false,3,checkOverlaps);
 	new G4PVPlacement(0,posCeSiO2B,logicCe2SiO,"Ce2SiO2b",logicCe2,false,4,checkOverlaps);
 	new G4PVPlacement(0,posCeSiO2C,logicCe2SiO,"Ce2SiO2c",logicCe2,false,5,checkOverlaps);
+	*/
 	
+	/*
 	G4Box* solidCe2Fe = new G4Box("Ce2Fe",Cerenkov_FeX/2,Cerenkov_FeY/2,Cerenkov_FeZ/2);
 	G4LogicalVolume* logicCe2Fe = new G4LogicalVolume(solidCe2Fe,  ferro,"Ce2Fe");
 	new G4PVPlacement(0,posCeFe,logicCe2Fe,"Ce2Fe",logicCe2,false,0,checkOverlaps);
-	
+	*/
 
 	//-- Muon chamber 1
 	G4Box* solidMu1 = new G4Box("Mu1",Mu_sizeX/2,Mu_sizeY/2,Mu_sizeZ/2);
