@@ -238,7 +238,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xCe2=-xCe1; //Det
 	G4double xMu1=48*cm; //Det
 	G4double xMu2=-xMu1; //Det
-	G4double xCaloTable1=42*cm; //Det
+	G4double xCaloTable1=34*cm; //Det - Was 42 up to 2018.07.04
 	G4double xCaloTable2=-xCaloTable1; //Det
 	G4double xMuLeadSide1=xMu1-Mu_sizeX/2-MuLead_sizeZ/2.;
 	G4double xMuLeadSide2=-xMuLeadSide1;
@@ -614,7 +614,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	alluminium=vuoto;
 	SiO2=vuoto;
 	ferro=vuoto;
-	
+	Tungsteno=vuoto;
+	piombo=vuoto;
 	
 #endif
 	

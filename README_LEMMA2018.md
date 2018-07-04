@@ -151,13 +151,14 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 
 2018.07.04 by collamaf
 - checked and fixed scoring for new Cerenkov channels
+- changed x position of calo table to maximise acceptance to muons and avoid much of the positrons
 
 
 `cp link.txt CMakeFiles/mainMCMC.dir/`
 
 
 TODO LIST
-- Check scoring with new cerenkovs
+- Sistemare l'istogramma della mappa dei canali in MT
 - Make it more elegant how to select between ST and MT running
 - Capire perche l'info in "Beam" nella tupla LEMMA non si riferisce alla vera particella di quel vertice ma sempre e solo all'elettrone (in caso di generatore esterno)
 

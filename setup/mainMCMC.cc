@@ -48,7 +48,7 @@ int main(int argc,char** argv)
 	
 	G4bool MTFlag=FALSE;
 	//#ifdef G4MULTITHREADED
-#if 1
+#if 0
 	MTFlag=TRUE;
 	G4MTRunManager* runManager = new G4MTRunManager;
 	runManager->SetNumberOfThreads( G4Threading::G4GetNumberOfCores() );
@@ -163,13 +163,15 @@ int main(int argc,char** argv)
 	
 //	std::vector<G4int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600, 5100, 5101, 5102, 5103, 5104, 5105, 5200, 5201, 5202, 5203, 5204, 5205};
 	std::vector<G4int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600};
-	for (int ii=0; ii<32; ii++) {
+
+	for (int ii=0; ii<34; ii++) {
 		ChannelMap.push_back(5100+ii);
 	}
 
 	for (int ii=0; ii<24; ii++) {
 		ChannelMap.push_back(5200+ii);
 	}
+	
 	//==================================================
 	G4bool FTFP = false; // standard Geant4 PhysicsList
 	G4bool channeling = false;
