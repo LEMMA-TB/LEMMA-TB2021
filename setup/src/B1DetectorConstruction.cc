@@ -819,14 +819,13 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4Box* solidCe1SiO = new G4Box("Ce1SiO",Cerenkov_SiOX/2,Cerenkov_SiOY/2,Cerenkov_SiOZ/2);
 	G4LogicalVolume* logicCe1SiO = new G4LogicalVolume(solidCe1SiO,  SiO2,"Ce1SiO");
 	
-	
 #if 1
 	for (int ii=1; ii<7; ii++) {
-		int kk=0;
 		for (int jj=0; jj<3; jj++) {
 			G4String VolName="Ce1SiO";
 			G4String SubName[3]={"a","b","c"};
-			new G4PVPlacement(0,*posCeSiO[ii][jj],logicCe1SiO,VolName.append(std::to_string(ii) + SubName[jj]),logicCe1,false,kk++,checkOverlaps);
+			new G4PVPlacement(0,*posCeSiO[ii][jj],logicCe1SiO,VolName.append(std::to_string(ii) + SubName[jj]),logicCe1,false,8+((ii-1)*3+jj),checkOverlaps);
+//			G4cout<<"Normali= "<<8+((ii-1)*3+jj)<<G4endl;
 		}
 	}
 #endif
@@ -836,11 +835,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 #if 1
 	for (int ii=0; ii<2; ii++) {
-		int kk=0;
 		for (int jj=0; jj<8; jj++) {
 			G4String VolName="Ce1SiOtilt";
 			G4String SubName[8]={"a","b","c","d", "e", "f", "g", "h"};
-			new G4PVPlacement(0,*posCeSiOTilt[jj][ii],logicCe1SiOtilt,VolName.append(std::to_string(ii) + SubName[jj]),logicCe1,false,kk++,checkOverlaps);
+			new G4PVPlacement(0,*posCeSiOTilt[jj][ii],logicCe1SiOtilt,VolName.append(std::to_string(ii) + SubName[jj]),logicCe1,false,ii*26+(jj),checkOverlaps);
+//			G4cout<<"Tiltati= "<<ii*26+(jj)<<G4endl;
+
 		}
 	}
 #endif
@@ -1033,6 +1033,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 //	fScoringVolume_Ce1=logicCe1;
 //	fScoringVolume_Ce2=logicCe2;
 	fScoringVolume_Ce1=logicCe1SiO;
+	fScoringVolume_Ce1tilt=logicCe1SiOtilt;
 	fScoringVolume_Ce2=logicCe2SiO;
 	fScoringVolume_Mu1=logicMu1;
 	fScoringVolume_Mu2=logicMu2;

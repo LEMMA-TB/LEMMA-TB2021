@@ -149,6 +149,8 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 2018.06.28 by collamaf
 - Completed the new structure for Cerenkov calos: added all channels and implemented the differences between the 2 detectors
 
+2018.07.04 by collamaf
+- checked and fixed scoring for new Cerenkov channels
 
 
 `cp link.txt CMakeFiles/mainMCMC.dir/`

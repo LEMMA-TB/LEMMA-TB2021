@@ -76,6 +76,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstruction->GetScoringVolume_Pb2b();}
 	if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstruction->GetScoringVolume_Pb2c();}
 	if (!fScoringVolume_Ce1) {fScoringVolume_Ce1 = detectorConstruction->GetScoringVolume_Ce1();}
+	if (!fScoringVolume_Ce1tilt) {fScoringVolume_Ce1tilt = detectorConstruction->GetScoringVolume_Ce1tilt();}
 	if (!fScoringVolume_Ce2) {fScoringVolume_Ce2 = detectorConstruction->GetScoringVolume_Ce2();}
 	if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstruction->GetScoringVolume_Mu1();}
 	if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstruction->GetScoringVolume_Mu2();}
@@ -113,6 +114,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	else if (volume==fScoringVolume_Pb2b)   {subdet=45; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb2c)   {subdet=44; dofill=true;}  //
 	else if (volume==fScoringVolume_Ce1)   {subdet=51; dofill=true;}  //
+	else if (volume==fScoringVolume_Ce1tilt)   {subdet=51; dofill=true;}  //
 	else if (volume==fScoringVolume_Ce2)   {subdet=52; dofill=true;}  //
 	else if (volume==fScoringVolume_Mu1)   {subdet=61; dofill=true;}  //
 	else if (volume==fScoringVolume_Mu2)   {subdet=62; dofill=true;}  //
@@ -130,8 +132,8 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	if (fStoreCaloEnDepFlag && ((subdet>=41 && subdet <=46) || subdet==51 || subdet==52)) {
 		std::vector<G4int>::iterator it;
 		G4int CaloChannelToSearch=100*subdet+CopyNb;
-		it = find(fChannelMap.begin(), fChannelMap.end(),CaloChannelToSearch); //cerco l'attuale isotopo nella lista di quelli già visti
-		if (it != fChannelMap.end()) { //se l'isotopo c'era già
+		it = find(fChannelMap.begin(), fChannelMap.end(),CaloChannelToSearch); //cerco l'attuale canale nella lista di quelli già visti
+		if (it != fChannelMap.end()) { //se il canale c'era già
 			(runStepAction->GetCaloEnDep())[it-fChannelMap.begin()]+=DepEne;
 		}
 		if (0)		G4cout<<"DEBUG !!! subdet= "<<subdet<<" Nome= "<<step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName()<<" CopyNb="<<CopyNb<<" Cerco canale "<<CaloChannelToSearch<<" Trovato in pos= "<<(G4int) (it-fChannelMap.begin())<<G4endl;
