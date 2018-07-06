@@ -46,15 +46,16 @@ int main(int argc,char** argv)
 	G4long seed = time(NULL);
 	G4Random::setTheSeed(seed);
 	
-	G4bool MTFlag=FALSE;
+	G4bool MTFlag=TRUE;
 	//#ifdef G4MULTITHREADED
-#if 0
-	MTFlag=TRUE;
-	G4MTRunManager* runManager = new G4MTRunManager;
-	runManager->SetNumberOfThreads( G4Threading::G4GetNumberOfCores() );
-#else
-	G4RunManager* runManager = new G4RunManager;
-#endif
+	//#if 1
+	//	MTFlag=TRUE;
+	
+	G4MTRunManager* runManagerMT ;
+	G4RunManager* runManager ;
+	
+	
+
 	
 	// FLAG DEFINITION TO CHOOSE THE DESIRED CONFIGURATION - These are defaults, can be overridden by command line
 	G4bool CalibMuonBeamFlag=false;  //switching on this flag generates mu- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
@@ -76,6 +77,8 @@ int main(int argc,char** argv)
 	G4double RootCutThr=1*GeV;
 	G4double GeometryZoom=1; //Transverse zoom of trackers (Ts and Cs det)
 	
+	G4int NProcInput=1; // default value for number of threads requested (1-> SingleT, <0-> MultiT, X-> X threads)
+
 	
 	G4bool VisFlag=false;
 	G4int NoOfPrimToGen=100, Verbose=0;
@@ -149,6 +152,10 @@ int main(int argc,char** argv)
 			{
 				VisFlag=stoi (argv[++i], NULL);;
 			}
+			else if(option.compare("-NProc")==0)
+			{
+				NProcInput=stoi (argv[++i], NULL);;
+			}
 			else if(option.compare("-Label")==0)
 			{
 				FileNameLabel= argv[++i];;
@@ -160,14 +167,24 @@ int main(int argc,char** argv)
 			VisFlag=false;
 		}
 	
-	
-//	std::vector<G4int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600, 5100, 5101, 5102, 5103, 5104, 5105, 5200, 5201, 5202, 5203, 5204, 5205};
-	std::vector<G4int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600};
+	if (NProcInput==1) MTFlag=false;
 
+	if (MTFlag) {
+		runManagerMT= new G4MTRunManager;
+		if (NProcInput<0 || NProcInput>G4Threading::G4GetNumberOfCores()) runManagerMT->SetNumberOfThreads( G4Threading::G4GetNumberOfCores() );
+		else 		runManagerMT->SetNumberOfThreads( NProcInput );
+	} else {
+		runManager= new G4RunManager;
+	}
+	
+	
+	//	std::vector<G4int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600, 5100, 5101, 5102, 5103, 5104, 5105, 5200, 5201, 5202, 5203, 5204, 5205};
+	std::vector<G4int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600};
+	
 	for (int ii=0; ii<34; ii++) {
 		ChannelMap.push_back(5100+ii);
 	}
-
+	
 	for (int ii=0; ii<24; ii++) {
 		ChannelMap.push_back(5200+ii);
 	}
@@ -193,16 +210,28 @@ int main(int argc,char** argv)
 			physics->RegisterPhysics(biasingPhysics);
 			//          detector->SetChanneling(true);
 		}
-		runManager->SetUserInitialization(physics);
+		if (MTFlag) {
+			runManagerMT->SetUserInitialization(physics);
+		} else {
+			runManager->SetUserInitialization(physics);
+		}
 	} else { // use my own PhysicsList.cc
-		runManager->SetUserInitialization(new PhysicsList());
+		if (MTFlag) {
+			runManagerMT->SetUserInitialization(new PhysicsList());
+		} else {
+			runManager->SetUserInitialization(new PhysicsList());
+		}
 	}
 	
-	runManager->SetUserInitialization(detector);
-	runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap));
-
-	runManager->Initialize();  // init kernel
-
+	if (MTFlag) {
+		runManagerMT->SetUserInitialization(detector);
+		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap));
+		runManagerMT->Initialize();  // init kernel
+	} else {
+		runManager->SetUserInitialization(detector);
+		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap));
+		runManager->Initialize();  // init kernel
+	}
 	
 	
 #ifdef G4VIS_USE
@@ -238,7 +267,13 @@ int main(int argc,char** argv)
 	}
 	
 	//RETRIEVE RUN TO GET THE NUMBER OF EVENTS I AM SIMULATING
-	const G4Run* run=runManager->GetCurrentRun();
+	const G4Run* run;
+	if (MTFlag) {
+		run=runManagerMT->GetCurrentRun();
+	}
+	else {
+		run=runManager->GetCurrentRun();
+	}
 	//	run->SetNumberOfEventToBeProcessed(17); // does not work
 	G4String OutputFilename = "LemmaMC2018";
 	G4String OutputFilenameFirstNote ="";
@@ -274,7 +309,13 @@ int main(int argc,char** argv)
 #ifdef G4VIS_USE
 	delete visManager;
 #endif
-	delete runManager;
+	
+	if (MTFlag) {
+		delete runManagerMT;
+	}
+	else {
+		delete runManager;
+	}
 	
 	if (MTFlag) {
 		G4cout<<

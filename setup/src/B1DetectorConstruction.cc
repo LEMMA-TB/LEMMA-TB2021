@@ -236,7 +236,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xPb2c=-xPb1c; //Det
 	G4double xCe1=0; //Det
 	G4double xCe2=-xCe1; //Det
-	G4double xMu1=48*cm; //Det
+	G4double xMu1=37*cm; //Det - was 48 up to 06-07-2018
 	G4double xMu2=-xMu1; //Det
 	G4double xCaloTable1=34*cm; //Det - Was 42 up to 2018.07.04
 	G4double xCaloTable2=-xCaloTable1; //Det
@@ -606,7 +606,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	G4bool checkOverlaps = true;
 
-#if 0
+#if 0 //to put all materials to vaccum, to study trajectory of primary beam
 	silicio=vuoto;
 //	berillio=vuoto;
 	aria=vuoto;

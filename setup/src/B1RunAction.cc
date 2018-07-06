@@ -5,6 +5,7 @@
 #include "G4AccumulableManager.hh"
 #include "HistoManager.hh"
 #include "G4RunManager.hh"
+#include "G4MTRunManager.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
@@ -27,6 +28,7 @@ G4Run* B1RunAction::GenerateRun(){
 void B1RunAction::BeginOfRunAction(const G4Run*){
 	//inform the runManager to save random number seed
 	G4RunManager::GetRunManager()->SetRandomNumberStore(false);
+//	G4cout<<" PROVA numero t: "<<G4MTRunManager::GetMasterRunManager()->GetNumberOfThreads()<<G4endl;
 	
 	G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
 	accumulableManager->Reset();
@@ -107,12 +109,11 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateH1("CaloMap","CaloMap",fChannelMap.size(),0.,fChannelMap.size());
 	analysisManager->SetH1XAxisTitle(0,"Channel");
 	analysisManager->SetH1YAxisTitle(0,"Detector-SubDet");
-
-	for (int ii=0; ii<(int)fChannelMap.size(); ii++)
-		analysisManager->FillH1(0, ii, fChannelMap[ii]);
 	
-	// Creating histograms
-//	analysisManager->CreateH1("gamma-gamma","Energy",10,0.,45000.); // id=0 <=== !!!
+	for (int ii=0; ii<(int)fChannelMap.size() && G4Threading::G4GetThreadId()==-1; ii++) { //write CaloMap histo only once to avoid problems
+		analysisManager->FillH1(0, ii, fChannelMap[ii]);
+	}
+
 }
 
 void B1RunAction::EndOfRunAction(const G4Run* run){

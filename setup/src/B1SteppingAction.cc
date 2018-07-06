@@ -110,9 +110,9 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	else if (volume==fScoringVolume_Pb1a)   {subdet=41; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb1b)   {subdet=42; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb1c)   {subdet=43; dofill=true;}  //
-	else if (volume==fScoringVolume_Pb2a)   {subdet=46; dofill=true;}  //
+	else if (volume==fScoringVolume_Pb2a)   {subdet=44; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb2b)   {subdet=45; dofill=true;}  //
-	else if (volume==fScoringVolume_Pb2c)   {subdet=44; dofill=true;}  //
+	else if (volume==fScoringVolume_Pb2c)   {subdet=46; dofill=true;}  //
 	else if (volume==fScoringVolume_Ce1)   {subdet=51; dofill=true;}  //
 	else if (volume==fScoringVolume_Ce1tilt)   {subdet=51; dofill=true;}  //
 	else if (volume==fScoringVolume_Ce2)   {subdet=52; dofill=true;}  //

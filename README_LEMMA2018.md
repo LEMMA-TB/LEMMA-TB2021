@@ -140,7 +140,7 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 
 2018.06.15 by collamaf
 - Now the number of primaries generated is stored in the suggested filename
-- Deep reorganation of main: now all arguments can be passed by command line. Also number of primaries. Macros are no more needed!
+- Deep reorganization of main: now all arguments can be passed by command line. Also number of primaries. Macros are no more needed!
 - Further cleanings: removed all references to DEVA
 
 2018.06.22 by collamaf
@@ -150,16 +150,20 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Completed the new structure for Cerenkov calos: added all channels and implemented the differences between the 2 detectors
 
 2018.07.04 by collamaf
-- checked and fixed scoring for new Cerenkov channels
+- checked and fixed scoring for new Cerenkov channels: the full Calo scoring adds some 5% of disk space usage 
 - changed x position of calo table to maximise acceptance to muons and avoid much of the positrons
+
+2018.07.06 by collamaf
+- Moved x position for Mu Chamber to best match the beam
+- Swapped subdet for PbGlass 1a and 1c, now according to setup pdf
+- Now MT or ST can be choosen via command line  with "-NProc 1": 1 is ST, <0 is all available cores, X is X cores
+- Now the channel maps  is MT compatible: written only once!
 
 
 `cp link.txt CMakeFiles/mainMCMC.dir/`
 
 
 TODO LIST
-- Sistemare l'istogramma della mappa dei canali in MT
-- Make it more elegant how to select between ST and MT running
 - Capire perche l'info in "Beam" nella tupla LEMMA non si riferisce alla vera particella di quel vertice ma sempre e solo all'elettrone (in caso di generatore esterno)
 
 
