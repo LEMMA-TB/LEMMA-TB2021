@@ -606,7 +606,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	G4bool checkOverlaps = true;
 
-#if 0 //to put all materials to vaccum, to study trajectory of primary beam
+#if 0 //toggle to put all materials to vaccum, to study trajectory of primary beam
+	G4cout<<"ATTENTION! ALL MATERIALS ARE SET TO VACUUM TO SHOW PRIMARY TRACKS BEHAVIOUR!!!"<<G4endl;
 	silicio=vuoto;
 //	berillio=vuoto;
 	aria=vuoto;
@@ -929,7 +930,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	}
 	
 	G4Box* solidCe2W = new G4Box("Ce2W",Cerenkov_Wx/2,Cerenkov_Wy/2,Cerenkov_Wz/2);
-	G4LogicalVolume* logicCe2W = new G4LogicalVolume(solidCe2W,  Tungsteno,"Ce2W");
+	G4LogicalVolume* logicCe2W = new G4LogicalVolume(solidCe2W, Tungsteno,"Ce2W");
 	
 #if 1
 	for (int ii=0; ii<56; ii++) {
@@ -975,12 +976,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 //	new G4PVPlacement(0,posMu2,logicMu2,"Mu2",logicCaloTable2,false,0,checkOverlaps);
 	
 	for (int ii=0; ii<4; ii++) {
-		new G4PVPlacement(0, G4ThreeVector(posMu1.x(), posMu1.y(), posMu1.z()+(ii+0.5)*Mu_sizeZ),logicMu1,"Mu1",logicWorld,false,0,checkOverlaps);
-		new G4PVPlacement(0, G4ThreeVector(posMu2.x(), posMu2.y(), posMu2.z()+(ii+0.5)*Mu_sizeZ),logicMu2,"Mu2",logicWorld,false,0,checkOverlaps);
+		new G4PVPlacement(0, G4ThreeVector(posMu1.x(), posMu1.y(), posMu1.z()+(ii+0.5)*Mu_sizeZ),logicMu1,"Mu1",logicWorld,false,ii,checkOverlaps);
+		new G4PVPlacement(0, G4ThreeVector(posMu2.x(), posMu2.y(), posMu2.z()+(ii+0.5)*Mu_sizeZ),logicMu2,"Mu2",logicWorld,false,ii,checkOverlaps);
 	}
 	for (int ii=4; ii<8; ii++) {
-		new G4PVPlacement(0, G4ThreeVector(posMu1.x(), posMu1.y(), posMu1.z()+(ii+0.5)*Mu_sizeZ+Mu_gapZ),logicMu1,"Mu1",logicWorld,false,0,checkOverlaps);
-		new G4PVPlacement(0, G4ThreeVector(posMu2.x(), posMu2.y(), posMu2.z()+(ii+0.5)*Mu_sizeZ+Mu_gapZ),logicMu2,"Mu2",logicWorld,false,0,checkOverlaps);
+		new G4PVPlacement(0, G4ThreeVector(posMu1.x(), posMu1.y(), posMu1.z()+(ii+0.5)*Mu_sizeZ+Mu_gapZ),logicMu1,"Mu1",logicWorld,false,ii,checkOverlaps);
+		new G4PVPlacement(0, G4ThreeVector(posMu2.x(), posMu2.y(), posMu2.z()+(ii+0.5)*Mu_sizeZ+Mu_gapZ),logicMu2,"Mu2",logicWorld,false,ii,checkOverlaps);
 	}
 	
 	

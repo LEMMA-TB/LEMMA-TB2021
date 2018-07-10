@@ -157,14 +157,22 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Moved x position for Mu Chamber to best match the beam
 - Swapped subdet for PbGlass 1a and 1c, now according to setup pdf
 - Now MT or ST can be choosen via command line  with "-NProc 1": 1 is ST, <0 is all available cores, X is X cores
-- Now the channel maps  is MT compatible: written only once!
+- Now the channel map  is MT compatible: written only once!
+
+2018.07.10 by collamaf
+- Added CopyNb to MuChamber layers (and hence to root file)
+- Moved "calo" and "label" after Nprim in filename
 
 
-`cp link.txt CMakeFiles/mainMCMC.dir/`
+`
+cp link.txt CMakeFiles/mainMCMC.dir/
+now is "gpc" as alias!
+`
 
 
 TODO LIST
 - Capire perche l'info in "Beam" nella tupla LEMMA non si riferisce alla vera particella di quel vertice ma sempre e solo all'elettrone (in caso di generatore esterno)
+- Ri-accendere Cerenkov
 
 
 

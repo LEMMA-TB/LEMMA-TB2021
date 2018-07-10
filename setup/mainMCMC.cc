@@ -297,13 +297,15 @@ int main(int argc,char** argv)
 	
 	if (FlipFieldFlag) OutputFilename.append("f");
 	
+	OutputFilename.append("_N" + std::to_string ((G4int) (run->GetNumberOfEventToBeProcessed())));
+
+	
 	if (StoreCaloEnDepFlag) OutputFilename.append("_calo");
 	
 	if (GeometryZoom!=1) OutputFilename.append("_Z" + std::to_string(G4int (GeometryZoom) ));
 	
 	G4String OutputFilenameSecondNote ="";
 	if (FileNameLabel!="") OutputFilename.append("_" + FileNameLabel);
-	OutputFilename.append("_N" + std::to_string ((G4int) (run->GetNumberOfEventToBeProcessed())));
 	OutputFilename.append(OutputFilenameSecondNote);
 	
 #ifdef G4VIS_USE

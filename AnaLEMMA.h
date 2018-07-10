@@ -23,95 +23,82 @@ public :
 
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
-   // Declaration of leaf types
-   vector<double>  *BeamX;
-   vector<double>  *BeamY;
-   vector<double>  *BeamZ;
-   vector<double>  *BeamCX;
-   vector<double>  *BeamCY;
-   vector<double>  *BeamCZ;
-   vector<double>  *BeamEne;
-   vector<double>  *BeamPart;
-   Double_t        nhits;
-   vector<double>  *subdet;
-   vector<double>  *Idp;
-   vector<double>  *Ipar;
-   vector<double>  *itrack;
-   vector<double>  *Time;
-   vector<double>  *xh;
-   vector<double>  *yh;
-   vector<double>  *zh;
-   vector<double>  *P;
-   vector<double>  *PX;
-   vector<double>  *PY;
-   vector<double>  *PZ;
-   vector<double>  *VertexX;
-   vector<double>  *VertexY;
-   vector<double>  *VertexZ;
-   vector<double>  *Kinev;
-   vector<double>  *PXvdir;
-   vector<double>  *PYvdir;
-   vector<double>  *PZvdir;
-   vector<double>  *Iev;
-   vector<double>  *Step;
-   vector<double>  *InextStep;
-   vector<double>  *CopyNb;
-   Double_t        DEVAEneTot;
-   vector<double>  *Deva_PulseHeight;
-   Double_t        Cerenkov_DepEneTot;
-   vector<int>     *Cerenkov_PulseHeight;
-   vector<double>  *Cerenkov_DepEne;
-   Int_t           PbGlass_PulseHeight;
-   Double_t        PbGlass_DepEne;
-   vector<double>  *DEVAInX;
-   vector<double>  *DEVAInY;
-   vector<double>  *DEVAInZ;
+	// Declaration of leaf types
+	vector<double>  *BeamX;
+	vector<double>  *BeamY;
+	vector<double>  *BeamZ;
+	vector<double>  *BeamCX;
+	vector<double>  *BeamCY;
+	vector<double>  *BeamCZ;
+	vector<double>  *BeamEne;
+	vector<double>  *BeamPart;
+	Double_t        nhits;
+	vector<double>  *subdet;
+	vector<double>  *Idp;
+	vector<double>  *Ipar;
+	vector<double>  *itrack;
+	vector<double>  *Time;
+	vector<double>  *xh;
+	vector<double>  *yh;
+	vector<double>  *zh;
+	vector<double>  *P;
+	vector<double>  *PX;
+	vector<double>  *PY;
+	vector<double>  *PZ;
+	vector<double>  *VertexX;
+	vector<double>  *VertexY;
+	vector<double>  *VertexZ;
+	vector<double>  *Kinev;
+	vector<double>  *PXvdir;
+	vector<double>  *PYvdir;
+	vector<double>  *PZvdir;
+	vector<double>  *Iev;
+	vector<double>  *Step;
+	vector<double>  *InextStep;
+	vector<double>  *CopyNb;
+	vector<double>  *Calo_EnDep;
+	vector<int>     *Proc;
+	vector<double>  *BCross;
+	
+	// List of branches
+	TBranch        *b_BeamX;   //!
+	TBranch        *b_BeamY;   //!
+	TBranch        *b_BeamZ;   //!
+	TBranch        *b_BeamCX;   //!
+	TBranch        *b_BeamCY;   //!
+	TBranch        *b_BeamCZ;   //!
+	TBranch        *b_BeamEne;   //!
+	TBranch        *b_BeamPart;   //!
+	TBranch        *b_nhits;   //!
+	TBranch        *b_subdet;   //!
+	TBranch        *b_Idp;   //!
+	TBranch        *b_Ipar;   //!
+	TBranch        *b_itrack;   //!
+	TBranch        *b_Time;   //!
+	TBranch        *b_xh;   //!
+	TBranch        *b_yh;   //!
+	TBranch        *b_zh;   //!
+	TBranch        *b_P;   //!
+	TBranch        *b_PX;   //!
+	TBranch        *b_PY;   //!
+	TBranch        *b_PZ;   //!
+	TBranch        *b_VertexX;   //!
+	TBranch        *b_VertexY;   //!
+	TBranch        *b_VertexZ;   //!
+	TBranch        *b_Kinev;   //!
+	TBranch        *b_PXvdir;   //!
+	TBranch        *b_PYvdir;   //!
+	TBranch        *b_PZvdir;   //!
+	TBranch        *b_Iev;   //!
+	TBranch        *b_Step;   //!
+	TBranch        *b_InextStep;   //!
+	TBranch        *b_CopyNb;   //!
+	TBranch        *b_Calo_EnDep;   //!
+	TBranch        *b_Proc;   //!
+	TBranch        *b_BCross;   //!
 
-   // List of branches
-   TBranch        *b_BeamX;   //!
-   TBranch        *b_BeamY;   //!
-   TBranch        *b_BeamZ;   //!
-   TBranch        *b_BeamCX;   //!
-   TBranch        *b_BeamCY;   //!
-   TBranch        *b_BeamCZ;   //!
-   TBranch        *b_BeamEne;   //!
-   TBranch        *b_BeamPart;   //!
-   TBranch        *b_nhits;   //!
-   TBranch        *b_subdet;   //!
-   TBranch        *b_Idp;   //!
-   TBranch        *b_Ipar;   //!
-   TBranch        *b_itrack;   //!
-   TBranch        *b_Time;   //!
-   TBranch        *b_xh;   //!
-   TBranch        *b_yh;   //!
-   TBranch        *b_zh;   //!
-   TBranch        *b_P;   //!
-   TBranch        *b_PX;   //!
-   TBranch        *b_PY;   //!
-   TBranch        *b_PZ;   //!
-   TBranch        *b_VertexX;   //!
-   TBranch        *b_VertexY;   //!
-   TBranch        *b_VertexZ;   //!
-   TBranch        *b_Kinev;   //!
-   TBranch        *b_PXvdir;   //!
-   TBranch        *b_PYvdir;   //!
-   TBranch        *b_PZvdir;   //!
-   TBranch        *b_Iev;   //!
-   TBranch        *b_Step;   //!
-   TBranch        *b_InextStep;   //!
-   TBranch        *b_CopyNb;   //!
-   TBranch        *b_DEVAEneTot;   //!
-   TBranch        *b_Deva_PulseHeight;   //!
-   TBranch        *b_Cerenkov_DepEneTot;   //!
-   TBranch        *b_Cerenkov_PulseHeight;   //!
-   TBranch        *b_Cerenkov_DepEne;   //!
-   TBranch        *b_PbGlass_PulseHeight;   //!
-   TBranch        *b_PbGlass_DepEne;   //!
-   TBranch        *b_DEVAInX;   //!
-   TBranch        *b_DEVAInY;   //!
-   TBranch        *b_DEVAInZ;   //!
-
-   AnaLEMMA(TTree *tree=0);
+//   AnaLEMMA(TTree *tree=0);
+	AnaLEMMA(TString);
    virtual ~AnaLEMMA();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
@@ -125,17 +112,30 @@ public :
 	TDirectory* DirHistoZX;
 	TDirectory* DirHistoDet;
 	TDirectory* DirHistoBeam;
+	TString  nomefile;
 };
 
 #endif
 
 #ifdef AnaLEMMA_cxx
-AnaLEMMA::AnaLEMMA(TTree *tree) : fChain(0)
+//AnaLEMMA::AnaLEMMA(TTree *tree) : fChain(0)
+AnaLEMMA::AnaLEMMA(TString filename) : fChain(0)
 {
+	nomefile=filename;
 	// if parameter tree is not specified (or zero), connect the file
 	// used to generate this class and read the Tree.
-	if (tree == 0) {
-		
+//	if (tree == 0) {
+	
+	
+	TFile *f = new TFile(Form("%s.root",filename.Data()));
+	TTree* tree = (TTree*)gDirectory->Get("LEMMA");
+	Init(tree);
+
+	/*
+	outfile=new TFile(Form("%s_out.root", filename.Data()), "RECREATE");
+	DirHistoEne = outfile->mkdir("DirHistoEne");
+	
+	
 #ifdef SINGLE_TREE
 		// The following code should be used if you want this class to access
 		// a single tree instead of a chain
@@ -144,24 +144,26 @@ AnaLEMMA::AnaLEMMA(TTree *tree) : fChain(0)
 			f = new TFile("Memory Directory");
 		}
 		f->GetObject("LEMMA",tree);
-		
+
+
 #else // SINGLE_TREE
 		
 		// The following code should be used if you want this class to access a chain
 		// of trees.
 		TChain * chain = new TChain("LEMMA","");
 		
-		chain->Add("LemmaMC_Pos45_T_Ff_RealMu.root/LEMMA");
+		chain->Add("build/LemmaMC2018_Pos45000_T_Mf_calo_N10000.root/LEMMA");
 		tree = chain;
 #endif // SINGLE_TREE
-		
-		outputfile=new TFile(Form("%s_out.root", "LEMMA"), "RECREATE");
+		*/
+	
+		outputfile=new TFile(Form("%s_out.root", filename.Data()), "RECREATE");
 		DirHistoBeam=outputfile->mkdir("HistoBeam");
 		DirHistoZ = outputfile->mkdir("HistoZ");
 		DirHistoZX = outputfile->mkdir("HistoZX");
 		DirHistoDet=outputfile->mkdir("HistoSubdet");
 
-	}
+//	}
 	Init(tree);
 }
 
@@ -204,93 +206,83 @@ void AnaLEMMA::Init(TTree *tree)
    // Init() will be called many times when running on PROOF
    // (once per file to be processed).
 
-   // Set object pointer
-   BeamX = 0;
-   BeamY = 0;
-   BeamZ = 0;
-   BeamCX = 0;
-   BeamCY = 0;
-   BeamCZ = 0;
-   BeamEne = 0;
-   BeamPart = 0;
-   subdet = 0;
-   Idp = 0;
-   Ipar = 0;
-   itrack = 0;
-   Time = 0;
-   xh = 0;
-   yh = 0;
-   zh = 0;
-   P = 0;
-   PX = 0;
-   PY = 0;
-   PZ = 0;
-   VertexX = 0;
-   VertexY = 0;
-   VertexZ = 0;
-   Kinev = 0;
-   PXvdir = 0;
-   PYvdir = 0;
-   PZvdir = 0;
-   Iev = 0;
-   Step = 0;
-   InextStep = 0;
-   CopyNb = 0;
-   Deva_PulseHeight = 0;
-   Cerenkov_PulseHeight = 0;
-   Cerenkov_DepEne = 0;
-   DEVAInX = 0;
-   DEVAInY = 0;
-   DEVAInZ = 0;
-   // Set branch addresses and branch pointers
-   if (!tree) return;
-   fChain = tree;
-   fCurrent = -1;
-   fChain->SetMakeClass(1);
-
-   fChain->SetBranchAddress("BeamX", &BeamX, &b_BeamX);
-   fChain->SetBranchAddress("BeamY", &BeamY, &b_BeamY);
-   fChain->SetBranchAddress("BeamZ", &BeamZ, &b_BeamZ);
-   fChain->SetBranchAddress("BeamCX", &BeamCX, &b_BeamCX);
-   fChain->SetBranchAddress("BeamCY", &BeamCY, &b_BeamCY);
-   fChain->SetBranchAddress("BeamCZ", &BeamCZ, &b_BeamCZ);
-   fChain->SetBranchAddress("BeamEne", &BeamEne, &b_BeamEne);
-   fChain->SetBranchAddress("BeamPart", &BeamPart, &b_BeamPart);
-   fChain->SetBranchAddress("nhits", &nhits, &b_nhits);
-   fChain->SetBranchAddress("subdet", &subdet, &b_subdet);
-   fChain->SetBranchAddress("Idp", &Idp, &b_Idp);
-   fChain->SetBranchAddress("Ipar", &Ipar, &b_Ipar);
-   fChain->SetBranchAddress("itrack", &itrack, &b_itrack);
-   fChain->SetBranchAddress("Time", &Time, &b_Time);
-   fChain->SetBranchAddress("xh", &xh, &b_xh);
-   fChain->SetBranchAddress("yh", &yh, &b_yh);
-   fChain->SetBranchAddress("zh", &zh, &b_zh);
-   fChain->SetBranchAddress("P", &P, &b_P);
-   fChain->SetBranchAddress("PX", &PX, &b_PX);
-   fChain->SetBranchAddress("PY", &PY, &b_PY);
-   fChain->SetBranchAddress("PZ", &PZ, &b_PZ);
-   fChain->SetBranchAddress("VertexX", &VertexX, &b_VertexX);
-   fChain->SetBranchAddress("VertexY", &VertexY, &b_VertexY);
-   fChain->SetBranchAddress("VertexZ", &VertexZ, &b_VertexZ);
-   fChain->SetBranchAddress("Kinev", &Kinev, &b_Kinev);
-   fChain->SetBranchAddress("PXvdir", &PXvdir, &b_PXvdir);
-   fChain->SetBranchAddress("PYvdir", &PYvdir, &b_PYvdir);
-   fChain->SetBranchAddress("PZvdir", &PZvdir, &b_PZvdir);
-   fChain->SetBranchAddress("Iev", &Iev, &b_Iev);
-   fChain->SetBranchAddress("Step", &Step, &b_Step);
-   fChain->SetBranchAddress("InextStep", &InextStep, &b_InextStep);
-   fChain->SetBranchAddress("CopyNb", &CopyNb, &b_CopyNb);
-   fChain->SetBranchAddress("DEVAEneTot", &DEVAEneTot, &b_DEVAEneTot);
-   fChain->SetBranchAddress("Deva_PulseHeight", &Deva_PulseHeight, &b_Deva_PulseHeight);
-   fChain->SetBranchAddress("Cerenkov_DepEneTot", &Cerenkov_DepEneTot, &b_Cerenkov_DepEneTot);
-   fChain->SetBranchAddress("Cerenkov_PulseHeight", &Cerenkov_PulseHeight, &b_Cerenkov_PulseHeight);
-   fChain->SetBranchAddress("Cerenkov_DepEne", &Cerenkov_DepEne, &b_Cerenkov_DepEne);
-   fChain->SetBranchAddress("PbGlass_PulseHeight", &PbGlass_PulseHeight, &b_PbGlass_PulseHeight);
-   fChain->SetBranchAddress("PbGlass_DepEne", &PbGlass_DepEne, &b_PbGlass_DepEne);
-   fChain->SetBranchAddress("DEVAInX", &DEVAInX, &b_DEVAInX);
-   fChain->SetBranchAddress("DEVAInY", &DEVAInY, &b_DEVAInY);
-   fChain->SetBranchAddress("DEVAInZ", &DEVAInZ, &b_DEVAInZ);
-   Notify();
+	// Set object pointer
+	BeamX = 0;
+	BeamY = 0;
+	BeamZ = 0;
+	BeamCX = 0;
+	BeamCY = 0;
+	BeamCZ = 0;
+	BeamEne = 0;
+	BeamPart = 0;
+	subdet = 0;
+	Idp = 0;
+	Ipar = 0;
+	itrack = 0;
+	Time = 0;
+	xh = 0;
+	yh = 0;
+	zh = 0;
+	P = 0;
+	PX = 0;
+	PY = 0;
+	PZ = 0;
+	VertexX = 0;
+	VertexY = 0;
+	VertexZ = 0;
+	Kinev = 0;
+	PXvdir = 0;
+	PYvdir = 0;
+	PZvdir = 0;
+	Iev = 0;
+	Step = 0;
+	InextStep = 0;
+	CopyNb = 0;
+	Calo_EnDep = 0;
+	Proc = 0;
+	BCross = 0;
+	// Set branch addresses and branch pointers
+	if (!tree) return;
+	fChain = tree;
+	fCurrent = -1;
+	fChain->SetMakeClass(1);
+	
+	fChain->SetBranchAddress("BeamX", &BeamX, &b_BeamX);
+	fChain->SetBranchAddress("BeamY", &BeamY, &b_BeamY);
+	fChain->SetBranchAddress("BeamZ", &BeamZ, &b_BeamZ);
+	fChain->SetBranchAddress("BeamCX", &BeamCX, &b_BeamCX);
+	fChain->SetBranchAddress("BeamCY", &BeamCY, &b_BeamCY);
+	fChain->SetBranchAddress("BeamCZ", &BeamCZ, &b_BeamCZ);
+	fChain->SetBranchAddress("BeamEne", &BeamEne, &b_BeamEne);
+	fChain->SetBranchAddress("BeamPart", &BeamPart, &b_BeamPart);
+	fChain->SetBranchAddress("nhits", &nhits, &b_nhits);
+	fChain->SetBranchAddress("subdet", &subdet, &b_subdet);
+	fChain->SetBranchAddress("Idp", &Idp, &b_Idp);
+	fChain->SetBranchAddress("Ipar", &Ipar, &b_Ipar);
+	fChain->SetBranchAddress("itrack", &itrack, &b_itrack);
+	fChain->SetBranchAddress("Time", &Time, &b_Time);
+	fChain->SetBranchAddress("xh", &xh, &b_xh);
+	fChain->SetBranchAddress("yh", &yh, &b_yh);
+	fChain->SetBranchAddress("zh", &zh, &b_zh);
+	fChain->SetBranchAddress("P", &P, &b_P);
+	fChain->SetBranchAddress("PX", &PX, &b_PX);
+	fChain->SetBranchAddress("PY", &PY, &b_PY);
+	fChain->SetBranchAddress("PZ", &PZ, &b_PZ);
+	fChain->SetBranchAddress("VertexX", &VertexX, &b_VertexX);
+	fChain->SetBranchAddress("VertexY", &VertexY, &b_VertexY);
+	fChain->SetBranchAddress("VertexZ", &VertexZ, &b_VertexZ);
+	fChain->SetBranchAddress("Kinev", &Kinev, &b_Kinev);
+	fChain->SetBranchAddress("PXvdir", &PXvdir, &b_PXvdir);
+	fChain->SetBranchAddress("PYvdir", &PYvdir, &b_PYvdir);
+	fChain->SetBranchAddress("PZvdir", &PZvdir, &b_PZvdir);
+	fChain->SetBranchAddress("Iev", &Iev, &b_Iev);
+	fChain->SetBranchAddress("Step", &Step, &b_Step);
+	fChain->SetBranchAddress("InextStep", &InextStep, &b_InextStep);
+	fChain->SetBranchAddress("CopyNb", &CopyNb, &b_CopyNb);
+	fChain->SetBranchAddress("Calo_EnDep", &Calo_EnDep, &b_Calo_EnDep);
+	fChain->SetBranchAddress("Proc", &Proc, &b_Proc);
+	fChain->SetBranchAddress("BCross", &BCross, &b_BCross);
+	Notify();
 }
 
 Bool_t AnaLEMMA::Notify()

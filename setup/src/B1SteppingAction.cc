@@ -121,7 +121,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 
 	
 	
-	G4int CopyNb=step->GetPostStepPoint()->GetTouchableHandle()->GetCopyNumber();
+	G4int CopyNb=step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
 	G4double DepEne=step->GetTotalEnergyDeposit()/GeV;
 	G4int Pid=step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding();
 	
@@ -249,6 +249,9 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 #endif
 		
 		(runStepAction->GetSubdet()).push_back(subdet);
+		
+		(runStepAction->GetCopyNb()).push_back(CopyNb);
+		
 		(runStepAction->GetIdp()).push_back(Idp);
 		(runStepAction->GetIpar()).push_back(Ipar);
 		(runStepAction->GetItrack()).push_back(Itrack);
@@ -273,8 +276,8 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		(runStepAction->GetInextStep()).push_back(Inextstep);
 		//		(runStepAction->GetNHits()).push_back(Inextstep);
 		//		(runStepAction->GetItrack()).push_back(-999);
-		
 
+			
 		if (step->GetPreStepPoint() && step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary && step->GetPostStepPoint() && step->GetPostStepPoint()->GetStepStatus()!=fGeomBoundary) { //se la traccia NASCEVA sul bordo E NON ci moriva
 			(runStepAction->GetVectorCross()).push_back(-1);
 		} else	if (step->GetPostStepPoint() && step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary && step->GetPreStepPoint() && step->GetPreStepPoint()->GetStepStatus()!=fGeomBoundary) { //se la traccia MORIVA sul bordo E NON ci nasceva
