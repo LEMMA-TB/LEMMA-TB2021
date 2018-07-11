@@ -37,7 +37,7 @@
 
 
 
-B1DetectorConstruction::B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFieldFlag, G4bool MagMapFlag, G4double GeometryZoom)
+B1DetectorConstruction::B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFieldFlag, G4double MagField, G4double GeometryZoom)
 : G4VUserDetectorConstruction(),
  fScoringVolume_S1(0),
  fScoringVolume_T1(0),
@@ -65,7 +65,7 @@ B1DetectorConstruction::B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFie
  fScoringVolume_Mu2(0),
 fTargetFlag(TargetFlag),
 fFlipFieldFlag(FlipFieldFlag),
-fMagMapFlag(MagMapFlag),
+fMagField(MagField),
 fGeometryZoom(GeometryZoom)
 { }
 
@@ -171,13 +171,14 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double Cerenkov_SiOXtilt = 2.54*cm; //1 inch
 	G4double Cerenkov_SiOZtilt = 2.54*cm; //1 inch
 	G4double Cerenkov_SiOYtilt = 3*2.54*cm; //3 inch
-
+	/*
 	G4double Cerenkov_AirZ = 209.4*mm;
 	G4double Cerenkov_Air2Z = 100*mm;
+
 	G4double Cerenkov_FeX = Cerenkov_SiOX;
 	G4double Cerenkov_FeY = 3*Cerenkov_SiOY;
 	G4double Cerenkov_FeZ = 500*mm;
-	
+	*/
 	G4double Cerenkov_DistAluFirst=45*mm;
 	G4double Cerenkov_DistFirst=4*mm;
 	G4double Cerenkov_DistAroundSiO=2.4*mm;
@@ -489,7 +490,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4ThreeVector posCeSiO8C=G4ThreeVector(0, Cerenkov_SiOY,zCeSiO8);
 	*/
 	
-	G4ThreeVector posCeFe  = G4ThreeVector(0, 0,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ+Cerenkov_AirZ+Cerenkov_FeZ/2.); //in Cerenkov mother volume
+//	G4ThreeVector posCeFe  = G4ThreeVector(0, 0,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ+Cerenkov_AirZ+Cerenkov_FeZ/2.); //in Cerenkov mother volume
 	
 	/*
 	G4ThreeVector posCeSiO2A  = G4ThreeVector(0, -Cerenkov_SiOY,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ+Cerenkov_AirZ+Cerenkov_FeZ +Cerenkov_Air2Z +Cerenkov_SiOZ/2.); //in Cerenkov mother volume
@@ -499,7 +500,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 
 	
-	G4ThreeVector posCeAlu2  = G4ThreeVector(0, 0,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ+Cerenkov_AirZ+Cerenkov_FeZ +Cerenkov_Air2Z +Cerenkov_SiOZ+Cerenkov_AluZ/2.); //in Cerenkov mother volume
+//	G4ThreeVector posCeAlu2  = G4ThreeVector(0, 0,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ+Cerenkov_AirZ+Cerenkov_FeZ +Cerenkov_Air2Z +Cerenkov_SiOZ+Cerenkov_AluZ/2.); //in Cerenkov mother volume
+	G4ThreeVector posCeAlu2  = G4ThreeVector(0, 0,Cerenkov_sizeZ/2.+Cerenkov_AluZ/2.); //in Cerenkov mother volume
 																																																																																						//##################################
 	
 
@@ -528,7 +530,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4Material* aria = nist->FindOrBuildMaterial("G4_AIR");
 	G4Material* berillio = nist->FindOrBuildMaterial("G4_Be");
 	G4Material* silicio = nist->FindOrBuildMaterial("G4_Si");
-	G4Material* ferro = nist->FindOrBuildMaterial("G4_Fe");
+//	G4Material* ferro = nist->FindOrBuildMaterial("G4_Fe");
 	G4Material* plastica = nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE");
 	G4Material* alluminium = nist->FindOrBuildMaterial("G4_ALUMINUM_OXIDE");
 	G4Material* piombo = nist->FindOrBuildMaterial("G4_Pb");
@@ -1071,11 +1073,16 @@ void B1DetectorConstruction::ConstructSDandField(){
 	G4double zOffset=physicalBend->GetTranslation().z();
 #if 1
 	//	/*
-	if(fMagMapFlag) {
+	if(fMagField>=0) {
 		G4cout<<"lemmaDEBUG zoffset= "<<zOffset<<G4endl;
+		G4double fActualCurrent=500;
+		if (fMagField!=1) fActualCurrent=-fMagField;
+		if (fFlipFieldFlag) fActualCurrent*=-1;
 		//		G4MagneticField* PurgMagField= new PurgMagTabulatedField3D("MappaBTB.TABLE",  -zOffset+100*cm);
-		G4MagneticField* PurgMagField= new PurgMagTabulatedField3D("MappaBTB.TABLE",  zOffset+00*cm, fFlipFieldFlag);
+		G4MagneticField* PurgMagField= new PurgMagTabulatedField3D("MappaBTB.TABLE",  zOffset+00*cm, fFlipFieldFlag, fActualCurrent);
 		fField.Put(PurgMagField);
+		
+		G4cout<<"#### Magnetic field according to map has been requested, with a actual current of : "<<fActualCurrent<<G4endl;
 		
 		///*
 		G4FieldManager* pFieldMgr =
@@ -1085,10 +1092,11 @@ void B1DetectorConstruction::ConstructSDandField(){
 		pFieldMgr->CreateChordFinder(fField.Get());
 		//*/
 	} else {
-		G4double fieldValue;
-		if (fFlipFieldFlag) fieldValue= -0.7*1.8*tesla;  //=-1,26
-		else fieldValue=0.7*1.8*tesla;
-		
+		G4double fieldValue=fabs(fMagField*tesla);
+		if (fFlipFieldFlag) fieldValue*=-1;
+//		else fieldValue=0.7*1.8*tesla;
+		G4cout<<"#### Constant Magnetic field has been requested, with a value of : "<<fieldValue/tesla<<G4endl;
+
 		//		G4double fieldValue = -1.1557*tesla; //calculated rescaling the map for the current bias
 		G4UniformMagField* myField = new G4UniformMagField(G4ThreeVector(0., fieldValue, 0.));
 		G4LogicalVolume* logicBend = G4LogicalVolumeStore::GetInstance()->GetVolume("Mag");

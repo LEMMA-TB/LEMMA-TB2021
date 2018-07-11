@@ -65,7 +65,8 @@ int main(int argc,char** argv)
 	G4bool SimpleFlag=false;
 	G4bool TargetFlag=true;
 	G4bool FlipFieldFlag=true; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
-	G4bool MagMapFlag=true;
+//	G4bool MagMapFlag=true;
+	G4double MagField=-1.62;
 	G4bool StoreCaloEnDepFlag=false; //to disable scoring of energy deposition (gamma, e+, e-, total) in calorimeters (sparing ~15% of disk space)
 																	 //Flags to force use of externally generated primary files (for bhabha and muon pair production)
 																	 //Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
@@ -118,11 +119,11 @@ int main(int argc,char** argv)
 			}
 			else if(option.compare("-FlipField")==0)
 			{
-				MagMapFlag=stoi (argv[++i], NULL);;
+				FlipFieldFlag=stoi (argv[++i], NULL);;
 			}
-			else if(option.compare("-MapField")==0)
+			else if(option.compare("-MagField")==0)
 			{
-				TargetFlag=stoi (argv[++i], NULL);;
+				MagField=strtod (argv[++i], NULL);;
 			}
 			else if(option.compare("-Calo")==0)
 			{
@@ -194,7 +195,7 @@ int main(int argc,char** argv)
 	G4bool channeling = false;
 	G4String ctype = "Si" ;  // "C" or "Si"
 													 //==================================================
-	B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagMapFlag, GeometryZoom);
+	B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom);
 	detector->SetChanneling(channeling,ctype);
 	
 	if ( FTFP ){
@@ -292,8 +293,8 @@ int main(int argc,char** argv)
 	if (TargetFlag) OutputFilename.append("_T");
 	else  OutputFilename.append("_NoT");
 	
-	if (MagMapFlag) OutputFilename.append("_M"); //Map
-	else  OutputFilename.append("_F"); //Fixed
+	if (MagField>=0) OutputFilename.append("_FieldM"+std::to_string(G4int (MagField) )); //Map
+	else  OutputFilename.append("_FieldF"+ std::to_string(G4int (-MagField*100) )); //Fixed
 	
 	if (FlipFieldFlag) OutputFilename.append("f");
 	

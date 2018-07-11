@@ -163,6 +163,10 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Added CopyNb to MuChamber layers (and hence to root file)
 - Moved "calo" and "label" after Nprim in filename
 
+2018.07.11 by collamaf
+- Corrected error in flags set by command line parameters (MagMapFlag and Flip)
+- New command line argument for MagneticField: MagField: if any positive value (XX) means map with a current of XX, if 1 means map with default current value (500), if negative is directly the strength of the field in T. Default is fixed B=1.62T
+
 
 `
 cp link.txt CMakeFiles/mainMCMC.dir/

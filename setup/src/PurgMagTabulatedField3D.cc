@@ -48,15 +48,15 @@ namespace{
 }
 
 PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
-												  double zOffset, G4bool FlipFieldFlag)
-:fZoffset(zOffset),invertX(false),invertY(false),invertZ(false), fFlipFieldFlag(FlipFieldFlag)
+												  double zOffset, G4bool FlipFieldFlag, G4double Current)
+:fZoffset(zOffset),invertX(false),invertY(false),invertZ(false), fFlipFieldFlag(FlipFieldFlag), fActualCurrent(Current)
 {
  
 	double lenUnit= millimeter;
 	double fieldUnit= tesla;
 	
 	double NominalCurrent=500; //500 mA
-	double ActualCurrent=650; //437.5 mA quella dichiarata, 476.96 per avere mappa con max 1.26T: 2018: 650 possible guess?
+	double ActualCurrent=fActualCurrent; //437.5 mA quella dichiarata, 476.96 per avere mappa con max 1.26T: 2018: 650 possible guess?
 	double ScaleFactor=ActualCurrent/NominalCurrent; //0.875 --> 1.155T
 	
 	//	G4LogicalVolume* logicBend = G4LogicalVolumeStore::GetInstance()->GetVolume("Bend");
