@@ -37,7 +37,7 @@
 
 
 
-B1DetectorConstruction::B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFieldFlag, G4double MagField, G4double GeometryZoom)
+B1DetectorConstruction::B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFieldFlag, G4double MagField, G4double GeometryZoom, G4bool AllVacFlag)
 : G4VUserDetectorConstruction(),
  fScoringVolume_S1(0),
  fScoringVolume_T1(0),
@@ -66,7 +66,8 @@ B1DetectorConstruction::B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFie
 fTargetFlag(TargetFlag),
 fFlipFieldFlag(FlipFieldFlag),
 fMagField(MagField),
-fGeometryZoom(GeometryZoom)
+fGeometryZoom(GeometryZoom),
+fAllVacFlag(AllVacFlag)
 { }
 
 
@@ -204,6 +205,14 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double DistPbCe=10*cm;
 	G4double DistTableMu=5*cm;
 
+	G4double XOffSetLeadGlass=7*cm;
+	
+	
+	// shield wall:
+	G4double shield_sizeX = 1.62*m;
+	G4double shield_sizeY = 2.6*m;
+	G4double shield_sizeZ = 0.8*m;
+	
 	/*
 	 
 	 |— 4mm —|——— 25,6 mm ———|———— 309,4 aria + 500mm acciaio —————|——— 25,6 mm ———|— 4mm —|
@@ -223,27 +232,27 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xBP2=0*cm; //Det
 	G4double xC1=0*cm; //Det
 	G4double xMag=0*cm; //Det
-	G4double xC2=8*cm; //Det //position from Tommaso
+	G4double xC2=8*cm; //Det //position from Tommaso was 8 up to 11-lug-18 (before change in B) - 7 if B=1.62T - 8 if Current=600
 	G4double xC3=-xC2; //Det
-	G4double xC4=16*cm; //Det //position from Tommaso
+	G4double xC4=15*cm; //Det //position from Tommaso was 16 up to 11-lug-18 (before change in B) - 14 if B=1.62T - 15 if current=600
 	G4double xC5=-xC4; //Det
-	G4double xC6=22*cm; //Det //position from Tommaso
+	G4double xC6=22*cm; //Det //position from Tommaso was 22 up to 11-lug-18 (before change in B) - 19 if B=1.62T - 22 if current=600
 	G4double xC7=-xC6; //Det
-	G4double xPb1a=-LeadGlass_sizeX; //Det
+	G4double xPb1a=XOffSetLeadGlass+-LeadGlass_sizeX; //Det
 	G4double xPb2a=-xPb1a; //Det
-	G4double xPb1b=0*cm; //Det
+	G4double xPb1b=XOffSetLeadGlass+0*cm; //Det
 	G4double xPb2b=-xPb1b; //Det
-	G4double xPb1c=LeadGlass_sizeX; //Det
+	G4double xPb1c=XOffSetLeadGlass+LeadGlass_sizeX; //Det
 	G4double xPb2c=-xPb1c; //Det
 	G4double xCe1=0; //Det
 	G4double xCe2=-xCe1; //Det
-	G4double xMu1=37*cm; //Det - was 48 up to 06-07-2018
+	G4double xMu1=50*cm; //Det - was 48 up to 06-07-2018, was 37 up to 11-lug-18 (before change in B) 
 	G4double xMu2=-xMu1; //Det
-	G4double xCaloTable1=34*cm; //Det - Was 42 up to 2018.07.04
+	G4double xCaloTable1=31*cm; //Det - Was 42 up to 2018.07.04, 34 before moving forward calos
 	G4double xCaloTable2=-xCaloTable1; //Det
 	G4double xMuLeadSide1=xMu1-Mu_sizeX/2-MuLead_sizeZ/2.;
 	G4double xMuLeadSide2=-xMuLeadSide1;
-
+	G4double xShield=0;
 	
 	if (ZoomFactor>1) {
 		xC2=C2_sizeX/2.;
@@ -282,6 +291,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double yMu2=yMu1; //Det
 	G4double yCaloTable1=0; //Det
 	G4double yCaloTable2=-yCaloTable1; //Det
+	G4double yShield=0;
 	
 	G4double zT1=60*cm; //Det 10
 	G4double zBP1=220*cm; //Det
@@ -289,13 +299,13 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zTarg=420*cm; //Be target
 	G4double zC0=480*cm; //Det
 	G4double zBP2=1000*cm; //Det
-	G4double zC1=1500*cm; //Det
+	G4double zC1=1510*cm; //Det - was 1500 until 2018-07-12 but is the exact border of the table -> 1510
 	G4double zMag=1620*cm; //Det
-	G4double zC2=1780*cm; //Det
+	G4double zC2=1790*cm; //Det - was 1780 until 2018-07-12 but is the exact border of the table -> 1790
 	G4double zC3=zC2; //Det
 	G4double zC4=1940*cm; //Det
 	G4double zC5=zC4; //Det
-	G4double zC6=2050*cm; //Det
+	G4double zC6=2080*cm; //Det - was 2050 until 2018-07-12 but there is still room in the platform -> 2080
 	G4double zC7=zC6; //Det
 	G4double zPb1a=-CaloTable_sizeZ/2. +LeadGlass_sizeZ/2.; //Det
 	G4double zPb2a=zPb1a; //Det
@@ -305,13 +315,15 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zPb2c=zPb1c; //Det
 	G4double zCe1=-CaloTable_sizeZ/2. +LeadGlass_sizeZ + Cerenkov_sizeZ/2. + DistPbCe; //Det
 	G4double zCe2=zCe1; //Det
-	G4double zCaloTable=2220*cm+CaloTable_sizeZ/2.; //Det The table starts at 2220
-	G4double zMu1=zCaloTable+CaloTable_sizeZ/2.+Mu_sizeZ/2.+DistTableMu; //Det =23656.5
+	G4double ZCaloTableStart=2115*cm; //was 2220 until 2018-07-12, but we need space for concrete walle before chambers, 2160 is good if 40cm of shield is enough
+	G4double zCaloTable=ZCaloTableStart+CaloTable_sizeZ/2.; //Det The table starts at 2220
+	G4double zMu1=2365.65*cm; //Det =23656.5 - was zCaloTable+CaloTable_sizeZ/2.+Mu_sizeZ/2.+DistTableMu
 	G4double zMu2=zMu1; //Det
 	G4double zMuLeadFront1=zMu1-MuLead_sizeZ/2.;
 	G4double zMuLeadFront2=zMu2-MuLead_sizeZ/2.;
 	G4double zMuLeadSide1=zMu1+Mu_sizeZ*4+Mu_gapZ/2.;
 	G4double zMuLeadSide2=zMu2+Mu_sizeZ*4+Mu_gapZ/2.;
+	G4double zShield=zMu1-shield_sizeZ/2.-10*cm;
 
 	
 //	cout<<"ZMU1= "<<zMu1<<endl;
@@ -352,6 +364,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4ThreeVector posMuLeadFront2  = G4ThreeVector(xMu2,yMu2,zMuLeadFront2); // Subdet
 	G4ThreeVector posMuLeadSide1  = G4ThreeVector(xMuLeadSide1,yMu1,zMuLeadSide1); // Subdet
 	G4ThreeVector posMuLeadSide2  = G4ThreeVector(xMuLeadSide2,yMu2,zMuLeadSide2); // Subdet
+	G4ThreeVector posShield  = G4ThreeVector(xShield,yShield,zShield); // Subdet
 
 	
 	
@@ -501,7 +514,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 
 	
 //	G4ThreeVector posCeAlu2  = G4ThreeVector(0, 0,-Cerenkov_sizeZ/2.+Cerenkov_AluZ+Cerenkov_SiOZ+Cerenkov_AirZ+Cerenkov_FeZ +Cerenkov_Air2Z +Cerenkov_SiOZ+Cerenkov_AluZ/2.); //in Cerenkov mother volume
-	G4ThreeVector posCeAlu2  = G4ThreeVector(0, 0,Cerenkov_sizeZ/2.+Cerenkov_AluZ/2.); //in Cerenkov mother volume
+	G4ThreeVector posCeAlu2  = G4ThreeVector(0, 0,Cerenkov_sizeZ/2.-Cerenkov_AluZ/2.); //in Cerenkov mother volume
 																																																																																						//##################################
 	
 
@@ -530,7 +543,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4Material* aria = nist->FindOrBuildMaterial("G4_AIR");
 	G4Material* berillio = nist->FindOrBuildMaterial("G4_Be");
 	G4Material* silicio = nist->FindOrBuildMaterial("G4_Si");
-//	G4Material* ferro = nist->FindOrBuildMaterial("G4_Fe");
+	G4Material* ferro = nist->FindOrBuildMaterial("G4_Fe");
 	G4Material* plastica = nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE");
 	G4Material* alluminium = nist->FindOrBuildMaterial("G4_ALUMINUM_OXIDE");
 	G4Material* piombo = nist->FindOrBuildMaterial("G4_Pb");
@@ -608,19 +621,20 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	G4bool checkOverlaps = true;
 
-#if 0 //toggle to put all materials to vaccum, to study trajectory of primary beam
-	G4cout<<"ATTENTION! ALL MATERIALS ARE SET TO VACUUM TO SHOW PRIMARY TRACKS BEHAVIOUR!!!"<<G4endl;
-	silicio=vuoto;
-//	berillio=vuoto;
-	aria=vuoto;
-	PbGl=vuoto;
-	alluminium=vuoto;
-	SiO2=vuoto;
-	ferro=vuoto;
-	Tungsteno=vuoto;
-	piombo=vuoto;
-	
-#endif
+//#if 1 //toggle to put all materials to vaccum, to study trajectory of primary beam
+	if (fAllVacFlag) {
+		G4cout<<"ATTENTION! ALL MATERIALS ARE SET TO VACUUM TO SHOW PRIMARY TRACKS BEHAVIOUR!!!"<<G4endl;
+		silicio=vuoto;
+		//	berillio=vuoto;
+		aria=vuoto;
+		PbGl=vuoto;
+		alluminium=vuoto;
+		SiO2=vuoto;
+		ferro=vuoto;
+		Tungsteno=vuoto;
+		piombo=vuoto;
+	}
+//#endif
 	
 	
 	// ================
@@ -808,6 +822,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4LogicalVolume* logicPb2c = new G4LogicalVolume(solidPb2c, PbGl,"Pb2c");
 	new G4PVPlacement(0,posPb2c,logicPb2c,"Pb2c",logicCaloTable2,false,0,checkOverlaps);
 	
+	//-- Shield Wall (Fe) before chambers
+	G4Box* shield = new G4Box("Shield",shield_sizeX/2, shield_sizeY/2, shield_sizeZ/2);
+	G4LogicalVolume* logicShield = new G4LogicalVolume(shield, ferro, "Shield");
+	new G4PVPlacement(0,posShield,logicShield,"Shield",logicWorld,false,0,checkOverlaps);
+	
+	
 
 	//-- Cerenkov counter n 1
 	G4Box* solidCe1 = new G4Box("Ce1",Cerenkov_sizeX/2,Cerenkov_sizeY/2,Cerenkov_sizeZ/2);
@@ -861,9 +881,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 		
 	}
 #endif
-	
-	
-	
+
 	
 	/*
 	new G4PVPlacement(0,posCeSiO1A,logicCe1SiO,"Ce1SiO1a",logicCe1,false,0,checkOverlaps);

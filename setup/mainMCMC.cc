@@ -66,14 +66,16 @@ int main(int argc,char** argv)
 	G4bool TargetFlag=true;
 	G4bool FlipFieldFlag=true; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
 //	G4bool MagMapFlag=true;
-	G4double MagField=-1.62;
+//	G4double MagField=-1.72; //was -1.62
+	G4double MagField=599; // 2018-07-12 this way we are simulating the case with "HW current 600" (taking into account non linearities)
 	G4bool StoreCaloEnDepFlag=false; //to disable scoring of energy deposition (gamma, e+, e-, total) in calorimeters (sparing ~15% of disk space)
 																	 //Flags to force use of externally generated primary files (for bhabha and muon pair production)
 																	 //Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
 																	 //These flags ovverride previous ones (CalibMuonBeamFlag, ElectronBeamFlag etc) and also BeamEnergy
 	G4bool ExtSourceFlagBha=false;
 	G4bool ExtSourceFlagMu=false;
-	
+	G4bool AllVacFlag=false;
+
 	//Flag to cut on output file: photons with energy lower than this value will not be written. Set negative to write them all
 	G4double RootCutThr=1*GeV;
 	G4double GeometryZoom=1; //Transverse zoom of trackers (Ts and Cs det)
@@ -157,6 +159,10 @@ int main(int argc,char** argv)
 			{
 				NProcInput=stoi (argv[++i], NULL);;
 			}
+			else if(option.compare("-AllVac")==0)
+			{
+				AllVacFlag=stoi (argv[++i], NULL);;
+			}
 			else if(option.compare("-Label")==0)
 			{
 				FileNameLabel= argv[++i];;
@@ -195,7 +201,7 @@ int main(int argc,char** argv)
 	G4bool channeling = false;
 	G4String ctype = "Si" ;  // "C" or "Si"
 													 //==================================================
-	B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom);
+	B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag);
 	detector->SetChanneling(channeling,ctype);
 	
 	if ( FTFP ){
@@ -293,8 +299,13 @@ int main(int argc,char** argv)
 	if (TargetFlag) OutputFilename.append("_T");
 	else  OutputFilename.append("_NoT");
 	
-	if (MagField>=0) OutputFilename.append("_FieldM"+std::to_string(G4int (MagField) )); //Map
-	else  OutputFilename.append("_FieldF"+ std::to_string(G4int (-MagField*100) )); //Fixed
+	if (MagField>=0) {
+		OutputFilename.append("_FieldM"); //Map
+		if (MagField!=599) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Map
+	} else  {
+		OutputFilename.append("_FieldF");
+		if (MagField!=599) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Fixed
+	}
 	
 	if (FlipFieldFlag) OutputFilename.append("f");
 	
@@ -305,6 +316,8 @@ int main(int argc,char** argv)
 	
 	if (GeometryZoom!=1) OutputFilename.append("_Z" + std::to_string(G4int (GeometryZoom) ));
 	
+	if (AllVacFlag) OutputFilename.append("_VAC");
+
 	G4String OutputFilenameSecondNote ="";
 	if (FileNameLabel!="") OutputFilename.append("_" + FileNameLabel);
 	OutputFilename.append(OutputFilenameSecondNote);

@@ -57,18 +57,41 @@
 #
 # To invert the above, drawing all particles except gammas,
 /vis/filtering/trajectories/create/particleFilter
-#/vis/filtering/trajectories/particleFilter-0/add e+
+/vis/filtering/trajectories/particleFilter-0/add e+
 #/vis/filtering/trajectories/particleFilter-0/add e-
 /vis/filtering/trajectories/particleFilter-0/add mu+
 #/vis/filtering/trajectories/particleFilter-0/add mu-
 #/vis/filtering/trajectories/particleFilter-0/add opticalphoton
+
+
+###### TO FILTER TRACKS ACCORDING TO ENERGY!!!
+
+# /vis/modeling/trajectories/create/drawByAttribute EnCut
+# /vis/modeling/trajectories/EnCut/setAttribute IKE
+#
+# /vis/modeling/trajectories/EnCut/addInterval interval1 0.0 keV 15 GeV
+# /vis/modeling/trajectories/EnCut/addInterval interval2 15 GeV 50 GeV
+#
+# /vis/modeling/trajectories/EnCut/interval1/setDrawLine   0
+# /vis/modeling/trajectories/EnCut/interval2/setDrawLine  1
+# /vis/modeling/trajectories/EnCut/interval1/setLineColour red
+# /vis/modeling/trajectories/EnCut/interval2/setLineColour blue
+#
+# /vis/modeling/trajectories/EnCut/setAttribute PDG
+# /vis/modeling/trajectories/EnCut/addValue fotoni 22
+# /vis/modeling/trajectories/EnCut/fotoni/setLineColour yellow
+
+################################
+
 
 # keep the above two lines but also add:
 #/vis/filtering/trajectories/particleFilter-0/invert true
 #
 # Many other options are available with /vis/modeling and /vis/filtering.
 # For example, to select colour by particle ID:
-/vis/modeling/trajectories/create/drawByParticleID
+
+#/vis/modeling/trajectories/create/drawByParticleID
+
 #/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts true
 # To select or override default colours (note: e+ is blue by default):
 #/vis/modeling/trajectories/list
@@ -90,13 +113,23 @@
 # Axes, scale, etc.
 #/vis/scene/add/scale   # Simple scale line
 #/vis/scene/add/scale 31.324 m z 0 1 0 manual 0 0 15.662 m
-/vis/scene/add/scale 22.20 m z 0 1 0 manual 0 0 11.1 m
+/vis/scene/add/scale 5.6 m z 0 1 0 manual 0 0 2.8 m
+/vis/scene/add/scale 15 m z 0 1 0 manual 0 0 7.5 m
+/vis/scene/add/scale 17.4 m z 0 1 0 manual 0 0 8.7 m
+/vis/scene/add/scale 17.8 m z 0 1 0 manual 0 0 8.9 m
+/vis/scene/add/scale 21 m z 0 1 0 manual 0 0 10.5 m
+/vis/scene/add/scale 21.1 m z 0 1 0 manual 0 0 10.55 m
+/vis/scene/add/scale 24.3 m z 0 1 0 manual 0 0 12.15 m
+
+/vis/scene/add/scale 21.15 m z 0 0 1 manual 0 0 10.575 m
+/vis/scene/add/scale 22.20 m z 0 0 1 manual 0 0 11.1 m
+/vis/scene/add/scale 21.60 m z 0 0 1 manual 0 0 10.8 m
 /vis/scene/add/scale 22.70 m z 0 0 1 manual 0 0 11.35 m
-/vis/scene/add/axes    # Simple axes: x=red, y=green, z=blue.
+#/vis/scene/add/axes    # Simple axes: x=red, y=green, z=blue.
 /vis/scene/add/eventID # Drawn at end of event
 /vis/scene/add/scale 38.34 cm x 1 0 0 manual 0.1917 0 22.2 m
-/vis/scene/add/scale 23.6565 m z 1 1 0 manual 0 0 11.82825 m
-/vis/scene/add/scale 24.1065 m z 1 0 0 manual 0 0 12.05325 m
+/vis/scene/add/scale 23.6565 m z 0 0 1 manual 0 0 11.82825 m
+/vis/scene/add/scale 24.1065 m z 0 0 1 manual 0 0 12.05325 m
 #/vis/scene/add/scale  6 m z 1 0 0 manual 0 0 19.20 m
 #/vis/scene/add/date    # Date stamp
 /vis/scene/add/logo2D  # Simple logo
