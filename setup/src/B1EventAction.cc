@@ -65,6 +65,42 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	
 	(fRunAction->GetVectorCross()).clear();
 
+	(fRunAction->GetVectorPbGlass1EnterEne()).clear();
+	(fRunAction->GetVectorPbGlass1EnterPart()).clear();
+	(fRunAction->GetVectorPbGlass1EnterX()).clear();
+	(fRunAction->GetVectorPbGlass1EnterY()).clear();
+	(fRunAction->GetVectorPbGlass1EnterZ()).clear();
+	(fRunAction->GetVectorPbGlass1EnterPX()).clear();
+	(fRunAction->GetVectorPbGlass1EnterPY()).clear();
+	(fRunAction->GetVectorPbGlass1EnterPZ()).clear();
+	
+	(fRunAction->GetVectorPbGlass2EnterEne()).clear();
+	(fRunAction->GetVectorPbGlass2EnterPart()).clear();
+	(fRunAction->GetVectorPbGlass2EnterX()).clear();
+	(fRunAction->GetVectorPbGlass2EnterY()).clear();
+	(fRunAction->GetVectorPbGlass2EnterZ()).clear();
+	(fRunAction->GetVectorPbGlass2EnterPX()).clear();
+	(fRunAction->GetVectorPbGlass2EnterPY()).clear();
+	(fRunAction->GetVectorPbGlass2EnterPZ()).clear();
+	
+	(fRunAction->GetVectorPbGlass1ExitEne()).clear();
+	(fRunAction->GetVectorPbGlass1ExitPart()).clear();
+	(fRunAction->GetVectorPbGlass1ExitX()).clear();
+	(fRunAction->GetVectorPbGlass1ExitY()).clear();
+	(fRunAction->GetVectorPbGlass1ExitZ()).clear();
+	(fRunAction->GetVectorPbGlass1ExitPX()).clear();
+	(fRunAction->GetVectorPbGlass1ExitPY()).clear();
+	(fRunAction->GetVectorPbGlass1ExitPZ()).clear();
+	
+	(fRunAction->GetVectorPbGlass2ExitEne()).clear();
+	(fRunAction->GetVectorPbGlass2ExitPart()).clear();
+	(fRunAction->GetVectorPbGlass2ExitX()).clear();
+	(fRunAction->GetVectorPbGlass2ExitY()).clear();
+	(fRunAction->GetVectorPbGlass2ExitZ()).clear();
+	(fRunAction->GetVectorPbGlass2ExitPX()).clear();
+	(fRunAction->GetVectorPbGlass2ExitPY()).clear();
+	(fRunAction->GetVectorPbGlass2ExitPZ()).clear();
+	
 	
 	(fRunAction->GetBeamInfoX()).clear();
 	(fRunAction->GetBeamInfoY()).clear();
@@ -94,6 +130,8 @@ void B1EventAction::EndOfEventAction(const G4Event*){
 	
 	analysisManager->AddNtupleRow(0);
 	analysisManager->AddNtupleRow(1);
+	analysisManager->AddNtupleRow(2);
+	analysisManager->AddNtupleRow(3);
 
 	G4cout <<"\n---> End of Event:"<<G4endl;
 	

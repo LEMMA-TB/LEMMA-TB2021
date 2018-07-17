@@ -54,7 +54,43 @@ class B1RunAction : public G4UserRunAction
 	std::vector<G4double>& GetCaloEnDep() {return RunVectorCaloEnDep; }
 
 	std::vector<G4double>& GetVectorCross() {return RunVectorCross; }
-
+	
+	std::vector<G4double>& GetVectorPbGlass1EnterEne() {return RunVectorPbGlass1EnterEne; }
+	std::vector<G4double>& GetVectorPbGlass1EnterPart() {return RunVectorPbGlass1EnterPart; }
+	std::vector<G4double>& GetVectorPbGlass1EnterX() {return RunVectorPbGlass1EnterX; }
+	std::vector<G4double>& GetVectorPbGlass1EnterY() {return RunVectorPbGlass1EnterY; }
+	std::vector<G4double>& GetVectorPbGlass1EnterZ() {return RunVectorPbGlass1EnterZ; }
+	std::vector<G4double>& GetVectorPbGlass1EnterPX() {return RunVectorPbGlass1EnterPX; }
+	std::vector<G4double>& GetVectorPbGlass1EnterPY() {return RunVectorPbGlass1EnterPY; }
+	std::vector<G4double>& GetVectorPbGlass1EnterPZ() {return RunVectorPbGlass1EnterPZ; }
+	
+	std::vector<G4double>& GetVectorPbGlass2EnterEne() {return RunVectorPbGlass2EnterEne; }
+	std::vector<G4double>& GetVectorPbGlass2EnterPart() {return RunVectorPbGlass2EnterPart; }
+	std::vector<G4double>& GetVectorPbGlass2EnterX() {return RunVectorPbGlass2EnterX; }
+	std::vector<G4double>& GetVectorPbGlass2EnterY() {return RunVectorPbGlass2EnterY; }
+	std::vector<G4double>& GetVectorPbGlass2EnterZ() {return RunVectorPbGlass2EnterZ; }
+	std::vector<G4double>& GetVectorPbGlass2EnterPX() {return RunVectorPbGlass2EnterPX; }
+	std::vector<G4double>& GetVectorPbGlass2EnterPY() {return RunVectorPbGlass2EnterPY; }
+	std::vector<G4double>& GetVectorPbGlass2EnterPZ() {return RunVectorPbGlass2EnterPZ; }
+	
+	std::vector<G4double>& GetVectorPbGlass1ExitEne() {return RunVectorPbGlass1ExitEne; }
+	std::vector<G4double>& GetVectorPbGlass1ExitPart() {return RunVectorPbGlass1ExitPart; }
+	std::vector<G4double>& GetVectorPbGlass1ExitX() {return RunVectorPbGlass1ExitX; }
+	std::vector<G4double>& GetVectorPbGlass1ExitY() {return RunVectorPbGlass1ExitY; }
+	std::vector<G4double>& GetVectorPbGlass1ExitZ() {return RunVectorPbGlass1ExitZ; }
+	std::vector<G4double>& GetVectorPbGlass1ExitPX() {return RunVectorPbGlass1ExitPX; }
+	std::vector<G4double>& GetVectorPbGlass1ExitPY() {return RunVectorPbGlass1ExitPY; }
+	std::vector<G4double>& GetVectorPbGlass1ExitPZ() {return RunVectorPbGlass1ExitPZ; }
+	
+	std::vector<G4double>& GetVectorPbGlass2ExitEne() {return RunVectorPbGlass2ExitEne; }
+	std::vector<G4double>& GetVectorPbGlass2ExitPart() {return RunVectorPbGlass2ExitPart; }
+	std::vector<G4double>& GetVectorPbGlass2ExitX() {return RunVectorPbGlass2ExitX; }
+	std::vector<G4double>& GetVectorPbGlass2ExitY() {return RunVectorPbGlass2ExitY; }
+	std::vector<G4double>& GetVectorPbGlass2ExitZ() {return RunVectorPbGlass2ExitZ; }
+	std::vector<G4double>& GetVectorPbGlass2ExitPX() {return RunVectorPbGlass2ExitPX; }
+	std::vector<G4double>& GetVectorPbGlass2ExitPY() {return RunVectorPbGlass2ExitPY; }
+	std::vector<G4double>& GetVectorPbGlass2ExitPZ() {return RunVectorPbGlass2ExitPZ; }
+	
 	std::vector<G4double>& GetBeamInfoX() {return BeamInfoX; }
 	std::vector<G4double>& GetBeamInfoY() {return BeamInfoY; }
 	std::vector<G4double>& GetBeamInfoZ() {return BeamInfoZ; }
@@ -106,7 +142,43 @@ private:
 	
 	std::vector<G4double> RunVectorCaloEnDep;
 	
-//	std::vector<G4double> RunVectorCerenkovDepo;
+	std::vector<G4double> RunVectorPbGlass1EnterEne;
+	std::vector<G4double> RunVectorPbGlass1EnterPart;
+	std::vector<G4double> RunVectorPbGlass1EnterX;
+	std::vector<G4double> RunVectorPbGlass1EnterY;
+	std::vector<G4double> RunVectorPbGlass1EnterZ;
+	std::vector<G4double> RunVectorPbGlass1EnterPX;
+	std::vector<G4double> RunVectorPbGlass1EnterPY;
+	std::vector<G4double> RunVectorPbGlass1EnterPZ;
+	
+	std::vector<G4double> RunVectorPbGlass2EnterEne;
+	std::vector<G4double> RunVectorPbGlass2EnterPart;
+	std::vector<G4double> RunVectorPbGlass2EnterX;
+	std::vector<G4double> RunVectorPbGlass2EnterY;
+	std::vector<G4double> RunVectorPbGlass2EnterZ;
+	std::vector<G4double> RunVectorPbGlass2EnterPX;
+	std::vector<G4double> RunVectorPbGlass2EnterPY;
+	std::vector<G4double> RunVectorPbGlass2EnterPZ;
+	
+	std::vector<G4double> RunVectorPbGlass1ExitEne;
+	std::vector<G4double> RunVectorPbGlass1ExitPart;
+	std::vector<G4double> RunVectorPbGlass1ExitX;
+	std::vector<G4double> RunVectorPbGlass1ExitY;
+	std::vector<G4double> RunVectorPbGlass1ExitZ;
+	std::vector<G4double> RunVectorPbGlass1ExitPX;
+	std::vector<G4double> RunVectorPbGlass1ExitPY;
+	std::vector<G4double> RunVectorPbGlass1ExitPZ;
+	
+	std::vector<G4double> RunVectorPbGlass2ExitEne;
+	std::vector<G4double> RunVectorPbGlass2ExitPart;
+	std::vector<G4double> RunVectorPbGlass2ExitX;
+	std::vector<G4double> RunVectorPbGlass2ExitY;
+	std::vector<G4double> RunVectorPbGlass2ExitZ;
+	std::vector<G4double> RunVectorPbGlass2ExitPX;
+	std::vector<G4double> RunVectorPbGlass2ExitPY;
+	std::vector<G4double> RunVectorPbGlass2ExitPZ;
+	
+	//	std::vector<G4double> RunVectorCerenkovDepo;
 //	std::vector<G4int> RunVectorCerenkovDepoOpt;
 
 	std::vector<G4double> RunVectorCross;

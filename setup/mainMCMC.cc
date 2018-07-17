@@ -41,10 +41,7 @@ using namespace std;
 
 int main(int argc,char** argv)
 {
-	
-	G4Random::setTheEngine(new CLHEP::RanecuEngine);
-	G4long seed = time(NULL);
-	G4Random::setTheSeed(seed);
+
 	
 	G4bool MTFlag=TRUE;
 	//#ifdef G4MULTITHREADED
@@ -67,7 +64,7 @@ int main(int argc,char** argv)
 	G4bool FlipFieldFlag=true; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
 //	G4bool MagMapFlag=true;
 //	G4double MagField=-1.72; //was -1.62
-	G4double MagField=599; // 2018-07-12 this way we are simulating the case with "HW current 600" (taking into account non linearities)
+	G4double MagField=599; // 2018-07-12 this way we are simulating the case with "HW current 700 - SW current 600" (taking into account non linearities)
 	G4bool StoreCaloEnDepFlag=false; //to disable scoring of energy deposition (gamma, e+, e-, total) in calorimeters (sparing ~15% of disk space)
 																	 //Flags to force use of externally generated primary files (for bhabha and muon pair production)
 																	 //Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
@@ -82,6 +79,7 @@ int main(int argc,char** argv)
 	
 	G4int NProcInput=1; // default value for number of threads requested (1-> SingleT, <0-> MultiT, X-> X threads)
 
+	G4bool DetEnterExitFlag=true;
 	
 	G4bool VisFlag=false;
 	G4int NoOfPrimToGen=100, Verbose=0;
@@ -163,7 +161,10 @@ int main(int argc,char** argv)
 			{
 				AllVacFlag=stoi (argv[++i], NULL);;
 			}
-			else if(option.compare("-Label")==0)
+			else if(option.compare("-DetEnterExit")==0)
+			{
+				DetEnterExitFlag=stoi (argv[++i], NULL);;
+			}else if(option.compare("-Label")==0)
 			{
 				FileNameLabel= argv[++i];;
 			}
@@ -173,6 +174,12 @@ int main(int argc,char** argv)
 			MacroName = argv[i]; //se ho trovato una macro (senza il "-" davanti) significa che NON voglio l'interattivo
 			VisFlag=false;
 		}
+	
+	
+	G4Random::setTheEngine(new CLHEP::RanecuEngine);
+	G4long seed = time(NULL);
+	if (VisFlag) seed=12345;
+	G4Random::setTheSeed(seed);
 	
 	if (NProcInput==1) MTFlag=false;
 
@@ -232,11 +239,11 @@ int main(int argc,char** argv)
 	
 	if (MTFlag) {
 		runManagerMT->SetUserInitialization(detector);
-		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap));
+		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
 		runManagerMT->Initialize();  // init kernel
 	} else {
 		runManager->SetUserInitialization(detector);
-		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap));
+		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
 		runManager->Initialize();  // init kernel
 	}
 	
@@ -335,7 +342,7 @@ int main(int argc,char** argv)
 	
 	if (MTFlag) {
 		G4cout<<
-		"\n ##################################### \n ##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\")\n ;TFile *file = TFile::Open(\""<< OutputFilename<<".root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n file->Write();\n ##################################### \n ##################################### "
+		"\n ##################################### \n ##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\"); \n TChain * chain3 = new TChain(\"DetEnter\");\n	chain3->Add(\"LemmaMC_t*.root\");\n TChain * chain4 = new TChain(\"DetExit\");\n	chain4->Add(\"LemmaMC_t*.root\"); \nTFile *file = TFile::Open(\""<< OutputFilename<<".root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n 	chain3->CloneTree(-1,\"fast\");\n 	chain4->CloneTree(-1,\"fast\");\n file->Write();\n ##################################### \n ##################################### "
 		<<G4endl;
 		//	"########### TO ANALYZE THIS SIMULATION \n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\")\n ;TFile *file = TFile::Open(\"LemmaMC2018_MuMuBert_T_MfCurrent650_10k_PreStepZ_Large.root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n file->Write(); "
 	} else {

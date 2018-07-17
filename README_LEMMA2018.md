@@ -175,6 +175,12 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Calos moved forward and repositioned to leave space for shielding
 - Inserted iron shielding
 
+2018.07.167by collamaf
+- Chenged iron shielding: 2 blocks of 40cm thickness
+- Removed Pb near chambers
+- If vis then fix the rand seed to have reproducibility
+- Added 2 tuples to root file for "what enters/exits detectors" (for now PgGlasses). Command Line flag to enable (default off), file size increases of about 5%
+
 `
 cp link.txt CMakeFiles/mainMCMC.dir/
 now is "gpc" as alias!

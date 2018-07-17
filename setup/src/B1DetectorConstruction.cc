@@ -193,9 +193,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double Mu_sizeY=50*cm;
 	G4double Mu_sizeZ=1.3*cm; //?? 1.3 single layer
 	G4double Mu_gapZ=34.6*cm;
-	G4double MuLead_sizeX=50*cm;
-	G4double MuLead_sizeY=10*cm;
-	G4double MuLead_sizeZ=3*cm;
+	G4double MuLatShield_sizeX=10*cm;
+	G4double MuLatShield_sizeY=100*cm;
+	G4double MuLatShield_sizeZ=40*cm;
 
 	//Calorimeter holding structure:
 	G4double CaloTable_sizeX=Mu_sizeX;
@@ -203,16 +203,15 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double CaloTable_sizeZ=140*cm;
 	
 	G4double DistPbCe=10*cm;
-	G4double DistTableMu=5*cm;
 
-	G4double XOffSetLeadGlass=7*cm;
+	G4double XOffSetLeadGlass=6*cm;
 	
 	
 	// shield wall:
-	G4double shield_sizeX = 1.62*m;
+	G4double shield_sizeX = 1.62/2.*m;
 	G4double shield_sizeY = 2.6*m;
-	G4double shield_sizeZ = 0.8*m;
-	
+	G4double shield_sizeZ = 0.4*m;
+
 	/*
 	 
 	 |— 4mm —|——— 25,6 mm ———|———— 309,4 aria + 500mm acciaio —————|——— 25,6 mm ———|— 4mm —|
@@ -246,14 +245,15 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xPb2c=-xPb1c; //Det
 	G4double xCe1=0; //Det
 	G4double xCe2=-xCe1; //Det
-	G4double xMu1=50*cm; //Det - was 48 up to 06-07-2018, was 37 up to 11-lug-18 (before change in B) 
+	G4double xMu1=53*cm; //Det - was 48 up to 06-07-2018, was 37 up to 11-lug-18 (before change in B)
 	G4double xMu2=-xMu1; //Det
 	G4double xCaloTable1=31*cm; //Det - Was 42 up to 2018.07.04, 34 before moving forward calos
 	G4double xCaloTable2=-xCaloTable1; //Det
-	G4double xMuLeadSide1=xMu1-Mu_sizeX/2-MuLead_sizeZ/2.;
-	G4double xMuLeadSide2=-xMuLeadSide1;
-	G4double xShield=0;
-	
+	G4double xMuLatShield1=xMu1-Mu_sizeX/2.-MuLatShield_sizeX/2.;
+	G4double xMuLatShield2=-xMuLatShield1;
+	G4double xShield1=27*cm+shield_sizeX/2.; //!!!! number is distance edge-central beam axis
+	G4double xShield2=-xShield1;
+
 	if (ZoomFactor>1) {
 		xC2=C2_sizeX/2.;
 		xC3=-C3_sizeX/2.;
@@ -289,10 +289,16 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double yCe2=yCe1; //Det
 	G4double yMu1=0*cm; //Det
 	G4double yMu2=yMu1; //Det
+	G4double yMuLatShield1=0*cm;
+	G4double yMuLatShield2=0*cm;
 	G4double yCaloTable1=0; //Det
 	G4double yCaloTable2=-yCaloTable1; //Det
-	G4double yShield=0;
+	G4double yShield1=0;
+	G4double yShield2=0;
 	
+	
+	
+
 	G4double zT1=60*cm; //Det 10
 	G4double zBP1=220*cm; //Det
 	G4double zT2=380*cm; //Det 20
@@ -315,16 +321,18 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zPb2c=zPb1c; //Det
 	G4double zCe1=-CaloTable_sizeZ/2. +LeadGlass_sizeZ + Cerenkov_sizeZ/2. + DistPbCe; //Det
 	G4double zCe2=zCe1; //Det
-	G4double ZCaloTableStart=2115*cm; //was 2220 until 2018-07-12, but we need space for concrete walle before chambers, 2160 is good if 40cm of shield is enough
+	G4double ZCaloTableStart=2160*cm; //was 2220 until 2018-07-12, but we need space for concrete walle before chambers, 2160 is good if 40cm of shield is enough, 2115
 	G4double zCaloTable=ZCaloTableStart+CaloTable_sizeZ/2.; //Det The table starts at 2220
 	G4double zMu1=2365.65*cm; //Det =23656.5 - was zCaloTable+CaloTable_sizeZ/2.+Mu_sizeZ/2.+DistTableMu
 	G4double zMu2=zMu1; //Det
-	G4double zMuLeadFront1=zMu1-MuLead_sizeZ/2.;
-	G4double zMuLeadFront2=zMu2-MuLead_sizeZ/2.;
-	G4double zMuLeadSide1=zMu1+Mu_sizeZ*4+Mu_gapZ/2.;
-	G4double zMuLeadSide2=zMu2+Mu_sizeZ*4+Mu_gapZ/2.;
-	G4double zShield=zMu1-shield_sizeZ/2.-10*cm;
-
+//	G4double zMuLeadFront1=zMu1-MuLead_sizeZ/2.;
+//	G4double zMuLeadFront2=zMu2-MuLead_sizeZ/2.;
+	G4double zMuLatShield1=zMu1+MuLatShield_sizeZ/2.;
+	G4double zMuLatShield2=zMuLatShield1;
+//	G4double zMuLeadSide1=zMu1+Mu_sizeZ*4+Mu_gapZ/2.;
+//	G4double zMuLeadSide2=zMu2+Mu_sizeZ*4+Mu_gapZ/2.;
+	G4double zShield1=zMu1-shield_sizeZ/2.-0*10*cm;
+	G4double zShield2=zShield1;
 	
 //	cout<<"ZMU1= "<<zMu1<<endl;
 	// ============
@@ -360,11 +368,11 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4ThreeVector posMu2  = G4ThreeVector(xMu2,yMu2,zMu2); // Subdet
 	G4ThreeVector posCaloTable1  = G4ThreeVector(xCaloTable1,yCaloTable1,zCaloTable); // Subdet
 	G4ThreeVector posCaloTable2  = G4ThreeVector(xCaloTable2,yCaloTable2,zCaloTable); // Subdet
-	G4ThreeVector posMuLeadFront1  = G4ThreeVector(xMu1,yMu1,zMuLeadFront1); // Subdet
-	G4ThreeVector posMuLeadFront2  = G4ThreeVector(xMu2,yMu2,zMuLeadFront2); // Subdet
-	G4ThreeVector posMuLeadSide1  = G4ThreeVector(xMuLeadSide1,yMu1,zMuLeadSide1); // Subdet
-	G4ThreeVector posMuLeadSide2  = G4ThreeVector(xMuLeadSide2,yMu2,zMuLeadSide2); // Subdet
-	G4ThreeVector posShield  = G4ThreeVector(xShield,yShield,zShield); // Subdet
+	G4ThreeVector posMuLatShield1 = G4ThreeVector(xMuLatShield1,yMuLatShield1,zMuLatShield1); // Subdet
+	G4ThreeVector posMuLatShield2 = G4ThreeVector(xMuLatShield2,yMuLatShield2,zMuLatShield2); // Subdet
+
+	G4ThreeVector posShield1  = G4ThreeVector(xShield1,yShield1,zShield1); // Subdet
+	G4ThreeVector posShield2  = G4ThreeVector(xShield2,yShield2,zShield2); // Subdet
 
 	
 	
@@ -825,8 +833,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	//-- Shield Wall (Fe) before chambers
 	G4Box* shield = new G4Box("Shield",shield_sizeX/2, shield_sizeY/2, shield_sizeZ/2);
 	G4LogicalVolume* logicShield = new G4LogicalVolume(shield, ferro, "Shield");
-	new G4PVPlacement(0,posShield,logicShield,"Shield",logicWorld,false,0,checkOverlaps);
-	
+	new G4PVPlacement(0,posShield1,logicShield,"Shield1",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0,posShield2,logicShield,"Shield2",logicWorld,false,0,checkOverlaps);
+
 	
 
 	//-- Cerenkov counter n 1
@@ -981,12 +990,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	//-- Muon chamber 1
 	G4Box* solidMu1 = new G4Box("Mu1",Mu_sizeX/2,Mu_sizeY/2,Mu_sizeZ/2);
 	G4LogicalVolume* logicMu1 = new G4LogicalVolume(solidMu1, aria,"Mu1");
-	
-
-	
-	
-//	new G4PVPlacement(0, posMu1,logicMu1,"Mu1",logicWorld,false,0,checkOverlaps);
-
+	//	new G4PVPlacement(0, posMu1,logicMu1,"Mu1",logicWorld,false,0,checkOverlaps);
 //	new G4PVPlacement(0, posMu1,logicMu1,"Mu1",logicCaloTable1,false,0,checkOverlaps);
 
 	//-- Muon chamber 2
@@ -1004,8 +1008,13 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 		new G4PVPlacement(0, G4ThreeVector(posMu2.x(), posMu2.y(), posMu2.z()+(ii+0.5)*Mu_sizeZ+Mu_gapZ),logicMu2,"Mu2",logicWorld,false,ii,checkOverlaps);
 	}
 	
+	//-- Iron lateral chamber shielding
+	G4Box* solidMuLatShield = new G4Box("MuLatShield",MuLatShield_sizeX/2,MuLatShield_sizeY/2,MuLatShield_sizeZ/2);
+	G4LogicalVolume* logicMuLatShield = new G4LogicalVolume(solidMuLatShield, aria,"MuLatShield");
+	new G4PVPlacement(0, posMuLatShield1,logicMuLatShield,"MuLatShield1",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0, posMuLatShield2,logicMuLatShield,"MuLatShield2",logicWorld,false,0,checkOverlaps);
 	
-	
+	/*
 	//-- Lead Plate Front
 	G4Box* solidMuLeadFront = new G4Box("MuLeadFront",MuLead_sizeX/2,MuLead_sizeY/2,MuLead_sizeZ/2);
 	G4LogicalVolume* logicMuLeadFront = new G4LogicalVolume(solidMuLeadFront, piombo,"MuLeadFront");
@@ -1017,7 +1026,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4LogicalVolume* logicMuLeadSide = new G4LogicalVolume(solidMuLeadSide, piombo,"MuLeadSide");
 	new G4PVPlacement(0, posMuLeadSide1,logicMuLeadSide,"MuLeadSide1",logicWorld,false,0,checkOverlaps);
 	new G4PVPlacement(0, posMuLeadSide2,logicMuLeadSide,"MuLeadSide2",logicWorld,false,0,checkOverlaps);
-	
+	*/
 	/*
 	G4cout<<"##################################\nSUMMARIZING GEOMETRY\n"<<G4endl;
 	G4cout<<"physCe2Fe->z="<<physCe2Fe->GetTranslation().z()<<G4endl;

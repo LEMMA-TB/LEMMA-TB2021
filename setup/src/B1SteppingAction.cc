@@ -13,7 +13,7 @@
 #include "G4ProcessType.hh"
 #include "G4OpticalPhoton.hh"
 
-B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4double EThr, const std::vector<G4int> & ChannelMap)
+B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4double EThr, const std::vector<G4int> & ChannelMap, G4bool DetEnterExitFlag)
 : G4UserSteppingAction(),
 fEventAction(eventAction),
 runStepAction(runAction),
@@ -43,7 +43,8 @@ fScoringVolume_Mu1(0),
 fScoringVolume_Mu2(0),
 fStoreCaloEnDepFlag(StoreCaloEnDepFlag),
 fEThr(EThr),
-fChannelMap(ChannelMap)
+fChannelMap(ChannelMap),
+fDetEnterExitFlag(DetEnterExitFlag)
 {}
 
 B1SteppingAction::~B1SteppingAction()
@@ -87,8 +88,69 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	G4LogicalVolume* volume =
 	step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
 	
-//	G4VPhysicalVolume* ThisVol = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
-//	G4VPhysicalVolume* NextVol = step->GetPostStepPoint()->GetTouchableHandle()->GetVolume();
+	G4VPhysicalVolume* ThisVol = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
+	G4VPhysicalVolume* NextVol = step->GetPostStepPoint()->GetTouchableHandle()->GetVolume();
+	
+	if (fDetEnterExitFlag) {
+		// ########################
+		// What enters PbGlass 1
+		
+		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetLogicalVolume()==fScoringVolume_Pb1a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb1b || NextVol->GetLogicalVolume()==fScoringVolume_Pb1c) ) {
+			(runStepAction->GetVectorPbGlass1EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorPbGlass1EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorPbGlass1EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorPbGlass1EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorPbGlass1EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorPbGlass1EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorPbGlass1EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorPbGlass1EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+		}
+		
+		
+		// ########################
+		// What enters PbGlass 2
+		
+		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetLogicalVolume()==fScoringVolume_Pb2a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb2b || NextVol->GetLogicalVolume()==fScoringVolume_Pb2c) ) {
+			(runStepAction->GetVectorPbGlass2EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorPbGlass2EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorPbGlass2EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorPbGlass2EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorPbGlass2EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorPbGlass2EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorPbGlass2EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorPbGlass2EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+			
+		}
+		
+		// ########################
+		// What exits PbGlass 1
+		
+		if (NextVol && NextVol->GetName()=="World" && ( ThisVol->GetLogicalVolume()==fScoringVolume_Pb1a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb1b || NextVol->GetLogicalVolume()==fScoringVolume_Pb1c) ) {
+			(runStepAction->GetVectorPbGlass1ExitEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorPbGlass1ExitPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorPbGlass1ExitX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorPbGlass1ExitY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorPbGlass1ExitZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorPbGlass1ExitPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorPbGlass1ExitPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorPbGlass1ExitPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+		}
+		
+		// ########################
+		// What exits PbGlass 2
+		
+		if (NextVol && NextVol->GetName()=="World" && ( ThisVol->GetLogicalVolume()==fScoringVolume_Pb2a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb2b || NextVol->GetLogicalVolume()==fScoringVolume_Pb2c) ) {
+			(runStepAction->GetVectorPbGlass2ExitEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorPbGlass2ExitPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorPbGlass2ExitX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorPbGlass2ExitY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorPbGlass2ExitZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorPbGlass2ExitPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorPbGlass2ExitPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorPbGlass2ExitPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+		}
+		
+	}
 	
 	G4bool SHOW = false;
 	G4bool dofill = false;

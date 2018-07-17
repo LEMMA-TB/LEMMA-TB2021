@@ -88,7 +88,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleIColumn(0,"Proc", RunVectorProcess);
 	analysisManager->CreateNtupleDColumn(0,"BCross", RunVectorCross);
 
-	
+
 	
 	analysisManager->CreateNtuple("Beam", "SimulatedBeamInfo");
 	
@@ -101,10 +101,52 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(1, "BeamEne", BeamInfoEne);   //6
 	analysisManager->CreateNtupleDColumn(1, "BeamPart", BeamInfoPart);   //7
 	
+	analysisManager->CreateNtuple("DetEnter", "WhatEntersCalos");
+	analysisManager->CreateNtupleDColumn(2,"PbGl1Ene", RunVectorPbGlass1EnterEne);
+	analysisManager->CreateNtupleDColumn(2,"PbGl1Part", RunVectorPbGlass1EnterPart);
+	analysisManager->CreateNtupleDColumn(2,"PbGl1X", RunVectorPbGlass1EnterX);
+	analysisManager->CreateNtupleDColumn(2,"PbGl1Y", RunVectorPbGlass1EnterY);
+	analysisManager->CreateNtupleDColumn(2,"PbGl1Z", RunVectorPbGlass1EnterZ);
+	analysisManager->CreateNtupleDColumn(2,"PbGl1PX", RunVectorPbGlass1EnterPX);
+	analysisManager->CreateNtupleDColumn(2,"PbGl1PY", RunVectorPbGlass1EnterPY);
+	analysisManager->CreateNtupleDColumn(2,"PbGl1PZ", RunVectorPbGlass1EnterPZ);
+
+	analysisManager->CreateNtupleDColumn(2,"PbGl2Ene", RunVectorPbGlass2EnterEne);
+	analysisManager->CreateNtupleDColumn(2,"PbGl2Part", RunVectorPbGlass2EnterPart);
+	analysisManager->CreateNtupleDColumn(2,"PbGl2X", RunVectorPbGlass2EnterX);
+	analysisManager->CreateNtupleDColumn(2,"PbGl2Y", RunVectorPbGlass2EnterY);
+	analysisManager->CreateNtupleDColumn(2,"PbGl2Z", RunVectorPbGlass2EnterZ);
+	analysisManager->CreateNtupleDColumn(2,"PbGl2PX", RunVectorPbGlass2EnterPX);
+	analysisManager->CreateNtupleDColumn(2,"PbGl2PY", RunVectorPbGlass2EnterPY);
+	analysisManager->CreateNtupleDColumn(2,"PbGl2PZ", RunVectorPbGlass2EnterPZ);
+	
+	
+	analysisManager->CreateNtuple("DetExit", "WhatExitsCalos");
+	analysisManager->CreateNtupleDColumn(3,"PbGl1Ene", RunVectorPbGlass1ExitEne);
+	analysisManager->CreateNtupleDColumn(3,"PbGl1Part", RunVectorPbGlass1ExitPart);
+	analysisManager->CreateNtupleDColumn(3,"PbGl1X", RunVectorPbGlass1ExitX);
+	analysisManager->CreateNtupleDColumn(3,"PbGl1Y", RunVectorPbGlass1ExitY);
+	analysisManager->CreateNtupleDColumn(3,"PbGl1Z", RunVectorPbGlass1ExitZ);
+	analysisManager->CreateNtupleDColumn(3,"PbGl1PX", RunVectorPbGlass1ExitPX);
+	analysisManager->CreateNtupleDColumn(3,"PbGl1PY", RunVectorPbGlass1ExitPY);
+	analysisManager->CreateNtupleDColumn(3,"PbGl1PZ", RunVectorPbGlass1ExitPZ);
+
+	analysisManager->CreateNtupleDColumn(3,"PbGl2Ene", RunVectorPbGlass2ExitEne);
+	analysisManager->CreateNtupleDColumn(3,"PbGl2Part", RunVectorPbGlass2ExitPart);
+	analysisManager->CreateNtupleDColumn(3,"PbGl2X", RunVectorPbGlass2ExitX);
+	analysisManager->CreateNtupleDColumn(3,"PbGl2Y", RunVectorPbGlass2ExitY);
+	analysisManager->CreateNtupleDColumn(3,"PbGl2Z", RunVectorPbGlass2ExitZ);
+	analysisManager->CreateNtupleDColumn(3,"PbGl2PX", RunVectorPbGlass2ExitPX);
+	analysisManager->CreateNtupleDColumn(3,"PbGl2PY", RunVectorPbGlass2ExitPY);
+	analysisManager->CreateNtupleDColumn(3,"PbGl2PZ", RunVectorPbGlass2ExitPZ);
 	
 	analysisManager->FinishNtuple(0);
 
 	analysisManager->FinishNtuple(1);
+
+	analysisManager->FinishNtuple(2);
+	analysisManager->FinishNtuple(3);
+
 	
 	analysisManager->CreateH1("CaloMap","CaloMap",fChannelMap.size(),0.,fChannelMap.size());
 	analysisManager->SetH1XAxisTitle(0,"Channel");

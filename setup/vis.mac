@@ -65,21 +65,27 @@
 
 
 ###### TO FILTER TRACKS ACCORDING TO ENERGY!!!
+#
+/vis/modeling/trajectories/create/drawByAttribute EnCut
+/vis/modeling/trajectories/EnCut/setAttribute IKE
 
-# /vis/modeling/trajectories/create/drawByAttribute EnCut
-# /vis/modeling/trajectories/EnCut/setAttribute IKE
-#
-# /vis/modeling/trajectories/EnCut/addInterval interval1 0.0 keV 15 GeV
-# /vis/modeling/trajectories/EnCut/addInterval interval2 15 GeV 50 GeV
-#
-# /vis/modeling/trajectories/EnCut/interval1/setDrawLine   0
-# /vis/modeling/trajectories/EnCut/interval2/setDrawLine  1
-# /vis/modeling/trajectories/EnCut/interval1/setLineColour red
-# /vis/modeling/trajectories/EnCut/interval2/setLineColour blue
-#
-# /vis/modeling/trajectories/EnCut/setAttribute PDG
-# /vis/modeling/trajectories/EnCut/addValue fotoni 22
-# /vis/modeling/trajectories/EnCut/fotoni/setLineColour yellow
+/vis/modeling/trajectories/EnCut/addInterval interval1 0.0 keV 1 MeV
+/vis/modeling/trajectories/EnCut/addInterval interval2 1 MeV 10 MeV
+/vis/modeling/trajectories/EnCut/addInterval interval3 10 MeV 100 MeV
+/vis/modeling/trajectories/EnCut/addInterval interval4 100 MeV 50 GeV
+
+/vis/modeling/trajectories/EnCut/interval1/setDrawLine   1
+/vis/modeling/trajectories/EnCut/interval2/setDrawLine  1
+/vis/modeling/trajectories/EnCut/interval3/setDrawLine  1
+/vis/modeling/trajectories/EnCut/interval4/setDrawLine  1
+/vis/modeling/trajectories/EnCut/interval1/setLineColour blue
+/vis/modeling/trajectories/EnCut/interval2/setLineColour green
+/vis/modeling/trajectories/EnCut/interval3/setLineColour red
+/vis/modeling/trajectories/EnCut/interval4/setLineColour white
+
+#/vis/modeling/trajectories/EnCut/setAttribute PDG
+#/vis/modeling/trajectories/EnCut/addValue fotoni 22
+#/vis/modeling/trajectories/EnCut/fotoni/setLineColour yellow
 
 ################################
 
@@ -151,7 +157,7 @@
 /vis/geometry/set/visibility World 0 false
 /vis/geometry/set/visibility Envelope 0 false
 /vis/geometry/set/visibility CaloTable1 0 false
-  /vis/geometry/set/visibility CaloTable2 0 false
+/vis/geometry/set/visibility CaloTable2 0 false
 
 #/vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
@@ -203,6 +209,8 @@
 #
 #/vis/viewer/set/upVector 1 0 0
 /vis/viewer/set/viewpointThetaPhi 90 90
+/vis/viewer/set/targetPoint 0.5 0. 22.8 m
+/vis/viewer/zoomTo 10
 # Re-establish auto refreshing and verbosity:
 /vis/viewer/set/autoRefresh true
 /vis/verbose warnings
