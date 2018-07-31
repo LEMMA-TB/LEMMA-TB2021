@@ -88,6 +88,12 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleIColumn(0,"Proc", RunVectorProcess);
 	analysisManager->CreateNtupleDColumn(0,"BCross", RunVectorCross);
 
+	analysisManager->CreateNtupleDColumn(0,"GammaConvX", RunVectorGammaConvX);
+	analysisManager->CreateNtupleDColumn(0,"GammaConvY", RunVectorGammaConvY);
+	analysisManager->CreateNtupleDColumn(0,"GammaConvZ", RunVectorGammaConvZ);
+	analysisManager->CreateNtupleDColumn(0,"GammaConvEne", RunVectorGammaConvEne);
+	analysisManager->CreateNtupleDColumn(0,"GammaConvEnePos", RunVectorGammaConvEnePos);
+	analysisManager->CreateNtupleDColumn(0,"GammaConvEneEle", RunVectorGammaConvEneEle);
 
 	
 	analysisManager->CreateNtuple("Beam", "SimulatedBeamInfo");

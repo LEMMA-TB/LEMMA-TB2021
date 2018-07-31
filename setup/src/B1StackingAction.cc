@@ -77,13 +77,26 @@ G4ClassificationOfNewTrack B1StackingAction::ClassifyNewTrack(const G4Track* atr
 		*/
 	return fUrgent;
 	}
-#if 0
+
 	G4String process = atrack->GetCreatorProcess()->GetProcessName();
   G4int Idp = atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding();
   //  G4double charge = atrack->GetDefinition()->GetPDGCharge();
   //  G4cout<<process<<", Energy = "<<energy<<G4endl;
-
 	
+	// Save info on e+e- created due to gamma conversion in world volume
+	if (atrack->GetCurrentStepNumber()==0 && atrack->GetTouchableHandle()->GetVolume()->GetName()=="World") {
+		if (process=="conv" && Idp==11) {
+			//		G4cout<<"MERDA pos"<<G4endl;
+			(frunAction->GetVectorGammaConvEneEle()).push_back((atrack->GetKineticEnergy()/GeV));
+		}
+		if (process=="conv" && Idp==-11) {
+			//		G4cout<<"MERDA ele"<<G4endl;
+			(frunAction->GetVectorGammaConvEnePos()).push_back((atrack->GetKineticEnergy()/GeV));
+		}
+	}
+	
+		
+#if 0
 	if (process=="annihil" && Idp==22) {
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
     G4double energy = atrack->GetKineticEnergy();

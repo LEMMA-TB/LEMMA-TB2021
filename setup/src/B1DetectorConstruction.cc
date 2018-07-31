@@ -1011,7 +1011,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	//-- Iron lateral chamber shielding
 	G4Box* solidMuLatShield = new G4Box("MuLatShield",MuLatShield_sizeX/2,MuLatShield_sizeY/2,MuLatShield_sizeZ/2);
 	G4LogicalVolume* logicMuLatShield = new G4LogicalVolume(solidMuLatShield, aria,"MuLatShield");
-	new G4PVPlacement(0, posMuLatShield1,logicMuLatShield,"MuLatShield1",logicWorld,false,0,checkOverlaps);
+//	new G4PVPlacement(0, posMuLatShield1,logicMuLatShield,"MuLatShield1",logicWorld,false,0,checkOverlaps);
 	new G4PVPlacement(0, posMuLatShield2,logicMuLatShield,"MuLatShield2",logicWorld,false,0,checkOverlaps);
 	
 	/*
@@ -1106,8 +1106,12 @@ void B1DetectorConstruction::ConstructSDandField(){
 		if (fMagField!=1) fActualCurrent=-fMagField;
 		if (fFlipFieldFlag) fActualCurrent*=-1;
 		//		G4MagneticField* PurgMagField= new PurgMagTabulatedField3D("MappaBTB.TABLE",  -zOffset+100*cm);
-		G4MagneticField* PurgMagField= new PurgMagTabulatedField3D("MappaBTB.TABLE",  zOffset+00*cm, fFlipFieldFlag, fActualCurrent);
+//		G4MagneticField* PurgMagField= new PurgMagTabulatedField3D("MappaBTB.TABLE",  zOffset+00*cm, fFlipFieldFlag, fActualCurrent);
+		G4MagneticField* PurgMagField= new PurgMagTabulatedField3D("MBPL_FieldMap700A.table",  zOffset+00*cm, fFlipFieldFlag, fActualCurrent);
+
 		fField.Put(PurgMagField);
+		
+		
 		
 		G4cout<<"#### Magnetic field according to map has been requested, with a actual current of : "<<fActualCurrent<<G4endl;
 		

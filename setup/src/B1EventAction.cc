@@ -64,6 +64,15 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetCaloEnDep()).assign(fNOfCaloChannels,0);
 	
 	(fRunAction->GetVectorCross()).clear();
+	
+	(fRunAction->GetVectorGammaConvX()).clear();
+	(fRunAction->GetVectorGammaConvY()).clear();
+	(fRunAction->GetVectorGammaConvZ()).clear();
+	(fRunAction->GetVectorGammaConvEne()).clear();
+	(fRunAction->GetVectorGammaConvEnePos()).clear();
+	(fRunAction->GetVectorGammaConvEneEle()).clear();
+
+
 
 	(fRunAction->GetVectorPbGlass1EnterEne()).clear();
 	(fRunAction->GetVectorPbGlass1EnterPart()).clear();

@@ -64,7 +64,7 @@ int main(int argc,char** argv)
 	G4bool FlipFieldFlag=true; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
 //	G4bool MagMapFlag=true;
 //	G4double MagField=-1.72; //was -1.62
-	G4double MagField=599; // 2018-07-12 this way we are simulating the case with "HW current 700 - SW current 600" (taking into account non linearities)
+	G4double MagField=700; // 2018-07-12 this way we are simulating the case with "HW current 700 - SW current 600" (taking into account non linearities), 599 in case "carta e penna", 700 with new map
 	G4bool StoreCaloEnDepFlag=false; //to disable scoring of energy deposition (gamma, e+, e-, total) in calorimeters (sparing ~15% of disk space)
 																	 //Flags to force use of externally generated primary files (for bhabha and muon pair production)
 																	 //Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
@@ -308,10 +308,10 @@ int main(int argc,char** argv)
 	
 	if (MagField>=0) {
 		OutputFilename.append("_FieldM"); //Map
-		if (MagField!=599) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Map
+		if (MagField!=700) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Map
 	} else  {
 		OutputFilename.append("_FieldF");
-		if (MagField!=599) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Fixed
+		if (MagField!=700) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Fixed
 	}
 	
 	if (FlipFieldFlag) OutputFilename.append("f");

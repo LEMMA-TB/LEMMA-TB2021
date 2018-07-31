@@ -91,6 +91,34 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	G4VPhysicalVolume* ThisVol = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
 	G4VPhysicalVolume* NextVol = step->GetPostStepPoint()->GetTouchableHandle()->GetVolume();
 	
+//	if (ThisVol->GetName()=="MuLatShield2" && NextVol->GetName()!="MuLatShield2") { // To keep interesting events for post-run visualization
+	// If we have a Gamma Conversion in World volume save the event
+		if (step->GetPostStepPoint()->GetProcessDefinedStep() && step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "conv" && ThisVol->GetName()=="World") { // To keep interesting events for post-run visualization
+
+			(runStepAction->GetVectorGammaConvX()).push_back((step->GetPostStepPoint()->GetPosition().x()/cm));
+			(runStepAction->GetVectorGammaConvY()).push_back((step->GetPostStepPoint()->GetPosition().y()/cm));
+			(runStepAction->GetVectorGammaConvZ()).push_back((step->GetPostStepPoint()->GetPosition().z()/cm));
+			(runStepAction->GetVectorGammaConvEne()).push_back((step->GetPreStepPoint()->GetKineticEnergy()/GeV));
+
+			
+			G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
+		evt->KeepTheEvent();
+//			G4cout<<"Evt n: "<< evt->GetEventID() <<" Gamma conversion in world! z= "<< step->GetPostStepPoint()->GetPosition().z()/cm<<" Gamma Ene= "<<step->GetPreStepPoint()->GetKineticEnergy()/GeV << G4endl;
+
+		}
+	
+#if 0
+	if (step->GetTrack()->GetCreatorProcess() && step->GetTrack()->GetCurrentStepNumber()==1) {
+		if (step->GetTrack()->GetCreatorProcess()->GetProcessName() == "conv" && step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==11) {
+			(runStepAction->GetVectorGammaConvEneEle()).push_back((step->GetPreStepPoint()->GetKineticEnergy()/GeV));
+		}
+		
+		if (step->GetTrack()->GetCreatorProcess()->GetProcessName() == "conv" && step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==-11) {
+			(runStepAction->GetVectorGammaConvEnePos()).push_back((step->GetPreStepPoint()->GetKineticEnergy()/GeV));
+		}
+	}
+#endif
+
 	if (fDetEnterExitFlag) {
 		// ########################
 		// What enters PbGlass 1

@@ -56,10 +56,10 @@
 
 #
 # To invert the above, drawing all particles except gammas,
-/vis/filtering/trajectories/create/particleFilter
-/vis/filtering/trajectories/particleFilter-0/add e+
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add e+
 #/vis/filtering/trajectories/particleFilter-0/add e-
-/vis/filtering/trajectories/particleFilter-0/add mu+
+#/vis/filtering/trajectories/particleFilter-0/add mu+
 #/vis/filtering/trajectories/particleFilter-0/add mu-
 #/vis/filtering/trajectories/particleFilter-0/add opticalphoton
 
@@ -72,16 +72,19 @@
 /vis/modeling/trajectories/EnCut/addInterval interval1 0.0 keV 1 MeV
 /vis/modeling/trajectories/EnCut/addInterval interval2 1 MeV 10 MeV
 /vis/modeling/trajectories/EnCut/addInterval interval3 10 MeV 100 MeV
-/vis/modeling/trajectories/EnCut/addInterval interval4 100 MeV 50 GeV
+/vis/modeling/trajectories/EnCut/addInterval interval4 100 MeV 1 GeV
+/vis/modeling/trajectories/EnCut/addInterval interval5 1 GeV 50 GeV
 
-/vis/modeling/trajectories/EnCut/interval1/setDrawLine   1
-/vis/modeling/trajectories/EnCut/interval2/setDrawLine  1
-/vis/modeling/trajectories/EnCut/interval3/setDrawLine  1
-/vis/modeling/trajectories/EnCut/interval4/setDrawLine  1
-/vis/modeling/trajectories/EnCut/interval1/setLineColour blue
+/vis/modeling/trajectories/EnCut/interval1/setDrawLine   0
+/vis/modeling/trajectories/EnCut/interval2/setDrawLine  0
+/vis/modeling/trajectories/EnCut/interval3/setDrawLine  0
+/vis/modeling/trajectories/EnCut/interval4/setDrawLine  0
+/vis/modeling/trajectories/EnCut/interval5/setDrawLine  1
+/vis/modeling/trajectories/EnCut/interval1/setLineColour red
 /vis/modeling/trajectories/EnCut/interval2/setLineColour green
-/vis/modeling/trajectories/EnCut/interval3/setLineColour red
-/vis/modeling/trajectories/EnCut/interval4/setLineColour white
+/vis/modeling/trajectories/EnCut/interval3/setLineColour blue
+/vis/modeling/trajectories/EnCut/interval4/setLineColour yellow
+/vis/modeling/trajectories/EnCut/interval5/setLineColour white
 
 #/vis/modeling/trajectories/EnCut/setAttribute PDG
 #/vis/modeling/trajectories/EnCut/addValue fotoni 22
@@ -96,7 +99,10 @@
 # Many other options are available with /vis/modeling and /vis/filtering.
 # For example, to select colour by particle ID:
 
-#/vis/modeling/trajectories/create/drawByParticleID
+# /vis/modeling/trajectories/create/drawByParticleID
+# /vis/modeling/trajectories/drawByParticleID-0/set gamma green
+# /vis/modeling/trajectories/drawByParticleID-0/set e+ blue
+# /vis/modeling/trajectories/drawByParticleID-0/set e- red
 
 #/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts true
 # To select or override default colours (note: e+ is blue by default):
@@ -128,14 +134,15 @@
 /vis/scene/add/scale 24.3 m z 0 1 0 manual 0 0 12.15 m
 
 /vis/scene/add/scale 21.15 m z 0 0 1 manual 0 0 10.575 m
-/vis/scene/add/scale 22.20 m z 0 0 1 manual 0 0 11.1 m
 /vis/scene/add/scale 21.60 m z 0 0 1 manual 0 0 10.8 m
+/vis/scene/add/scale 22.20 m z 0 0 1 manual 0 0 11.1 m
 /vis/scene/add/scale 22.70 m z 0 0 1 manual 0 0 11.35 m
 #/vis/scene/add/axes    # Simple axes: x=red, y=green, z=blue.
 /vis/scene/add/eventID # Drawn at end of event
-/vis/scene/add/scale 38.34 cm x 1 0 0 manual 0.1917 0 22.2 m
+#/vis/scene/add/scale 38.34 m x 1 0 0 manual 0.1917 0 22.2 m
 /vis/scene/add/scale 23.6565 m z 0 0 1 manual 0 0 11.82825 m
 /vis/scene/add/scale 24.1065 m z 0 0 1 manual 0 0 12.05325 m
+/vis/scene/add/scale 20.39 m z 1 0 0 manual 0 0 10.195 m
 #/vis/scene/add/scale  6 m z 1 0 0 manual 0 0 19.20 m
 #/vis/scene/add/date    # Date stamp
 /vis/scene/add/logo2D  # Simple logo
@@ -208,9 +215,11 @@
 #/vis/viewer/set/viewpointThetaPhi -90 270 deg
 #
 #/vis/viewer/set/upVector 1 0 0
-/vis/viewer/set/viewpointThetaPhi 90 90
+#/vis/viewer/set/viewpointThetaPhi 90 90
+/vis/viewer/set/viewpointThetaPhi -90 -90
 /vis/viewer/set/targetPoint 0.5 0. 22.8 m
 /vis/viewer/zoomTo 10
+
 # Re-establish auto refreshing and verbosity:
 /vis/viewer/set/autoRefresh true
 /vis/verbose warnings

@@ -55,7 +55,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 	double lenUnit= millimeter;
 	double fieldUnit= tesla;
 	
-	double NominalCurrent=500; //500 A
+	double NominalCurrent=700; //500 A in 2017, 700 in 2018
 	double ActualCurrent=fActualCurrent; //437.5 A quella dichiarata, 476.96 per avere mappa con max 1.26T: 2018: 650 possible guess?
 	double ScaleFactor=ActualCurrent/NominalCurrent; //0.875 --> 1.155T
 	
@@ -159,8 +159,8 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 					G4cout<<"### ix = "<<ix<<", iy "<<iy<<", iz "<<iz<<G4endl;
 					G4cout<<"### nx0-1+ix = "<<nx0-1+ix<<", ny0-1+iy "<<ny0-1+iy<<", nz0-1+iz "<<nz0-1+iz<<G4endl;
 					G4cout<<"### xval, yval, zval = "<<xval<<" "<<yval<<" "<<zval<<G4endl;
-					G4cout<<"######### bx, by, bz ORIG = "<<bx<<" "<<by/tesla<<" "<<bz<<G4endl;
-					G4cout<<"######### bx, by, bz SCALED = "<<xField[ix][iy][iz]<<" "<<yField[ix][iy][iz]/tesla<<" "<<zField[ix][iy][iz]<<G4endl;
+					G4cout<<"######### bx, by, bz ORIG = "<<bx/tesla<<" "<<by/tesla<<" "<<bz/tesla<<G4endl;
+					G4cout<<"######### bx, by, bz SCALED = "<<xField[ix][iy][iz]/tesla<<" "<<yField[ix][iy][iz]/tesla<<" "<<zField[ix][iy][iz]/tesla<<G4endl<<G4endl;
 				}
 				
 				

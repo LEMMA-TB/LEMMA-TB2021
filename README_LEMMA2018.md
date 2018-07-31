@@ -10,7 +10,7 @@ make
 ./mainMCMC
 ./mainMCMC ../setup/run1.mac
 
-Please note that if any changes are done to ../setup/*.mac you need to cmake -XXX again
+Please note that if any changes are done to ../setup/*.mac you need to make
 ### GEOMETRY
 The geometry is the one of the final configuration
 
@@ -18,6 +18,20 @@ The geometry is the one of the final configuration
 Ext MuMu: 100k
 Ext BhaBha: 10k
 45GeV Positron Physics: 1000
+
+## PROCESSES CODES
+GammaToMuPair:  gamma->mu+mu- Bethe Heitler process, SubType= 15
+phot:   for  gamma    SubType= 12  BuildTable= 0
+compt:   for  gamma    SubType= 13  BuildTable= 1
+conv:   for  gamma    SubType= 14  BuildTable= 1
+msc:   for e-    SubType= 10
+eIoni:   for  e-    SubType= 2
+eBrem:   for  e-    SubType= 3
+msc:   for e+    SubType= 10
+eIoni:   for  e+    SubType= 2
+eBrem:   for  e+    SubType= 3
+annihil:   for  e+, integral: 1     SubType= 5  BuildTable= 0
+
 
 ### PRIMARY PARTICLE
 The simulation is set to simulate primary positrons starting at the origin (0,0,0). It is possible to simulate a realistic beam (energy, angular and position spread), but there is a flag (SimpleFlag) in B1PrimaryGeneratorAction.cc to select the simple case of ideal beam.
@@ -175,11 +189,17 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Calos moved forward and repositioned to leave space for shielding
 - Inserted iron shielding
 
-2018.07.167by collamaf
+2018.07.17 by collamaf
 - Chenged iron shielding: 2 blocks of 40cm thickness
 - Removed Pb near chambers
 - If vis then fix the rand seed to have reproducibility
 - Added 2 tuples to root file for "what enters/exits detectors" (for now PgGlasses). Command Line flag to enable (default off), file size increases of about 5%
+
+2018.07.31 by collamaf
+- Added new Map for magnet @700A! so changed default currents accordingly
+- Added scoring about Gamma Conversion: X,Y,Z, Ene, EnePos, EneFot
+- Pb bricks beside Mu2 (but of Air, since may be useless)
+
 
 `
 cp link.txt CMakeFiles/mainMCMC.dir/

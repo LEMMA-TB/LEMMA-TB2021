@@ -55,6 +55,16 @@ class B1RunAction : public G4UserRunAction
 
 	std::vector<G4double>& GetVectorCross() {return RunVectorCross; }
 	
+	std::vector<G4double>& GetVectorGammaConvX() {return RunVectorGammaConvX; }
+	std::vector<G4double>& GetVectorGammaConvY() {return RunVectorGammaConvY; }
+	std::vector<G4double>& GetVectorGammaConvZ() {return RunVectorGammaConvZ; }
+	std::vector<G4double>& GetVectorGammaConvEne() {return RunVectorGammaConvEne; }
+	std::vector<G4double>& GetVectorGammaConvEnePos() {return RunVectorGammaConvEnePos; }
+	std::vector<G4double>& GetVectorGammaConvEneEle() {return RunVectorGammaConvEneEle; }
+
+	
+	
+	
 	std::vector<G4double>& GetVectorPbGlass1EnterEne() {return RunVectorPbGlass1EnterEne; }
 	std::vector<G4double>& GetVectorPbGlass1EnterPart() {return RunVectorPbGlass1EnterPart; }
 	std::vector<G4double>& GetVectorPbGlass1EnterX() {return RunVectorPbGlass1EnterX; }
@@ -141,6 +151,15 @@ private:
 	std::vector<G4double> RunVectorCopyNb;
 	
 	std::vector<G4double> RunVectorCaloEnDep;
+	
+	std::vector<G4double>  RunVectorGammaConvX;
+	std::vector<G4double>  RunVectorGammaConvY;
+	std::vector<G4double>  RunVectorGammaConvZ;
+	std::vector<G4double>  RunVectorGammaConvEne;
+	std::vector<G4double>  RunVectorGammaConvEnePos;
+	std::vector<G4double>  RunVectorGammaConvEneEle;
+
+	
 	
 	std::vector<G4double> RunVectorPbGlass1EnterEne;
 	std::vector<G4double> RunVectorPbGlass1EnterPart;
