@@ -69,6 +69,7 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetVectorGammaConvY()).clear();
 	(fRunAction->GetVectorGammaConvZ()).clear();
 	(fRunAction->GetVectorGammaConvEne()).clear();
+	(fRunAction->GetVectorGammaConvSubdet()).clear();
 	(fRunAction->GetVectorGammaConvEnePos()).clear();
 	(fRunAction->GetVectorGammaConvEneEle()).clear();
 

@@ -14,7 +14,7 @@ class G4LogicalVolume;
 class B1SteppingAction : public G4UserSteppingAction
 {
 public:
-	B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4double EThr, const std::vector<G4int> & ChannelMap, G4bool DetEnterExitFlag);
+	B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::vector<G4int> & ChannelMap, G4bool DetEnterExitFlag);
 	virtual ~B1SteppingAction();
 	// method from the base class
 	virtual void UserSteppingAction(const G4Step*);
@@ -50,7 +50,7 @@ private:
 	G4LogicalVolume*  fScoringVolume_Mu2;
 
 	G4bool fStoreCaloEnDepFlag;
-	
+	G4bool fStoreGammaConvDepFlag;
 	
 	G4double fEThr;
 	G4bool fCutFlag=false;

@@ -155,7 +155,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double ScintA_sizeY = ZoomFactor*4*cm;
 	G4double ScintA_sizeZ = 2*cm;
 	
-	
+	G4double DistCompC6=1*mm;
+	G4double DistCompC7=1*mm;
+
 	// Lead Glass :
 	G4double LeadGlass_sizeX = 11.5*cm;
 	G4double LeadGlass_sizeY = 11.5*cm;
@@ -353,8 +355,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4ThreeVector posC4  = G4ThreeVector(xC4,yC4,zC4); // Subdet
 	G4ThreeVector posC5  = G4ThreeVector(xC5,yC5,zC5); // Subdet
 	G4ThreeVector posC6  = G4ThreeVector(xC6,yC6,zC6); // Subdet
+	G4ThreeVector posC6a  = G4ThreeVector(xC6+DistCompC6/2+C6_sizeY/2.,yC6,zC6); // Subdet
+	G4ThreeVector posC6b  = G4ThreeVector(xC6-DistCompC6/2-C6_sizeY/2.,yC6,zC6); // Subdet
 	G4ThreeVector posS2  = G4ThreeVector(xC6,yC6,zC6+ScintA_sizeZ/2+0.5*cm); // Subdet
 	G4ThreeVector posC7  = G4ThreeVector(xC7,yC7,zC7); // Subdet
+	G4ThreeVector posC7a  = G4ThreeVector(xC7+DistCompC7/2+C7_sizeY/2.,yC7,zC7); // Subdet
+	G4ThreeVector posC7b  = G4ThreeVector(xC7-DistCompC7/2-C7_sizeY/2.,yC7,zC7); // Subdet
 	G4ThreeVector posS3  = G4ThreeVector(xC7,yC7,zC7+ScintA_sizeZ/2+0.5*cm); // Subdet
 	G4ThreeVector posPb1a  = G4ThreeVector(xPb1a,yPb1a,zPb1a); // Subdet
 	G4ThreeVector posPb1b  = G4ThreeVector(xPb1b,yPb1b,zPb1b); // Subdet
@@ -742,6 +748,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	//Bending Magnet
 	G4Tubs* geoMag = new G4Tubs("Mag",0*cm,Mag_R,Mag_sizeY/2.,startAngle,spanningAngle);
+//	G4Box* geoMag = new G4Box("Mag", Mag_R, Mag_sizeY ,Mag_R);
 	G4RotationMatrix *MagRot = new G4RotationMatrix;
 	MagRot->rotateX(90.*deg);
 	G4LogicalVolume* logicMag = new G4LogicalVolume(geoMag,aria,"Mag");
@@ -770,13 +777,17 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	//-- C6 ()
 	G4Box* geoC6 = new G4Box("C6",  C6_sizeX/2, C6_sizeY/2, C6_sizeZ/2);
 	G4LogicalVolume* logicC6 = new G4LogicalVolume(geoC6, silicio, "C6");
-	new G4PVPlacement(0,posC6,logicC6,"C6",logicWorld,false,0,checkOverlaps);
+//	new G4PVPlacement(0,posC6,logicC6,"C6",logicWorld,false,0,checkOverlaps);
+		new G4PVPlacement(0,posC6a,logicC6,"C6a",logicWorld,false,0,checkOverlaps);
+		new G4PVPlacement(0,posC6b,logicC6,"C6b",logicWorld,false,0,checkOverlaps);
 	
 	//-- C7 ()
 	G4Box* geoC7 = new G4Box("C7",  C7_sizeX/2, C7_sizeY/2, C7_sizeZ/2);
 	G4LogicalVolume* logicC7 = new G4LogicalVolume(geoC7, silicio, "C7");
-	new G4PVPlacement(0,posC7,logicC7,"C7",logicWorld,false,0,checkOverlaps);
-	
+//	new G4PVPlacement(0,posC7,logicC7,"C7",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0,posC7a,logicC7,"C7a",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0,posC7b,logicC7,"C7b",logicWorld,false,0,checkOverlaps);
+
 	//-- Scint2 (post C6) (subdet=)
 	G4Box* geoS2 = new G4Box("S2", ScintA_sizeX/2, ScintA_sizeY/2, ScintA_sizeZ/2);
 	G4LogicalVolume* logicS2 = new G4LogicalVolume(geoS2, plastica, "S2");

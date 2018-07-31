@@ -92,6 +92,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(0,"GammaConvY", RunVectorGammaConvY);
 	analysisManager->CreateNtupleDColumn(0,"GammaConvZ", RunVectorGammaConvZ);
 	analysisManager->CreateNtupleDColumn(0,"GammaConvEne", RunVectorGammaConvEne);
+	analysisManager->CreateNtupleDColumn(0,"GammaConvSubdet", RunVectorGammaConvSubdet);
 	analysisManager->CreateNtupleDColumn(0,"GammaConvEnePos", RunVectorGammaConvEnePos);
 	analysisManager->CreateNtupleDColumn(0,"GammaConvEneEle", RunVectorGammaConvEneEle);
 

@@ -59,6 +59,7 @@ class B1RunAction : public G4UserRunAction
 	std::vector<G4double>& GetVectorGammaConvY() {return RunVectorGammaConvY; }
 	std::vector<G4double>& GetVectorGammaConvZ() {return RunVectorGammaConvZ; }
 	std::vector<G4double>& GetVectorGammaConvEne() {return RunVectorGammaConvEne; }
+	std::vector<G4double>& GetVectorGammaConvSubdet() {return RunVectorGammaConvSubdet; }
 	std::vector<G4double>& GetVectorGammaConvEnePos() {return RunVectorGammaConvEnePos; }
 	std::vector<G4double>& GetVectorGammaConvEneEle() {return RunVectorGammaConvEneEle; }
 
@@ -156,6 +157,7 @@ private:
 	std::vector<G4double>  RunVectorGammaConvY;
 	std::vector<G4double>  RunVectorGammaConvZ;
 	std::vector<G4double>  RunVectorGammaConvEne;
+	std::vector<G4double>	RunVectorGammaConvSubdet;
 	std::vector<G4double>  RunVectorGammaConvEnePos;
 	std::vector<G4double>  RunVectorGammaConvEneEle;
 

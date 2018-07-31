@@ -199,6 +199,8 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Added new Map for magnet @700A! so changed default currents accordingly
 - Added scoring about Gamma Conversion: X,Y,Z, Ene, EnePos, EneFot
 - Pb bricks beside Mu2 (but of Air, since may be useless)
+- Modified structure of Si detectors: C6 and C7 are now doubled
+- Fixed scoring of Gamma Conversion points: now all volumes are considered (keeping the info): --> +250% increase in file size! GammaConv Flag to disable it
 
 
 `
@@ -210,6 +212,7 @@ now is "gpc" as alias!
 TODO LIST
 - Capire perche l'info in "Beam" nella tupla LEMMA non si riferisce alla vera particella di quel vertice ma sempre e solo all'elettrone (in caso di generatore esterno)
 - Ri-accendere Cerenkov
+- Sistemare
 
 
 

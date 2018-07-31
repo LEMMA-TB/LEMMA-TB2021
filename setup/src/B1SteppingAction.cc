@@ -13,7 +13,7 @@
 #include "G4ProcessType.hh"
 #include "G4OpticalPhoton.hh"
 
-B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4double EThr, const std::vector<G4int> & ChannelMap, G4bool DetEnterExitFlag)
+B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::vector<G4int> & ChannelMap, G4bool DetEnterExitFlag)
 : G4UserSteppingAction(),
 fEventAction(eventAction),
 runStepAction(runAction),
@@ -42,6 +42,7 @@ fScoringVolume_Ce2(0),
 fScoringVolume_Mu1(0),
 fScoringVolume_Mu2(0),
 fStoreCaloEnDepFlag(StoreCaloEnDepFlag),
+fStoreGammaConvDepFlag(StoreGammaConvDepFlag),
 fEThr(EThr),
 fChannelMap(ChannelMap),
 fDetEnterExitFlag(DetEnterExitFlag)
@@ -92,32 +93,8 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	G4VPhysicalVolume* NextVol = step->GetPostStepPoint()->GetTouchableHandle()->GetVolume();
 	
 //	if (ThisVol->GetName()=="MuLatShield2" && NextVol->GetName()!="MuLatShield2") { // To keep interesting events for post-run visualization
-	// If we have a Gamma Conversion in World volume save the event
-		if (step->GetPostStepPoint()->GetProcessDefinedStep() && step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "conv" && ThisVol->GetName()=="World") { // To keep interesting events for post-run visualization
 
-			(runStepAction->GetVectorGammaConvX()).push_back((step->GetPostStepPoint()->GetPosition().x()/cm));
-			(runStepAction->GetVectorGammaConvY()).push_back((step->GetPostStepPoint()->GetPosition().y()/cm));
-			(runStepAction->GetVectorGammaConvZ()).push_back((step->GetPostStepPoint()->GetPosition().z()/cm));
-			(runStepAction->GetVectorGammaConvEne()).push_back((step->GetPreStepPoint()->GetKineticEnergy()/GeV));
 
-			
-			G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
-		evt->KeepTheEvent();
-//			G4cout<<"Evt n: "<< evt->GetEventID() <<" Gamma conversion in world! z= "<< step->GetPostStepPoint()->GetPosition().z()/cm<<" Gamma Ene= "<<step->GetPreStepPoint()->GetKineticEnergy()/GeV << G4endl;
-
-		}
-	
-#if 0
-	if (step->GetTrack()->GetCreatorProcess() && step->GetTrack()->GetCurrentStepNumber()==1) {
-		if (step->GetTrack()->GetCreatorProcess()->GetProcessName() == "conv" && step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==11) {
-			(runStepAction->GetVectorGammaConvEneEle()).push_back((step->GetPreStepPoint()->GetKineticEnergy()/GeV));
-		}
-		
-		if (step->GetTrack()->GetCreatorProcess()->GetProcessName() == "conv" && step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==-11) {
-			(runStepAction->GetVectorGammaConvEnePos()).push_back((step->GetPreStepPoint()->GetKineticEnergy()/GeV));
-		}
-	}
-#endif
 
 	if (fDetEnterExitFlag) {
 		// ########################
@@ -210,11 +187,85 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	else if (volume==fScoringVolume_Mu2)   {subdet=62; dofill=true;}  //
 
 	
+	if (fStoreGammaConvDepFlag && NextVol) {
+		G4LogicalVolume* Postvolume =	NextVol->GetLogicalVolume();
+		G4int Postsubdet=0;
+		if      (Postvolume==fScoringVolume_S1) {Postsubdet=9; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_T1) {Postsubdet=10; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_T2)   {Postsubdet=20; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_Targ)   {Postsubdet=25; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_C0)   {Postsubdet=30; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_C1)   {Postsubdet=31; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_C2)   {Postsubdet=32; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_C3)   {Postsubdet=33; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_C4)   {Postsubdet=34; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_C5)   {Postsubdet=35; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_C6)   {Postsubdet=36; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_C7)   {Postsubdet=37; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_S2)   {Postsubdet=38; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_S3)   {Postsubdet=39; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_Pb1a)   {Postsubdet=41; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_Pb1b)   {Postsubdet=42; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_Pb1c)   {Postsubdet=43; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_Pb2a)   {Postsubdet=44; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_Pb2b)   {Postsubdet=45; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_Pb2c)   {Postsubdet=46; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_Ce1)   {Postsubdet=51; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_Ce1tilt)   {Postsubdet=51; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_Ce2)   {Postsubdet=52; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_Mu1)   {Postsubdet=61; dofill=true;}  //
+		else if (Postvolume==fScoringVolume_Mu2)   {Postsubdet=62; dofill=true;}  //
+		else if (Postvolume->GetName()=="World")   {Postsubdet=-10; dofill=true;}  //
+
+		
+		// If we have a Gamma Conversion in World volume save the event
+		if (step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==22 && step->GetPostStepPoint()->GetProcessDefinedStep() && step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "conv" ) { // To keep interesting events for post-run visualization
+			
+			(runStepAction->GetVectorGammaConvX()).push_back((step->GetPostStepPoint()->GetPosition().x()/cm));
+			(runStepAction->GetVectorGammaConvY()).push_back((step->GetPostStepPoint()->GetPosition().y()/cm));
+			(runStepAction->GetVectorGammaConvZ()).push_back((step->GetPostStepPoint()->GetPosition().z()/cm));
+			(runStepAction->GetVectorGammaConvEne()).push_back((step->GetPreStepPoint()->GetKineticEnergy()/GeV));
+			(runStepAction->GetVectorGammaConvSubdet()).push_back(Postsubdet);
+			
+			
+			G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
+			evt->KeepTheEvent();
+			//			G4cout<<"Evt n: "<< evt->GetEventID() <<" Gamma conversion in world! z= "<< step->GetPostStepPoint()->GetPosition().z()/cm<<" Gamma EnePre= "<<step->GetPreStepPoint()->GetKineticEnergy()/GeV <<" PostSubdet= "<<Postsubdet <<" Viva? "<<step->GetTrack()->GetTrackStatus() <<G4endl;
+			
+		}
+	}
+
+	
+#if 0
+	if (step->GetTrack()->GetCreatorProcess() && step->GetTrack()->GetCurrentStepNumber()==1) {
+		if (step->GetTrack()->GetCreatorProcess()->GetProcessName() == "conv" && step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==11) {
+			(runStepAction->GetVectorGammaConvEneEle()).push_back((step->GetPreStepPoint()->GetKineticEnergy()/GeV));
+		}
+		
+		if (step->GetTrack()->GetCreatorProcess()->GetProcessName() == "conv" && step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==-11) {
+			(runStepAction->GetVectorGammaConvEnePos()).push_back((step->GetPreStepPoint()->GetKineticEnergy()/GeV));
+		}
+	}
+	
+	// Save info on e+e- created due to gamma conversion in world volume
+	if (atrack->GetCurrentStepNumber()==0 && atrack->GetTouchableHandle()->GetVolume()->GetName()=="World") {
+		if (process=="conv" && Idp==11) {
+			//		G4cout<<"MERDA pos"<<G4endl;
+			(frunAction->GetVectorGammaConvEneEle()).push_back((atrack->GetKineticEnergy()/GeV));
+		}
+		if (process=="conv" && Idp==-11) {
+			//		G4cout<<"MERDA ele"<<G4endl;
+			(frunAction->GetVectorGammaConvEnePos()).push_back((atrack->GetKineticEnergy()/GeV));
+		}
+	}
+	
+	
+#endif
+	
 	
 	G4int CopyNb=step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
 	G4double DepEne=step->GetTotalEnergyDeposit()/GeV;
 	G4int Pid=step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding();
-	
 
 	
 #if 1

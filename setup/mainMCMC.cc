@@ -72,6 +72,8 @@ int main(int argc,char** argv)
 	G4bool ExtSourceFlagBha=false;
 	G4bool ExtSourceFlagMu=false;
 	G4bool AllVacFlag=false;
+	
+	G4bool StoreGammaConvFlag=true;
 
 	//Flag to cut on output file: photons with energy lower than this value will not be written. Set negative to write them all
 	G4double RootCutThr=1*GeV;
@@ -129,7 +131,10 @@ int main(int argc,char** argv)
 			{
 				StoreCaloEnDepFlag=stoi (argv[++i], NULL);;
 			}
-			else if(option.compare("-ExtBhaBha")==0)
+			else if(option.compare("-GammaConv")==0)
+			{
+				StoreGammaConvFlag=stoi (argv[++i], NULL);;
+			}else if(option.compare("-ExtBhaBha")==0)
 			{
 				ExtSourceFlagBha=stoi (argv[++i], NULL);;
 			}
@@ -239,11 +244,11 @@ int main(int argc,char** argv)
 	
 	if (MTFlag) {
 		runManagerMT->SetUserInitialization(detector);
-		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
+		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
 		runManagerMT->Initialize();  // init kernel
 	} else {
 		runManager->SetUserInitialization(detector);
-		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
+		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
 		runManager->Initialize();  // init kernel
 	}
 	
@@ -320,7 +325,8 @@ int main(int argc,char** argv)
 
 	
 	if (StoreCaloEnDepFlag) OutputFilename.append("_calo");
-	
+	if (StoreGammaConvFlag) OutputFilename.append("_gconv");
+
 	if (GeometryZoom!=1) OutputFilename.append("_Z" + std::to_string(G4int (GeometryZoom) ));
 	
 	if (AllVacFlag) OutputFilename.append("_VAC");

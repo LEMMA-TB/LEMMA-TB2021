@@ -11,13 +11,14 @@
 class B1StackingAction : public G4UserStackingAction
 {
   public:
-  B1StackingAction(B1EventAction*, B1RunAction *);
+  B1StackingAction(B1EventAction*, B1RunAction *, G4bool);
   ~B1StackingAction();
      
   virtual G4ClassificationOfNewTrack ClassifyNewTrack(const G4Track*);
 
 	B1EventAction* feventAction;
 	B1RunAction* frunAction;
+	G4bool fStoreGammaConvDepFlag;
 
 	
 };

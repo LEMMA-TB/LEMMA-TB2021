@@ -6,10 +6,11 @@
 #include "B1EventAction.hh"
 #include "G4SystemOfUnits.hh"
 
-B1StackingAction::B1StackingAction(B1EventAction* eventAction, B1RunAction * runAction)
+B1StackingAction::B1StackingAction(B1EventAction* eventAction, B1RunAction * runAction, G4bool StoreGammaConvDepFlag)
 :G4UserStackingAction(),
 feventAction(eventAction),
-frunAction(runAction)
+frunAction(runAction),
+fStoreGammaConvDepFlag(StoreGammaConvDepFlag)
 { }
 
 B1StackingAction::~B1StackingAction()
@@ -83,6 +84,7 @@ G4ClassificationOfNewTrack B1StackingAction::ClassifyNewTrack(const G4Track* atr
   //  G4double charge = atrack->GetDefinition()->GetPDGCharge();
   //  G4cout<<process<<", Energy = "<<energy<<G4endl;
 	
+#if 0
 	// Save info on e+e- created due to gamma conversion in world volume
 	if (atrack->GetCurrentStepNumber()==0 && atrack->GetTouchableHandle()->GetVolume()->GetName()=="World") {
 		if (process=="conv" && Idp==11) {
@@ -94,8 +96,22 @@ G4ClassificationOfNewTrack B1StackingAction::ClassifyNewTrack(const G4Track* atr
 			(frunAction->GetVectorGammaConvEnePos()).push_back((atrack->GetKineticEnergy()/GeV));
 		}
 	}
+#endif
 	
-		
+#if 1
+	// Save info on e+e- created due to gamma conversion in world volume
+	if (fStoreGammaConvDepFlag && atrack->GetCurrentStepNumber()==0 && process=="conv") {
+		if (Idp==11) {
+			//		G4cout<<"MERDA pos"<<G4endl;
+			(frunAction->GetVectorGammaConvEneEle()).push_back((atrack->GetKineticEnergy()/GeV));
+		}
+		if (Idp==-11) {
+			//		G4cout<<"MERDA ele"<<G4endl;
+			(frunAction->GetVectorGammaConvEnePos()).push_back((atrack->GetKineticEnergy()/GeV));
+		}
+	}
+#endif
+	
 #if 0
 	if (process=="annihil" && Idp==22) {
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
