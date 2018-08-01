@@ -202,7 +202,9 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Modified structure of Si detectors: C6 and C7 are now doubled
 - Fixed scoring of Gamma Conversion points: now all volumes are considered (keeping the info): --> +250% increase in file size! GammaConv Flag to disable it
 
-
+2018.08.01 by collamaf
+- Added new dimensions for T,C,S according to Erik slides, and tuned their positioning (C4 <- 20cm 1cm down)
+- Commands to create final root files are now printed in a macro to be run
 `
 cp link.txt CMakeFiles/mainMCMC.dir/
 now is "gpc" as alias!
@@ -213,7 +215,7 @@ TODO LIST
 - Capire perche l'info in "Beam" nella tupla LEMMA non si riferisce alla vera particella di quel vertice ma sempre e solo all'elettrone (in caso di generatore esterno)
 - Ri-accendere Cerenkov
 - Sistemare
-
+- Dimensioni scintillatori S2 e S3 dopo aver allargato C6-C7
 
 
 

@@ -90,44 +90,44 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	G4double ZoomFactor=fGeometryZoom;
 //	ZoomFactor=1;
-	G4double T1_sizeX = ZoomFactor*2*cm;
-	G4double T1_sizeY = ZoomFactor*2*cm;
+	G4double T1_sizeX = ZoomFactor*1.9*cm;
+	G4double T1_sizeY = ZoomFactor*1.9*cm;
 	G4double T1_sizeZ = 0.2*mm;
 
-	G4double T2_sizeX = ZoomFactor*2*cm;
-	G4double T2_sizeY = ZoomFactor*2*cm;
+	G4double T2_sizeX = ZoomFactor*1.9*cm;
+	G4double T2_sizeY = ZoomFactor*1.9*cm;
 	G4double T2_sizeZ = 0.2*mm;
 	
-	G4double C0_sizeX = ZoomFactor*10*cm;
-	G4double C0_sizeY = ZoomFactor*10*cm;
+	G4double C0_sizeX = ZoomFactor*9.5*cm;
+	G4double C0_sizeY = ZoomFactor*9.5*cm;
 	G4double C0_sizeZ = 0.8*mm;
 
-	G4double C1_sizeX = ZoomFactor*10*cm;
-	G4double C1_sizeY = ZoomFactor*10*cm;
+	G4double C1_sizeX = ZoomFactor*9.5*cm;
+	G4double C1_sizeY = ZoomFactor*9.5*cm;
 	G4double C1_sizeZ = 0.8*mm;
 	
-	G4double C2_sizeX = ZoomFactor*10*cm;
-	G4double C2_sizeY = ZoomFactor*10*cm;
+	G4double C2_sizeX = ZoomFactor*8*cm;
+	G4double C2_sizeY = ZoomFactor*8*cm;
 	G4double C2_sizeZ = 0.8*mm;
 	
-	G4double C3_sizeX = ZoomFactor*10*cm;
-	G4double C3_sizeY = ZoomFactor*10*cm;
+	G4double C3_sizeX = ZoomFactor*8*cm;
+	G4double C3_sizeY = ZoomFactor*8*cm;
 	G4double C3_sizeZ = 0.8*mm;
 	
-	G4double C4_sizeX = ZoomFactor*10*cm;
-	G4double C4_sizeY = ZoomFactor*10*cm;
+	G4double C4_sizeX = ZoomFactor*8*cm;
+	G4double C4_sizeY = ZoomFactor*8*cm;
 	G4double C4_sizeZ = 0.8*mm;
 	
-	G4double C5_sizeX = ZoomFactor*10*cm;
-	G4double C5_sizeY = ZoomFactor*10*cm;
+	G4double C5_sizeX = ZoomFactor*8*cm;
+	G4double C5_sizeY = ZoomFactor*8*cm;
 	G4double C5_sizeZ = 0.8*mm;
 	
-	G4double C6_sizeX = ZoomFactor*10*cm;
-	G4double C6_sizeY = ZoomFactor*10*cm;
+	G4double C6_sizeX = ZoomFactor*9*cm;
+	G4double C6_sizeY = ZoomFactor*9*cm;
 	G4double C6_sizeZ = 0.8*mm;
 	
-	G4double C7_sizeX = ZoomFactor*10*cm;
-	G4double C7_sizeY = ZoomFactor*10*cm;
+	G4double C7_sizeX = ZoomFactor*9*cm;
+	G4double C7_sizeY = ZoomFactor*9*cm;
 	G4double C7_sizeZ = 0.8*mm;
 	
 
@@ -150,10 +150,16 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double BP2_R = 10*cm;
 	G4double BP2_sizeZ = 800*cm;
 
-	// Scintillator A behind T6a:
-	G4double ScintA_sizeX = ZoomFactor*10*cm;
+	// Scintillator A behind T1
+	G4double ScintA_sizeX = ZoomFactor*4*cm;
 	G4double ScintA_sizeY = ZoomFactor*4*cm;
 	G4double ScintA_sizeZ = 2*cm;
+
+	// Scintillator B behind C6C7
+	G4double ScintB_sizeX = ZoomFactor*10*cm;
+	G4double ScintB_sizeY = ZoomFactor*10*cm;
+	G4double ScintB_sizeZ = 2*cm;
+	
 	
 	G4double DistCompC6=1*mm;
 	G4double DistCompC7=1*mm;
@@ -207,7 +213,10 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double DistPbCe=10*cm;
 
 	G4double XOffSetLeadGlass=6*cm;
-	
+
+	G4double XOffSetC6=C6_sizeX/3.;
+	G4double YOffSetC6=C6_sizeY/2.;
+
 	
 	// shield wall:
 	G4double shield_sizeX = 1.62/2.*m;
@@ -235,10 +244,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xMag=0*cm; //Det
 	G4double xC2=8*cm; //Det //position from Tommaso was 8 up to 11-lug-18 (before change in B) - 7 if B=1.62T - 8 if Current=600
 	G4double xC3=-xC2; //Det
-	G4double xC4=15*cm; //Det //position from Tommaso was 16 up to 11-lug-18 (before change in B) - 14 if B=1.62T - 15 if current=600
+	G4double xC4=14*cm; //Det //position from Tommaso was 16 up to 11-lug-18 (before change in B) - 14 if B=1.62T - 15 if current=600
 	G4double xC5=-xC4; //Det
-	G4double xC6=22*cm; //Det //position from Tommaso was 22 up to 11-lug-18 (before change in B) - 19 if B=1.62T - 22 if current=600
+	G4double xC6=22*cm+XOffSetC6; //Det //position from Tommaso was 22 up to 11-lug-18 (before change in B) - 19 if B=1.62T - 22 if current=600
 	G4double xC7=-xC6; //Det
+	G4double xS2=22*cm;
+	G4double xS3=-xS2;
 	G4double xPb1a=XOffSetLeadGlass+-LeadGlass_sizeX; //Det
 	G4double xPb2a=-xPb1a; //Det
 	G4double xPb1b=XOffSetLeadGlass+0*cm; //Det
@@ -261,8 +272,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 		xC3=-C3_sizeX/2.;
 		xC4=C4_sizeX/2.;
 		xC5=-C5_sizeX/2.;
-		xC6=C6_sizeX/2.;
-		xC7=-C7_sizeX/2.;
+		xC6=2*C6_sizeX/2.;
+		xC7=-2*C7_sizeX/2.;
 
 	}
 
@@ -279,7 +290,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double yC3=yC2; //Det
 	G4double yC4=0*cm; //Det
 	G4double yC5=yC4; //Det
-	G4double yC6=0*cm; //Det
+	G4double yC6=0*cm+YOffSetC6; //Det
 	G4double yC7=yC6; //Det
 	G4double yPb1a=0*cm; //Det
 	G4double yPb2a=yPb1a; //Det
@@ -311,7 +322,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zMag=1620*cm; //Det
 	G4double zC2=1790*cm; //Det - was 1780 until 2018-07-12 but is the exact border of the table -> 1790
 	G4double zC3=zC2; //Det
-	G4double zC4=1940*cm; //Det
+	G4double zC4=1920*cm; //Det
 	G4double zC5=zC4; //Det
 	G4double zC6=2080*cm; //Det - was 2050 until 2018-07-12 but there is still room in the platform -> 2080
 	G4double zC7=zC6; //Det
@@ -355,13 +366,17 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4ThreeVector posC4  = G4ThreeVector(xC4,yC4,zC4); // Subdet
 	G4ThreeVector posC5  = G4ThreeVector(xC5,yC5,zC5); // Subdet
 	G4ThreeVector posC6  = G4ThreeVector(xC6,yC6,zC6); // Subdet
-	G4ThreeVector posC6a  = G4ThreeVector(xC6+DistCompC6/2+C6_sizeY/2.,yC6,zC6); // Subdet
-	G4ThreeVector posC6b  = G4ThreeVector(xC6-DistCompC6/2-C6_sizeY/2.,yC6,zC6); // Subdet
+	G4ThreeVector posC6a  = G4ThreeVector(xC6+DistCompC6/2+C6_sizeX/2.,yC6+DistCompC6/2+C6_sizeY/2.,zC6); // Subdet
+	G4ThreeVector posC6b  = G4ThreeVector(xC6-DistCompC6/2-C6_sizeX/2.,yC6+DistCompC6/2+C6_sizeY/2.,zC6); // Subdet
+	G4ThreeVector posC6c  = G4ThreeVector(xC6-DistCompC6/2-C6_sizeX/2.,yC6-DistCompC6/2-C6_sizeY/2.,zC6); // Subdet
+	G4ThreeVector posC6d  = G4ThreeVector(xC6+DistCompC6/2+C6_sizeX/2.,yC6-DistCompC6/2-C6_sizeY/2.,zC6); // Subdet
 	G4ThreeVector posS2  = G4ThreeVector(xC6,yC6,zC6+ScintA_sizeZ/2+0.5*cm); // Subdet
 	G4ThreeVector posC7  = G4ThreeVector(xC7,yC7,zC7); // Subdet
-	G4ThreeVector posC7a  = G4ThreeVector(xC7+DistCompC7/2+C7_sizeY/2.,yC7,zC7); // Subdet
-	G4ThreeVector posC7b  = G4ThreeVector(xC7-DistCompC7/2-C7_sizeY/2.,yC7,zC7); // Subdet
-	G4ThreeVector posS3  = G4ThreeVector(xC7,yC7,zC7+ScintA_sizeZ/2+0.5*cm); // Subdet
+	G4ThreeVector posC7a  = G4ThreeVector(xC7+DistCompC7/2+C7_sizeX/2.,yC7+DistCompC7/2+C7_sizeY/2.,zC7); // Subdet
+	G4ThreeVector posC7b  = G4ThreeVector(xC7-DistCompC7/2-C7_sizeX/2.,yC7+DistCompC7/2+C7_sizeY/2.,zC7); // Subdet
+	G4ThreeVector posC7c  = G4ThreeVector(xC7-DistCompC7/2-C7_sizeX/2.,yC7-DistCompC7/2-C7_sizeY/2.,zC7); // Subdet
+	G4ThreeVector posC7d  = G4ThreeVector(xC7+DistCompC7/2+C7_sizeX/2.,yC7-DistCompC7/2-C7_sizeY/2.,zC7); // Subdet
+	G4ThreeVector posS3  = G4ThreeVector(xS3,yC7,zC7+ScintA_sizeZ/2+0.5*cm); // Subdet
 	G4ThreeVector posPb1a  = G4ThreeVector(xPb1a,yPb1a,zPb1a); // Subdet
 	G4ThreeVector posPb1b  = G4ThreeVector(xPb1b,yPb1b,zPb1b); // Subdet
 	G4ThreeVector posPb1c  = G4ThreeVector(xPb1c,yPb1c,zPb1c); // Subdet
@@ -777,24 +792,28 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	//-- C6 ()
 	G4Box* geoC6 = new G4Box("C6",  C6_sizeX/2, C6_sizeY/2, C6_sizeZ/2);
 	G4LogicalVolume* logicC6 = new G4LogicalVolume(geoC6, silicio, "C6");
-//	new G4PVPlacement(0,posC6,logicC6,"C6",logicWorld,false,0,checkOverlaps);
-		new G4PVPlacement(0,posC6a,logicC6,"C6a",logicWorld,false,0,checkOverlaps);
-		new G4PVPlacement(0,posC6b,logicC6,"C6b",logicWorld,false,0,checkOverlaps);
+	//	new G4PVPlacement(0,posC6,logicC6,"C6",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0,posC6a,logicC6,"C6a",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0,posC6b,logicC6,"C6b",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0,posC6c,logicC6,"C6c",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0,posC6d,logicC6,"C6d",logicWorld,false,0,checkOverlaps);
 	
 	//-- C7 ()
 	G4Box* geoC7 = new G4Box("C7",  C7_sizeX/2, C7_sizeY/2, C7_sizeZ/2);
 	G4LogicalVolume* logicC7 = new G4LogicalVolume(geoC7, silicio, "C7");
-//	new G4PVPlacement(0,posC7,logicC7,"C7",logicWorld,false,0,checkOverlaps);
+	//	new G4PVPlacement(0,posC7,logicC7,"C7",logicWorld,false,0,checkOverlaps);
 	new G4PVPlacement(0,posC7a,logicC7,"C7a",logicWorld,false,0,checkOverlaps);
 	new G4PVPlacement(0,posC7b,logicC7,"C7b",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0,posC7c,logicC7,"C7c",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0,posC7d,logicC7,"C7d",logicWorld,false,0,checkOverlaps);
 
 	//-- Scint2 (post C6) (subdet=)
-	G4Box* geoS2 = new G4Box("S2", ScintA_sizeX/2, ScintA_sizeY/2, ScintA_sizeZ/2);
+	G4Box* geoS2 = new G4Box("S2", ScintB_sizeX/2, ScintB_sizeY/2, ScintB_sizeZ/2);
 	G4LogicalVolume* logicS2 = new G4LogicalVolume(geoS2, plastica, "S2");
 	new G4PVPlacement(0,posS2,logicS2,"S2",logicWorld,false,0,checkOverlaps);
 	
 	//-- Scint3 (post C7) (subdet=)
-	G4Box* geoS3 = new G4Box("S3", ScintA_sizeX/2, ScintA_sizeY/2, ScintA_sizeZ/2);
+	G4Box* geoS3 = new G4Box("S3", ScintB_sizeX/2, ScintB_sizeY/2, ScintB_sizeZ/2);
 	G4LogicalVolume* logicS3 = new G4LogicalVolume(geoS3, plastica, "S3");
 	new G4PVPlacement(0,posS3,logicS3,"S3",logicWorld,false,0,checkOverlaps);
 	
