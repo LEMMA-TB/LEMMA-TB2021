@@ -213,6 +213,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double DistPbCe=10*cm;
 
 	G4double XOffSetLeadGlass=6*cm;
+	G4double XOffSetShield2=15*cm; //towards center
 
 	G4double XOffSetC6=C6_sizeX/3.;
 	G4double YOffSetC6=C6_sizeY/2.;
@@ -265,7 +266,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xMuLatShield1=xMu1-Mu_sizeX/2.-MuLatShield_sizeX/2.;
 	G4double xMuLatShield2=-xMuLatShield1;
 	G4double xShield1=27*cm+shield_sizeX/2.; //!!!! number is distance edge-central beam axis
-	G4double xShield2=-xShield1;
+	G4double xShield2=-xShield1+XOffSetShield2;
 
 	if (ZoomFactor>1) {
 		xC2=C2_sizeX/2.;

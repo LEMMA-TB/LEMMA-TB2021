@@ -9,6 +9,8 @@
 #include "G4LogicalVolume.hh"
 #include "G4EventManager.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4PhysicalVolumeStore.hh"
+
 //---------------------------
 #include "G4ProcessType.hh"
 #include "G4OpticalPhoton.hh"
@@ -187,39 +189,43 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	else if (volume==fScoringVolume_Mu2)   {subdet=62; dofill=true;}  //
 
 	
-	if (fStoreGammaConvDepFlag && NextVol) {
+	if (fStoreGammaConvDepFlag && NextVol) { //Like "subdet", but for PostStep volume
 		G4LogicalVolume* Postvolume =	NextVol->GetLogicalVolume();
 		G4int Postsubdet=0;
-		if      (Postvolume==fScoringVolume_S1) {Postsubdet=9; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_T1) {Postsubdet=10; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_T2)   {Postsubdet=20; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_Targ)   {Postsubdet=25; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_C0)   {Postsubdet=30; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_C1)   {Postsubdet=31; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_C2)   {Postsubdet=32; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_C3)   {Postsubdet=33; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_C4)   {Postsubdet=34; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_C5)   {Postsubdet=35; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_C6)   {Postsubdet=36; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_C7)   {Postsubdet=37; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_S2)   {Postsubdet=38; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_S3)   {Postsubdet=39; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_Pb1a)   {Postsubdet=41; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_Pb1b)   {Postsubdet=42; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_Pb1c)   {Postsubdet=43; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_Pb2a)   {Postsubdet=44; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_Pb2b)   {Postsubdet=45; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_Pb2c)   {Postsubdet=46; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_Ce1)   {Postsubdet=51; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_Ce1tilt)   {Postsubdet=51; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_Ce2)   {Postsubdet=52; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_Mu1)   {Postsubdet=61; dofill=true;}  //
-		else if (Postvolume==fScoringVolume_Mu2)   {Postsubdet=62; dofill=true;}  //
-		else if (Postvolume->GetName()=="World")   {Postsubdet=-10; dofill=true;}  //
+		if      (Postvolume==fScoringVolume_S1) {Postsubdet=9; }  //
+		else if (Postvolume==fScoringVolume_T1) {Postsubdet=10; }  //
+		else if (Postvolume==fScoringVolume_T2)   {Postsubdet=20; }  //
+		else if (Postvolume==fScoringVolume_Targ)   {Postsubdet=25; }  //
+		else if (Postvolume==fScoringVolume_C0)   {Postsubdet=30; }  //
+		else if (Postvolume==fScoringVolume_C1)   {Postsubdet=31; }  //
+		else if (Postvolume==fScoringVolume_C2)   {Postsubdet=32; }  //
+		else if (Postvolume==fScoringVolume_C3)   {Postsubdet=33; }  //
+		else if (Postvolume==fScoringVolume_C4)   {Postsubdet=34; }  //
+		else if (Postvolume==fScoringVolume_C5)   {Postsubdet=35; }  //
+		else if (Postvolume==fScoringVolume_C6)   {Postsubdet=36; }  //
+		else if (Postvolume==fScoringVolume_C7)   {Postsubdet=37; }  //
+		else if (Postvolume==fScoringVolume_S2)   {Postsubdet=38; }  //
+		else if (Postvolume==fScoringVolume_S3)   {Postsubdet=39; }  //
+		else if (Postvolume==fScoringVolume_Pb1a)   {Postsubdet=41; }  //
+		else if (Postvolume==fScoringVolume_Pb1b)   {Postsubdet=42; }  //
+		else if (Postvolume==fScoringVolume_Pb1c)   {Postsubdet=43; }  //
+		else if (Postvolume==fScoringVolume_Pb2a)   {Postsubdet=44; }  //
+		else if (Postvolume==fScoringVolume_Pb2b)   {Postsubdet=45; }  //
+		else if (Postvolume==fScoringVolume_Pb2c)   {Postsubdet=46; }  //
+		else if (Postvolume==fScoringVolume_Ce1)   {Postsubdet=51; }  //
+		else if (Postvolume==fScoringVolume_Ce1tilt)   {Postsubdet=51; }  //
+		else if (Postvolume==fScoringVolume_Ce2)   {Postsubdet=52; }  //
+		else if (Postvolume==fScoringVolume_Mu1)   {Postsubdet=61; }  //
+		else if (Postvolume==fScoringVolume_Mu2)   {Postsubdet=62; }  //
+		else if (Postvolume->GetName()=="World")   {Postsubdet=-10; }  //
 
+		G4VPhysicalVolume* physicalBend = G4PhysicalVolumeStore::GetInstance()->GetVolume("Mag");
+		G4double zGammaConvCut=physicalBend->GetTranslation().z();
+		
+		
 		
 		// If we have a Gamma Conversion in World volume save the event
-		if (step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==22 && step->GetPostStepPoint()->GetProcessDefinedStep() && step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "conv" ) { // To keep interesting events for post-run visualization
+		if (step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==22 && step->GetPostStepPoint()->GetProcessDefinedStep() && step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "conv" && step->GetPostStepPoint()->GetPosition().z()<zGammaConvCut) {
 			
 			(runStepAction->GetVectorGammaConvX()).push_back((step->GetPostStepPoint()->GetPosition().x()/cm));
 			(runStepAction->GetVectorGammaConvY()).push_back((step->GetPostStepPoint()->GetPosition().y()/cm));
@@ -228,13 +234,19 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorGammaConvSubdet()).push_back(Postsubdet);
 			
 			
-			G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
-			evt->KeepTheEvent();
+//			G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
+//			evt->KeepTheEvent();
 			//			G4cout<<"Evt n: "<< evt->GetEventID() <<" Gamma conversion in world! z= "<< step->GetPostStepPoint()->GetPosition().z()/cm<<" Gamma EnePre= "<<step->GetPreStepPoint()->GetKineticEnergy()/GeV <<" PostSubdet= "<<Postsubdet <<" Viva? "<<step->GetTrack()->GetTrackStatus() <<G4endl;
 			
 		}
 	}
 
+	/*
+	if (subdet==61 || subdet==62 ) {
+		G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
+		evt->KeepTheEvent();
+	}
+	 */
 	
 #if 0
 	if (step->GetTrack()->GetCreatorProcess() && step->GetTrack()->GetCurrentStepNumber()==1) {

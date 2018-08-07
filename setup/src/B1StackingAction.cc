@@ -5,6 +5,7 @@
 #include "B1RunAction.hh"
 #include "B1EventAction.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4PhysicalVolumeStore.hh"
 
 B1StackingAction::B1StackingAction(B1EventAction* eventAction, B1RunAction * runAction, G4bool StoreGammaConvDepFlag)
 :G4UserStackingAction(),
@@ -98,9 +99,13 @@ G4ClassificationOfNewTrack B1StackingAction::ClassifyNewTrack(const G4Track* atr
 	}
 #endif
 	
+	
+	G4VPhysicalVolume* physicalBend = G4PhysicalVolumeStore::GetInstance()->GetVolume("Mag");
+	G4double zGammaConvCut=physicalBend->GetTranslation().z();
+	
 #if 1
 	// Save info on e+e- created due to gamma conversion in world volume
-	if (fStoreGammaConvDepFlag && atrack->GetCurrentStepNumber()==0 && process=="conv") {
+	if (fStoreGammaConvDepFlag && atrack->GetCurrentStepNumber()==0 && process=="conv" && atrack->GetPosition().z()<zGammaConvCut) {
 		if (Idp==11) {
 			//		G4cout<<"MERDA pos"<<G4endl;
 			(frunAction->GetVectorGammaConvEneEle()).push_back((atrack->GetKineticEnergy()/GeV));

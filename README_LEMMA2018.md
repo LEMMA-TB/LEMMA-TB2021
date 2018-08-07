@@ -205,6 +205,13 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 2018.08.01 by collamaf
 - Added new dimensions for T,C,S according to Erik slides, and tuned their positioning (C4 <- 20cm 1cm down)
 - Commands to create final root files are now printed in a macro to be run
+
+2018.08.07 by collamaf
+- Restricted gamma conversion scoring to before magnet (since irrelevant if after )
+- Fixed an error leading to huge file size if GammaConv is selected (dofill repeted in StepAc)
+
+
+
 `
 cp link.txt CMakeFiles/mainMCMC.dir/
 now is "gpc" as alias!

@@ -352,7 +352,7 @@ int main(int argc,char** argv)
 		CommandOutput<<
 		"{\n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\"); \n TChain * chain3 = new TChain(\"DetEnter\");\n	chain3->Add(\"LemmaMC_t*.root\");\n TChain * chain4 = new TChain(\"DetExit\");\n	chain4->Add(\"LemmaMC_t*.root\"); \nTFile *file = TFile::Open(\""<< OutputFilename<<".root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n 	chain3->CloneTree(-1,\"fast\");\n 	chain4->CloneTree(-1,\"fast\");\n file->Write();\n }"
 		<<G4endl;
-		G4cout<<"\n##################################### \n##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n   root -l ProcessFiles.C \n##################################### \n#####################################"<<G4endl;
+		G4cout<<"\n##################################### \n##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n   root -l ProcessFiles.C \n##################################### \n root -l "<<OutputFilename<<".root \n#####################################"<<G4endl;
 		/*
 		G4cout<<
 		"\n ##################################### \n ##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\"); \n TChain * chain3 = new TChain(\"DetEnter\");\n	chain3->Add(\"LemmaMC_t*.root\");\n TChain * chain4 = new TChain(\"DetExit\");\n	chain4->Add(\"LemmaMC_t*.root\"); \nTFile *file = TFile::Open(\""<< OutputFilename<<".root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n 	chain3->CloneTree(-1,\"fast\");\n 	chain4->CloneTree(-1,\"fast\");\n file->Write();\n ##################################### \n ##################################### "
@@ -363,7 +363,7 @@ int main(int argc,char** argv)
 		CommandOutput<<
 		"{\n mv LemmaMC.root "<< OutputFilename<<".root\n } "
 		 <<G4endl;
-		G4cout<<"\n##################################### \n##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \nmv LemmaMC.root "<< OutputFilename<<".root\n##################################### \n##################################### "<<G4endl;
+		G4cout<<"\n##################################### \n##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \nmv LemmaMC.root "<< OutputFilename<<".root\n##################################### \n root -l "<<OutputFilename<<".root \n##################################### "<<G4endl;
 
 		/*G4cout<<
 		"\n ##################################### \n ##################################### \n ########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n mv LemmaMC.root "<< OutputFilename<<".root\n ##################################### \n ##################################### "
