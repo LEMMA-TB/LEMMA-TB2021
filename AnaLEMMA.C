@@ -19,7 +19,7 @@ void AnaLEMMA::Loop()
 {
 	// Class-based macro to analyze the output of the LEMMA 2018 Test Beam Simulation
 	//
-	// Last Modified: 10-lug-2018
+	// Last Modified: 9-aug-2018
 	//
 	//
 	//
@@ -83,10 +83,10 @@ void AnaLEMMA::Loop()
 		0,
 		8,
 		-8,
-		16,
-		-16,
-		22,
-		-22, //37
+		14,
+		-14,
+		25,
+		-25, //37
 		22,
 		-22,
 		30.34,
@@ -102,18 +102,18 @@ void AnaLEMMA::Loop()
 	};
 	
 	std::vector<double>DetectorSizeXY={ //cm
-		2,
-		2,
-		2,
+		1.9,
+		1.9,
+		1.9,
 		2.5, //BeTarget
-		10,
-		10,
-		10,
-		10,
-		10,
-		10,
-		10,
-		10,
+		9.5,
+		9.5,
+		8,
+		8,
+		8,
+		8,
+		18,
+		18,
 		10,
 		10,
 		50, //LeadGlass
@@ -152,6 +152,7 @@ void AnaLEMMA::Loop()
 	TH1F* Subdet[NPART];
 	TH2F* XYDet[NDET][NPART];
 	
+	// Prepare histos
 	for (ii=0; ii<NPART; ii++) {
 		Zeta[ii]=new TH1F(Form("Z%s",ParticlesName[ii].Data()),Form("Z position of interactions for %s; Z [cm]", ParticlesName[ii].Data()), (ZMAX-ZMIN)/ZBW, ZMIN, ZMAX);
 		ZetaX[ii]=new TH2F(Form("ZX%s",ParticlesName[ii].Data()),Form("Z-X position of interactions for %s; Z [cm]; X [cm]", ParticlesName[ii].Data()), (ZMAX-ZMIN)/ZBW, ZMIN, ZMAX, 300, 0, -100);
@@ -223,7 +224,7 @@ void AnaLEMMA::Loop()
 	
 	Long64_t nentries = fChain->GetEntriesFast();
 	cout<<nentries<<endl;
-	nentries=1e4;
+//	nentries=1e4;
 	
 	
 	Long64_t nbytes = 0, nb = 0;

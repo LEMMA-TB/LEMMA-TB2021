@@ -59,6 +59,13 @@ public :
 	vector<double>  *Calo_EnDep;
 	vector<int>     *Proc;
 	vector<double>  *BCross;
+	vector<double>  *GammaConvX;
+	vector<double>  *GammaConvY;
+	vector<double>  *GammaConvZ;
+	vector<double>  *GammaConvEne;
+	vector<double>  *GammaConvSubdet;
+	vector<double>  *GammaConvEnePos;
+	vector<double>  *GammaConvEneEle;
 	
 	// List of branches
 	TBranch        *b_BeamX;   //!
@@ -96,6 +103,13 @@ public :
 	TBranch        *b_Calo_EnDep;   //!
 	TBranch        *b_Proc;   //!
 	TBranch        *b_BCross;   //!
+	TBranch        *b_GammaConvX;   //!
+	TBranch        *b_GammaConvY;   //!
+	TBranch        *b_GammaConvZ;   //!
+	TBranch        *b_GammaConvEne;   //!
+	TBranch        *b_GammaConvSubdet;   //!
+	TBranch        *b_GammaConvEnePos;   //!
+	TBranch        *b_GammaConvEneEle;   //!
 
 //   AnaLEMMA(TTree *tree=0);
 	AnaLEMMA(TString);
@@ -241,6 +255,13 @@ void AnaLEMMA::Init(TTree *tree)
 	Calo_EnDep = 0;
 	Proc = 0;
 	BCross = 0;
+	GammaConvX = 0;
+	GammaConvY = 0;
+	GammaConvZ = 0;
+	GammaConvEne = 0;
+	GammaConvSubdet = 0;
+	GammaConvEnePos = 0;
+	GammaConvEneEle = 0;
 	// Set branch addresses and branch pointers
 	if (!tree) return;
 	fChain = tree;
@@ -282,6 +303,13 @@ void AnaLEMMA::Init(TTree *tree)
 	fChain->SetBranchAddress("Calo_EnDep", &Calo_EnDep, &b_Calo_EnDep);
 	fChain->SetBranchAddress("Proc", &Proc, &b_Proc);
 	fChain->SetBranchAddress("BCross", &BCross, &b_BCross);
+	fChain->SetBranchAddress("GammaConvX", &GammaConvX, &b_GammaConvX);
+	fChain->SetBranchAddress("GammaConvY", &GammaConvY, &b_GammaConvY);
+	fChain->SetBranchAddress("GammaConvZ", &GammaConvZ, &b_GammaConvZ);
+	fChain->SetBranchAddress("GammaConvEne", &GammaConvEne, &b_GammaConvEne);
+	fChain->SetBranchAddress("GammaConvSubdet", &GammaConvSubdet, &b_GammaConvSubdet);
+	fChain->SetBranchAddress("GammaConvEnePos", &GammaConvEnePos, &b_GammaConvEnePos);
+	fChain->SetBranchAddress("GammaConvEneEle", &GammaConvEneEle, &b_GammaConvEneEle);
 	Notify();
 }
 
