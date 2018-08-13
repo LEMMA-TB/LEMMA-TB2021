@@ -1043,7 +1043,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4Box* solidMuLatShield = new G4Box("MuLatShield",MuLatShield_sizeX/2,MuLatShield_sizeY/2,MuLatShield_sizeZ/2);
 	G4LogicalVolume* logicMuLatShield = new G4LogicalVolume(solidMuLatShield, aria,"MuLatShield");
 //	new G4PVPlacement(0, posMuLatShield1,logicMuLatShield,"MuLatShield1",logicWorld,false,0,checkOverlaps);
-	new G4PVPlacement(0, posMuLatShield2,logicMuLatShield,"MuLatShield2",logicWorld,false,0,checkOverlaps);
+//	new G4PVPlacement(0, posMuLatShield2,logicMuLatShield,"MuLatShield2",logicWorld,false,0,checkOverlaps);
 	
 	/*
 	//-- Lead Plate Front
