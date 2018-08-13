@@ -70,7 +70,7 @@ int main(int argc,char** argv)
 	G4double RootCutThr=1; //Flag to cut on output file: photons with energy lower than this value (in GeV) will not be written. Set negative to write them all
 	G4double GeometryZoom=1; //Transverse zoom of trackers (Ts and Cs det)
 	
-	G4bool StoreCaloEnDepFlag=false; //to disable scoring of energy deposition (gamma, e+, e-, total) in calorimeters (sparing ~15% of disk space)
+	G4bool StoreCaloEnDepFlag=true; //to disable scoring of energy deposition (gamma, e+, e-, total) in calorimeters (sparing ~15% of disk space)
 	G4bool StoreGammaConvFlag=true; //To enable the storing on information on gamma conversion position and energy
 	G4bool DetEnterExitFlag=true; //To enable scoring of what eneters and exits PbGlass and Cerenkov detectors
 	

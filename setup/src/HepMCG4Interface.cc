@@ -127,7 +127,7 @@ void HepMCG4Interface::GeneratePrimaryVertex(G4Event* anEvent)
 {
 	// delete previous event object
 	delete hepmcEvent;
-	G4cout<<"genero vertice hep"<<G4endl;
+	if (0) G4cout<<"genero vertice hep"<<G4endl;
 	// generate next event
 	hepmcEvent= GenerateHepMCEvent();
 	if(! hepmcEvent) {
