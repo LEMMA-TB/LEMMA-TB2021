@@ -26,8 +26,6 @@ public:
 	
 private:
 	G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
-//	G4Box* fEnvelopeBox;
-//	B1EventAction* evtPrimAction;
 	G4double fBeamEnergy;
 	G4bool fCalibMuonBeamFlag;
 	G4bool fProdMuonBeamFlag;

@@ -41,54 +41,55 @@ using namespace std;
 
 int main(int argc,char** argv)
 {
-
-	
-	G4bool MTFlag=TRUE;
-	//#ifdef G4MULTITHREADED
-	//#if 1
-	//	MTFlag=TRUE;
-	
+	// Define both MT and ST RunManager to be able to choose later which one to use
 	G4MTRunManager* runManagerMT ;
 	G4RunManager* runManager ;
 	
+	// ##############################################################################
+	// ##################### FLAG DEFINITION TO CHOOSE THE DESIRED CONFIGURATION
+	// ##############################################################################
+	// ################### These are defaults, can be overridden by command line ####
+	// ###############
 	
-
-	
-	// FLAG DEFINITION TO CHOOSE THE DESIRED CONFIGURATION - These are defaults, can be overridden by command line
-	G4bool CalibMuonBeamFlag=false;  //switching on this flag generates mu- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
+	G4bool CalibMuonBeamFlag=false;  //switching on this flag generates mu- primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
 	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu- beam at the end of the target, to simulate the muon production: E in 15-30 GeV, along Z
-	G4bool ElectronBeamFlag=false;  //switching on this flag generates e- beam, otherwise e+. The SimpleFlag in PrimGenAction is still considered for the beam distribution
+	G4bool ElectronBeamFlag=false;  //switching on this flag generates e- beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
 	G4double BeamEnergy=45.*GeV; //Primary Beam Energy (18, 22, 26 GeV options for e+ calibration) - 45 GeV for real TB
-	G4bool SimpleFlag=false;
-	G4bool TargetFlag=true;
-	G4bool FlipFieldFlag=true; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
-//	G4bool MagMapFlag=true;
-//	G4double MagField=-1.72; //was -1.62
-	G4double MagField=700; // 2018-07-12 this way we are simulating the case with "HW current 700 - SW current 600" (taking into account non linearities), 599 in case "carta e penna", 700 with new map
-	G4bool StoreCaloEnDepFlag=false; //to disable scoring of energy deposition (gamma, e+, e-, total) in calorimeters (sparing ~15% of disk space)
-																	 //Flags to force use of externally generated primary files (for bhabha and muon pair production)
-																	 //Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
-																	 //These flags ovverride previous ones (CalibMuonBeamFlag, ElectronBeamFlag etc) and also BeamEnergy
+	G4bool SimpleFlag=false; //Generates a "simple-ideal" beam: no spread, no emittance...
+	
+	//Flags to force use of externally generated primary files (for bhabha and muon pair production)
+	//Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
+	//These flags ovverride previous ones (CalibMuonBeamFlag, ElectronBeamFlag etc) and also BeamEnergy
 	G4bool ExtSourceFlagBha=false;
 	G4bool ExtSourceFlagMu=false;
-	G4bool AllVacFlag=false;
 	
-	G4bool StoreGammaConvFlag=true;
-
-	//Flag to cut on output file: photons with energy lower than this value will not be written. Set negative to write them all
-	G4double RootCutThr=1*GeV;
+	G4bool TargetFlag=true; //Place or not the target
+	G4bool FlipFieldFlag=true; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
+	G4double MagField=700; //running current (in A) of the magnet. If negative is the exact magnetic field to be used as constant
+	G4bool AllVacFlag=false; //Set all materials (except Target) to air, to see what happens to primary particles
+	G4double RootCutThr=1; //Flag to cut on output file: photons with energy lower than this value (in GeV) will not be written. Set negative to write them all
 	G4double GeometryZoom=1; //Transverse zoom of trackers (Ts and Cs det)
 	
-	G4int NProcInput=1; // default value for number of threads requested (1-> SingleT, <0-> MultiT, X-> X threads)
-
-	G4bool DetEnterExitFlag=true;
+	G4bool StoreCaloEnDepFlag=false; //to disable scoring of energy deposition (gamma, e+, e-, total) in calorimeters (sparing ~15% of disk space)
+	G4bool StoreGammaConvFlag=true; //To enable the storing on information on gamma conversion position and energy
+	G4bool DetEnterExitFlag=true; //To enable scoring of what eneters and exits PbGlass and Cerenkov detectors
 	
-	G4bool VisFlag=false;
+	G4bool MTFlag=TRUE; //Toggle Multi Thread running
+	G4int NProcInput=1; // default value for number of threads requested (1-> SingleT, <0-> all threads MultiT, X-> X threads)
+	
+	G4bool VisFlag=false; //To enable visualization
 	G4int NoOfPrimToGen=100, Verbose=0;
 	G4String MacroName="";
 	G4String FileNameLabel="";
 	G4UIExecutive* ui = 0;
 	
+	// ###############
+	// ##################### END: FLAG DEFINITION TO CHOOSE THE DESIRED CONFIGURATION
+	// ##############################################################################
+	
+	// ##############################################################################
+	// ##################### COMMAND LINE PARAMETERS INPUT
+	// ###############
 	
 	for(int i=1;i<argc;i++)
 		if(argv[i][0] =='-')
@@ -134,7 +135,8 @@ int main(int argc,char** argv)
 			else if(option.compare("-GammaConv")==0)
 			{
 				StoreGammaConvFlag=stoi (argv[++i], NULL);;
-			}else if(option.compare("-ExtBhaBha")==0)
+			}
+			else if(option.compare("-ExtBhaBha")==0)
 			{
 				ExtSourceFlagBha=stoi (argv[++i], NULL);;
 			}
@@ -169,25 +171,30 @@ int main(int argc,char** argv)
 			else if(option.compare("-DetEnterExit")==0)
 			{
 				DetEnterExitFlag=stoi (argv[++i], NULL);;
-			}else if(option.compare("-Label")==0)
+			}
+			else if(option.compare("-Label")==0)
 			{
 				FileNameLabel= argv[++i];;
 			}
 		}
 		else
 		{
-			MacroName = argv[i]; //se ho trovato una macro (senza il "-" davanti) significa che NON voglio l'interattivo
+			MacroName = argv[i]; //If I found a macro (without trailing "-") it means that I do NOT want visualization
 			VisFlag=false;
 		}
+	
+	// ###############
+	// ##################### END: COMMAND LINE PARAMETERS INPUT
+	// ##############################################################################
 	
 	
 	G4Random::setTheEngine(new CLHEP::RanecuEngine);
 	G4long seed = time(NULL);
-	if (VisFlag) seed=12345;
+	if (VisFlag) seed=12345; //If vis was requested same always the same seed to have reproducibility
 	G4Random::setTheSeed(seed);
 	
 	if (NProcInput==1) MTFlag=false;
-
+	
 	if (MTFlag) {
 		runManagerMT= new G4MTRunManager;
 		if (NProcInput<0 || NProcInput>G4Threading::G4GetNumberOfCores()) runManagerMT->SetNumberOfThreads( G4Threading::G4GetNumberOfCores() );
@@ -196,23 +203,33 @@ int main(int argc,char** argv)
 		runManager= new G4RunManager;
 	}
 	
+	// ##############################################################################
+	// ##################### PREPARE CALO-MAP VECTOR
+	// ###############
 	
-	//	std::vector<G4int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600, 5100, 5101, 5102, 5103, 5104, 5105, 5200, 5201, 5202, 5203, 5204, 5205};
-	std::vector<G4int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600};
+	std::vector<G4int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600}; //PbGlasses
 	
-	for (int ii=0; ii<34; ii++) {
+	for (int ii=0; ii<34; ii++) { //Ce1 (34 channels)
 		ChannelMap.push_back(5100+ii);
 	}
-	
-	for (int ii=0; ii<24; ii++) {
+	for (int ii=0; ii<24; ii++) { //Ce2 (24 channels)
 		ChannelMap.push_back(5200+ii);
 	}
 	
-	//==================================================
+	// ###############
+	// ##################### END: PREPARE CALO-MAP VECTOR
+	// ##############################################################################
+	
+	
+	
+	// ##############################################################################
+	// ##################### PHYSICS LIST AND DETECTOR CONSTRUCTION
+	// ###############
+	
 	G4bool FTFP = false; // standard Geant4 PhysicsList
 	G4bool channeling = false;
 	G4String ctype = "Si" ;  // "C" or "Si"
-													 //==================================================
+	
 	B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag);
 	detector->SetChanneling(channeling,ctype);
 	
@@ -242,6 +259,10 @@ int main(int argc,char** argv)
 		}
 	}
 	
+	// ###############
+	// ##################### END: PHYSICS LIST AND DETECTOR CONSTRUCTION
+	// ##############################################################################
+	
 	if (MTFlag) {
 		runManagerMT->SetUserInitialization(detector);
 		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
@@ -251,7 +272,6 @@ int main(int argc,char** argv)
 		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
 		runManager->Initialize();  // init kernel
 	}
-	
 	
 #ifdef G4VIS_USE
 	// Initialize visualization
@@ -270,12 +290,10 @@ int main(int argc,char** argv)
 		// batch mode
 		if (MacroName!="") {
 			G4String command = "/control/execute ";
-			//		G4String fileName = argv[13];
 			UImanager->ApplyCommand(command+MacroName);
 		} else {
 			UImanager->ApplyCommand("/tracking/verbose " + std::to_string(Verbose));
 			UImanager->ApplyCommand("/run/beamOn " + std::to_string(NoOfPrimToGen));
-			//			UImanager->ApplyCommand("/run/beamOn 100");
 		}
 	}
 	else {
@@ -293,51 +311,58 @@ int main(int argc,char** argv)
 	else {
 		run=runManager->GetCurrentRun();
 	}
-	//	run->SetNumberOfEventToBeProcessed(17); // does not work
+	
+	// ##############################################################################
+	// ##################### PREPARE OUTPUT FILENAME
+	// ###############
+	
 	G4String OutputFilename = "LemmaMC2018";
-	G4String OutputFilenameFirstNote ="";
-	OutputFilename.append(OutputFilenameFirstNote);
 	
-	
+	//Primary particle info
 	if (ExtSourceFlagMu) OutputFilename.append("_MuMu");
 	else if (ExtSourceFlagBha) OutputFilename.append("_Bhabha");
 	else if (ElectronBeamFlag) OutputFilename.append("_Ele"+ std::to_string(G4int (BeamEnergy)) );
 	else if (CalibMuonBeamFlag) OutputFilename.append("_CalibMuM"+ std::to_string(G4int (BeamEnergy)) );
 	else if (ProdMuonBeamFlag) OutputFilename.append("_ProdMuM");
 	else OutputFilename.append("_Pos"+ std::to_string(G4int (BeamEnergy)) );
-	
 	if (SimpleFlag) OutputFilename.append("_simple");
 	
+	//Target ?
 	if (TargetFlag) OutputFilename.append("_T");
 	else  OutputFilename.append("_NoT");
 	
+	//Magnetic field
 	if (MagField>=0) {
 		OutputFilename.append("_FieldM"); //Map
-		if (MagField!=700) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Map
+		if (MagField!=700) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Map: if different from default current (700) write its value
 	} else  {
 		OutputFilename.append("_FieldF");
-		if (MagField!=700) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Fixed
+		OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Fixed: write the fixed value used
 	}
-	
 	if (FlipFieldFlag) OutputFilename.append("f");
 	
-	OutputFilename.append("_N" + std::to_string ((G4int) (run->GetNumberOfEventToBeProcessed())));
-
+	//Geometry options
+	if (GeometryZoom!=1) OutputFilename.append("_Z" + std::to_string(G4int (GeometryZoom) ));
+	if (AllVacFlag) OutputFilename.append("_VAC");
 	
+	//Scoring options
 	if (StoreCaloEnDepFlag) OutputFilename.append("_calo");
 	if (StoreGammaConvFlag) OutputFilename.append("_gconv");
-
-	if (GeometryZoom!=1) OutputFilename.append("_Z" + std::to_string(G4int (GeometryZoom) ));
 	
-	if (AllVacFlag) OutputFilename.append("_VAC");
-
-	G4String OutputFilenameSecondNote ="";
 	if (FileNameLabel!="") OutputFilename.append("_" + FileNameLabel);
-	OutputFilename.append(OutputFilenameSecondNote);
 	
-#ifdef G4VIS_USE
-	delete visManager;
-#endif
+	//Number of generated primaries
+	OutputFilename.append("_N" + std::to_string ((G4int) (run->GetNumberOfEventToBeProcessed())));
+	
+	// ###############
+	// ##################### END: PREPARE OUTPUT FILENAME
+	// ##############################################################################
+	
+	if (VisFlag) {
+		//#ifdef G4VIS_USE
+		delete visManager;
+		//#endif
+	}
 	
 	if (MTFlag) {
 		delete runManagerMT;
@@ -346,32 +371,28 @@ int main(int argc,char** argv)
 		delete runManager;
 	}
 	
+	// ##############################################################################
+	// ##################### PREPARE FILE ANALYSIS SCRIPT
+	// ###############
+	
 	std::ofstream CommandOutput("ProcessFiles.C", std::ios::out);
 	
 	if (MTFlag) {
 		CommandOutput<<
-		"{\n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\"); \n TChain * chain3 = new TChain(\"DetEnter\");\n	chain3->Add(\"LemmaMC_t*.root\");\n TChain * chain4 = new TChain(\"DetExit\");\n	chain4->Add(\"LemmaMC_t*.root\"); \nTFile *file = TFile::Open(\""<< OutputFilename<<".root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n 	chain3->CloneTree(-1,\"fast\");\n 	chain4->CloneTree(-1,\"fast\");\n file->Write();\n }"
+		"{\n TFile *_file = TFile::Open(\"LemmaMC.root\");\n TH1D* CaloMap2=(TH1D*)CaloMap->Clone(\"CaloMap2\");\n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\"); \n TChain * chain3 = new TChain(\"DetEnter\");\n	chain3->Add(\"LemmaMC_t*.root\");\n TChain * chain4 = new TChain(\"DetExit\");\n	chain4->Add(\"LemmaMC_t*.root\"); \nTFile *file = TFile::Open(\""<< OutputFilename<<".root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n 	chain3->CloneTree(-1,\"fast\");\n 	chain4->CloneTree(-1,\"fast\");\n file->Write();\n CaloMap2->SetName(\"CaloMap\");\n CaloMap2->Write();\n }"
 		<<G4endl;
 		G4cout<<"\n##################################### \n##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n   root -l ProcessFiles.C \n##################################### \n root -l "<<OutputFilename<<".root \n#####################################"<<G4endl;
-		/*
-		G4cout<<
-		"\n ##################################### \n ##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\"); \n TChain * chain3 = new TChain(\"DetEnter\");\n	chain3->Add(\"LemmaMC_t*.root\");\n TChain * chain4 = new TChain(\"DetExit\");\n	chain4->Add(\"LemmaMC_t*.root\"); \nTFile *file = TFile::Open(\""<< OutputFilename<<".root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n 	chain3->CloneTree(-1,\"fast\");\n 	chain4->CloneTree(-1,\"fast\");\n file->Write();\n ##################################### \n ##################################### "
-		<<G4endl;
-		 */
-		//	"########### TO ANALYZE THIS SIMULATION \n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\")\n ;TFile *file = TFile::Open(\"LemmaMC2018_MuMuBert_T_MfCurrent650_10k_PreStepZ_Large.root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n file->Write(); "
 	} else {
 		CommandOutput<<
 		"{\n mv LemmaMC.root "<< OutputFilename<<".root\n } "
-		 <<G4endl;
-		G4cout<<"\n##################################### \n##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \nmv LemmaMC.root "<< OutputFilename<<".root\n##################################### \n root -l "<<OutputFilename<<".root \n##################################### "<<G4endl;
-
-		/*G4cout<<
-		"\n ##################################### \n ##################################### \n ########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n mv LemmaMC.root "<< OutputFilename<<".root\n ##################################### \n ##################################### "
 		<<G4endl;
-		*/
+		G4cout<<"\n##################################### \n##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \nmv LemmaMC.root "<< OutputFilename<<".root\n##################################### \n root -l "<<OutputFilename<<".root \n##################################### "<<G4endl;
+		
 	}
 	
+	// ###############
+	// ##################### END: PREPARE FILE ANALYSIS SCRIPT
+	// ##############################################################################
+	
 	return 0;
-	
-	
 }

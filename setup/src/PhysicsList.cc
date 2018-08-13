@@ -56,139 +56,139 @@
 PhysicsList::PhysicsList()
 : G4VUserPhysicsList(), fMes(0)
 {
-  defaultCutValue = 1.*km;
-  fMes = new PhysicsListMessenger(this);
-  SetVerboseLevel(1);
+	defaultCutValue = 1.*km;
+	fMes = new PhysicsListMessenger(this);
+	SetVerboseLevel(1);
 }
 
 
 PhysicsList::~PhysicsList()
 {
-  delete fMes;
+	delete fMes;
 }
 
 void PhysicsList::ConstructParticle()
 {
-  ConstructBosons();
-  ConstructLeptons();
-  ConstructHadrons();
+	ConstructBosons();
+	ConstructLeptons();
+	ConstructHadrons();
 }
 
 void PhysicsList::ConstructBosons()
 {
-  // gamma
-  G4Gamma::GammaDefinition();
-  // pseudo-particles
-  G4Geantino::GeantinoDefinition();
-  G4ChargedGeantino::ChargedGeantinoDefinition();
+	// gamma
+	G4Gamma::GammaDefinition();
+	// pseudo-particles
+	G4Geantino::GeantinoDefinition();
+	G4ChargedGeantino::ChargedGeantinoDefinition();
 }
 
 void PhysicsList::ConstructLeptons()
 {
-  // leptons
-  G4Electron::ElectronDefinition();
-  G4Positron::PositronDefinition();
-  G4MuonPlus::MuonPlusDefinition();
-  G4MuonMinus::MuonMinusDefinition();
-  G4NeutrinoE::NeutrinoEDefinition();
-  G4AntiNeutrinoE::AntiNeutrinoEDefinition();
-  G4NeutrinoMu::NeutrinoMuDefinition();
-  G4AntiNeutrinoMu::AntiNeutrinoMuDefinition();
+	// leptons
+	G4Electron::ElectronDefinition();
+	G4Positron::PositronDefinition();
+	G4MuonPlus::MuonPlusDefinition();
+	G4MuonMinus::MuonMinusDefinition();
+	G4NeutrinoE::NeutrinoEDefinition();
+	G4AntiNeutrinoE::AntiNeutrinoEDefinition();
+	G4NeutrinoMu::NeutrinoMuDefinition();
+	G4AntiNeutrinoMu::AntiNeutrinoMuDefinition();
 }
 
 void PhysicsList::ConstructHadrons()
 {
-  // mesons
-  G4PionPlus::PionPlusDefinition();
-  G4PionMinus::PionMinusDefinition();
-  G4PionZero::PionZeroDefinition();
-  G4Eta::EtaDefinition();
-  G4EtaPrime::EtaPrimeDefinition();
-  G4KaonPlus::KaonPlusDefinition();
-  G4KaonMinus::KaonMinusDefinition();
-  G4KaonZero::KaonZeroDefinition();
-  G4AntiKaonZero::AntiKaonZeroDefinition();
-  G4KaonZeroLong::KaonZeroLongDefinition();
-  G4KaonZeroShort::KaonZeroShortDefinition();
-  // baryons
-  G4Proton::ProtonDefinition();
-  G4AntiProton::AntiProtonDefinition();
-  G4Neutron::NeutronDefinition();
-  G4AntiNeutron::AntiNeutronDefinition();
+	// mesons
+	G4PionPlus::PionPlusDefinition();
+	G4PionMinus::PionMinusDefinition();
+	G4PionZero::PionZeroDefinition();
+	G4Eta::EtaDefinition();
+	G4EtaPrime::EtaPrimeDefinition();
+	G4KaonPlus::KaonPlusDefinition();
+	G4KaonMinus::KaonMinusDefinition();
+	G4KaonZero::KaonZeroDefinition();
+	G4AntiKaonZero::AntiKaonZeroDefinition();
+	G4KaonZeroLong::KaonZeroLongDefinition();
+	G4KaonZeroShort::KaonZeroShortDefinition();
+	// baryons
+	G4Proton::ProtonDefinition();
+	G4AntiProton::AntiProtonDefinition();
+	G4Neutron::NeutronDefinition();
+	G4AntiNeutron::AntiNeutronDefinition();
 }
 
 void PhysicsList::ConstructProcess()
 {
-  AddTransportation();
-  ConstructEM();
-  ConstructGeneral();
+	AddTransportation();
+	ConstructEM();
+	ConstructGeneral();
 	ConstructOp();
 }
 
 void PhysicsList::ConstructEM()
 {
 #if (G4VERSION_NUMBER >= 1030)
-    G4ParticleTable::G4PTblDicIterator* theParticleIterator = G4ParticleTable::GetParticleTable()->GetIterator();
+	G4ParticleTable::G4PTblDicIterator* theParticleIterator = G4ParticleTable::GetParticleTable()->GetIterator();
 #endif
-    
-  theParticleIterator->reset();
-  while( (*theParticleIterator)() ){
-    G4ParticleDefinition* particle = theParticleIterator->value();
-    G4ProcessManager* pmanager = particle->GetProcessManager();
-    G4String particleName = particle->GetParticleName();
-    
-    if (particleName == "gamma") {
-      pmanager->AddDiscreteProcess(new G4GammaConversionToMuons); //g->mumu
-      pmanager->AddDiscreteProcess(new G4PhotoElectricEffect);
-      pmanager->AddDiscreteProcess(new G4ComptonScattering);
-      pmanager->AddDiscreteProcess(new G4GammaConversion);      
-      
-    } else if (particleName == "e-") {
-      pmanager->AddProcess(new G4eMultipleScattering,-1,1,1);
-      pmanager->AddProcess(new G4eIonisation,        -1,2,2);
-      pmanager->AddProcess(new G4eBremsstrahlung,    -1,3,3);
-      pmanager->AddProcess(new G4StepLimiter,       -1,-1,4);      
-           
-    } else if (particleName == "e+") {
-      pmanager->AddProcess(new G4eMultipleScattering,-1,1,1);
-      pmanager->AddProcess(new G4eIonisation,        -1,2,2);
-      pmanager->AddProcess(new G4eBremsstrahlung,    -1,3,3);
-      pmanager->AddProcess(new G4eplusAnnihilation,   0,-1,4); //gamma-gamma
-      pmanager->AddDiscreteProcess(new G4AnnihiToMuPair); //ee->mumu
-      pmanager->AddDiscreteProcess(new G4eeToHadrons);
-      pmanager->AddDiscreteProcess(new G4StepLimiter);       
-
-    } else if( particleName == "mu+" || particleName == "mu-" ) {
-      pmanager->AddProcess(new G4MuMultipleScattering,-1,1,1);
-      pmanager->AddProcess(new G4MuIonisation,        -1,2,2);
-      pmanager->AddProcess(new G4MuBremsstrahlung,    -1,3,3);
-      pmanager->AddProcess(new G4MuPairProduction,    -1,4,4);
-      pmanager->AddProcess(new G4StepLimiter,         -1,-1,5);                
-      
-    } else if( particleName == "anti_proton") {
-      pmanager->AddProcess(new G4hMultipleScattering,-1,1,1);
-      pmanager->AddProcess(new G4hhIonisation ,      -1,2,2);
-      pmanager->AddProcess(new G4StepLimiter,        -1,-1,3);       
-
-    } else if( particleName == "GenericIon") {
-      pmanager->AddProcess(new G4hMultipleScattering,-1,1,1);
-      pmanager->AddProcess(new G4ionIonisation,      -1,2,2);
-      pmanager->AddProcess(new G4StepLimiter,        -1,-1,3);       
-      
-    } else if( particle->GetPDGCharge() != 0.0 && !particle->IsShortLived()
-            && particleName != "chargedgeantino") {
-      pmanager->AddProcess(new G4hMultipleScattering,-1,1,1);
-      pmanager->AddProcess(new G4hIonisation,        -1,2,2);
-      pmanager->AddProcess(new G4StepLimiter,        -1,-1,3);       
-    }
-  }
-  
-  G4EmProcessOptions opt;
-  opt.SetVerbose(1);
-  opt.SetMinEnergy(100*eV);       
-  opt.SetMaxEnergy(1000*TeV);      
-  opt.SetDEDXBinning(13*7);      
-  opt.SetLambdaBinning(13*7);    
+	
+	theParticleIterator->reset();
+	while( (*theParticleIterator)() ){
+		G4ParticleDefinition* particle = theParticleIterator->value();
+		G4ProcessManager* pmanager = particle->GetProcessManager();
+		G4String particleName = particle->GetParticleName();
+		
+		if (particleName == "gamma") {
+			pmanager->AddDiscreteProcess(new G4GammaConversionToMuons); //g->mumu
+			pmanager->AddDiscreteProcess(new G4PhotoElectricEffect);
+			pmanager->AddDiscreteProcess(new G4ComptonScattering);
+			pmanager->AddDiscreteProcess(new G4GammaConversion);
+			
+		} else if (particleName == "e-") {
+			pmanager->AddProcess(new G4eMultipleScattering,-1,1,1);
+			pmanager->AddProcess(new G4eIonisation,        -1,2,2);
+			pmanager->AddProcess(new G4eBremsstrahlung,    -1,3,3);
+			pmanager->AddProcess(new G4StepLimiter,       -1,-1,4);
+			
+		} else if (particleName == "e+") {
+			pmanager->AddProcess(new G4eMultipleScattering,-1,1,1);
+			pmanager->AddProcess(new G4eIonisation,        -1,2,2);
+			pmanager->AddProcess(new G4eBremsstrahlung,    -1,3,3);
+			pmanager->AddProcess(new G4eplusAnnihilation,   0,-1,4); //gamma-gamma
+			pmanager->AddDiscreteProcess(new G4AnnihiToMuPair); //ee->mumu
+			pmanager->AddDiscreteProcess(new G4eeToHadrons);
+			pmanager->AddDiscreteProcess(new G4StepLimiter);
+			
+		} else if( particleName == "mu+" || particleName == "mu-" ) {
+			pmanager->AddProcess(new G4MuMultipleScattering,-1,1,1);
+			pmanager->AddProcess(new G4MuIonisation,        -1,2,2);
+			pmanager->AddProcess(new G4MuBremsstrahlung,    -1,3,3);
+			pmanager->AddProcess(new G4MuPairProduction,    -1,4,4);
+			pmanager->AddProcess(new G4StepLimiter,         -1,-1,5);
+			
+		} else if( particleName == "anti_proton") {
+			pmanager->AddProcess(new G4hMultipleScattering,-1,1,1);
+			pmanager->AddProcess(new G4hhIonisation ,      -1,2,2);
+			pmanager->AddProcess(new G4StepLimiter,        -1,-1,3);
+			
+		} else if( particleName == "GenericIon") {
+			pmanager->AddProcess(new G4hMultipleScattering,-1,1,1);
+			pmanager->AddProcess(new G4ionIonisation,      -1,2,2);
+			pmanager->AddProcess(new G4StepLimiter,        -1,-1,3);
+			
+		} else if( particle->GetPDGCharge() != 0.0 && !particle->IsShortLived()
+							&& particleName != "chargedgeantino") {
+			pmanager->AddProcess(new G4hMultipleScattering,-1,1,1);
+			pmanager->AddProcess(new G4hIonisation,        -1,2,2);
+			pmanager->AddProcess(new G4StepLimiter,        -1,-1,3);
+		}
+	}
+	
+	G4EmProcessOptions opt;
+	opt.SetVerbose(1);
+	opt.SetMinEnergy(100*eV);
+	opt.SetMaxEnergy(1000*TeV);
+	opt.SetDEDXBinning(13*7);
+	opt.SetLambdaBinning(13*7);
 }
 
 
@@ -229,87 +229,84 @@ void PhysicsList::ConstructOp() //LB for Cerenkov
 void PhysicsList::ConstructGeneral()
 {
 #if (G4VERSION_NUMBER >= 1030)
-    G4ParticleTable::G4PTblDicIterator* theParticleIterator = G4ParticleTable::GetParticleTable()->GetIterator();
+	G4ParticleTable::G4PTblDicIterator* theParticleIterator = G4ParticleTable::GetParticleTable()->GetIterator();
 #endif
-  // Add Decay Process
-  G4Decay* theDecayProcess = new G4Decay();
-  theParticleIterator->reset();
-  while ((*theParticleIterator)()){
-    G4ParticleDefinition* particle = theParticleIterator->value();
-    G4ProcessManager* pmanager = particle->GetProcessManager();
-    if (theDecayProcess->IsApplicable(*particle) && !particle->IsShortLived())
-      { pmanager ->AddProcess(theDecayProcess);
-        // set ordering for PostStepDoIt and AtRestDoIt
-        pmanager ->SetProcessOrdering(theDecayProcess, idxPostStep);
-        pmanager ->SetProcessOrdering(theDecayProcess, idxAtRest);
-      }
-  }
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  // Scale muon pair cross section toggle bias
-  // Function call moved from SetCuts to ConstructGeneral
-  // to allow proper funcionalities with MultiThread
-//	SetAnnihiToMuPairFac(1.e3);
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  
+	// Add Decay Process
+	G4Decay* theDecayProcess = new G4Decay();
+	theParticleIterator->reset();
+	while ((*theParticleIterator)()){
+		G4ParticleDefinition* particle = theParticleIterator->value();
+		G4ProcessManager* pmanager = particle->GetProcessManager();
+		if (theDecayProcess->IsApplicable(*particle) && !particle->IsShortLived())
+		{ pmanager ->AddProcess(theDecayProcess);
+			// set ordering for PostStepDoIt and AtRestDoIt
+			pmanager ->SetProcessOrdering(theDecayProcess, idxPostStep);
+			pmanager ->SetProcessOrdering(theDecayProcess, idxAtRest);
+		}
+	}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// Scale muon pair cross section, toggle bias
+	// Function call moved from SetCuts to ConstructGeneral
+	// to allow proper funcionalities with MultiThread
+	//	SetAnnihiToMuPairFac(1.e3);
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	
 }
-    
- 
- void PhysicsList::SetCuts()
- {
-   if (verboseLevel>0){
-     G4cout << "PhysicsList::SetCuts:";
-     //     G4cout << "CutLength : " << G4BestUnit(defaultCutValue,"Length") << G4endl;
-   }  
-   //  SetCutValue(defaultCutValue, "gamma");
-   //  SetCutValue(defaultCutValue, "e-");
-   //  SetCutValue(defaultCutValue, "e+");
-   SetCutValue(1.*mm, "gamma");
-   SetCutValue(1.*mm, "e-");
-   SetCutValue(1.*mm, "e+");  
-   //+++++++++++++++++++++++++
-//   SetAnnihiToMuPairFac(1.e6);  // enhance cross section for this process
-   //+++++++++++++++++++++++++    
-   if (verboseLevel>0) DumpCutValuesTable();
- }
 
 
- void PhysicsList::SetAnnihiToMuPairFac(G4double fac)
- {
-   G4ProcessTable* theProcessTable = G4ProcessTable::GetProcessTable();
-   G4AnnihiToMuPair* annihiToMuPairProcess = (G4AnnihiToMuPair*) 
-     theProcessTable->FindProcess("AnnihiToMuPair","e+");
-   if(annihiToMuPairProcess){ 
-     annihiToMuPairProcess->SetCrossSecFactor(fac);
-     G4cout << "FAC= "<<fac<<G4endl;
-   }else G4cout 
-	   << "Warning. No process AnnihiToMuPair found, SetAnnihiToMuPairFac ignored"
-	   << G4endl;
- }
- 
+void PhysicsList::SetCuts()
+{
+	if (verboseLevel>0){
+		G4cout << "PhysicsList::SetCuts:";
+		//     G4cout << "CutLength : " << G4BestUnit(defaultCutValue,"Length") << G4endl;
+	}
+	//  SetCutValue(defaultCutValue, "gamma");
+	//  SetCutValue(defaultCutValue, "e-");
+	//  SetCutValue(defaultCutValue, "e+");
+	SetCutValue(1.*mm, "gamma");
+	SetCutValue(1.*mm, "e-");
+	SetCutValue(1.*mm, "e+");
+	if (verboseLevel>0) DumpCutValuesTable();
+}
 
 
- void PhysicsList::SetGammaToMuPairFac(G4double fac)
- {
-   G4ProcessTable* theProcessTable = G4ProcessTable::GetProcessTable();
-   G4GammaConversionToMuons* gammaToMuPairProcess = (G4GammaConversionToMuons*)
-    theProcessTable->FindProcess("GammaToMuPair","gamma");
-   if(gammaToMuPairProcess) gammaToMuPairProcess->SetCrossSecFactor(fac);
-   else G4cout 
-	  << "Warning. No process GammaToMuPair found, SetGammaToMuPairFac was ignored"
-	  << G4endl;
- }
- 
-  
- 
+void PhysicsList::SetAnnihiToMuPairFac(G4double fac)
+{
+	G4ProcessTable* theProcessTable = G4ProcessTable::GetProcessTable();
+	G4AnnihiToMuPair* annihiToMuPairProcess = (G4AnnihiToMuPair*)
+	theProcessTable->FindProcess("AnnihiToMuPair","e+");
+	if(annihiToMuPairProcess){
+		annihiToMuPairProcess->SetCrossSecFactor(fac);
+		G4cout << "FAC= "<<fac<<G4endl;
+	}else G4cout
+		<< "Warning. No process AnnihiToMuPair found, SetAnnihiToMuPairFac ignored"
+		<< G4endl;
+}
+
+
+
+void PhysicsList::SetGammaToMuPairFac(G4double fac)
+{
+	G4ProcessTable* theProcessTable = G4ProcessTable::GetProcessTable();
+	G4GammaConversionToMuons* gammaToMuPairProcess = (G4GammaConversionToMuons*)
+	theProcessTable->FindProcess("GammaToMuPair","gamma");
+	if(gammaToMuPairProcess) gammaToMuPairProcess->SetCrossSecFactor(fac);
+	else G4cout
+		<< "Warning. No process GammaToMuPair found, SetGammaToMuPairFac was ignored"
+		<< G4endl;
+}
+
+
+
 void PhysicsList::SetAnnihiToHadronFac(G4double fac)
- {
-   G4ProcessTable* theProcessTable = G4ProcessTable::GetProcessTable();
-   G4eeToHadrons* eehadProcess = (G4eeToHadrons*)
-     theProcessTable->FindProcess("ee2hadr","e+");
-   if(eehadProcess) eehadProcess->SetCrossSecFactor(fac);
-   else G4cout
-	  << "Warning. No process ee2hadr found, SetAnnihiToHadronFac was ignored"
-	  << G4endl;
- }
- 
- 
+{
+	G4ProcessTable* theProcessTable = G4ProcessTable::GetProcessTable();
+	G4eeToHadrons* eehadProcess = (G4eeToHadrons*)
+	theProcessTable->FindProcess("ee2hadr","e+");
+	if(eehadProcess) eehadProcess->SetCrossSecFactor(fac);
+	else G4cout
+		<< "Warning. No process ee2hadr found, SetAnnihiToHadronFac was ignored"
+		<< G4endl;
+}
+
+

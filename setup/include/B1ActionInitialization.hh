@@ -17,8 +17,6 @@ public:
 	virtual void BuildForMaster() const;
 	virtual void Build() const;
 	
-	//	virtual B1RunAction* GetRunAction() {return frunAction;};
-	
 private:
 	G4double fBeamEnergy;
 	G4bool fCalibMuonBeamFlag;
@@ -33,13 +31,9 @@ private:
 	G4double fEThr;
 	G4bool fDetEnterExitFlag;
 	
-	
 public:
 	std::vector<G4int> fChannelMap;
 
 };
 
-
 #endif
-
-

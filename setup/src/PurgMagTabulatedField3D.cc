@@ -48,16 +48,16 @@ namespace{
 }
 
 PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
-												  double zOffset, G4bool FlipFieldFlag, G4double Current)
+																								 double zOffset, G4bool FlipFieldFlag, G4double Current)
 :fZoffset(zOffset),invertX(false),invertY(false),invertZ(false), fFlipFieldFlag(FlipFieldFlag), fActualCurrent(Current)
 {
- 
+	
 	double lenUnit= millimeter;
 	double fieldUnit= tesla;
 	
 	double NominalCurrent=700; //500 A in 2017, 700 in 2018
-	double ActualCurrent=fActualCurrent; //437.5 A quella dichiarata, 476.96 per avere mappa con max 1.26T: 2018: 650 possible guess?
-	double ScaleFactor=ActualCurrent/NominalCurrent; //0.875 --> 1.155T
+	double ActualCurrent=fActualCurrent; //700?
+	double ScaleFactor=ActualCurrent/NominalCurrent; //
 	
 	//	G4LogicalVolume* logicBend = G4LogicalVolumeStore::GetInstance()->GetVolume("Bend");
 	//	G4VPhysicalVolume* physicalBend = G4PhysicalVolumeStore::GetInstance()->GetVolume("Bend");
@@ -80,7 +80,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 		G4ExceptionDescription ed;
 		ed << "Could not open input file " << filename << G4endl;
 		G4Exception("PurgMagTabulatedField3D::PurgMagTabulatedField3D",
-					"pugmag001",FatalException,ed);
+								"pugmag001",FatalException,ed);
 	}
 	
 	// Ignore first blank line
@@ -90,11 +90,11 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 	// Read table dimensions
 	file >> nx >> ny >> nz; // Note dodgy order
 	
-	G4cout << "  [ Number of values x,y,z: prima di estendere: "
+	G4cout << "  [ Number of values x,y,z: before extending (flipping): "
 	<< nx << " " << ny << " " << nz << " ] "
 	<< endl;
 	
-	// Set up storage space for table - Crea matrice nx * ny * nz
+	// Set up storage space for table - Create  nx * ny * nz matrix
 	xField.resize( nx );
 	yField.resize( nx );
 	zField.resize( nx );
@@ -114,7 +114,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 	// The first line whose second character is '0' is considered to
 	// be the last line of the header.
 	do {
-		file.getline(buffer,256);  //legge la linea
+		file.getline(buffer,256);  //read line
 	} while ( buffer[1]!='0');
 	
 	// Read in the data
@@ -124,37 +124,27 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 	for (ix=0; ix<nx; ix++) {
 		for (iy=0; iy<ny; iy++ /*&& G4cout<<"NUOVO"<<G4endl*/) {
 			for (iz=0; iz<nz; iz++) {
-				file >> xval >> yval >> zval >> bx >> by >> bz;  	// estrae i valori
-		  if ( ix==0 && iy==0 && iz==0 ) {
-			  minx = xval * lenUnit;
-			  miny = yval * lenUnit;
-			  minz = zval * lenUnit;
-		  }
-			
+				file >> xval >> yval >> zval >> bx >> by >> bz;  	// extracts values
+				if ( ix==0 && iy==0 && iz==0 ) {
+					minx = xval * lenUnit;
+					miny = yval * lenUnit;
+					minz = zval * lenUnit;
+				}
+				
 				if (fFlipFieldFlag) {
-				xField[ix][iy][iz] = -1*bx *ScaleFactor * fieldUnit;
-				yField[ix][iy][iz] = -1*by *ScaleFactor * fieldUnit;
-				zField[ix][iy][iz] = -1*bz *ScaleFactor * fieldUnit;
+					xField[ix][iy][iz] = -1*bx *ScaleFactor * fieldUnit;
+					yField[ix][iy][iz] = -1*by *ScaleFactor * fieldUnit;
+					zField[ix][iy][iz] = -1*bz *ScaleFactor * fieldUnit;
 				} else {
 					xField[ix][iy][iz] = 1*bx *ScaleFactor * fieldUnit;
 					yField[ix][iy][iz] = 1*by *ScaleFactor * fieldUnit;
 					zField[ix][iy][iz] = 1*bz *ScaleFactor * fieldUnit;
 				}
-			/*
-				if (fabs(xField[ix][iy][iz])>BxMax) BxMax=xField[ix][iy][iz];
-				if (fabs(yField[ix][iy][iz])>ByMax) ByMax=yField[ix][iy][iz];
-				if (fabs(zField[ix][iy][iz])>BzMax) BzMax=zField[ix][iy][iz];
-*/
+
 				if (bx*fieldUnit>BxMax) BxMax=bx*fieldUnit;
 				if (by*fieldUnit>ByMax) ByMax=by*fieldUnit;
 				if (bz*fieldUnit>BzMax) BzMax=bz*fieldUnit;
-				//Max Field Value: Bx= 1.8064, By= 2.41933, Bz= 0.51616
-				
-				//				1.3208538 is max By value in Map
-				//						  	  if ( ix>=nx*0.7 && iy>=ny*0.7 && iz>=nz*0.7 ) {
-//				G4cout<<"######### bx, by, bz SCALED = "<<xField[ix][iy][iz]<<" "<<yField[ix][iy][iz]/tesla<<" "<<zField[ix][iy][iz]<<G4endl;
-	//			G4cout<<"# xval, yval, zval = "<<xval<<" "<<yval<<" "<<zval<<G4endl;
-		//		G4cout<<"## bx, by, bz SCALED = "<<xField[ix][iy][iz]<<" "<<yField[ix][iy][iz]/tesla<<" "<<zField[ix][iy][iz]<<G4endl<<G4endl;
+
 				if ( 0) { //magnetic field debug
 					G4cout<<"### ix = "<<ix<<", iy "<<iy<<", iz "<<iz<<G4endl;
 					G4cout<<"### nx0-1+ix = "<<nx0-1+ix<<", ny0-1+iy "<<ny0-1+iy<<", nz0-1+iz "<<nz0-1+iz<<G4endl;
@@ -162,20 +152,6 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 					G4cout<<"######### bx, by, bz ORIG = "<<bx/tesla<<" "<<by/tesla<<" "<<bz/tesla<<G4endl;
 					G4cout<<"######### bx, by, bz SCALED = "<<xField[ix][iy][iz]/tesla<<" "<<yField[ix][iy][iz]/tesla<<" "<<zField[ix][iy][iz]/tesla<<G4endl<<G4endl;
 				}
-				
-				
-				
-				/*
-				xField[nx0-1+ix][ny0-1+iy][nz0-1+iz] = bx * fieldUnit;
-		  yField[nx0-1+ix][ny0-1+iy][nz0-1+iz] = by * fieldUnit;
-		  zField[nx0-1+ix][ny0-1+iy][nz0-1+iz] = bz * fieldUnit;
-
-				
-				xField[nx0-1-ix][ny0-1-iy][nz0-1-iz] = bx * fieldUnit;
-		  yField[nx0-1-ix][ny0-1-iy][nz0-1-iz] = by * fieldUnit;
-		  zField[nx0-1-ix][ny0-1-iy][nz0-1-iz] = bz * fieldUnit;
-				 */
-				
 			}
 		}
 	}
@@ -228,38 +204,38 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 }
 
 void PurgMagTabulatedField3D::GetFieldValue(const double point[4],
-											double *Bfield ) const
+																						double *Bfield ) const
 {
 	/* //ORIGINAL VERSION
-	double x = point[0];
-	double y = point[1];
-	double z = point[2] + fZoffset;
-	*/
-
+	 double x = point[0];
+	 double y = point[1];
+	 double z = point[2] + fZoffset;
+	 */
+	
 	double x, y, z;
 	if (point[0]<0) {
 		x=fabs(point[0]);
-//		cout <<"lemmaDEBUG invertito segno a x"<<endl;
+		//		cout <<"lemmaDEBUG invertito segno a x"<<endl;
 	} else {
 		x = point[0];
 	}
 	if (point[1]<0) {
 		y=fabs(point[1]);
-//		cout <<"lemmaDEBUG invertito segno a y"<<endl;
+		//		cout <<"lemmaDEBUG invertito segno a y"<<endl;
 	} else {
 		y = point[1];
 	}
-//	if (point[2]<0) {   //corrected Zoffset problem by collamaf - 23.10.2017
-		z=fabs(point[2]-fZoffset);
-//		cout <<"lemmaDEBUG invertito segno a z"<<endl;
-//	} else {
-//		z = point[2]+ fZoffset;
-//	}
+	//	if (point[2]<0) {   //corrected Zoffset problem by collamaf - 23.10.2017
+	z=fabs(point[2]-fZoffset);
+	//		cout <<"lemmaDEBUG invertito segno a z"<<endl;
+	//	} else {
+	//		z = point[2]+ fZoffset;
+	//	}
 	
 	// Check that the point is within the defined region
 	if ( x>=minx && x<=maxx &&
-		y>=miny && y<=maxy &&
-		z>=minz && z<=maxz ) {
+			y>=miny && y<=maxy &&
+			z>=minz && z<=maxz ) {
 		
 		// Position of given point within region, normalized to the range
 		// [0,1]
@@ -287,11 +263,6 @@ void PurgMagTabulatedField3D::GetFieldValue(const double point[4],
 		int yindex = static_cast<int>(ydindex);
 		int zindex = static_cast<int>(zdindex);
 		
-#if 0
-		G4cout << "Local x,y,z: " << xlocal << " " << ylocal << " " << zlocal << endl;
-		G4cout << "Index x,y,z: " << xindex << " " << yindex << " " << zindex << endl;
-#endif
-		
 #ifdef DEBUG_INTERPOLATING_FIELD
 		G4cout << "Local x,y,z: " << xlocal << " " << ylocal << " " << zlocal << endl;
 		G4cout << "Index x,y,z: " << xindex << " " << yindex << " " << zindex << endl;
@@ -304,7 +275,6 @@ void PurgMagTabulatedField3D::GetFieldValue(const double point[4],
 #endif
 		
 		//	  G4cout<<" lemmaDEBUG  FUNZIO"<<G4endl;
-		
 		// Full 3-dimensional version
 		Bfield[0] =
 		xField[xindex  ][yindex  ][zindex  ] * (1-xlocal) * (1-ylocal) * (1-zlocal) +

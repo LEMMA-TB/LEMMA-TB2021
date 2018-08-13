@@ -210,6 +210,9 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Restricted gamma conversion scoring to before magnet (since irrelevant if after )
 - Fixed an error leading to huge file size if GammaConv is selected (dofill repeted in StepAc)
 
+2018.08.13 by collamaf
+- General cleaning of code in view of 2018 TB
+- Now CaloMap is brought to final output file in case of MT
 
 
 `
@@ -221,7 +224,7 @@ now is "gpc" as alias!
 TODO LIST
 - Capire perche l'info in "Beam" nella tupla LEMMA non si riferisce alla vera particella di quel vertice ma sempre e solo all'elettrone (in caso di generatore esterno)
 - Ri-accendere Cerenkov
-- Sistemare
+- Aggiornare readme riguardo lo scoring
 - Dimensioni scintillatori S2 e S3 dopo aver allargato C6-C7
 
 

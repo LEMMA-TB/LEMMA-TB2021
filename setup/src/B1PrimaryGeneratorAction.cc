@@ -3,13 +3,14 @@
 #include "G4PhysicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
 #include "G4Box.hh"
+#include "G4Tubs.hh"
 #include "G4RunManager.hh"
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
-#define HEPFLAG //Toggle this flag to enable HepMC External generator at pre-processor level
+#define HEPFLAG //Toggle this flag to enable HepMC External generator at pre-processor level - disable on muoncoll.lnf server
 #ifdef HEPFLAG
 #include "HepMCG4AsciiReader.hh"
 #endif
@@ -31,24 +32,17 @@ fExtSourceFlagMu(ExtSourceFlagMu)
 	G4String particleName;
 	
 	G4ParticleDefinition* particle;
-	particle = particleTable->FindParticle(particleName="e+"); //Primary Positron Beam
-
-	//	hepmcAscii = new HepMCG4AsciiReader();
-
+	particle = particleTable->FindParticle(particleName="e+"); //Primary Positron Beam by default
 	
 	if(fExtSourceFlagBha) {
 		G4cout<<"# # # # # # # # # # # # # # # # # # # # # # # # # # # "<<G4endl<<"I am using as primary particles externally generated e+e- bhabha pairs"<<G4endl;
-//		hepmcAscii = new HepMCG4AsciiReader("ExtDataBhabha.dat"); //path must be relative to where the code runs (eg build directory)
 #ifdef HEPFLAG
 		hepmcAscii = new HepMCG4AsciiReader("ExtData_ep.dat"); //path must be relative to where the code runs (eg build directory)
 #endif
 	} else if(fExtSourceFlagMu) {
 		G4cout<<"# # # # # # # # # # # # # # # # # # # # # # # # # # # "<<G4endl<<"I am using as primary particles externally generated mu+mu- pairs"<<G4endl;
-//		hepmcAscii = new HepMCG4AsciiReader("ExtDataBhabha.dat");
 #ifdef HEPFLAG
-//		hepmcAscii = new HepMCG4AsciiReader("ExtData_mm.dat");
 		hepmcAscii = new HepMCG4AsciiReader("ExtData_mm.dat"); //path must be relative to where the code runs (eg build directory)
-
 #endif
 	} else {
 		if(fCalibMuonBeamFlag) {
@@ -77,37 +71,24 @@ B1PrimaryGeneratorAction::~B1PrimaryGeneratorAction()
 
 void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-	// COLLIMATOR and SHOOT
-	// ====================
-	
+	//-- Beam parameters
+	//----------------
 	G4double x0,y0,z0;
-	//  G4double cut = 2.*mm; // collimator dimension
 	G4double sizeX = 10*mm;
 	G4double sizeY = 10*mm;
-	//-- Gaussian shoot
-	//   --------------
-	//  while (1>0){ //
-	//  x0 = G4RandGauss::shoot(0.,sizeX);
-	//  y0 = G4RandGauss::shoot(0.,sizeY);
-	//    if ( abs(x0)<cut && abs(y0)<cut ) break;
-	//    }
+	
 	z0 = -1*mm; //was -1.e-5 until 6.4.18, but is inside T1!!!
 	
-	if (fProdMuonBeamFlag) {
-		
+	if (fProdMuonBeamFlag) { //If produced muon beam has been requested, retrieve target location to start particles after it
 		G4VPhysicalVolume* physTarget = G4PhysicalVolumeStore::GetInstance()->GetVolume("Target");
-		G4double zTargetEnd=physTarget->GetTranslation().z();
-		/*
-		 G4LogicalVolume* logicTarget = G4LogicalVolumeStore::GetInstance()->GetVolume("Targ");
-		 G4Tubs * bersaglio= NULL;
-		 bersaglio = dynamic_cast<G4Tubs*>(logicTarget->GetSolid());
-		 */
-		G4double DZTarget=3*cm;
-		G4double ProdMuonBeamStart=zTargetEnd+DZTarget;
+		G4double zTargetCenter=physTarget->GetTranslation().z();
+		G4LogicalVolume* logicTarget = G4LogicalVolumeStore::GetInstance()->GetVolume("Target");
+		G4Tubs * bersaglio= (G4Tubs*)(logicTarget->GetSolid());
+		
+		G4double DZTarget=bersaglio->GetZHalfLength();
+		G4double ProdMuonBeamStart=zTargetCenter+DZTarget;
 		z0=ProdMuonBeamStart;
 	}
-	
-	
 	
 	G4double p_smear;
 	G4double EnergySpread;
@@ -118,11 +99,10 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		sizeX=0;
 		sizeY=0;
 	} else 	{
-		p_smear = 170.e-6;
-		EnergySpread = 0.01;
+		p_smear = 170.e-6; //unclear source - 2017: DA MATTIA DIVERGENZA ~140urad
+		EnergySpread = 0.01; //1%
 		sizeX = 20*mm;
 		sizeY = 20*mm;
-		
 	}
 	
 	if (fProdMuonBeamFlag) {
@@ -130,18 +110,20 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		sizeY=1*cm;
 	}
 	
+	//-- Gaussian shoot
+	//   --------------
+	//  while (1>0){ //
+	//  x0 = G4RandGauss::shoot(0.,sizeX);
+	//  y0 = G4RandGauss::shoot(0.,sizeY);
+	//    if ( abs(x0)<cut && abs(y0)<cut ) break;
+	//    }
 	
 	//-- Uniform shoot
 	//----------------
-	
-	
 	x0 = sizeX * (G4UniformRand()-0.5);
 	y0 = sizeY * (G4UniformRand()-0.5);
 	
-
-	
 	fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0)); // GUN POSITION
-	
 	
 	//-- ENERGY and ANGULAR SPREAD
 	//   =========================
@@ -154,50 +136,25 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		py_smear=0;
 	}
 	
-	
 	//  G4double px_smear = p_smear*(G4UniformRand()-0.5);
 	//  G4double py_smear = p_smear*(G4UniformRand()-0.5);
 	fParticleGun->SetParticleMomentumDirection(G4ThreeVector(px_smear,py_smear,1-px_smear*px_smear-py_smear*py_smear));
-	// DA MATTIA DIVERGENZA ~140urad
-	// no energy spread
+	
 	G4double Energy0=fBeamEnergy;
 	
-	/*
-	if(fCalibMuonBeamFlag) {
-		Energy0 = 22.*GeV; //Primary Muon Beam
-	} else if(fElectronBeamFlag) {
-		Energy0 = 22.*GeV; //Primary Electron Beam
-	} else {
-		Energy0 = 45.*GeV; //Primary Positron Beam (18, 22, 26 GeV options for calibration) - 45 GeV for real TB
-	}
-	*/
-	//	G4double EnergySpread = 0.0; //0.01
 	G4double Energy = G4RandGauss::shoot(Energy0, Energy0*EnergySpread);
 	
 	if (fProdMuonBeamFlag) {
-		Energy=22.5*GeV+ ( 15*GeV* (G4UniformRand()-0.5));
+		Energy=22.5*GeV+ ( 15*GeV* (G4UniformRand()-0.5)); //flat in 15-30 GeV
 	}
 	
 	fParticleGun->SetParticleEnergy(Energy);
 	
-
-	/*
-	 -- energy spread:
-	 G4double Energy = 45*GeV;
-	 G4double sigmaE = 0.01*Energy;
-	 Energy = G4RandGauss::shoot(Energy,sigmaE);
-	 fParticleGun->SetParticleEnergy(Energy);
-  */
-//
-	
 	if (fExtSourceFlagBha || fExtSourceFlagMu) {
-//		G4cout<<"SPARO DA FUORI"<<G4endl;
 #ifdef HEPFLAG
 		hepmcAscii->GeneratePrimaryVertex(anEvent);
 #endif
 	}	else {
-//		G4cout<<"SPARO SORGENTE STANDARD"<<G4endl;
-
 		fParticleGun->GeneratePrimaryVertex(anEvent);
 	}
 	

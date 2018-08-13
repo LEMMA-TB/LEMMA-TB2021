@@ -84,8 +84,6 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	if (!fScoringVolume_Ce2) {fScoringVolume_Ce2 = detectorConstruction->GetScoringVolume_Ce2();}
 	if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstruction->GetScoringVolume_Mu1();}
 	if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstruction->GetScoringVolume_Mu2();}
-
-//	G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 	
 	
 	G4LogicalVolume* volume =
@@ -94,14 +92,9 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	G4VPhysicalVolume* ThisVol = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
 	G4VPhysicalVolume* NextVol = step->GetPostStepPoint()->GetTouchableHandle()->GetVolume();
 	
-//	if (ThisVol->GetName()=="MuLatShield2" && NextVol->GetName()!="MuLatShield2") { // To keep interesting events for post-run visualization
-
-
-
 	if (fDetEnterExitFlag) {
 		// ########################
 		// What enters PbGlass 1
-		
 		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetLogicalVolume()==fScoringVolume_Pb1a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb1b || NextVol->GetLogicalVolume()==fScoringVolume_Pb1c) ) {
 			(runStepAction->GetVectorPbGlass1EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorPbGlass1EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
@@ -113,10 +106,8 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorPbGlass1EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		
-		
 		// ########################
 		// What enters PbGlass 2
-		
 		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetLogicalVolume()==fScoringVolume_Pb2a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb2b || NextVol->GetLogicalVolume()==fScoringVolume_Pb2c) ) {
 			(runStepAction->GetVectorPbGlass2EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorPbGlass2EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
@@ -131,7 +122,6 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		
 		// ########################
 		// What exits PbGlass 1
-		
 		if (NextVol && NextVol->GetName()=="World" && ( ThisVol->GetLogicalVolume()==fScoringVolume_Pb1a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb1b || NextVol->GetLogicalVolume()==fScoringVolume_Pb1c) ) {
 			(runStepAction->GetVectorPbGlass1ExitEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorPbGlass1ExitPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
@@ -145,7 +135,6 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		
 		// ########################
 		// What exits PbGlass 2
-		
 		if (NextVol && NextVol->GetName()=="World" && ( ThisVol->GetLogicalVolume()==fScoringVolume_Pb2a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb2b || NextVol->GetLogicalVolume()==fScoringVolume_Pb2c) ) {
 			(runStepAction->GetVectorPbGlass2ExitEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorPbGlass2ExitPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
@@ -156,7 +145,6 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorPbGlass2ExitPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
 			(runStepAction->GetVectorPbGlass2ExitPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
-		
 	}
 	
 	G4bool SHOW = false;
@@ -187,7 +175,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	else if (volume==fScoringVolume_Ce2)   {subdet=52; dofill=true;}  //
 	else if (volume==fScoringVolume_Mu1)   {subdet=61; dofill=true;}  //
 	else if (volume==fScoringVolume_Mu2)   {subdet=62; dofill=true;}  //
-
+	
 	
 	if (fStoreGammaConvDepFlag && NextVol) { //Like "subdet", but for PostStep volume
 		G4LogicalVolume* Postvolume =	NextVol->GetLogicalVolume();
@@ -218,13 +206,11 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		else if (Postvolume==fScoringVolume_Mu1)   {Postsubdet=61; }  //
 		else if (Postvolume==fScoringVolume_Mu2)   {Postsubdet=62; }  //
 		else if (Postvolume->GetName()=="World")   {Postsubdet=-10; }  //
-
+		
 		G4VPhysicalVolume* physicalBend = G4PhysicalVolumeStore::GetInstance()->GetVolume("Mag");
 		G4double zGammaConvCut=physicalBend->GetTranslation().z();
 		
-		
-		
-		// If we have a Gamma Conversion in World volume save the event
+		// If we have a Gamma Conversion before magnet...
 		if (step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==22 && step->GetPostStepPoint()->GetProcessDefinedStep() && step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "conv" && step->GetPostStepPoint()->GetPosition().z()<zGammaConvCut) {
 			
 			(runStepAction->GetVectorGammaConvX()).push_back((step->GetPostStepPoint()->GetPosition().x()/cm));
@@ -234,53 +220,23 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorGammaConvSubdet()).push_back(Postsubdet);
 			
 			
-//			G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
-//			evt->KeepTheEvent();
+			//			G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
+			//			evt->KeepTheEvent();
 			//			G4cout<<"Evt n: "<< evt->GetEventID() <<" Gamma conversion in world! z= "<< step->GetPostStepPoint()->GetPosition().z()/cm<<" Gamma EnePre= "<<step->GetPreStepPoint()->GetKineticEnergy()/GeV <<" PostSubdet= "<<Postsubdet <<" Viva? "<<step->GetTrack()->GetTrackStatus() <<G4endl;
-			
 		}
 	}
-
+	
 	/*
-	if (subdet==61 || subdet==62 ) {
-		G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
-		evt->KeepTheEvent();
-	}
+	 if (subdet==61 || subdet==62 ) {
+	 G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
+	 evt->KeepTheEvent();
+	 }
 	 */
-	
-#if 0
-	if (step->GetTrack()->GetCreatorProcess() && step->GetTrack()->GetCurrentStepNumber()==1) {
-		if (step->GetTrack()->GetCreatorProcess()->GetProcessName() == "conv" && step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==11) {
-			(runStepAction->GetVectorGammaConvEneEle()).push_back((step->GetPreStepPoint()->GetKineticEnergy()/GeV));
-		}
-		
-		if (step->GetTrack()->GetCreatorProcess()->GetProcessName() == "conv" && step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==-11) {
-			(runStepAction->GetVectorGammaConvEnePos()).push_back((step->GetPreStepPoint()->GetKineticEnergy()/GeV));
-		}
-	}
-	
-	// Save info on e+e- created due to gamma conversion in world volume
-	if (atrack->GetCurrentStepNumber()==0 && atrack->GetTouchableHandle()->GetVolume()->GetName()=="World") {
-		if (process=="conv" && Idp==11) {
-			//		G4cout<<"MERDA pos"<<G4endl;
-			(frunAction->GetVectorGammaConvEneEle()).push_back((atrack->GetKineticEnergy()/GeV));
-		}
-		if (process=="conv" && Idp==-11) {
-			//		G4cout<<"MERDA ele"<<G4endl;
-			(frunAction->GetVectorGammaConvEnePos()).push_back((atrack->GetKineticEnergy()/GeV));
-		}
-	}
-	
-	
-#endif
-	
 	
 	G4int CopyNb=step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
 	G4double DepEne=step->GetTotalEnergyDeposit()/GeV;
 	G4int Pid=step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding();
-
 	
-#if 1
 	// CALORIMETER SCORING
 	if (fStoreCaloEnDepFlag && ((subdet>=41 && subdet <=46) || subdet==51 || subdet==52)) {
 		std::vector<G4int>::iterator it;
@@ -290,15 +246,12 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetCaloEnDep())[it-fChannelMap.begin()]+=DepEne;
 		}
 		if (0)		G4cout<<"DEBUG !!! subdet= "<<subdet<<" Nome= "<<step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName()<<" CopyNb="<<CopyNb<<" Cerco canale "<<CaloChannelToSearch<<" Trovato in pos= "<<(G4int) (it-fChannelMap.begin())<<G4endl;
-
 	}
-#endif
 	
-
 	if (fEThr>0) fCutFlag=true;
 	
 	if (step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "Cerenkov") { //se sto facendo uno step di tipo cerenkov
-		//		G4cout<<"DEBUG Cerenkov!!!"<<G4endl;
+																																													 //		G4cout<<"DEBUG Cerenkov!!!"<<G4endl;
 		const std::vector<const G4Track*>* secondaries = step->GetSecondaryInCurrentStep();
 		if (secondaries->size()>0) {
 			for (unsigned int i=0; i<secondaries->size(); i++) { //ciclo su tutti i secondari di questo step
@@ -306,16 +259,16 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 					if (secondaries->at(i)->GetCreatorProcess()->GetProcessName() == "Cerenkov") { //se è stato creato dal processo Cerenkov
 						G4double CerFotEne=secondaries->at(i)->GetKineticEnergy()/eV;
 						G4double CerFotLambda=hplanck*clight/CerFotEne;
-
+						
 						// se sono nel detector di PbGlass
 						if (subdet==79 && CerFotLambda>0) {
-//							(fEventAction->AddPbGlassCere(1)); //incremento di 1 il contatore di fotoni cerenkov
+							//							(fEventAction->AddPbGlassCere(1)); //incremento di 1 il contatore di fotoni cerenkov
 						}
 						// se sono nel detector di Cerenkov
 						else if (subdet==80 && CerFotLambda>CerFotLambdaCut) {
-//							(runStepAction->GetCerenkovDepoOpt())[CopyNb]+=1; //incremento di 1 il contatore di fotoni cerenkov del rispettivo canale
+							//							(runStepAction->GetCerenkovDepoOpt())[CopyNb]+=1; //incremento di 1 il contatore di fotoni cerenkov del rispettivo canale
 						}
-//						G4cout<<"DEBUG Cerenkov!!! Energia fotone= "<<CerFotEne<<", lamda [um]= "<< CerFotLambda<<", subdet= "<<subdet<<  G4endl;
+						//						G4cout<<"DEBUG Cerenkov!!! Energia fotone= "<<CerFotEne<<", lamda [um]= "<< CerFotLambda<<", subdet= "<<subdet<<  G4endl;
 					}
 				}
 			}
@@ -323,29 +276,33 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	}
 	
 	
-	
+	//##################################################
+	//##################################################
+	//############ CENTRAL CORE OF SCORING #############
+	//##################################################
+
 	
 	//-- store info
 	//	if (dofill && ((step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary)
 	//				   || (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary)) && !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<EThr) ) { //If Output Cut required do not store photons under a certain energy
 	//#### NORMAL
-//	if (dofill && ((step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary) || (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary)) && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
-  //### FINE NORMAL
-
-//	ALL
-//	if (dofill  && subdet!=76  && subdet!=77  && subdet!=78 && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
-
-	/* //tentativo di capire perchè quando si usa generatore esterno l'infomrazione in GetPrimaryVertex è sempre relativa alla prima riga del file di dati esterni.. PACE!
-	G4int temp=G4RunManager::GetRunManager()->GetCurrentEvent()->GetPrimaryVertex()->GetPrimary()->GetPDGcode();
-	G4double tempEne=G4RunManager::GetRunManager()->GetCurrentEvent()->GetPrimaryVertex()->GetPrimary()->GetKineticEnergy();
-	if (0&&temp!=13) G4cout<<"CIAO "<<temp<<G4endl;
+	//	if (dofill && ((step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary) || (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary)) && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
+	//### FINE NORMAL
 	
-	if (step->GetTrack()->GetParentID()==0 && step->GetTrack()->GetCurrentStepNumber()==1) G4cout<< "DEBUG ParentId="<< step->GetTrack()->GetParentID()<<" Part= "<<step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()<<" Ene="<< step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/keV<<" temp= "<<temp<<" tempEne=" <<tempEne/keV<<G4endl;
-*/
+	//	ALL
+	//	if (dofill  && subdet!=76  && subdet!=77  && subdet!=78 && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
+	
+	/* //tentativo di capire perchè quando si usa generatore esterno l'informazione in GetPrimaryVertex è sempre relativa alla prima riga del file di dati esterni.. PACE!
+	 G4int temp=G4RunManager::GetRunManager()->GetCurrentEvent()->GetPrimaryVertex()->GetPrimary()->GetPDGcode();
+	 G4double tempEne=G4RunManager::GetRunManager()->GetCurrentEvent()->GetPrimaryVertex()->GetPrimary()->GetKineticEnergy();
+	 if (0&&temp!=13) G4cout<<"CIAO "<<temp<<G4endl;
+	 
+	 if (step->GetTrack()->GetParentID()==0 && step->GetTrack()->GetCurrentStepNumber()==1) G4cout<< "DEBUG ParentId="<< step->GetTrack()->GetParentID()<<" Part= "<<step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()<<" Ene="<< step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/keV<<" temp= "<<temp<<" tempEne=" <<tempEne/keV<<G4endl;
+	 */
 	
 	
 	// SOLO PRE/POST - PRE
-	if (dofill && (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary) && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
+	if (dofill && (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary) && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr*GeV) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
 		
 		G4int iev = -999;
 		const G4Event* evt = G4RunManager::GetRunManager()->GetCurrentEvent();
@@ -372,7 +329,6 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		pvertexdir = step->GetTrack()->GetVertexMomentumDirection();
 		kinev = step->GetTrack()->GetVertexKineticEnergy();
 		
-		//process = step->GetTrack()->GetCreatorProcess()->GetProcessName();
 		if (step->GetTrack()->GetCreatorProcess()) pro = step->GetTrack()->GetCreatorProcess()->GetProcessSubType();
 		//			if (Itrack!=1) { // different from gun particle
 		xvertex = step->GetTrack()->GetVertexPosition();
@@ -389,7 +345,6 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		G4double cz = primaryParticle->GetMomentumDirection().z();
 		G4int particella=primaryParticle->GetPDGcode();
 		
-		//		G4cout<<ke<<G4endl;
 #if 1
 		runStepAction->GetBeamX().push_back(xx/mm);
 		runStepAction->GetBeamY().push_back(yy/mm);
@@ -429,21 +384,20 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		(runStepAction->GetInextStep()).push_back(Inextstep);
 		//		(runStepAction->GetNHits()).push_back(Inextstep);
 		//		(runStepAction->GetItrack()).push_back(-999);
-
-			
+		
+		
 		if (step->GetPreStepPoint() && step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary && step->GetPostStepPoint() && step->GetPostStepPoint()->GetStepStatus()!=fGeomBoundary) { //se la traccia NASCEVA sul bordo E NON ci moriva
 			(runStepAction->GetVectorCross()).push_back(-1);
 		} else	if (step->GetPostStepPoint() && step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary && step->GetPreStepPoint() && step->GetPreStepPoint()->GetStepStatus()!=fGeomBoundary) { //se la traccia MORIVA sul bordo E NON ci nasceva
 			(runStepAction->GetVectorCross()).push_back(1);
-//		} else 	{
-//			(runStepAction->GetVectorCross()).push_back(0);
+			//		} else 	{
+			//			(runStepAction->GetVectorCross()).push_back(0);
 		}else if (step->GetPreStepPoint() && step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary && step->GetPostStepPoint() && step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary) { //se la traccia NASCEVA sul bordo E CI MORIVA pure
 			(runStepAction->GetVectorCross()).push_back(17);
 			
 		}
-			
-			
-			
+		
+		
 		if (SHOW) G4cout<<
 			"  Evt="<<iev<<
 			", IDtrack="<<Itrack<<
@@ -458,6 +412,5 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		/**/
 	} //if(dofill)
 	
-	//	} // if(preStep)
 	
 }

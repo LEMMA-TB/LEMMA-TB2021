@@ -19,45 +19,9 @@ B1StackingAction::~B1StackingAction()
 
 G4ClassificationOfNewTrack B1StackingAction::ClassifyNewTrack(const G4Track* atrack)
 {
-//	std::remove_const<atrack>::type  ;
-	
-#if 0
-//Try to kill muons born outside the target, useful in case of high bias of cross section. Works, but reamains to be understood the impact on physics...
-	if (fabs(atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding())==13
-		&& fabs(atrack->GetPosition().z()-545.8*cm)>=3*cm
-		) {
-		G4cout <<"Uccido Muone nato fuori dal bersaglio  "<<fabs((atrack->GetPosition().z()-545.8*cm))/cm<<G4endl;
-		return fKill;
-	}
-#endif
-	
-	/*
-	
-	if (atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==11) G4cout<<"DEBUG CREATO ELETTRONE! Id= "<<atrack->GetTrackID()  <<" Ha energia = "<< atrack->GetKineticEnergy()/GeV<<" in Z= "<< atrack->GetPosition().z()/mm<<" ParentID="<< atrack->GetParentID()<<G4endl;
-
-	if (atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()==-11) G4cout<<"DEBUG CREATO POSITRONE! Id= "<<atrack->GetTrackID()  <<" Ha energia = "<< atrack->GetKineticEnergy()/GeV<<" in Z= "<< atrack->GetPosition().z()/mm<<" ParentID="<< atrack->GetParentID()<<G4endl;
-*/
-	
-	
-	
-	// atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()
 	if (atrack->GetParentID() == 0 && atrack->GetCurrentStepNumber()==0) { //modified by collamaf on 2017.12.29 - If is a new Primary particle - used to save info on primaries even if red by external file!
-		// on 2018.02.12 added StepNumberCheck to avoid counting here also new particles created thereafter (eg optical photons)
-
+																																				 // on 2018.02.12 added StepNumberCheck to avoid counting here also new particles created thereafter (eg optical photons)
 		
-//		G4cout<<"DEBUG!!! Track id= "<<atrack->GetTrackID()<<", Creator Process= "<<atrack->GetCreatorProcess()<<", StepNumber= "<<atrack->GetCurrentStepNumber()<<", PDG code= "<<atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()<<G4endl;
-		/*
-		G4cout<<"# # # # # # # # # # # # # # # # # # # # # # # # # # # "<<G4endl<<"DEBUG STACKING ACTION"<<G4endl;
-//		G4cout<<"# # # # # # # # # # # # # # # # # # # # # # # # # # # "<<G4endl<<"Particella= "<<atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()
-		G4cout<<"# # # # # # # # # # # # # # # # # # # # # # # # # # # "<<G4endl<<"Posizione X era= "<<atrack->GetPosition().x()/mm;
-		//step->GetTrack()->GetVertexPosition()
-//		atrack->GetPosition().setX(13/mm);
-//		atrack->SetPosition(0,0,13*mm);
-//		atrack->SetVertexPosition(G4ThreeVector(0,0,0));
-		G4cout<<", la imposto a 13 = "<<atrack->GetPosition().x()/mm
-		<<G4endl;
-		*/
-#if 1
 		frunAction->GetBeamInfoX().push_back(atrack->GetPosition().x()/mm);
 		frunAction->GetBeamInfoY().push_back(atrack->GetPosition().y()/mm);
 		frunAction->GetBeamInfoZ().push_back(atrack->GetPosition().z()/mm);
@@ -66,64 +30,27 @@ G4ClassificationOfNewTrack B1StackingAction::ClassifyNewTrack(const G4Track* atr
 		frunAction->GetBeamInfoCZ().push_back(atrack->GetMomentumDirection().z());
 		frunAction->GetBeamInfoEne().push_back(atrack->GetKineticEnergy()/GeV);
 		frunAction->GetBeamInfoPart().push_back(atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
-#endif
-		/*
-		feventAction->SetBeamX(atrack->GetPosition().x());
-		feventAction->SetBeamY(atrack->GetPosition().y());
-		feventAction->SetBeamZ(atrack->GetPosition().z());
-		feventAction->SetBeamCX(atrack->GetMomentumDirection().x());
-		feventAction->SetBeamCY(atrack->GetMomentumDirection().y());
-		feventAction->SetBeamCZ(atrack->GetMomentumDirection().z());
-		feventAction->SetBeamEne(atrack->GetKineticEnergy()/GeV);
-		feventAction->SetBeamPart(atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
-		*/
-	return fUrgent;
+		
+		return fUrgent;
 	}
-
-	G4String process = atrack->GetCreatorProcess()->GetProcessName();
-  G4int Idp = atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding();
-  //  G4double charge = atrack->GetDefinition()->GetPDGCharge();
-  //  G4cout<<process<<", Energy = "<<energy<<G4endl;
 	
-#if 0
-	// Save info on e+e- created due to gamma conversion in world volume
-	if (atrack->GetCurrentStepNumber()==0 && atrack->GetTouchableHandle()->GetVolume()->GetName()=="World") {
-		if (process=="conv" && Idp==11) {
-			//		G4cout<<"MERDA pos"<<G4endl;
-			(frunAction->GetVectorGammaConvEneEle()).push_back((atrack->GetKineticEnergy()/GeV));
-		}
-		if (process=="conv" && Idp==-11) {
-			//		G4cout<<"MERDA ele"<<G4endl;
-			(frunAction->GetVectorGammaConvEnePos()).push_back((atrack->GetKineticEnergy()/GeV));
-		}
-	}
-#endif
+	G4String process = "";
+	if (atrack->GetCreatorProcess()->GetProcessName()) process=atrack->GetCreatorProcess()->GetProcessName();
+	G4int Idp = atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding();
 	
-	
+	//Retrieve position of Magnet since we are interested in gamma converting before it
 	G4VPhysicalVolume* physicalBend = G4PhysicalVolumeStore::GetInstance()->GetVolume("Mag");
 	G4double zGammaConvCut=physicalBend->GetTranslation().z();
 	
-#if 1
 	// Save info on e+e- created due to gamma conversion in world volume
 	if (fStoreGammaConvDepFlag && atrack->GetCurrentStepNumber()==0 && process=="conv" && atrack->GetPosition().z()<zGammaConvCut) {
 		if (Idp==11) {
-			//		G4cout<<"MERDA pos"<<G4endl;
 			(frunAction->GetVectorGammaConvEneEle()).push_back((atrack->GetKineticEnergy()/GeV));
 		}
 		if (Idp==-11) {
-			//		G4cout<<"MERDA ele"<<G4endl;
 			(frunAction->GetVectorGammaConvEnePos()).push_back((atrack->GetKineticEnergy()/GeV));
 		}
 	}
-#endif
-	
-#if 0
-	if (process=="annihil" && Idp==22) {
-    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-    G4double energy = atrack->GetKineticEnergy();
-//    analysisManager->FillH1(0,energy);
-  }
-#endif
-  return fUrgent;
+	return fUrgent;
 }
 

@@ -28,25 +28,18 @@ G4Run* B1RunAction::GenerateRun(){
 void B1RunAction::BeginOfRunAction(const G4Run*){
 	//inform the runManager to save random number seed
 	G4RunManager::GetRunManager()->SetRandomNumberStore(false);
-//	G4cout<<" PROVA numero t: "<<G4MTRunManager::GetMasterRunManager()->GetNumberOfThreads()<<G4endl;
 	
 	G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
 	accumulableManager->Reset();
 	
-	
 	G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-	//analysisManager->OpenFile("pippone.root");
-	//analysisManager->SetVerboseLevel(1);
-	//analysisManager->SetFileName("mypippo");
 	
-	G4long number = time(NULL);
-	std::ostringstream oss;
-	oss << number;
 	G4String filename = "LemmaMC";
-//	filename += oss.str();
 	filename += ".root";
 	
 	analysisManager->OpenFile(filename);
+
+	// ######### PHYSICS NTUPLE
 	analysisManager->CreateNtuple("LEMMA", "LemmaMCNtuple");
 	
 	analysisManager->CreateNtupleDColumn(0,"BeamX", RunVectorBeamX);   //0
@@ -59,7 +52,6 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(0,"BeamPart", RunVectorBeamPart);   //7
 	
 	analysisManager->CreateNtupleDColumn(0,"nhits");   //8
-
 	
 	analysisManager->CreateNtupleDColumn(0,"subdet", RunVectorSubdet);
 	analysisManager->CreateNtupleDColumn(0,"Idp", RunVectorIdp);
@@ -87,7 +79,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(0,"Calo_EnDep", RunVectorCaloEnDep);
 	analysisManager->CreateNtupleIColumn(0,"Proc", RunVectorProcess);
 	analysisManager->CreateNtupleDColumn(0,"BCross", RunVectorCross);
-
+	
 	analysisManager->CreateNtupleDColumn(0,"GammaConvX", RunVectorGammaConvX);
 	analysisManager->CreateNtupleDColumn(0,"GammaConvY", RunVectorGammaConvY);
 	analysisManager->CreateNtupleDColumn(0,"GammaConvZ", RunVectorGammaConvZ);
@@ -95,8 +87,8 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(0,"GammaConvSubdet", RunVectorGammaConvSubdet);
 	analysisManager->CreateNtupleDColumn(0,"GammaConvEnePos", RunVectorGammaConvEnePos);
 	analysisManager->CreateNtupleDColumn(0,"GammaConvEneEle", RunVectorGammaConvEneEle);
-
 	
+	// ######### BEAM NTUPLE
 	analysisManager->CreateNtuple("Beam", "SimulatedBeamInfo");
 	
 	analysisManager->CreateNtupleDColumn(1, "BeamX", BeamInfoX);   //0
@@ -108,6 +100,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(1, "BeamEne", BeamInfoEne);   //6
 	analysisManager->CreateNtupleDColumn(1, "BeamPart", BeamInfoPart);   //7
 	
+	// ######### DET ENTER NTUPLE
 	analysisManager->CreateNtuple("DetEnter", "WhatEntersCalos");
 	analysisManager->CreateNtupleDColumn(2,"PbGl1Ene", RunVectorPbGlass1EnterEne);
 	analysisManager->CreateNtupleDColumn(2,"PbGl1Part", RunVectorPbGlass1EnterPart);
@@ -117,7 +110,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(2,"PbGl1PX", RunVectorPbGlass1EnterPX);
 	analysisManager->CreateNtupleDColumn(2,"PbGl1PY", RunVectorPbGlass1EnterPY);
 	analysisManager->CreateNtupleDColumn(2,"PbGl1PZ", RunVectorPbGlass1EnterPZ);
-
+	
 	analysisManager->CreateNtupleDColumn(2,"PbGl2Ene", RunVectorPbGlass2EnterEne);
 	analysisManager->CreateNtupleDColumn(2,"PbGl2Part", RunVectorPbGlass2EnterPart);
 	analysisManager->CreateNtupleDColumn(2,"PbGl2X", RunVectorPbGlass2EnterX);
@@ -128,6 +121,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(2,"PbGl2PZ", RunVectorPbGlass2EnterPZ);
 	
 	
+	// ######### DET EXIT NTUPLE
 	analysisManager->CreateNtuple("DetExit", "WhatExitsCalos");
 	analysisManager->CreateNtupleDColumn(3,"PbGl1Ene", RunVectorPbGlass1ExitEne);
 	analysisManager->CreateNtupleDColumn(3,"PbGl1Part", RunVectorPbGlass1ExitPart);
@@ -137,7 +131,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(3,"PbGl1PX", RunVectorPbGlass1ExitPX);
 	analysisManager->CreateNtupleDColumn(3,"PbGl1PY", RunVectorPbGlass1ExitPY);
 	analysisManager->CreateNtupleDColumn(3,"PbGl1PZ", RunVectorPbGlass1ExitPZ);
-
+	
 	analysisManager->CreateNtupleDColumn(3,"PbGl2Ene", RunVectorPbGlass2ExitEne);
 	analysisManager->CreateNtupleDColumn(3,"PbGl2Part", RunVectorPbGlass2ExitPart);
 	analysisManager->CreateNtupleDColumn(3,"PbGl2X", RunVectorPbGlass2ExitX);
@@ -147,30 +141,26 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(3,"PbGl2PY", RunVectorPbGlass2ExitPY);
 	analysisManager->CreateNtupleDColumn(3,"PbGl2PZ", RunVectorPbGlass2ExitPZ);
 	
+	// ######### FINISH NTUPLEs
 	analysisManager->FinishNtuple(0);
-
 	analysisManager->FinishNtuple(1);
-
 	analysisManager->FinishNtuple(2);
 	analysisManager->FinishNtuple(3);
-
 	
+	// ######### CREATE CALOMAP HISTO
 	analysisManager->CreateH1("CaloMap","CaloMap",fChannelMap.size(),0.,fChannelMap.size());
 	analysisManager->SetH1XAxisTitle(0,"Channel");
 	analysisManager->SetH1YAxisTitle(0,"Detector-SubDet");
 	
-	for (int ii=0; ii<(int)fChannelMap.size() && G4Threading::G4GetThreadId()==-1; ii++) { //write CaloMap histo only once to avoid problems
+	for (int ii=0; ii<(int)fChannelMap.size() && G4Threading::G4GetThreadId()==-1; ii++) { //write CaloMap histo only once if MT to avoid problems
 		analysisManager->FillH1(0, ii, fChannelMap[ii]);
 	}
-
 }
 
 void B1RunAction::EndOfRunAction(const G4Run* run){
 	
 	G4int nofEvents = run->GetNumberOfEvent();
 	if (nofEvents == 0) return;
-	
-
 	
 	//save histograms
 	G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();

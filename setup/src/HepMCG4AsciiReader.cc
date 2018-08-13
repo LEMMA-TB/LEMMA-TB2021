@@ -37,11 +37,9 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 HepMCG4AsciiReader::HepMCG4AsciiReader(G4String nomefile)
-//:  filename("test02.dat"), verbose(0)
 :  filename(nomefile), verbose(0)
 {
 	asciiInput= new HepMC::IO_GenEvent(filename.c_str(), std::ios::in);
-//	G4cout<<"DEBUG HEP: leggo file "<<filename.c_str()<<G4endl;
 	this->Initialize();
 	G4cout<<"DEBUG HEP: letto file "<<(this->GetFileName()).c_str()<<G4endl;
 	//  messenger= new HepMCG4AsciiReaderMessenger(this);
@@ -67,8 +65,6 @@ HepMC::GenEvent* HepMCG4AsciiReader::GenerateHepMCEvent()
 {
 	HepMC::GenEvent* evt= asciiInput-> read_next_event();
 	if(!evt) return 0; // no more event
-//	G4cout<<"DEBUG HEP: stampo evento "<<G4endl;
 	if(verbose>0) evt-> print();
-	
 	return evt;
 }

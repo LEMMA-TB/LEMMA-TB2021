@@ -10,12 +10,12 @@ class G4Run;
 class G4LogicalVolume;
 class B1RunAction : public G4UserRunAction
 {
-  public:
-    B1RunAction(const std::vector<G4int> &);
-    virtual ~B1RunAction();
-    virtual G4Run* GenerateRun();
-    virtual void BeginOfRunAction(const G4Run*);
-    virtual void   EndOfRunAction(const G4Run*);
+public:
+	B1RunAction(const std::vector<G4int> &);
+	virtual ~B1RunAction();
+	virtual G4Run* GenerateRun();
+	virtual void BeginOfRunAction(const G4Run*);
+	virtual void   EndOfRunAction(const G4Run*);
 	
 	std::vector<G4double>& GetBeamX() {return RunVectorBeamX; }
 	std::vector<G4double>& GetBeamY() {return RunVectorBeamY; }
@@ -52,7 +52,7 @@ class B1RunAction : public G4UserRunAction
 	std::vector<G4double>& GetCopyNb() {return RunVectorCopyNb; }
 	
 	std::vector<G4double>& GetCaloEnDep() {return RunVectorCaloEnDep; }
-
+	
 	std::vector<G4double>& GetVectorCross() {return RunVectorCross; }
 	
 	std::vector<G4double>& GetVectorGammaConvX() {return RunVectorGammaConvX; }
@@ -62,8 +62,6 @@ class B1RunAction : public G4UserRunAction
 	std::vector<G4double>& GetVectorGammaConvSubdet() {return RunVectorGammaConvSubdet; }
 	std::vector<G4double>& GetVectorGammaConvEnePos() {return RunVectorGammaConvEnePos; }
 	std::vector<G4double>& GetVectorGammaConvEneEle() {return RunVectorGammaConvEneEle; }
-
-	
 	
 	
 	std::vector<G4double>& GetVectorPbGlass1EnterEne() {return RunVectorPbGlass1EnterEne; }
@@ -112,10 +110,10 @@ class B1RunAction : public G4UserRunAction
 	std::vector<G4double>& GetBeamInfoPart() {return BeamInfoPart; }
 	
 	
-//	std::vector<G4double>& GetNHits() {return RunVectorNHits; }
-//	std::vector<G4double>& GetItrack() {return RunVectorItrack; }
+	//	std::vector<G4double>& GetNHits() {return RunVectorNHits; }
+	//	std::vector<G4double>& GetItrack() {return RunVectorItrack; }
 	
-
+	
 private:
 	std::vector<G4double> RunVectorBeamX;
 	std::vector<G4double> RunVectorBeamY;
@@ -125,7 +123,7 @@ private:
 	std::vector<G4double> RunVectorBeamCZ;
 	std::vector<G4double> RunVectorBeamEne;
 	std::vector<G4double> RunVectorBeamPart;
-
+	
 	std::vector<G4double> RunVectorSubdet;
 	std::vector<G4double> RunVectorIdp;
 	std::vector<G4double> RunVectorIpar;
@@ -160,7 +158,7 @@ private:
 	std::vector<G4double>	RunVectorGammaConvSubdet;
 	std::vector<G4double>  RunVectorGammaConvEnePos;
 	std::vector<G4double>  RunVectorGammaConvEneEle;
-
+	
 	
 	
 	std::vector<G4double> RunVectorPbGlass1EnterEne;
@@ -200,10 +198,10 @@ private:
 	std::vector<G4double> RunVectorPbGlass2ExitPZ;
 	
 	//	std::vector<G4double> RunVectorCerenkovDepo;
-//	std::vector<G4int> RunVectorCerenkovDepoOpt;
-
+	//	std::vector<G4int> RunVectorCerenkovDepoOpt;
+	
 	std::vector<G4double> RunVectorCross;
-
+	
 	
 	
 	std::vector<G4double> BeamInfoX;
@@ -217,9 +215,9 @@ private:
 	
 	std::vector<G4int> fChannelMap;
 	
-//	std::vector<G4double> RunVectorNHits;
-//	std::vector<G4double> RunVectorItrack;
-
+	//	std::vector<G4double> RunVectorNHits;
+	//	std::vector<G4double> RunVectorItrack;
+	
 	
 };
 

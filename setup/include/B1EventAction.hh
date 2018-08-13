@@ -16,6 +16,7 @@ public:
   virtual void BeginOfEventAction(const G4Event* evt);
   virtual void EndOfEventAction(const G4Event* evt);
   G4int evtNb;
+	G4int NevTot;
 	
 	void SetBeamX(G4double bx) {fBeamX=bx;}
 	void SetBeamY(G4double by) {fBeamY=by;}
@@ -32,8 +33,6 @@ public:
 	void AddPbGlassCere(G4int nfot) {fPbGlass_PulseHeight+=nfot;}
 #endif
 //	void AddCerenkovNFot(G4double nfot) {fNCerenkov+=ene;}
-
-
 	
 private:
 	B1RunAction* fRunAction;
@@ -49,10 +48,10 @@ private:
 	G4int fNHits;
 	G4int fNOfCaloChannels;
 //	G4int NHitsCounter;
+	G4int fPrintModulo = 1; //in percentage: write every X %
 
 //	G4int fNCerenkov;
 //	G4int fNCerenkovPbGlass;
-
 
 };
 

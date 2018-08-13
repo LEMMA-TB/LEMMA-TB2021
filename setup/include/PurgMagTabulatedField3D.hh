@@ -71,7 +71,7 @@ class PurgMagTabulatedField3D
 public:
 	PurgMagTabulatedField3D(const char* filename,  double zOffset, G4bool FlipFieldFlag, G4double ActualCurrent);
 	void  GetFieldValue( const  double Point[4],
-						double *Bfield          ) const;
+											double *Bfield          ) const;
 private:
 	G4bool fFlipFieldFlag;
 	G4double fActualCurrent;

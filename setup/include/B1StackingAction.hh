@@ -20,7 +20,6 @@ class B1StackingAction : public G4UserStackingAction
 	B1RunAction* frunAction;
 	G4bool fStoreGammaConvDepFlag;
 
-	
 };
 
 #endif
