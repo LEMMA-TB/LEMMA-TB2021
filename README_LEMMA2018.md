@@ -214,6 +214,11 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - General cleaning of code in view of 2018 TB
 - Now CaloMap is brought to final output file in case of MT
 
+2018.08.14 by collamaf (@CERN)
+- New positioning (and sizes) of MuChambers due to physical constraints of the structure: now requiring distance between chambers and global x offset
+- S2-3 now after C5-6
+- New placement for iron blocks, chambers and calo table (no more physical)
+
 
 `
 cp link.txt CMakeFiles/mainMCMC.dir/

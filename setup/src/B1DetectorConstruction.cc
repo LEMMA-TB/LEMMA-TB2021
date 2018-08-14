@@ -181,18 +181,21 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double Cerenkov_Wz=10*mm;
 	
 	//New Muon Chambers:
-	G4double Mu_sizeX=50*cm; //was 65 until 2018.05.11
-	G4double Mu_sizeY=50*cm;
+	G4double Mu_sizeX=70*cm; //was 65 until 2018.05.11 - 73.7, 42.5cm dist +4 +4 morte
+	G4double Mu_sizeY=84*cm;
 	G4double Mu_sizeZ=1.3*cm; //?? 1.3 single layer
 	G4double Mu_gapZ=34.6*cm;
+	G4double Mu_distX=54*cm;
+	G4double Mu_deadX=4*cm;
 	G4double MuLatShield_sizeX=10*cm;
 	G4double MuLatShield_sizeY=100*cm;
 	G4double MuLatShield_sizeZ=40*cm;
 	
 	//Calorimeter holding table:
-	G4double CaloTable_sizeX=Mu_sizeX;
+	G4double CaloTable1_sizeX=80*cm;
+	G4double CaloTable2_sizeX=60*cm;
 	G4double CaloTable_sizeY=Mu_sizeY;
-	G4double CaloTable_sizeZ=140*cm;
+	G4double CaloTable_sizeZ=160*cm;
 	
 	// Distances and offsets
 	G4double DistPbCe=10*cm;
@@ -200,6 +203,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double XOffSetShield2=15*cm; //towards center
 	G4double XOffSetC6=C6_sizeX/3.;
 	G4double YOffSetC6=C6_sizeY/2.;
+	G4double Mu_offsetX=0*cm;
+	G4double CaloTable_centerOffset=10*cm;
+
 	
 	// shield wall:
 	G4double shield_sizeX = 1.62/2.*m;
@@ -227,17 +233,19 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xC7=-xC6; //Det
 	G4double xS2=22*cm;
 	G4double xS3=-xS2;
-	G4double xPb1a=XOffSetLeadGlass+-LeadGlass_sizeX; //Det
+	G4double xPb1a=XOffSetLeadGlass+-LeadGlass_sizeX-CaloTable_centerOffset; //Det
 	G4double xPb2a=-xPb1a; //Det
-	G4double xPb1b=XOffSetLeadGlass+0*cm; //Det
+	G4double xPb1b=XOffSetLeadGlass+0*cm-CaloTable_centerOffset; //Det
 	G4double xPb2b=-xPb1b; //Det
-	G4double xPb1c=XOffSetLeadGlass+LeadGlass_sizeX; //Det
+	G4double xPb1c=XOffSetLeadGlass+LeadGlass_sizeX-CaloTable_centerOffset; //Det
 	G4double xPb2c=-xPb1c; //Det
-	G4double xCe1=0; //Det
+	G4double xCe1=0-CaloTable_centerOffset; //Det
 	G4double xCe2=-xCe1; //Det
-	G4double xMu1=53*cm; //Det - was 48 up to 06-07-2018, was 37 up to 11-lug-18 (before change in B)
-	G4double xMu2=-xMu1; //Det
-	G4double xCaloTable1=31*cm; //Det - Was 42 up to 2018.07.04, 34 before moving forward calos
+//	G4double xMu1=53*cm; //Det - was 48 up to 06-07-2018, was 37 up to 11-lug-18 (before change in B)
+//	G4double xMu2=-xMu1; //Det
+	G4double xMu1=Mu_offsetX+Mu_distX/2.+Mu_deadX+ Mu_sizeX/2.;
+	G4double xMu2=Mu_offsetX-Mu_distX/2.-Mu_deadX- Mu_sizeX/2.; //Det
+	G4double xCaloTable1=31*cm+CaloTable_centerOffset; //Det - Was 42 up to 2018.07.04, 34 before moving forward calos
 	G4double xCaloTable2=-xCaloTable1; //Det
 	G4double xMuLatShield1=xMu1-Mu_sizeX/2.-MuLatShield_sizeX/2.;
 	G4double xMuLatShield2=-xMuLatShield1;
@@ -296,7 +304,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zMag=1620*cm; //Det
 	G4double zC2=1790*cm; //Det - was 1780 until 2018-07-12 but is the exact border of the table -> 1790
 	G4double zC3=zC2; //Det
-	G4double zC4=1920*cm; //Det
+	G4double zC4=1920*cm; //Det TBC
 	G4double zC5=zC4; //Det
 	G4double zC6=2080*cm; //Det - was 2050 until 2018-07-12 but there is still room in the platform -> 2080
 	G4double zC7=zC6; //Det
@@ -308,13 +316,13 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zPb2c=zPb1c; //Det
 	G4double zCe1=-CaloTable_sizeZ/2. +LeadGlass_sizeZ + Cerenkov_sizeZ/2. + DistPbCe; //Det
 	G4double zCe2=zCe1; //Det
-	G4double ZCaloTableStart=2160*cm; //was 2220 until 2018-07-12, but we need space for concrete walle before chambers, 2160 is good if 40cm of shield is enough, 2115
+	G4double ZCaloTableStart=2150*cm; //was 2220 until 2018-07-12, but we need space for concrete walle before chambers, 2160 is good if 40cm of shield is enough, 2115, 2160 up to 2018.08.14
 	G4double zCaloTable=ZCaloTableStart+CaloTable_sizeZ/2.; //Det The table starts at 2220
-	G4double zMu1=2365.65*cm; //Det =23656.5 - was zCaloTable+CaloTable_sizeZ/2.+Mu_sizeZ/2.+DistTableMu
+	G4double zMu1=2365.65*cm+18*cm; //Det =23656.5 - was zCaloTable+CaloTable_sizeZ/2.+Mu_sizeZ/2.+DistTableMu
 	G4double zMu2=zMu1; //Det
 	G4double zMuLatShield1=zMu1+MuLatShield_sizeZ/2.;
 	G4double zMuLatShield2=zMuLatShield1;
-	G4double zShield1=zMu1-shield_sizeZ/2.-0*10*cm;
+	G4double zShield1=zMu1-shield_sizeZ/2.-35*cm;
 	G4double zShield2=zShield1;
 	
 	// ============
@@ -339,13 +347,15 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4ThreeVector posC6b  = G4ThreeVector(xC6-C6_DistComp/2-C6_sizeX/2.,yC6+C6_DistComp/2+C6_sizeY/2.,zC6); // Subdet
 	G4ThreeVector posC6c  = G4ThreeVector(xC6-C6_DistComp/2-C6_sizeX/2.,yC6-C6_DistComp/2-C6_sizeY/2.,zC6); // Subdet
 	G4ThreeVector posC6d  = G4ThreeVector(xC6+C6_DistComp/2+C6_sizeX/2.,yC6-C6_DistComp/2-C6_sizeY/2.,zC6); // Subdet
-	G4ThreeVector posS2  = G4ThreeVector(xC6,yC6,zC6+ScintA_sizeZ/2+0.5*cm); // Subdet
+//	G4ThreeVector posS2  = G4ThreeVector(xC6,yC6,zC6+ScintA_sizeZ/2+0.5*cm); // Subdet
+	G4ThreeVector posS2  = G4ThreeVector(xC4,yC4,zC4+ScintA_sizeZ/2+0.5*cm); // Subdet
 	G4ThreeVector posC7  = G4ThreeVector(xC7,yC7,zC7); // Subdet
 	G4ThreeVector posC7a  = G4ThreeVector(xC7+C7_DistComp/2+C7_sizeX/2.,yC7+C7_DistComp/2+C7_sizeY/2.,zC7); // Subdet
 	G4ThreeVector posC7b  = G4ThreeVector(xC7-C7_DistComp/2-C7_sizeX/2.,yC7+C7_DistComp/2+C7_sizeY/2.,zC7); // Subdet
 	G4ThreeVector posC7c  = G4ThreeVector(xC7-C7_DistComp/2-C7_sizeX/2.,yC7-C7_DistComp/2-C7_sizeY/2.,zC7); // Subdet
 	G4ThreeVector posC7d  = G4ThreeVector(xC7+C7_DistComp/2+C7_sizeX/2.,yC7-C7_DistComp/2-C7_sizeY/2.,zC7); // Subdet
-	G4ThreeVector posS3  = G4ThreeVector(xS3,yC7,zC7+ScintA_sizeZ/2+0.5*cm); // Subdet
+//	G4ThreeVector posS3  = G4ThreeVector(xS3,yC7,zC7+ScintA_sizeZ/2+0.5*cm); // Subdet
+	G4ThreeVector posS3  = G4ThreeVector(xC5,yC5,zC5+ScintA_sizeZ/2+0.5*cm); // Subdet
 	G4ThreeVector posPb1a  = G4ThreeVector(xPb1a,yPb1a,zPb1a); // Subdet
 	G4ThreeVector posPb1b  = G4ThreeVector(xPb1b,yPb1b,zPb1b); // Subdet
 	G4ThreeVector posPb1c  = G4ThreeVector(xPb1c,yPb1c,zPb1c); // Subdet
@@ -705,12 +715,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	// ########## CALORIMETERS
 	
 	//-- Calorimeter table 1 (subdet=)angle
-	G4Box* geoCaloTable1 = new G4Box("CaloTable1", CaloTable_sizeX/2, CaloTable_sizeY/2, CaloTable_sizeZ/2);
+	G4Box* geoCaloTable1 = new G4Box("CaloTable1", CaloTable1_sizeX/2, CaloTable_sizeY/2, CaloTable_sizeZ/2);
 	G4LogicalVolume* logicCaloTable1 = new G4LogicalVolume(geoCaloTable1, aria, "CaloTable1");
 	new G4PVPlacement(Rot1,posCaloTable1,logicCaloTable1,"CaloTable1",logicWorld,false,0,checkOverlaps);
 	
 	//-- Calorimeter table 2 (subdet=)
-	G4Box* geoCaloTable2 = new G4Box("CaloTable2", CaloTable_sizeX/2, CaloTable_sizeY/2, CaloTable_sizeZ/2);
+	G4Box* geoCaloTable2 = new G4Box("CaloTable2", CaloTable2_sizeX/2, CaloTable_sizeY/2, CaloTable_sizeZ/2);
 	G4LogicalVolume* logicCaloTable2 = new G4LogicalVolume(geoCaloTable2, aria, "CaloTable2");
 	new G4PVPlacement(Rot2,posCaloTable2,logicCaloTable2,"CaloTable2",logicWorld,false,0,checkOverlaps);
 	
