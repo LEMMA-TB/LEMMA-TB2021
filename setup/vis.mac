@@ -51,8 +51,8 @@
 #/vis/scene/add/hits
 #
 # To draw only gammas:
-/vis/filtering/trajectories/create/particleFilter
-/vis/filtering/trajectories/particleFilter-0/add e+
+# /vis/filtering/trajectories/create/particleFilter
+# /vis/filtering/trajectories/particleFilter-0/add e+
 
 #
 # To invert the above, drawing all particles except gammas,
@@ -68,9 +68,9 @@
 # /vis/modeling/trajectories/drawByParticleID-0/set e+ blue
 # /vis/modeling/trajectories/drawByParticleID-0/set e- red
 
-# /vis/filtering/trajectories/create/encounteredVolumeFilter Vol
-# /vis/filtering/trajectories/Vol/add Mu1
-# /vis/filtering/trajectories/Vol/add Mu2
+/vis/filtering/trajectories/create/encounteredVolumeFilter Vol
+/vis/filtering/trajectories/Vol/add Mu1
+/vis/filtering/trajectories/Vol/add Mu2
 
 ###### TO FILTER TRACKS ACCORDING TO ENERGY!!!
 #
@@ -96,7 +96,7 @@
 /vis/modeling/trajectories/EnCut/interval4/setLineColour yellow
 /vis/modeling/trajectories/EnCut/interval5/setLineColour magenta
 /vis/modeling/trajectories/EnCut/interval6/setLineColour white
-#
+
 #/vis/modeling/trajectories/EnCut/setAttribute PDG
 #/vis/modeling/trajectories/EnCut/addValue fotoni 22
 #/vis/modeling/trajectories/EnCut/fotoni/setLineColour yellow
@@ -151,13 +151,19 @@
 # Axes, scale, etc.
 #/vis/scene/add/scale   # Simple scale line
 #/vis/scene/add/scale 31.324 m z 0 1 0 manual 0 0 15.662 m
-/vis/scene/add/scale 5.6 m z 0 1 0 manual 0 0 2.8 m
-/vis/scene/add/scale 15 m z 0 1 0 manual 0 0 7.5 m
-/vis/scene/add/scale 17.4 m z 0 1 0 manual 0 0 8.7 m
-/vis/scene/add/scale 17.8 m z 0 1 0 manual 0 0 8.9 m
-/vis/scene/add/scale 21 m z 0 1 0 manual 0 0 10.5 m
-/vis/scene/add/scale 21.1 m z 0 1 0 manual 0 0 10.55 m
-/vis/scene/add/scale 24.3 m z 0 1 0 manual 0 0 12.15 m
+
+## // were platforms BEFORE TB
+# /vis/scene/add/scale 5.6 m z 0 1 0 manual 0 0 2.8 m
+# /vis/scene/add/scale 15 m z 0 1 0 manual 0 0 7.5 m
+# /vis/scene/add/scale 17.4 m z 0 1 0 manual 0 0 8.7 m
+# /vis/scene/add/scale 17.8 m z 0 1 0 manual 0 0 8.9 m
+# /vis/scene/add/scale 21 m z 0 1 0 manual 0 0 10.5 m
+# /vis/scene/add/scale 21.1 m z 0 1 0 manual 0 0 10.55 m
+# /vis/scene/add/scale 24.3 m z 0 1 0 manual 0 0 12.15 m
+
+/vis/scene/add/scale 1886.3 cm z 1 1 1 manual 0 0 943.15 cm
+/vis/scene/add/scale 2009.3 cm z 1 1 1 manual 0 0 1004.65 cm
+/vis/scene/add/scale 2140.3 cm z 1 1 1 manual 0 0 1070.15 cm
 
 /vis/scene/add/scale 21.15 m z 0 0 1 manual 0 0 10.575 m
 /vis/scene/add/scale 21.60 m z 0 0 1 manual 0 0 10.8 m
@@ -166,12 +172,25 @@
 #/vis/scene/add/axes    # Simple axes: x=red, y=green, z=blue.
 /vis/scene/add/eventID # Drawn at end of event
 #/vis/scene/add/scale 38.34 cm x 1 0 0 manual 0.1917 0 22.2 m
-/vis/scene/add/scale 23.6565 m z 0 0 1 manual 0 0 11.82825 m
-/vis/scene/add/scale 24.1065 m z 0 0 1 manual 0 0 12.05325 m
+#/vis/scene/add/scale 23.6565 m z 0 0 1 manual 0 0 11.82825 m #inizio camera pre TB
+/vis/scene/add/scale 23.8365 m z 0 0 1 manual 0 0 11.91825 m #inizio camera during TB
+
+#/vis/scene/add/scale 24.1065 m z 0 0 1 manual 0 0 12.05325 m #fine camera pre TB
+/vis/scene/add/scale 24.2865 m z 0 0 1 manual 0 0 12.14325 m #fine camera during TB
 /vis/scene/add/scale 20.39 m z 1 0 0 manual 0 0 10.195 m
 
-/vis/scene/add/scale 25 cm x 0 1 1 manual 0.125 0 20.8 m
-/vis/scene/add/scale 27.34 cm x 0 1 1 manual 0.125 0 21.8 m
+#/vis/scene/add/scale 25 cm x 0 1 1 manual 0.125 0 20.8 m
+#/vis/scene/add/scale 27.34 cm x 0 1 1 manual 0.125 0 21.8 m
+/vis/scene/add/scale 24 cm x 0 1 1 manual 0.12 0 21.4 m
+
+/vis/scene/add/scale 48 cm x 0 1 1 manual 0. 0 23.8365 m
+/vis/scene/add/scale 56 cm x 1 0 1 manual 0. 0 23.8365 m
+/vis/scene/add/scale 32 cm x 1 0 1 manual 0. 0 2212.3 cm
+/vis/scene/add/scale 41.5 cm x 1 0 1 manual 0. 0 2301.2 cm
+/vis/scene/add/scale 2212.3 cm z 1 0 1 manual 0. 0 1106.15 cm
+/vis/scene/add/scale 2301.2 cm z 1 0 1 manual 0. 0 1150.6 cm
+/vis/scene/add/scale 2325.65 cm z 1 0 1 manual 0. 0 1162.83 cm
+/vis/scene/add/scale 2365.65 cm z 1 0 1 manual 0. 0 1182.83 cm
 #/vis/scene/add/scale  6 m z 1 0 0 manual 0 0 19.20 m
 #/vis/scene/add/date    # Date stamp
 /vis/scene/add/logo2D  # Simple logo
@@ -220,11 +239,11 @@
 /vis/geometry/set/colour Pb2a 0 0 1 1   1
 /vis/geometry/set/colour Pb2b 0 0 1 1   1
 /vis/geometry/set/colour Pb2c 0 0 1 1   1
-/vis/geometry/set/colour Ce1 0 0.5 .5 .5 0.1
+/vis/geometry/set/colour Ce1 0 0.5 .5 .5 0.6
 /vis/geometry/set/colour Ce1Alu 0 0.7 .7 .7 .3
 /vis/geometry/set/colour Ce1Fe 0 0.2 .2 .2 1
 /vis/geometry/set/colour Ce1SiO 0 1 1 1 1
-/vis/geometry/set/colour Ce2 0 0.5 .5 .5 0.1
+/vis/geometry/set/colour Ce2 0 0.5 .5 .5 0.6
 /vis/geometry/set/colour Ce2Alu 0 0.7 .7 .7 .3
 /vis/geometry/set/colour Ce2Fe 0 0.2 .2 .2 1
 /vis/geometry/set/colour Ce2SiO 0 1 1 1 1

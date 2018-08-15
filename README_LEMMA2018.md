@@ -216,9 +216,15 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 
 2018.08.14 by collamaf (@CERN)
 - New positioning (and sizes) of MuChambers due to physical constraints of the structure: now requiring distance between chambers and global x offset
-- S2-3 now after C5-6
+- S2-3 now after C4-5
 - New placement for iron blocks, chambers and calo table (no more physical)
 
+2018.08.15 by collamaf (@CERN)
+- New magnetic field default: 1.7476 T, since there is no map for the actual magnet!
+- New global z offset: now 0 is the wall
+- Corrected error in silica bar size and new alignment of calos
+
+- Total swap up/down, that means magnetic field is flipped, Cerenkovs are flipped and Fe Shields to
 
 `
 cp link.txt CMakeFiles/mainMCMC.dir/

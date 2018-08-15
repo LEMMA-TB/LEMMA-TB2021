@@ -65,7 +65,8 @@ int main(int argc,char** argv)
 	
 	G4bool TargetFlag=true; //Place or not the target
 	G4bool FlipFieldFlag=true; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
-	G4double MagField=700; //running current (in A) of the magnet. If negative is the exact magnetic field to be used as constant
+//	G4double MagField=700; //running current (in A) of the magnet. If negative is the exact magnetic field to be used as constant
+	G4double MagField=-1.7476; //updated on 2018.08.15 @CERN, since there is no map for this magnet, we plan to run it @ 580A
 	G4bool AllVacFlag=false; //Set all materials (except Target) to air, to see what happens to primary particles
 	G4double RootCutThr=1; //Flag to cut on output file: photons with energy lower than this value (in GeV) will not be written. Set negative to write them all
 	G4double GeometryZoom=1; //Transverse zoom of trackers (Ts and Cs det)
@@ -337,7 +338,7 @@ int main(int argc,char** argv)
 		if (MagField!=700) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Map: if different from default current (700) write its value
 	} else  {
 		OutputFilename.append("_FieldF");
-		OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Fixed: write the fixed value used
+		if (MagField!=-1.7476) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Fixed: write the fixed value used
 	}
 	if (FlipFieldFlag) OutputFilename.append("f");
 	

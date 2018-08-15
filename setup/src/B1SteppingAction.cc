@@ -226,12 +226,12 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		}
 	}
 	
-	/*
-	 if (subdet==61 || subdet==62 ) {
+	
+	 if (subdet==61 && step->GetPreStepPoint()->GetKineticEnergy()/GeV>0.1) {
 	 G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
 	 evt->KeepTheEvent();
 	 }
-	 */
+	
 	
 	G4int CopyNb=step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
 	G4double DepEne=step->GetTotalEnergyDeposit()/GeV;
