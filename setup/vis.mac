@@ -56,10 +56,10 @@
 
 #
 # To invert the above, drawing all particles except gammas,
-#/vis/filtering/trajectories/create/particleFilter
-#/vis/filtering/trajectories/particleFilter-0/add e+
+/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/particleFilter-0/add e+
 #/vis/filtering/trajectories/particleFilter-0/add e-
-#/vis/filtering/trajectories/particleFilter-0/add mu+
+/vis/filtering/trajectories/particleFilter-0/add mu+
 #/vis/filtering/trajectories/particleFilter-0/add mu-
 #/vis/filtering/trajectories/particleFilter-0/add gamma
 
@@ -68,9 +68,9 @@
 # /vis/modeling/trajectories/drawByParticleID-0/set e+ blue
 # /vis/modeling/trajectories/drawByParticleID-0/set e- red
 
-/vis/filtering/trajectories/create/encounteredVolumeFilter Vol
-/vis/filtering/trajectories/Vol/add Mu1
-/vis/filtering/trajectories/Vol/add Mu2
+# /vis/filtering/trajectories/create/encounteredVolumeFilter Vol
+# /vis/filtering/trajectories/Vol/add Mu1
+# /vis/filtering/trajectories/Vol/add Mu2
 
 ###### TO FILTER TRACKS ACCORDING TO ENERGY!!!
 #
@@ -84,11 +84,11 @@
 /vis/modeling/trajectories/EnCut/addInterval interval5 100 MeV 1 GeV
 /vis/modeling/trajectories/EnCut/addInterval interval6 1 GeV 50 GeV
 
-/vis/modeling/trajectories/EnCut/interval1/setDrawLine  1
-/vis/modeling/trajectories/EnCut/interval2/setDrawLine  1
-/vis/modeling/trajectories/EnCut/interval3/setDrawLine  1
-/vis/modeling/trajectories/EnCut/interval4/setDrawLine  1
-/vis/modeling/trajectories/EnCut/interval5/setDrawLine  1
+/vis/modeling/trajectories/EnCut/interval1/setDrawLine  0
+/vis/modeling/trajectories/EnCut/interval2/setDrawLine  0
+/vis/modeling/trajectories/EnCut/interval3/setDrawLine  0
+/vis/modeling/trajectories/EnCut/interval4/setDrawLine  0
+/vis/modeling/trajectories/EnCut/interval5/setDrawLine  0
 /vis/modeling/trajectories/EnCut/interval6/setDrawLine  1
 /vis/modeling/trajectories/EnCut/interval1/setLineColour red
 /vis/modeling/trajectories/EnCut/interval2/setLineColour green
@@ -191,6 +191,8 @@
 /vis/scene/add/scale 2301.2 cm z 1 0 1 manual 0. 0 1150.6 cm
 /vis/scene/add/scale 2325.65 cm z 1 0 1 manual 0. 0 1162.83 cm
 /vis/scene/add/scale 2365.65 cm z 1 0 1 manual 0. 0 1182.83 cm
+/vis/scene/add/scale 2410.65 cm z 1 0 1 manual 0. 0 1205.325 cm
+
 #/vis/scene/add/scale  6 m z 1 0 0 manual 0 0 19.20 m
 #/vis/scene/add/date    # Date stamp
 /vis/scene/add/logo2D  # Simple logo
@@ -253,7 +255,7 @@
 /vis/geometry/set/colour Ce1SiO 0 0 1 0 1
 /vis/geometry/set/colour Ce2W 0 1 0 0  1
 /vis/geometry/set/colour Ce2SiO 0 0 1 0 1
-/vis/geometry/set/colour Ce1SiOtilt 0 0 1 0 1
+/vis/geometry/set/colour Ce2SiOtilt 0 0 1 0 1
 
 
 

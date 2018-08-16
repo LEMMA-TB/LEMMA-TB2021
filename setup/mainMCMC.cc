@@ -64,7 +64,7 @@ int main(int argc,char** argv)
 	G4bool ExtSourceFlagMu=false;
 	
 	G4bool TargetFlag=true; //Place or not the target
-	G4bool FlipFieldFlag=true; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
+	G4bool FlipFieldFlag=false; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
 //	G4double MagField=700; //running current (in A) of the magnet. If negative is the exact magnetic field to be used as constant
 	G4double MagField=-1.7476; //updated on 2018.08.15 @CERN, since there is no map for this magnet, we plan to run it @ 580A
 	G4bool AllVacFlag=false; //Set all materials (except Target) to air, to see what happens to primary particles

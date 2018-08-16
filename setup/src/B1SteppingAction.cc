@@ -80,7 +80,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstruction->GetScoringVolume_Pb2b();}
 	if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstruction->GetScoringVolume_Pb2c();}
 	if (!fScoringVolume_Ce1) {fScoringVolume_Ce1 = detectorConstruction->GetScoringVolume_Ce1();}
-	if (!fScoringVolume_Ce1tilt) {fScoringVolume_Ce1tilt = detectorConstruction->GetScoringVolume_Ce1tilt();}
+	if (!fScoringVolume_Ce2tilt) {fScoringVolume_Ce2tilt = detectorConstruction->GetScoringVolume_Ce2tilt();}
 	if (!fScoringVolume_Ce2) {fScoringVolume_Ce2 = detectorConstruction->GetScoringVolume_Ce2();}
 	if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstruction->GetScoringVolume_Mu1();}
 	if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstruction->GetScoringVolume_Mu2();}
@@ -171,7 +171,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	else if (volume==fScoringVolume_Pb2b)   {subdet=45; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb2c)   {subdet=46; dofill=true;}  //
 	else if (volume==fScoringVolume_Ce1)   {subdet=51; dofill=true;}  //
-	else if (volume==fScoringVolume_Ce1tilt)   {subdet=51; dofill=true;}  //
+	else if (volume==fScoringVolume_Ce2tilt)   {subdet=51; dofill=true;}  //
 	else if (volume==fScoringVolume_Ce2)   {subdet=52; dofill=true;}  //
 	else if (volume==fScoringVolume_Mu1)   {subdet=61; dofill=true;}  //
 	else if (volume==fScoringVolume_Mu2)   {subdet=62; dofill=true;}  //
@@ -201,7 +201,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		else if (Postvolume==fScoringVolume_Pb2b)   {Postsubdet=45; }  //
 		else if (Postvolume==fScoringVolume_Pb2c)   {Postsubdet=46; }  //
 		else if (Postvolume==fScoringVolume_Ce1)   {Postsubdet=51; }  //
-		else if (Postvolume==fScoringVolume_Ce1tilt)   {Postsubdet=51; }  //
+		else if (Postvolume==fScoringVolume_Ce2tilt)   {Postsubdet=51; }  //
 		else if (Postvolume==fScoringVolume_Ce2)   {Postsubdet=52; }  //
 		else if (Postvolume==fScoringVolume_Mu1)   {Postsubdet=61; }  //
 		else if (Postvolume==fScoringVolume_Mu2)   {Postsubdet=62; }  //
