@@ -51,15 +51,17 @@ int main(int argc,char** argv)
 	// ################### These are defaults, can be overridden by command line ####
 	// ###############
 	
-	G4bool CalibMuonBeamFlag=false;  //switching on this flag generates mu- primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
-	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu- beam at the end of the target, to simulate the muon production: E in 15-30 GeV, along Z
+	G4bool CalibMuMBeamFlag=false;  //switching on this flag generates mu- primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
+	G4bool CalibMuPBeamFlag=false;  //switching on this flag generates mu+ primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
+	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu+ beam at the end of the target, to simulate the muon production: E in 15-30 GeV, along Z
 	G4bool ElectronBeamFlag=false;  //switching on this flag generates e- beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
 	G4double BeamEnergy=45.*GeV; //Primary Beam Energy (18, 22, 26 GeV options for e+ calibration) - 45 GeV for real TB
 	G4bool SimpleFlag=false; //Generates a "simple-ideal" beam: no spread, no emittance...
+	G4double BeamDP=0.01;
 	
 	//Flags to force use of externally generated primary files (for bhabha and muon pair production)
 	//Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
-	//These flags ovverride previous ones (CalibMuonBeamFlag, ElectronBeamFlag etc) and also BeamEnergy
+	//These flags ovverride previous ones (CalibMuMBeamFlag, ElectronBeamFlag etc) and also BeamEnergy
 	G4bool ExtSourceFlagBha=false;
 	G4bool ExtSourceFlagMu=false;
 	
@@ -97,9 +99,13 @@ int main(int argc,char** argv)
 		{
 			G4String option(argv[i]);
 			G4cout<<"option: "<<i<<" "<<option<<G4endl;
-			if(option.compare("-CalibMu")==0)
+			if(option.compare("-CalibMuM")==0)
 			{
-				CalibMuonBeamFlag=stoi (argv[++i], NULL);;
+				CalibMuMBeamFlag=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-CalibMuP")==0)
+			{
+				CalibMuPBeamFlag=stoi (argv[++i], NULL);;
 			}
 			else if(option.compare("-ProdMu")==0)
 			{
@@ -112,6 +118,10 @@ int main(int argc,char** argv)
 			else if(option.compare("-BeamEne")==0)
 			{
 				BeamEnergy=strtod (argv[++i], NULL)*GeV;;
+			}
+			else if(option.compare("-BeamDP")==0)
+			{
+				BeamDP=strtod (argv[++i], NULL);;
 			}
 			else if(option.compare("-Simple")==0)
 			{
@@ -266,11 +276,11 @@ int main(int argc,char** argv)
 	
 	if (MTFlag) {
 		runManagerMT->SetUserInitialization(detector);
-		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
+		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
 		runManagerMT->Initialize();  // init kernel
 	} else {
 		runManager->SetUserInitialization(detector);
-		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, CalibMuonBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
+		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
 		runManager->Initialize();  // init kernel
 	}
 	
@@ -317,16 +327,18 @@ int main(int argc,char** argv)
 	// ##################### PREPARE OUTPUT FILENAME
 	// ###############
 	
-	G4String OutputFilename = "LemmaMC2018";
+	G4String OutputFilename = "Lemma2018MC";
 	
 	//Primary particle info
 	if (ExtSourceFlagMu) OutputFilename.append("_MuMu");
 	else if (ExtSourceFlagBha) OutputFilename.append("_Bhabha");
 	else if (ElectronBeamFlag) OutputFilename.append("_Ele"+ std::to_string(G4int (BeamEnergy)) );
-	else if (CalibMuonBeamFlag) OutputFilename.append("_CalibMuM"+ std::to_string(G4int (BeamEnergy)) );
+	else if (CalibMuMBeamFlag) OutputFilename.append("_CalibMuM"+ std::to_string(G4int (BeamEnergy)) );
+	else if (CalibMuPBeamFlag) OutputFilename.append("_CalibMuP"+ std::to_string(G4int (BeamEnergy)) );
 	else if (ProdMuonBeamFlag) OutputFilename.append("_ProdMuM");
 	else OutputFilename.append("_Pos"+ std::to_string(G4int (BeamEnergy)) );
 	if (SimpleFlag) OutputFilename.append("_simple");
+	if (BeamDP!=0.01) OutputFilename.append("_DP"+ std::to_string(G4int (100*BeamDP)) );
 	
 	//Target ?
 	if (TargetFlag) OutputFilename.append("_T");
@@ -380,7 +392,7 @@ int main(int argc,char** argv)
 	
 	if (MTFlag) {
 		CommandOutput<<
-		"{\n TFile *_file = TFile::Open(\"LemmaMC.root\");\n TH1D* CaloMap2=(TH1D*)CaloMap->Clone(\"CaloMap2\");\n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\"); \n TChain * chain3 = new TChain(\"DetEnter\");\n	chain3->Add(\"LemmaMC_t*.root\");\n TChain * chain4 = new TChain(\"DetExit\");\n	chain4->Add(\"LemmaMC_t*.root\"); \nTFile *file = TFile::Open(\""<< OutputFilename<<".root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n 	chain3->CloneTree(-1,\"fast\");\n 	chain4->CloneTree(-1,\"fast\");\n file->Write();\n CaloMap2->SetName(\"CaloMap\");\n CaloMap2->Write();\n }"
+		"{\n TFile *_file = TFile::Open(\"LemmaMC.root\");\n TH1D* CaloMap2=(TH1D*)CaloMap->Clone(\"CaloMap2\");\n TChain * chain = new TChain(\"LEMMA\");\n	chain->Add(\"LemmaMC_t*.root\");\n TChain * chain2 = new TChain(\"Beam\");\n	chain2->Add(\"LemmaMC_t*.root\"); \n TChain * chain3 = new TChain(\"DetEnter\");\n	chain3->Add(\"LemmaMC_t*.root\");\n TChain * chain4 = new TChain(\"DetExit\");\n	chain4->Add(\"LemmaMC_t*.root\"); \nTFile *file = TFile::Open(\""<< OutputFilename<<".root\",\"RECREATE\");\n 	chain->CloneTree(-1,\"fast\"); \n 	chain2->CloneTree(-1,\"fast\");\n 	chain3->CloneTree(-1,\"fast\");\n 	chain4->CloneTree(-1,\"fast\");\n file->Write();\n CaloMap2->SetName(\"CaloMap\");\n CaloMap2->Write();\n  gSystem->Exec(\"rm LemmaMC*.root\");\n }"
 		<<G4endl;
 		G4cout<<"\n##################################### \n##################################### \n########### TO CREATE PROPER ROOT FILE FOR THIS SIMULATION \n   root -l ProcessFiles.C \n##################################### \n root -l "<<OutputFilename<<".root \n#####################################"<<G4endl;
 	} else {

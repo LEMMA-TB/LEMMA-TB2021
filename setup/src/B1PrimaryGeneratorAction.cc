@@ -15,11 +15,13 @@
 #include "HepMCG4AsciiReader.hh"
 #endif
 
-B1PrimaryGeneratorAction::B1PrimaryGeneratorAction(G4double BeamEnergy, G4bool CalibMuonBeamFlag, G4bool ProdMuonBeamFlag, G4bool ElectronBeamFlag, G4bool SimpleFlag, G4bool ExtSourceFlagBha, G4bool ExtSourceFlagMu)
+B1PrimaryGeneratorAction::B1PrimaryGeneratorAction(G4double BeamEnergy,G4double BeamDP, G4bool CalibMuMBeamFlag, G4bool CalibMuPBeamFlag, G4bool ProdMuonBeamFlag, G4bool ElectronBeamFlag, G4bool SimpleFlag, G4bool ExtSourceFlagBha, G4bool ExtSourceFlagMu)
 : G4VUserPrimaryGeneratorAction(),
 fParticleGun(0),
 fBeamEnergy(BeamEnergy),
-fCalibMuonBeamFlag(CalibMuonBeamFlag),
+fBeamDP(BeamDP),
+fCalibMuMBeamFlag(CalibMuMBeamFlag),
+fCalibMuPBeamFlag(CalibMuPBeamFlag),
 fProdMuonBeamFlag(ProdMuonBeamFlag),
 fElectronBeamFlag(ElectronBeamFlag),
 fSimpleFlag(SimpleFlag),
@@ -45,11 +47,14 @@ fExtSourceFlagMu(ExtSourceFlagMu)
 		hepmcAscii = new HepMCG4AsciiReader("ExtData_mm.dat"); //path must be relative to where the code runs (eg build directory)
 #endif
 	} else {
-		if(fCalibMuonBeamFlag) {
+		if(fCalibMuMBeamFlag) {
 			particle = particleTable->FindParticle(particleName="mu-"); //Primary Muon Beam
 			G4cout<<"I am simulating a Mu- primary beam of energy "<<fBeamEnergy/GeV<<" GeV"<<G4endl;
+		} else if(fCalibMuPBeamFlag) {
+			particle = particleTable->FindParticle(particleName="mu+"); //Primary Muon Beam
+			G4cout<<"I am simulating a Mu+ primary beam of energy "<<fBeamEnergy/GeV<<" GeV"<<G4endl;
 		} else if(fProdMuonBeamFlag) {
-			particle = particleTable->FindParticle(particleName="mu+"); //Primary Muon Beam for Calib after Target
+			particle = particleTable->FindParticle(particleName="mu+"); //Primary Muon Beam produced after Target
 			G4cout<<"I am simulating a Mu+ primary beam of energy in 15-30 GeV to simulate pair production STARTING AFTER THE TARGET"<<G4endl;
 		}else if(fElectronBeamFlag) {
 			particle = particleTable->FindParticle(particleName="e-"); //Primary Electron Beam
@@ -100,7 +105,8 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		sizeY=0;
 	} else 	{
 		p_smear = 170.e-6; //unclear source - 2017: DA MATTIA DIVERGENZA ~140urad
-		EnergySpread = 0.01; //1%
+//		EnergySpread = 0.01; //1%
+		EnergySpread = fBeamDP; //1%
 		sizeX = 20*mm;
 		sizeY = 20*mm;
 	}

@@ -161,37 +161,55 @@
 # /vis/scene/add/scale 21.1 m z 0 1 0 manual 0 0 10.55 m
 # /vis/scene/add/scale 24.3 m z 0 1 0 manual 0 0 12.15 m
 
-/vis/scene/add/scale 1886.3 cm z 1 1 1 manual 0 0 943.15 cm
-/vis/scene/add/scale 2009.3 cm z 1 1 1 manual 0 0 1004.65 cm
-/vis/scene/add/scale 2140.3 cm z 1 1 1 manual 0 0 1070.15 cm
+/vis/scene/add/scale 87.9 cm z 0 0 1 manual 0 0 43.95 cm # T1
+/vis/scene/add/scale 445.4 cm z 0 0 1 manual 0 0 222.7 cm # T2
+/vis/scene/add/scale 571 cm z 0 0 1 manual 0 0 285.5 cm #C0
+/vis/scene/add/scale 1529.6 cm z 0 0 1 manual 0 0 764.8 cm #C1
 
-/vis/scene/add/scale 21.15 m z 0 0 1 manual 0 0 10.575 m
-/vis/scene/add/scale 21.60 m z 0 0 1 manual 0 0 10.8 m
-/vis/scene/add/scale 22.20 m z 0 0 1 manual 0 0 11.1 m
-/vis/scene/add/scale 22.70 m z 0 0 1 manual 0 0 11.35 m
+/vis/scene/add/scale 1886.3 cm z 0 0 1 manual 0 0 943.15 cm #C2-3
+/vis/scene/add/scale 2009.3 cm z 0 0 1 manual 0 0 1004.65 cm #C4-5
+/vis/scene/add/scale 2140.3 cm z 0 0 1 manual 0 0 1070.15 cm #C6-7
+
+/vis/scene/add/scale 2212.3 cm z 0 0 1 manual 0. 0 1106.15 cm
+/vis/scene/add/scale 2301.2 cm z 0 0 1 manual 0. 0 1150.6 cm
+/vis/scene/add/scale 2327.8 cm z 0 0 1 manual 0. 0 1163.9 cm
+/vis/scene/add/scale 2367.8 cm z 0 0 1 manual 0. 0 1183.9 cm
+/vis/scene/add/scale 2375.2 cm z 0 0 1 manual 0. 0 1187.6 cm
+/vis/scene/add/scale 2375.2 cm z 0 0 1 manual 0. 0 1187.6 cm
+/vis/scene/add/scale 2446.2 cm z 0 0 1 manual 0. 0 1182.1 cm
+
+#
+# /vis/scene/add/scale 21.15 m z 0 0 1 manual 0 0 10.575 m
+# /vis/scene/add/scale 21.60 m z 0 0 1 manual 0 0 10.8 m
+# /vis/scene/add/scale 22.20 m z 0 0 1 manual 0 0 11.1 m
+# /vis/scene/add/scale 22.70 m z 0 0 1 manual 0 0 11.35 m
 #/vis/scene/add/axes    # Simple axes: x=red, y=green, z=blue.
 /vis/scene/add/eventID # Drawn at end of event
 #/vis/scene/add/scale 38.34 cm x 1 0 0 manual 0.1917 0 22.2 m
 #/vis/scene/add/scale 23.6565 m z 0 0 1 manual 0 0 11.82825 m #inizio camera pre TB
-/vis/scene/add/scale 23.8365 m z 0 0 1 manual 0 0 11.91825 m #inizio camera during TB
+# /vis/scene/add/scale 23.8365 m z 0 0 1 manual 0 0 11.91825 m #inizio camera during TB
 
 #/vis/scene/add/scale 24.1065 m z 0 0 1 manual 0 0 12.05325 m #fine camera pre TB
-/vis/scene/add/scale 24.2865 m z 0 0 1 manual 0 0 12.14325 m #fine camera during TB
-/vis/scene/add/scale 20.39 m z 1 0 0 manual 0 0 10.195 m
+# /vis/scene/add/scale 24.2865 m z 0 0 1 manual 0 0 12.14325 m #fine camera during TB
+# /vis/scene/add/scale 20.39 m z 1 0 0 manual 0 0 10.195 m
 
 #/vis/scene/add/scale 25 cm x 0 1 1 manual 0.125 0 20.8 m
 #/vis/scene/add/scale 27.34 cm x 0 1 1 manual 0.125 0 21.8 m
-/vis/scene/add/scale 24 cm x 0 1 1 manual 0.12 0 21.4 m
 
-/vis/scene/add/scale 48 cm x 0 1 1 manual 0. 0 23.8365 m
-/vis/scene/add/scale 56 cm x 1 0 1 manual 0. 0 23.8365 m
-/vis/scene/add/scale 32 cm x 1 0 1 manual 0. 0 2212.3 cm
-/vis/scene/add/scale 41.5 cm x 1 0 1 manual 0. 0 2301.2 cm
-/vis/scene/add/scale 2212.3 cm z 1 0 1 manual 0. 0 1106.15 cm
-/vis/scene/add/scale 2301.2 cm z 1 0 1 manual 0. 0 1150.6 cm
-/vis/scene/add/scale 2325.65 cm z 1 0 1 manual 0. 0 1162.83 cm
-/vis/scene/add/scale 2365.65 cm z 1 0 1 manual 0. 0 1182.83 cm
-/vis/scene/add/scale 2410.65 cm z 1 0 1 manual 0. 0 1205.325 cm
+/vis/scene/add/scale 8 cm x 1 0 1 manual 0.04 0 18.863 m #C2-3
+/vis/scene/add/scale 14 cm x 1 0 1 manual 0.07 0 20.093 m #C4-5
+/vis/scene/add/scale 24 cm x 1 0 1 manual 0.12 0 21.4 m #C6-7
+
+/vis/scene/add/scale 25.3 cm x 1 0 1 manual 0. 0 2162.6 cm #between LeadGlasses
+/vis/scene/add/scale 32 cm x 1 0 1 manual 0. 0 2212.3 cm #between Cerenkovs
+/vis/scene/add/scale 11.8 cm x 1 0 1 manual 5.9 0 2327.8 cm #Shield 1
+/vis/scene/add/scale 29 cm x 1 0 1 manual -14.5 0 2337.8 cm #Shield 2
+
+/vis/scene/add/scale 47 cm x 0 1 1 manual 0. 0 2375.2 cm
+/vis/scene/add/scale 51 cm x 0 1 1 manual -2 0 2462.6 cm
+#/vis/scene/add/scale 56 cm x 1 0 1 manual 0. 0 23.8365 m
+#/vis/scene/add/scale 41.5 cm x 1 0 1 manual 0. 0 2301.2 cm
+
 
 #/vis/scene/add/scale  6 m z 1 0 0 manual 0 0 19.20 m
 #/vis/scene/add/date    # Date stamp
@@ -213,8 +231,8 @@
 # To get nice view
 /vis/geometry/set/visibility World 0 false
 /vis/geometry/set/visibility Envelope 0 false
-#/vis/geometry/set/visibility CaloTable1 0 false
-#/vis/geometry/set/visibility CaloTable2 0 false
+/vis/geometry/set/visibility CaloTable1 0 false
+/vis/geometry/set/visibility CaloTable2 0 false
 
 #/vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true

@@ -15,7 +15,7 @@ class G4Box;
 class B1PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
 public:
-	B1PrimaryGeneratorAction(G4double BeamEnergy, G4bool CalibMuonBeamFlag, G4bool ProdMuonBeamFlag, G4bool ElectronBeamFlag, G4bool SimpleFlag, G4bool ExtSourceFlagBha, G4bool ExtSourceFlagMu);
+	B1PrimaryGeneratorAction(G4double BeamEnergy,G4double BeamDP, G4bool CalibMuMBeamFlag, G4bool CalibMuPBeamFlag, G4bool ProdMuonBeamFlag, G4bool ElectronBeamFlag, G4bool SimpleFlag, G4bool ExtSourceFlagBha, G4bool ExtSourceFlagMu);
 	virtual ~B1PrimaryGeneratorAction();
 	
 	// method from the base class
@@ -27,7 +27,9 @@ public:
 private:
 	G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
 	G4double fBeamEnergy;
-	G4bool fCalibMuonBeamFlag;
+	G4double fBeamDP;
+	G4bool fCalibMuMBeamFlag;
+	G4bool fCalibMuPBeamFlag;
 	G4bool fProdMuonBeamFlag;
 	G4bool fElectronBeamFlag;
 	G4bool fSimpleFlag;

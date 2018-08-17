@@ -224,7 +224,15 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - New global z offset: now 0 is the wall
 - Corrected error in silica bar size and new alignment of calos
 
+2018.08.16 by collamaf (@CERN)
 - Total swap up/down, that means magnetic field is flipped, Cerenkovs are flipped and Fe Shields to
+- New chamber thickness
+- New shielding pos after real placement
+
+2018.08.17 by collamaf (@CERN)
+- New command line argument: BeamDP is beam energy spread (in %)
+- Doubled CalibMu flag: MuP or MuM
+- Now ProcessFiles removes temporary root files
 
 `
 cp link.txt CMakeFiles/mainMCMC.dir/

@@ -226,12 +226,12 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		}
 	}
 	
-	
+	/*
 	 if (subdet==61 && step->GetPreStepPoint()->GetKineticEnergy()/GeV>0.1) {
 	 G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
 	 evt->KeepTheEvent();
 	 }
-	
+	*/
 	
 	G4int CopyNb=step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
 	G4double DepEne=step->GetTotalEnergyDeposit()/GeV;
@@ -242,7 +242,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		std::vector<G4int>::iterator it;
 		G4int CaloChannelToSearch=100*subdet+CopyNb;
 		it = find(fChannelMap.begin(), fChannelMap.end(),CaloChannelToSearch); //cerco l'attuale canale nella lista di quelli già visti
-		if (it != fChannelMap.end()) { //se il canale c'era già
+		if (it != fChannelMap.end()) { //se ho trovato il canale, scrivo il deposito energia nella posizione corrispondente del vettore
 			(runStepAction->GetCaloEnDep())[it-fChannelMap.begin()]+=DepEne;
 		}
 		if (0)		G4cout<<"DEBUG !!! subdet= "<<subdet<<" Nome= "<<step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName()<<" CopyNb="<<CopyNb<<" Cerco canale "<<CaloChannelToSearch<<" Trovato in pos= "<<(G4int) (it-fChannelMap.begin())<<G4endl;
