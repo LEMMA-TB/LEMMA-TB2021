@@ -45,6 +45,7 @@ fExtSourceFlagMu(ExtSourceFlagMu)
 		G4cout<<"# # # # # # # # # # # # # # # # # # # # # # # # # # # "<<G4endl<<"I am using as primary particles externally generated mu+mu- pairs"<<G4endl;
 #ifdef HEPFLAG
 		hepmcAscii = new HepMCG4AsciiReader("ExtData_mm.dat"); //path must be relative to where the code runs (eg build directory)
+//		hepmcAscii = new HepMCG4AsciiReader("Camilla.dat"); //path must be relative to where the code runs (eg build directory)
 #endif
 	} else {
 		if(fCalibMuMBeamFlag) {
@@ -54,8 +55,8 @@ fExtSourceFlagMu(ExtSourceFlagMu)
 			particle = particleTable->FindParticle(particleName="mu+"); //Primary Muon Beam
 			G4cout<<"I am simulating a Mu+ primary beam of energy "<<fBeamEnergy/GeV<<" GeV"<<G4endl;
 		} else if(fProdMuonBeamFlag) {
-			particle = particleTable->FindParticle(particleName="mu+"); //Primary Muon Beam produced after Target
-			G4cout<<"I am simulating a Mu+ primary beam of energy in 15-30 GeV to simulate pair production STARTING AFTER THE TARGET"<<G4endl;
+			particle = particleTable->FindParticle(particleName="mu-"); //Primary Muon Beam produced after Target
+			G4cout<<"I am simulating a Mu- primary beam of energy in 15-30 GeV to simulate pair production STARTING AFTER THE TARGET"<<G4endl;
 		}else if(fElectronBeamFlag) {
 			particle = particleTable->FindParticle(particleName="e-"); //Primary Electron Beam
 			G4cout<<"I am simulating a e- primary beam of energy "<<fBeamEnergy/GeV<<" GeV"<<G4endl;
@@ -107,8 +108,8 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		p_smear = 170.e-6; //unclear source - 2017: DA MATTIA DIVERGENZA ~140urad
 //		EnergySpread = 0.01; //1%
 		EnergySpread = fBeamDP; //1%
-		sizeX = 20*mm;
-		sizeY = 20*mm;
+		sizeX = 10*mm;
+		sizeY = 10*mm;
 	}
 	
 	if (fProdMuonBeamFlag) {
@@ -118,16 +119,16 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	
 	//-- Gaussian shoot
 	//   --------------
-	//  while (1>0){ //
-	//  x0 = G4RandGauss::shoot(0.,sizeX);
-	//  y0 = G4RandGauss::shoot(0.,sizeY);
-	//    if ( abs(x0)<cut && abs(y0)<cut ) break;
-	//    }
+//	while (1>0){ //
+		x0 = G4RandGauss::shoot(0.,sizeX);
+		y0 = G4RandGauss::shoot(0.,sizeY);
+//		if ( abs(x0)<cut && abs(y0)<cut ) break;
+//	}
 	
 	//-- Uniform shoot
 	//----------------
-	x0 = sizeX * (G4UniformRand()-0.5);
-	y0 = sizeY * (G4UniformRand()-0.5);
+//  x0 = sizeX * (G4UniformRand()-0.5);
+//	y0 = sizeY * (G4UniformRand()-0.5);
 	
 	fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0)); // GUN POSITION
 	

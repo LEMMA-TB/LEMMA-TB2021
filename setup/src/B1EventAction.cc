@@ -88,6 +88,15 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetVectorPbGlass2EnterPY()).clear();
 	(fRunAction->GetVectorPbGlass2EnterPZ()).clear();
 	
+	(fRunAction->GetVectorPbGlassGEnterEne()).clear();
+	(fRunAction->GetVectorPbGlassGEnterPart()).clear();
+	(fRunAction->GetVectorPbGlassGEnterX()).clear();
+	(fRunAction->GetVectorPbGlassGEnterY()).clear();
+	(fRunAction->GetVectorPbGlassGEnterZ()).clear();
+	(fRunAction->GetVectorPbGlassGEnterPX()).clear();
+	(fRunAction->GetVectorPbGlassGEnterPY()).clear();
+	(fRunAction->GetVectorPbGlassGEnterPZ()).clear();
+	
 	(fRunAction->GetVectorPbGlass1ExitEne()).clear();
 	(fRunAction->GetVectorPbGlass1ExitPart()).clear();
 	(fRunAction->GetVectorPbGlass1ExitX()).clear();
@@ -106,6 +115,14 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetVectorPbGlass2ExitPY()).clear();
 	(fRunAction->GetVectorPbGlass2ExitPZ()).clear();
 	
+	(fRunAction->GetVectorPbGlassGExitEne()).clear();
+	(fRunAction->GetVectorPbGlassGExitPart()).clear();
+	(fRunAction->GetVectorPbGlassGExitX()).clear();
+	(fRunAction->GetVectorPbGlassGExitY()).clear();
+	(fRunAction->GetVectorPbGlassGExitZ()).clear();
+	(fRunAction->GetVectorPbGlassGExitPX()).clear();
+	(fRunAction->GetVectorPbGlassGExitPY()).clear();
+	(fRunAction->GetVectorPbGlassGExitPZ()).clear();
 	
 	(fRunAction->GetBeamInfoX()).clear();
 	(fRunAction->GetBeamInfoY()).clear();

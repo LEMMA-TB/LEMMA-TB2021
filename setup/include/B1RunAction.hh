@@ -4,14 +4,14 @@
 #include "G4UserRunAction.hh"
 #include "globals.hh"
 #include <vector>
-
+#include <map>
 
 class G4Run;
 class G4LogicalVolume;
 class B1RunAction : public G4UserRunAction
 {
 public:
-	B1RunAction(const std::vector<G4int> &);
+	B1RunAction(const std::map<G4int,G4int> &);
 	virtual ~B1RunAction();
 	virtual G4Run* GenerateRun();
 	virtual void BeginOfRunAction(const G4Run*);
@@ -81,6 +81,15 @@ public:
 	std::vector<G4double>& GetVectorPbGlass2EnterPX() {return RunVectorPbGlass2EnterPX; }
 	std::vector<G4double>& GetVectorPbGlass2EnterPY() {return RunVectorPbGlass2EnterPY; }
 	std::vector<G4double>& GetVectorPbGlass2EnterPZ() {return RunVectorPbGlass2EnterPZ; }
+
+	std::vector<G4double>& GetVectorPbGlassGEnterEne() {return RunVectorPbGlassGEnterEne; }
+	std::vector<G4double>& GetVectorPbGlassGEnterPart() {return RunVectorPbGlassGEnterPart; }
+	std::vector<G4double>& GetVectorPbGlassGEnterX() {return RunVectorPbGlassGEnterX; }
+	std::vector<G4double>& GetVectorPbGlassGEnterY() {return RunVectorPbGlassGEnterY; }
+	std::vector<G4double>& GetVectorPbGlassGEnterZ() {return RunVectorPbGlassGEnterZ; }
+	std::vector<G4double>& GetVectorPbGlassGEnterPX() {return RunVectorPbGlassGEnterPX; }
+	std::vector<G4double>& GetVectorPbGlassGEnterPY() {return RunVectorPbGlassGEnterPY; }
+	std::vector<G4double>& GetVectorPbGlassGEnterPZ() {return RunVectorPbGlassGEnterPZ; }
 	
 	std::vector<G4double>& GetVectorPbGlass1ExitEne() {return RunVectorPbGlass1ExitEne; }
 	std::vector<G4double>& GetVectorPbGlass1ExitPart() {return RunVectorPbGlass1ExitPart; }
@@ -99,6 +108,15 @@ public:
 	std::vector<G4double>& GetVectorPbGlass2ExitPX() {return RunVectorPbGlass2ExitPX; }
 	std::vector<G4double>& GetVectorPbGlass2ExitPY() {return RunVectorPbGlass2ExitPY; }
 	std::vector<G4double>& GetVectorPbGlass2ExitPZ() {return RunVectorPbGlass2ExitPZ; }
+
+	std::vector<G4double>& GetVectorPbGlassGExitEne() {return RunVectorPbGlassGExitEne; }
+	std::vector<G4double>& GetVectorPbGlassGExitPart() {return RunVectorPbGlassGExitPart; }
+	std::vector<G4double>& GetVectorPbGlassGExitX() {return RunVectorPbGlassGExitX; }
+	std::vector<G4double>& GetVectorPbGlassGExitY() {return RunVectorPbGlassGExitY; }
+	std::vector<G4double>& GetVectorPbGlassGExitZ() {return RunVectorPbGlassGExitZ; }
+	std::vector<G4double>& GetVectorPbGlassGExitPX() {return RunVectorPbGlassGExitPX; }
+	std::vector<G4double>& GetVectorPbGlassGExitPY() {return RunVectorPbGlassGExitPY; }
+	std::vector<G4double>& GetVectorPbGlassGExitPZ() {return RunVectorPbGlassGExitPZ; }
 	
 	std::vector<G4double>& GetBeamInfoX() {return BeamInfoX; }
 	std::vector<G4double>& GetBeamInfoY() {return BeamInfoY; }
@@ -179,6 +197,16 @@ private:
 	std::vector<G4double> RunVectorPbGlass2EnterPY;
 	std::vector<G4double> RunVectorPbGlass2EnterPZ;
 	
+	std::vector<G4double> RunVectorPbGlassGEnterEne;
+	std::vector<G4double> RunVectorPbGlassGEnterPart;
+	std::vector<G4double> RunVectorPbGlassGEnterX;
+	std::vector<G4double> RunVectorPbGlassGEnterY;
+	std::vector<G4double> RunVectorPbGlassGEnterZ;
+	std::vector<G4double> RunVectorPbGlassGEnterPX;
+	std::vector<G4double> RunVectorPbGlassGEnterPY;
+	std::vector<G4double> RunVectorPbGlassGEnterPZ;
+	
+	
 	std::vector<G4double> RunVectorPbGlass1ExitEne;
 	std::vector<G4double> RunVectorPbGlass1ExitPart;
 	std::vector<G4double> RunVectorPbGlass1ExitX;
@@ -197,6 +225,15 @@ private:
 	std::vector<G4double> RunVectorPbGlass2ExitPY;
 	std::vector<G4double> RunVectorPbGlass2ExitPZ;
 	
+	std::vector<G4double> RunVectorPbGlassGExitEne;
+	std::vector<G4double> RunVectorPbGlassGExitPart;
+	std::vector<G4double> RunVectorPbGlassGExitX;
+	std::vector<G4double> RunVectorPbGlassGExitY;
+	std::vector<G4double> RunVectorPbGlassGExitZ;
+	std::vector<G4double> RunVectorPbGlassGExitPX;
+	std::vector<G4double> RunVectorPbGlassGExitPY;
+	std::vector<G4double> RunVectorPbGlassGExitPZ;
+	
 	//	std::vector<G4double> RunVectorCerenkovDepo;
 	//	std::vector<G4int> RunVectorCerenkovDepoOpt;
 	
@@ -213,7 +250,7 @@ private:
 	std::vector<G4double> BeamInfoEne;
 	std::vector<G4double> BeamInfoPart;
 	
-	std::vector<G4int> fChannelMap;
+	std::map<G4int,G4int> fChannelMap;
 	
 	//	std::vector<G4double> RunVectorNHits;
 	//	std::vector<G4double> RunVectorItrack;

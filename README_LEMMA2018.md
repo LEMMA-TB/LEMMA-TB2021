@@ -234,6 +234,14 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Doubled CalibMu flag: MuP or MuM
 - Now ProcessFiles removes temporary root files
 
+2018.08.19 by collamaf (@CERN)
+- ProdMu now generates mu-
+- New file for ExtMuMu particles with right target position
+- Added new S4 scintillator between Mu1 layers
+
+2018.08.20 by collamaf (@CERN)
+- New positions according to geometra
+
 `
 cp link.txt CMakeFiles/mainMCMC.dir/
 now is "gpc" as alias!
@@ -244,7 +252,6 @@ TODO LIST
 - Capire perche l'info in "Beam" nella tupla LEMMA non si riferisce alla vera particella di quel vertice ma sempre e solo all'elettrone (in caso di generatore esterno)
 - Ri-accendere Cerenkov
 - Aggiornare readme riguardo lo scoring
-- Dimensioni scintillatori S2 e S3 dopo aver allargato C6-C7
 
 
 

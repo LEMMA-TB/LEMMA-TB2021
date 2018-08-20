@@ -13,7 +13,7 @@
 #include "time.h"
 #include <sstream>
 
-B1RunAction::B1RunAction(const std::vector<G4int> & ChannelMap)
+B1RunAction::B1RunAction(const std::map<G4int,G4int> & ChannelMap)
 : G4UserRunAction(), fChannelMap(ChannelMap)
 {}
 
@@ -120,6 +120,14 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(2,"PbGl2PY", RunVectorPbGlass2EnterPY);
 	analysisManager->CreateNtupleDColumn(2,"PbGl2PZ", RunVectorPbGlass2EnterPZ);
 	
+	analysisManager->CreateNtupleDColumn(2,"PbGlGEne", RunVectorPbGlassGEnterEne);
+	analysisManager->CreateNtupleDColumn(2,"PbGlGPart", RunVectorPbGlassGEnterPart);
+	analysisManager->CreateNtupleDColumn(2,"PbGlGX", RunVectorPbGlassGEnterX);
+	analysisManager->CreateNtupleDColumn(2,"PbGlGY", RunVectorPbGlassGEnterY);
+	analysisManager->CreateNtupleDColumn(2,"PbGlGZ", RunVectorPbGlassGEnterZ);
+	analysisManager->CreateNtupleDColumn(2,"PbGlGPX", RunVectorPbGlassGEnterPX);
+	analysisManager->CreateNtupleDColumn(2,"PbGlGPY", RunVectorPbGlassGEnterPY);
+	analysisManager->CreateNtupleDColumn(2,"PbGlGPZ", RunVectorPbGlassGEnterPZ);
 	
 	// ######### DET EXIT NTUPLE
 	analysisManager->CreateNtuple("DetExit", "WhatExitsCalos");
@@ -140,6 +148,15 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(3,"PbGl2PX", RunVectorPbGlass2ExitPX);
 	analysisManager->CreateNtupleDColumn(3,"PbGl2PY", RunVectorPbGlass2ExitPY);
 	analysisManager->CreateNtupleDColumn(3,"PbGl2PZ", RunVectorPbGlass2ExitPZ);
+
+	analysisManager->CreateNtupleDColumn(3,"PbGlGEne", RunVectorPbGlassGExitEne);
+	analysisManager->CreateNtupleDColumn(3,"PbGlGPart", RunVectorPbGlassGExitPart);
+	analysisManager->CreateNtupleDColumn(3,"PbGlGX", RunVectorPbGlassGExitX);
+	analysisManager->CreateNtupleDColumn(3,"PbGlGY", RunVectorPbGlassGExitY);
+	analysisManager->CreateNtupleDColumn(3,"PbGlGZ", RunVectorPbGlassGExitZ);
+	analysisManager->CreateNtupleDColumn(3,"PbGlGPX", RunVectorPbGlassGExitPX);
+	analysisManager->CreateNtupleDColumn(3,"PbGlGPY", RunVectorPbGlassGExitPY);
+	analysisManager->CreateNtupleDColumn(3,"PbGlGPZ", RunVectorPbGlassGExitPZ);
 	
 	// ######### FINISH NTUPLEs
 	analysisManager->FinishNtuple(0);
@@ -153,7 +170,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->SetH1YAxisTitle(0,"Detector-SubDet");
 	
 	for (int ii=0; ii<(int)fChannelMap.size() && G4Threading::G4GetThreadId()==-1; ii++) { //write CaloMap histo only once if MT to avoid problems
-		analysisManager->FillH1(0, ii, fChannelMap[ii]);
+//		analysisManager->FillH1(0, ii, fChannelMap[ii]);
 	}
 }
 

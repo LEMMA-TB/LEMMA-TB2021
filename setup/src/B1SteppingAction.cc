@@ -15,7 +15,7 @@
 #include "G4ProcessType.hh"
 #include "G4OpticalPhoton.hh"
 
-B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::vector<G4int> & ChannelMap, G4bool DetEnterExitFlag)
+B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::map<G4int,G4int> & ChannelMap, G4bool DetEnterExitFlag)
 : G4UserSteppingAction(),
 fEventAction(eventAction),
 runStepAction(runAction),
@@ -33,12 +33,14 @@ fScoringVolume_C6(0),
 fScoringVolume_C7(0),
 fScoringVolume_S2(0),
 fScoringVolume_S3(0),
+fScoringVolume_S4(0),
 fScoringVolume_Pb1a(0),
 fScoringVolume_Pb1b(0),
 fScoringVolume_Pb1c(0),
 fScoringVolume_Pb2a(0),
 fScoringVolume_Pb2b(0),
 fScoringVolume_Pb2c(0),
+fScoringVolume_PbG(0),
 fScoringVolume_Ce1(0),
 fScoringVolume_Ce2(0),
 fScoringVolume_Mu1(0),
@@ -73,12 +75,14 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	if (!fScoringVolume_C7) {fScoringVolume_C7 = detectorConstruction->GetScoringVolume_C7();}
 	if (!fScoringVolume_S2) {fScoringVolume_S2 = detectorConstruction->GetScoringVolume_S2();}
 	if (!fScoringVolume_S3) {fScoringVolume_S3 = detectorConstruction->GetScoringVolume_S3();}
+	if (!fScoringVolume_S4) {fScoringVolume_S4 = detectorConstruction->GetScoringVolume_S4();}
 	if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a = detectorConstruction->GetScoringVolume_Pb1a();}
 	if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b = detectorConstruction->GetScoringVolume_Pb1b();}
 	if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c = detectorConstruction->GetScoringVolume_Pb1c();}
 	if (!fScoringVolume_Pb2a) {fScoringVolume_Pb2a = detectorConstruction->GetScoringVolume_Pb2a();}
 	if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstruction->GetScoringVolume_Pb2b();}
 	if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstruction->GetScoringVolume_Pb2c();}
+	if (!fScoringVolume_PbG) {fScoringVolume_PbG = detectorConstruction->GetScoringVolume_PbG();}
 	if (!fScoringVolume_Ce1) {fScoringVolume_Ce1 = detectorConstruction->GetScoringVolume_Ce1();}
 	if (!fScoringVolume_Ce2tilt) {fScoringVolume_Ce2tilt = detectorConstruction->GetScoringVolume_Ce2tilt();}
 	if (!fScoringVolume_Ce2) {fScoringVolume_Ce2 = detectorConstruction->GetScoringVolume_Ce2();}
@@ -117,7 +121,19 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorPbGlass2EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
 			(runStepAction->GetVectorPbGlass2EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
 			(runStepAction->GetVectorPbGlass2EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
-			
+		}
+		
+		// ########################
+		// What enters PbGlassG
+		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetLogicalVolume()==fScoringVolume_PbG) ) {
+			(runStepAction->GetVectorPbGlassGEnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorPbGlassGEnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorPbGlassGEnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorPbGlassGEnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorPbGlassGEnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorPbGlassGEnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorPbGlassGEnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorPbGlassGEnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		
 		// ########################
@@ -145,6 +161,21 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorPbGlass2ExitPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
 			(runStepAction->GetVectorPbGlass2ExitPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
+		
+		// ########################
+		// What exits PbGlassG
+		if (NextVol && NextVol->GetName()=="World" && ( ThisVol->GetLogicalVolume()==fScoringVolume_PbG ) ) {
+			(runStepAction->GetVectorPbGlassGExitEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorPbGlassGExitPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorPbGlassGExitX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorPbGlassGExitY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorPbGlassGExitZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorPbGlassGExitPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorPbGlassGExitPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorPbGlassGExitPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+		}
+		
+		
 	}
 	
 	G4bool SHOW = false;
@@ -164,12 +195,14 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	else if (volume==fScoringVolume_C7)   {subdet=37; dofill=true;}  //
 	else if (volume==fScoringVolume_S2)   {subdet=38; dofill=true;}  //
 	else if (volume==fScoringVolume_S3)   {subdet=39; dofill=true;}  //
+	else if (volume==fScoringVolume_S4)   {subdet=63; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb1a)   {subdet=41; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb1b)   {subdet=42; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb1c)   {subdet=43; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb2a)   {subdet=44; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb2b)   {subdet=45; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb2c)   {subdet=46; dofill=true;}  //
+	else if (volume==fScoringVolume_PbG)   {subdet=77; dofill=true;}  //
 	else if (volume==fScoringVolume_Ce1)   {subdet=51; dofill=true;}  //
 	else if (volume==fScoringVolume_Ce2tilt)   {subdet=51; dofill=true;}  //
 	else if (volume==fScoringVolume_Ce2)   {subdet=52; dofill=true;}  //
@@ -194,12 +227,14 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		else if (Postvolume==fScoringVolume_C7)   {Postsubdet=37; }  //
 		else if (Postvolume==fScoringVolume_S2)   {Postsubdet=38; }  //
 		else if (Postvolume==fScoringVolume_S3)   {Postsubdet=39; }  //
+		else if (Postvolume==fScoringVolume_S4)   {Postsubdet=63; }  //
 		else if (Postvolume==fScoringVolume_Pb1a)   {Postsubdet=41; }  //
 		else if (Postvolume==fScoringVolume_Pb1b)   {Postsubdet=42; }  //
 		else if (Postvolume==fScoringVolume_Pb1c)   {Postsubdet=43; }  //
 		else if (Postvolume==fScoringVolume_Pb2a)   {Postsubdet=44; }  //
 		else if (Postvolume==fScoringVolume_Pb2b)   {Postsubdet=45; }  //
 		else if (Postvolume==fScoringVolume_Pb2c)   {Postsubdet=46; }  //
+		else if (Postvolume==fScoringVolume_PbG)   {Postsubdet=77; }  //
 		else if (Postvolume==fScoringVolume_Ce1)   {Postsubdet=51; }  //
 		else if (Postvolume==fScoringVolume_Ce2tilt)   {Postsubdet=51; }  //
 		else if (Postvolume==fScoringVolume_Ce2)   {Postsubdet=52; }  //
@@ -226,27 +261,45 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		}
 	}
 	
-	/*
-	 if (subdet==61 && step->GetPreStepPoint()->GetKineticEnergy()/GeV>0.1) {
+#if 0
+	 if (subdet==61 && step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber()>3) {
 	 G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
 	 evt->KeepTheEvent();
 	 }
-	*/
+#endif
+	
+#if 1
+	if (subdet==63 ) { //save S4 (trigger) events
+		G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
+		evt->KeepTheEvent();
+	}
+#endif
 	
 	G4int CopyNb=step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
 	G4double DepEne=step->GetTotalEnergyDeposit()/GeV;
 	G4int Pid=step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding();
 	
-	// CALORIMETER SCORING
-	if (fStoreCaloEnDepFlag && ((subdet>=41 && subdet <=46) || subdet==51 || subdet==52)) {
-		std::vector<G4int>::iterator it;
+	// ##############################################################################
+	// ##################### CALORIMETER SCORING
+	// ###############
+	
+	if (fStoreCaloEnDepFlag && ((subdet>=41 && subdet <=46) || subdet==51 || subdet==52 || subdet == 77)) {
+//		std::vector<G4int>::iterator it;
 		G4int CaloChannelToSearch=100*subdet+CopyNb;
-		it = find(fChannelMap.begin(), fChannelMap.end(),CaloChannelToSearch); //cerco l'attuale canale nella lista di quelli già visti
+		
+		auto it = fChannelMap.find(CaloChannelToSearch);
+		
+//		it = find(fChannelMap.begin(), fChannelMap.end(),CaloChannelToSearch); //cerco l'attuale canale nella lista di quelli già visti
 		if (it != fChannelMap.end()) { //se ho trovato il canale, scrivo il deposito energia nella posizione corrispondente del vettore
-			(runStepAction->GetCaloEnDep())[it-fChannelMap.begin()]+=DepEne;
+			(runStepAction->GetCaloEnDep())[it->second]+=DepEne;
+	
+			if (0 && (subdet==52 || subdet==51))		G4cout<<"DEBUG !!! subdet= "<<subdet<<" Nome= "<<step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName()<<" CopyNb="<<CopyNb<<" Cerco canale "<<CaloChannelToSearch<<" Trovato in pos= "<<it->second<<G4endl;
 		}
-		if (0)		G4cout<<"DEBUG !!! subdet= "<<subdet<<" Nome= "<<step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName()<<" CopyNb="<<CopyNb<<" Cerco canale "<<CaloChannelToSearch<<" Trovato in pos= "<<(G4int) (it-fChannelMap.begin())<<G4endl;
 	}
+	
+	/// ###############
+	// ##############################################################################
+	
 	
 	if (fEThr>0) fCutFlag=true;
 	
@@ -280,7 +333,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	//##################################################
 	//############ CENTRAL CORE OF SCORING #############
 	//##################################################
-
+	
 	
 	//-- store info
 	//	if (dofill && ((step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary)

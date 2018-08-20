@@ -53,11 +53,11 @@ int main(int argc,char** argv)
 	
 	G4bool CalibMuMBeamFlag=false;  //switching on this flag generates mu- primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
 	G4bool CalibMuPBeamFlag=false;  //switching on this flag generates mu+ primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
-	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu+ beam at the end of the target, to simulate the muon production: E in 15-30 GeV, along Z
+	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu- beam at the end of the target, to simulate the muon production: E in 15-30 GeV, along Z
 	G4bool ElectronBeamFlag=false;  //switching on this flag generates e- beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
 	G4double BeamEnergy=45.*GeV; //Primary Beam Energy (18, 22, 26 GeV options for e+ calibration) - 45 GeV for real TB
 	G4bool SimpleFlag=false; //Generates a "simple-ideal" beam: no spread, no emittance...
-	G4double BeamDP=0.01;
+	G4double BeamDP=0.017; //was 0.01, but Mario obtained 1.7%
 	
 	//Flags to force use of externally generated primary files (for bhabha and muon pair production)
 	//Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
@@ -218,6 +218,7 @@ int main(int argc,char** argv)
 	// ##################### PREPARE CALO-MAP VECTOR
 	// ###############
 	
+#if 1
 	std::vector<G4int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600}; //PbGlasses
 	
 	for (int ii=0; ii<34; ii++) { //Ce1 (34 channels)
@@ -226,13 +227,82 @@ int main(int argc,char** argv)
 	for (int ii=0; ii<24; ii++) { //Ce2 (24 channels)
 		ChannelMap.push_back(5200+ii);
 	}
+	ChannelMap.push_back(7700);
+#endif
 	
+	std::map<G4int,G4int> Mappa;
+
+#if 1
+	Mappa[4100]=0;
+	Mappa[4200]=1;
+	Mappa[4300]=2;
+	Mappa[4400]=3;
+	Mappa[4500]=4;
+	Mappa[4600]=5;
+	
+	Mappa[5100]=7;
+	Mappa[5101]=7;
+	Mappa[5102]=7;
+	Mappa[5103]=8;
+	Mappa[5104]=8;
+	Mappa[5105]=8;
+	
+	
+	Mappa[5119]=9;
+	Mappa[5120]=9;
+	Mappa[5121]=9;
+	Mappa[5122]=10;
+	Mappa[5123]=10;
+	Mappa[5124]=10;
+	
+	
+	Mappa[5200]=11;
+	Mappa[5201]=12;
+	Mappa[5202]=13;
+	Mappa[5203]=13;
+	Mappa[5204]=13;
+	Mappa[5205]=14;
+	Mappa[5206]=14;
+	Mappa[5207]=14;
+	
+	Mappa[5208]=15;
+	Mappa[5209]=15;
+	Mappa[5210]=15;
+
+	Mappa[5211]=16;
+	Mappa[5212]=16;
+	Mappa[5213]=16;
+
+	Mappa[5214]=17;
+	Mappa[5215]=18;
+	Mappa[5216]=19;
+	Mappa[5217]=19;
+	Mappa[5218]=19;
+	Mappa[5219]=20;
+	Mappa[5220]=20;
+	Mappa[5221]=20;
+#endif
+	G4int NTotChannels=Mappa[5221]+1;
+
 	// ###############
 	// ##################### END: PREPARE CALO-MAP VECTOR
 	// ##############################################################################
+	G4cout<<"DIMENSIONE MAPPA: size= "<<Mappa.size()<<G4endl;
+
+	G4cout<<"DIMENSIONE MAPPA: max element = "<<NTotChannels<<G4endl;
 	
+#if 0
 	
-	
+
+	for (int ii=0; ii<ChannelMap.size(); ii++) G4cout<<"MAPPA vector: i= "<<ii<<" channel= "<<ChannelMap.at(ii)<<G4endl;
+
+//	std::vector<int>::iterator iteratore;
+	for (int ii=0; ii<3; ii++) {
+//		iteratore = find(Mappa.begin(), Mappa.end(),4100+ii);
+		auto iter = Mappa.find((41+ii)*100);
+		if (iter != Mappa.end()) G4cout<<"MAPPA map: i= "<<ii<<" looking for "<< 4200<<" iter->first= "<<iter->first<<" iter->second= "<<iter->second<<" Mappa[]= "<<Mappa[(41+ii)*100]<<G4endl;
+	}
+#endif
 	// ##############################################################################
 	// ##################### PHYSICS LIST AND DETECTOR CONSTRUCTION
 	// ###############
@@ -276,11 +346,11 @@ int main(int argc,char** argv)
 	
 	if (MTFlag) {
 		runManagerMT->SetUserInitialization(detector);
-		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
+		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels));
 		runManagerMT->Initialize();  // init kernel
 	} else {
 		runManager->SetUserInitialization(detector);
-		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, ChannelMap, DetEnterExitFlag));
+		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag,NTotChannels));
 		runManager->Initialize();  // init kernel
 	}
 	
@@ -338,7 +408,7 @@ int main(int argc,char** argv)
 	else if (ProdMuonBeamFlag) OutputFilename.append("_ProdMuM");
 	else OutputFilename.append("_Pos"+ std::to_string(G4int (BeamEnergy)) );
 	if (SimpleFlag) OutputFilename.append("_simple");
-	if (BeamDP!=0.01) OutputFilename.append("_DP"+ std::to_string(G4int (100*BeamDP)) );
+	if (BeamDP!=0.01) OutputFilename.append("_DP"+ std::to_string(G4int (1000*BeamDP)) );
 	
 	//Target ?
 	if (TargetFlag) OutputFilename.append("_T");
