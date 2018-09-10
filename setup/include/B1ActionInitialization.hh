@@ -12,7 +12,7 @@
 class B1ActionInitialization : public G4VUserActionInitialization
 {
 public:
-	B1ActionInitialization(G4double BeamEnergy,G4double BeamDP, G4bool CalibMuMBeamFlag, G4bool CalibMuPBeamFlag, G4bool ProdMuonBeamFlag ,G4bool ElectronBeamFlag, G4bool SimpleFlag, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvFlag, G4bool ExtSourceFlagBha, G4bool ExtSourceFlagMu, G4double EThr, 	std::map<G4int,G4int>  & ChannelMap, G4bool fDetEnterExitFlag, G4int fNTotChannels);
+	B1ActionInitialization(G4double BeamEnergy,G4double BeamDP, G4bool CalibMuMBeamFlag, G4bool CalibMuPBeamFlag, G4bool ProdMuonBeamFlag ,G4bool ElectronBeamFlag, G4bool SimpleFlag, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvFlag, G4bool ExtSourceFlagBha, G4bool ExtSourceFlagMu, G4double EThr, 	std::map<G4int,G4int>  & ChannelMap, G4bool fDetEnterExitFlag, G4int fNTotChannels, std::vector<G4int> & TriggerLogic);
 	virtual ~B1ActionInitialization();
 	
 	virtual void BuildForMaster() const;
@@ -35,9 +35,10 @@ private:
 	G4bool fDetEnterExitFlag;
 	
 	G4int fNTotChannels;
-	
+
 public:
 	std::map<G4int,G4int> fChannelMap;
+	std::vector<G4int>  fTriggerLogic;
 
 };
 

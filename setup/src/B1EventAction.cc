@@ -7,11 +7,13 @@
 #include "B5Analysis.hh"
 #include "B1RunAction.hh"
 
-B1EventAction::B1EventAction(B1RunAction* runAction, G4int NOfCaloChannels)
+B1EventAction::B1EventAction(B1RunAction* runAction, G4int NOfCaloChannels, const	std::vector<G4int>  & TriggerLogic )
 : G4UserEventAction(),
 fRunAction(runAction),
 fNHits(0),
-fNOfCaloChannels(NOfCaloChannels)
+fNOfCaloChannels(NOfCaloChannels),
+fTriggerLogic(TriggerLogic)
+
 {} 
 
 B1EventAction::~B1EventAction(){}
@@ -133,8 +135,12 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetBeamInfoEne()).clear();
 	(fRunAction->GetBeamInfoPart()).clear();
 	
-	fNHits=0;
 	
+	fNHits=0;
+	fNoCriteria=fTriggerLogic.size();
+//	G4cout<<"CIAONE fTriggerLogic.size()= "<<fNoCriteria<<G4endl;
+	ResetShowCriteria();
+
 }
 
 void B1EventAction::EndOfEventAction(const G4Event* evt){
@@ -152,6 +158,16 @@ void B1EventAction::EndOfEventAction(const G4Event* evt){
 	analysisManager->AddNtupleRow(3);
 	
 	if ((100/fPrintModulo*evtNb)%NevTot==0) G4cout <<"\n---> End of Event: "<<evt->GetEventID()<<G4endl;
+	
+//	if (fShowCriteria1==TRUE && fShowCriteria2==TRUE && fShowCriteria3==TRUE) {
+	//it = find(AllMothers.begin(), AllMothers.end(),temp);
+	G4double somma=0;
+	for (int ii=0; ii<fNoCriteria; ii++) somma+=fShowCriteria[ii];
+		if (somma==fNoCriteria) {
+		G4Event* evt2 = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
+		evt2->KeepTheEvent();
+//		G4cout<<"BINGO! Trigger"<<G4endl;
+	}
 	
 }
 

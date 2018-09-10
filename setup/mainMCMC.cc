@@ -194,6 +194,8 @@ int main(int argc,char** argv)
 			VisFlag=false;
 		}
 	
+	std::vector<G4int>  TriggerLogic={38, 39, 63, 42, 45, 51};
+	
 	// ###############
 	// ##################### END: COMMAND LINE PARAMETERS INPUT
 	// ##############################################################################
@@ -240,49 +242,54 @@ int main(int argc,char** argv)
 	Mappa[4500]=4;
 	Mappa[4600]=5;
 	
-	Mappa[5100]=7;
-	Mappa[5101]=7;
-	Mappa[5102]=7;
-	Mappa[5103]=8;
-	Mappa[5104]=8;
-	Mappa[5105]=8;
+	Mappa[7700]=6;
+	
+	Mappa[5100]=10;
+	Mappa[5101]=10;
+	Mappa[5102]=10;
+	Mappa[5103]=11;
+	Mappa[5104]=11;
+	Mappa[5105]=11;
 	
 	
-	Mappa[5119]=9;
-	Mappa[5120]=9;
-	Mappa[5121]=9;
-	Mappa[5122]=10;
-	Mappa[5123]=10;
-	Mappa[5124]=10;
+	Mappa[5119]=12;
+	Mappa[5120]=12;
+	Mappa[5121]=12;
+	Mappa[5122]=13;
+	Mappa[5123]=13;
+	Mappa[5124]=13;
 	
-	
-	Mappa[5200]=11;
-	Mappa[5201]=12;
-	Mappa[5202]=13;
-	Mappa[5203]=13;
-	Mappa[5204]=13;
-	Mappa[5205]=14;
-	Mappa[5206]=14;
-	Mappa[5207]=14;
-	
-	Mappa[5208]=15;
-	Mappa[5209]=15;
-	Mappa[5210]=15;
 
-	Mappa[5211]=16;
-	Mappa[5212]=16;
-	Mappa[5213]=16;
+	Mappa[5200]=14;
+	Mappa[5201]=15;
+	Mappa[5202]=16;
+	Mappa[5203]=16;
+	Mappa[5204]=16;
+	Mappa[5205]=17;
+	Mappa[5206]=17;
+	Mappa[5207]=17;
+	
+	Mappa[5208]=18;
+	Mappa[5209]=18;
+	Mappa[5210]=18;
 
-	Mappa[5214]=17;
-	Mappa[5215]=18;
-	Mappa[5216]=19;
-	Mappa[5217]=19;
-	Mappa[5218]=19;
-	Mappa[5219]=20;
-	Mappa[5220]=20;
-	Mappa[5221]=20;
+	Mappa[5211]=19;
+	Mappa[5212]=19;
+	Mappa[5213]=19;
+
+	Mappa[5214]=20;
+	Mappa[5215]=21;
+	Mappa[5216]=22;
+	Mappa[5217]=22;
+	Mappa[5218]=22;
+	Mappa[5219]=23;
+	Mappa[5220]=23;
+	Mappa[5221]=23;
+
+
 #endif
-	G4int NTotChannels=Mappa[5221]+1;
+	G4int NDumChannels=1;
+	G4int NTotChannels=Mappa[5221]+1+NDumChannels;
 
 	// ###############
 	// ##################### END: PREPARE CALO-MAP VECTOR
@@ -292,17 +299,18 @@ int main(int argc,char** argv)
 	G4cout<<"DIMENSIONE MAPPA: max element = "<<NTotChannels<<G4endl;
 	
 #if 0
-	
-
 	for (int ii=0; ii<ChannelMap.size(); ii++) G4cout<<"MAPPA vector: i= "<<ii<<" channel= "<<ChannelMap.at(ii)<<G4endl;
 
 //	std::vector<int>::iterator iteratore;
 	for (int ii=0; ii<3; ii++) {
 //		iteratore = find(Mappa.begin(), Mappa.end(),4100+ii);
 		auto iter = Mappa.find((41+ii)*100);
-		if (iter != Mappa.end()) G4cout<<"MAPPA map: i= "<<ii<<" looking for "<< 4200<<" iter->first= "<<iter->first<<" iter->second= "<<iter->second<<" Mappa[]= "<<Mappa[(41+ii)*100]<<G4endl;
+		if (iter != Mappa.end()) G4cout<<"MAPPA map: i= "<<ii<<" looking for "<< (41+ii)*100<<" iter->first= "<<iter->first<<" iter->second= "<<iter->second<<" Mappa[]= "<<Mappa[(41+ii)*100]<<G4endl;
 	}
 #endif
+	
+	
+	
 	// ##############################################################################
 	// ##################### PHYSICS LIST AND DETECTOR CONSTRUCTION
 	// ###############
@@ -346,11 +354,11 @@ int main(int argc,char** argv)
 	
 	if (MTFlag) {
 		runManagerMT->SetUserInitialization(detector);
-		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels));
+		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels, TriggerLogic));
 		runManagerMT->Initialize();  // init kernel
 	} else {
 		runManager->SetUserInitialization(detector);
-		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag,NTotChannels));
+		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag,NTotChannels, TriggerLogic));
 		runManager->Initialize();  // init kernel
 	}
 	

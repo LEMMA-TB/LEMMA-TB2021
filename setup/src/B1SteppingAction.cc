@@ -15,7 +15,7 @@
 #include "G4ProcessType.hh"
 #include "G4OpticalPhoton.hh"
 
-B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::map<G4int,G4int> & ChannelMap, G4bool DetEnterExitFlag)
+B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::map<G4int,G4int> & ChannelMap, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic)
 : G4UserSteppingAction(),
 fEventAction(eventAction),
 runStepAction(runAction),
@@ -49,7 +49,8 @@ fStoreCaloEnDepFlag(StoreCaloEnDepFlag),
 fStoreGammaConvDepFlag(StoreGammaConvDepFlag),
 fEThr(EThr),
 fChannelMap(ChannelMap),
-fDetEnterExitFlag(DetEnterExitFlag)
+fDetEnterExitFlag(DetEnterExitFlag),
+fTriggerLogic(TriggerLogic)
 {}
 
 B1SteppingAction::~B1SteppingAction()
@@ -204,7 +205,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	else if (volume==fScoringVolume_Pb2c)   {subdet=46; dofill=true;}  //
 	else if (volume==fScoringVolume_PbG)   {subdet=77; dofill=true;}  //
 	else if (volume==fScoringVolume_Ce1)   {subdet=51; dofill=true;}  //
-	else if (volume==fScoringVolume_Ce2tilt)   {subdet=51; dofill=true;}  //
+	else if (volume==fScoringVolume_Ce2tilt)   {subdet=52; dofill=true;}  //
 	else if (volume==fScoringVolume_Ce2)   {subdet=52; dofill=true;}  //
 	else if (volume==fScoringVolume_Mu1)   {subdet=61; dofill=true;}  //
 	else if (volume==fScoringVolume_Mu2)   {subdet=62; dofill=true;}  //
@@ -236,7 +237,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		else if (Postvolume==fScoringVolume_Pb2c)   {Postsubdet=46; }  //
 		else if (Postvolume==fScoringVolume_PbG)   {Postsubdet=77; }  //
 		else if (Postvolume==fScoringVolume_Ce1)   {Postsubdet=51; }  //
-		else if (Postvolume==fScoringVolume_Ce2tilt)   {Postsubdet=51; }  //
+		else if (Postvolume==fScoringVolume_Ce2tilt)   {Postsubdet=52; }  //
 		else if (Postvolume==fScoringVolume_Ce2)   {Postsubdet=52; }  //
 		else if (Postvolume==fScoringVolume_Mu1)   {Postsubdet=61; }  //
 		else if (Postvolume==fScoringVolume_Mu2)   {Postsubdet=62; }  //
@@ -268,12 +269,28 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	 }
 #endif
 	
+	// ##############################################################################
+	// ##################### TRIGGER LOGIC
+	// ###############
 #if 1
-	if (subdet==63 ) { //save S4 (trigger) events
-		G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
-		evt->KeepTheEvent();
-	}
+//	fEventAction->SetNoCriteria(6);
+	for (int ii=0; ii<fTriggerLogic.size(); ii++) if (subdet==fTriggerLogic[ii]) fEventAction->GetShowCriteria(ii)=1;
+	
+	/*
+	if (subdet==63 ) fEventAction->GetShowCriteria(0)=1;
+	if (subdet>=42 && subdet <=42) fEventAction->GetShowCriteria(1)=1;
+	if (subdet>=45 && subdet <=45) fEventAction->GetShowCriteria(2)=1;
+	if (subdet==51) fEventAction->GetShowCriteria(3)=1;
+//	if (subdet==10) fEventAction->GetShowCriateria(4)=1;
+	if (subdet==38) fEventAction->GetShowCriteria(4)=1;
+	if (subdet==39) fEventAction->GetShowCriteria(5)=1;
+*/
 #endif
+	/// ###############
+	// ##############################################################################
+	
+	
+	
 	
 	G4int CopyNb=step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
 	G4double DepEne=step->GetTotalEnergyDeposit()/GeV;

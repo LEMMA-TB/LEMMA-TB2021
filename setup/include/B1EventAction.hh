@@ -3,6 +3,7 @@
 
 #include "G4UserEventAction.hh"
 #include "globals.hh"
+#include <vector>
 
 
 class B1RunAction;
@@ -11,7 +12,7 @@ class B1RunAction;
 class B1EventAction : public G4UserEventAction
 {
 public:
-  B1EventAction(B1RunAction* runAction, G4int NOfCaloChannels);
+  B1EventAction(B1RunAction* runAction, G4int NOfCaloChannels, const std::vector<G4int>  & TriggerLogic);
   virtual ~B1EventAction();    
   virtual void BeginOfEventAction(const G4Event* evt);
   virtual void EndOfEventAction(const G4Event* evt);
@@ -27,7 +28,10 @@ public:
 	void SetBeamEne(G4double ben) {fBeamEne=ben;}
 	void SetBeamPart(G4double bpart) {fBeamPart=bpart;}
 	void AddNHits(G4int bnhits) {fNHits+=bnhits;}
-	
+	G4int& GetShowCriteria(G4int i) {return fShowCriteria[i];};
+	void ResetShowCriteria(void) {fShowCriteria.assign(fNoCriteria, 0);};
+	void SetNoCriteria(G4int no) {fNoCriteria=no;};
+
 #if 0
 	void AddPbGlassEne(G4double ene) {fPbGlass_DepEne+=ene;}
 	void AddPbGlassCere(G4int nfot) {fPbGlass_PulseHeight+=nfot;}
@@ -49,10 +53,11 @@ private:
 	G4int fNOfCaloChannels;
 //	G4int NHitsCounter;
 	G4int fPrintModulo = 1; //in percentage: write every X %
-
+	std::vector<G4int> fShowCriteria;
+	G4int fNoCriteria;
 //	G4int fNCerenkov;
 //	G4int fNCerenkovPbGlass;
-
+	std::vector<G4int>  fTriggerLogic;
 };
 
 

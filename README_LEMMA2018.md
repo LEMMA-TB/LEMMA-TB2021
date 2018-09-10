@@ -242,6 +242,9 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 2018.08.20 by collamaf (@CERN)
 - New positions according to geometra
 
+2018.08.24 by bollamaf
+- Added possibility of "trigger scheme" by means of event selection criteria in Step-Event Action
+- First attempt to insert "real" geometry for LeadGlass
 `
 cp link.txt CMakeFiles/mainMCMC.dir/
 now is "gpc" as alias!
