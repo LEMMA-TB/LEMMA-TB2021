@@ -206,7 +206,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double CaloTable1_sizeX=80*cm;
 	G4double CaloTable2_sizeX=60*cm;
 	G4double CaloTable_sizeY=Mu_sizeY;
-	G4double CaloTable_sizeZ=140*cm; //actually is 160, but who cares since this one is not the physical!
+	G4double CaloTable_sizeZ=150*cm; //actually is 160, but who cares since this one is not the physical!
 	
 	// Distances and offsets
 	G4double DistPbCe=10*cm;
@@ -218,7 +218,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double Mu_shiftX=0*2*cm; //symmetrical: Mu1 towards up, Mu2 towards down
 	G4double Mu2_shiftX=4*cm;
 	G4double CaloTable_centerOffset=10*cm;
-	
+	G4double DeltaZPbG=0.2*cm;
+	G4double DeltaXPbG=1*mm;
+
 	// shield wall:
 	G4double shield_sizeX = 1.62/2.*m;
 	G4double shield_sizeY = 0.8*m;
@@ -242,11 +244,13 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xC5=-xC4; //Det
 	G4double xC6=21*cm+XOffSetC6; //Det //position from Tommaso was 22 up to 11-lug-18 (before change in B) - 19 if B=1.62T - 22 if current=600
 	G4double xC7=-xC6; //Det
-	G4double xPb1a=XOffSetLeadGlass+-LeadGlass_sizeX-CaloTable_centerOffset; //Det
+//	G4double xPb1a=XOffSetLeadGlass+-LeadGlass_sizeX-CaloTable_centerOffset; //Det
+	G4double xPb1a=XOffSetLeadGlass-(LeadGlass_sizeXt+LeadGlass_sizeXb)/2.-CaloTable_centerOffset - DeltaXPbG; //Det
 	G4double xPb2a=-xPb1a; //Det
 	G4double xPb1b=XOffSetLeadGlass+0*cm-CaloTable_centerOffset; //Det
 	G4double xPb2b=-xPb1b; //Det
-	G4double xPb1c=XOffSetLeadGlass+LeadGlass_sizeX-CaloTable_centerOffset; //Det
+//	G4double xPb1c=XOffSetLeadGlass+LeadGlass_sizeX-CaloTable_centerOffset; //Det
+	G4double xPb1c=XOffSetLeadGlass+(LeadGlass_sizeXt+LeadGlass_sizeXb)/2.-CaloTable_centerOffset + DeltaXPbG; //Det
 	G4double xPb2c=-xPb1c; //Det
 	G4double xCe1=0-CaloTable_centerOffset; //Det
 	G4double xCe2=-xCe1; //Det
@@ -316,11 +320,11 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zC5=zC4; //Det
 	G4double zC6=2134.0*cm; //Det - was 2050 until 2018-07-12 but there is still room in the platform -> 2080
 	G4double zC7=zC6; //Det
-	G4double zPb1a=-CaloTable_sizeZ/2. +LeadGlass_sizeZ/2.; //Det
+	G4double zPb1a=-CaloTable_sizeZ/2. +1*cm +LeadGlass_sizeZ/2.-DeltaZPbG; //Det
 	G4double zPb2a=zPb1a; //Det
-	G4double zPb1b=-CaloTable_sizeZ/2. +LeadGlass_sizeZ/2.; //Det
+	G4double zPb1b=-CaloTable_sizeZ/2.+1*cm  +LeadGlass_sizeZ/2.; //Det
 	G4double zPb2b=zPb1b; //Det
-	G4double zPb1c=-CaloTable_sizeZ/2. +LeadGlass_sizeZ/2.; //Det
+	G4double zPb1c=-CaloTable_sizeZ/2.+1*cm  +LeadGlass_sizeZ/2.-DeltaZPbG; //Det
 	G4double zPb2c=zPb1c; //Det
 	G4double zPbG=35.95*m+LeadGlass_sizeZ/2.;
 	G4double zCe1=-CaloTable_sizeZ/2. +LeadGlass_sizeZ + Cerenkov_sizeZ/2. + DistPbCe; //Det
@@ -332,6 +336,37 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zShield1=2327.5*cm+shield_sizeZ/2.;
 	G4double zShield2=zShield1;
 	G4double zS4=zMu1+Mu_sizeZ*4+20.8*cm;
+	
+	
+	G4double Angle=0.5*atan((LeadGlass_sizeXb-LeadGlass_sizeXt)/LeadGlass_sizeZ);
+	G4double AngleRotPbGy=2*Angle;
+	G4double AngleRotPbGz=90*CLHEP::deg;
+
+	G4RotationMatrix* RotPbG=new G4RotationMatrix;
+	RotPbG->rotateZ(-AngleRotPbGz);
+	
+	G4RotationMatrix* RotPbG1c=new G4RotationMatrix;
+	RotPbG1c->rotateZ(-AngleRotPbGz);
+	RotPbG1c->rotateX(-AngleRotPbGy);
+	
+	G4RotationMatrix* RotPbG1a=new G4RotationMatrix;
+	RotPbG1a->rotateZ(-AngleRotPbGz);
+	RotPbG1a->rotateX(AngleRotPbGy);
+
+	
+	
+	
+	
+	G4RotationMatrix* RotPbG2c=new G4RotationMatrix;
+	RotPbG2c->rotateZ(-AngleRotPbGz);
+	RotPbG2c->rotateX(AngleRotPbGy);
+	
+	G4RotationMatrix* RotPbG2a=new G4RotationMatrix;
+	RotPbG2a->rotateZ(-AngleRotPbGz);
+	RotPbG2a->rotateX(-AngleRotPbGy);
+	
+	
+	G4double DeltaZ=0.2*cm;
 	
 	// ============
 	//   Positioning Vectors
@@ -771,12 +806,37 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4LogicalVolume* logicCaloTable2 = new G4LogicalVolume(geoCaloTable2, aria, "CaloTable2");
 	new G4PVPlacement(Rot2,posCaloTable2,logicCaloTable2,"CaloTable2",logicWorld,false,0,checkOverlaps);
 	
-	//-- LeadGlass 1a
+	//-- LeadGlass 1a-b-c
+	
+	G4Trap* solidPb1 = new G4Trap("Pb1",LeadGlass_sizeZ/2., Angle, 0*deg, LeadGlass_sizeYt/2., LeadGlass_sizeXt/2., LeadGlass_sizeXt/2., 0*deg, LeadGlass_sizeYb/2.,LeadGlass_sizeXb/2., LeadGlass_sizeXb/2., 0*deg);
+	
+	G4LogicalVolume* logicPb1b = new G4LogicalVolume(solidPb1, PbGl,"Pb1b");
+	new G4PVPlacement(RotPbG,posPb1b,logicPb1b,"Pb1b",logicCaloTable1,false,0,checkOverlaps);
+	
+	G4LogicalVolume* logicPb1a = new G4LogicalVolume(solidPb1, PbGl,"Pb1a");
+	new G4PVPlacement(RotPbG1a,posPb1a,logicPb1a,"Pb1a",logicCaloTable1,false,0,checkOverlaps);
+	
+	G4LogicalVolume* logicPb1c = new G4LogicalVolume(solidPb1, PbGl,"Pb1c");
+	new G4PVPlacement(RotPbG1c,posPb1c,logicPb1c,"Pb1c",logicCaloTable1,false,0,checkOverlaps);
+	
+	//-- LeadGlass 2a
+	G4Trap* solidPb2 = new G4Trap("Pb2",LeadGlass_sizeZ/2., Angle, 0*deg, LeadGlass_sizeYt/2., LeadGlass_sizeXt/2., LeadGlass_sizeXt/2., 0*deg, LeadGlass_sizeYb/2.,LeadGlass_sizeXb/2., LeadGlass_sizeXb/2., 0*deg);
+	
+	G4LogicalVolume* logicPb2b = new G4LogicalVolume(solidPb2, PbGl,"Pb2b");
+	new G4PVPlacement(RotPbG,posPb2b,logicPb2b,"Pb2b",logicCaloTable2,false,0,checkOverlaps);
+
+	G4LogicalVolume* logicPb2a = new G4LogicalVolume(solidPb2, PbGl,"Pb2a");
+	new G4PVPlacement(RotPbG2a,posPb2a,logicPb2a,"Pb2a",logicCaloTable2,false,0,checkOverlaps);
+
+	G4LogicalVolume* logicPb2c = new G4LogicalVolume(solidPb2, PbGl,"Pb2c");
+	new G4PVPlacement(RotPbG2c,posPb2c,logicPb2c,"Pb2c",logicCaloTable2,false,0,checkOverlaps);
+	
+#if 0
 	//	G4Box* solidPb1a = new G4Box("Pb1a",LeadGlass_sizeX/2,LeadGlass_sizeY/2,LeadGlass_sizeZ/2);
 	G4Trd* solidPb1a = new G4Trd("Pb1a",LeadGlass_sizeX/2,LeadGlass_sizeX/2,LeadGlass_sizeY/2,LeadGlass_sizeY/2,LeadGlass_sizeZ/2);
 	G4LogicalVolume* logicPb1a = new G4LogicalVolume(solidPb1a, PbGl,"Pb1a");
 	new G4PVPlacement(0,posPb1a,logicPb1a,"Pb1a",logicCaloTable1,false,0,checkOverlaps);
-	
+
 	
 	//-- LeadGlass 1b
 	//	G4Box* solidPb1b = new G4Box("Pb1b",LeadGlass_sizeX/2,LeadGlass_sizeY/2,LeadGlass_sizeZ/2);
@@ -789,6 +849,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4Trd* solidPb1c = new G4Trd("Pb1c",LeadGlass_sizeX/2,LeadGlass_sizeX/2,LeadGlass_sizeY/2,LeadGlass_sizeY/2,LeadGlass_sizeZ/2);
 	G4LogicalVolume* logicPb1c = new G4LogicalVolume(solidPb1c, PbGl,"Pb1c");
 	new G4PVPlacement(0,posPb1c,logicPb1c,"Pb1c",logicCaloTable1,false,0,checkOverlaps);
+
+	
+	
 	
 	//-- LeadGlass 2a
 	//	G4Box* solidPb2a = new G4Box("Pb2a",LeadGlass_sizeX/2,LeadGlass_sizeY/2,LeadGlass_sizeZ/2);
@@ -808,30 +871,15 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4LogicalVolume* logicPb2c = new G4LogicalVolume(solidPb2c, PbGl,"Pb2c");
 	new G4PVPlacement(0,posPb2c,logicPb2c,"Pb2c",logicCaloTable2,false,0,checkOverlaps);
 	
-	
+	#endif
 	
 	//-- LeadGlass fot Photons
 //	G4Trd* solidPbG = new G4Trd("PbG",LeadGlass_sizeXt/2,LeadGlass_sizeXb/2,LeadGlass_sizeYt/2,LeadGlass_sizeYb/2,LeadGlass_sizeZ/2);
 //	G4Trap* solidPbG = new G4Trap("PbG",LeadGlass_sizeXt,LeadGlass_sizeZ, LeadGlass_sizeXt,LeadGlass_sizeXb);
 //	G4Trap* solidPbG = new G4Trap("PbG",LeadGlass_sizeXt/2., LeadGlass_sizeXt/2., LeadGlass_sizeZ/2., 1.55*deg, 0*deg, LeadGlass_sizeXt/2., LeadGlass_sizeXb/2., LeadGlass_sizeXb/2., LeadGlass_sizeXb/2.,1.55*deg, 1.55*deg);
-	G4double Angle=0.5*atan((LeadGlass_sizeXb-LeadGlass_sizeXt)/LeadGlass_sizeZ);
+	
+	
 
-	
-	G4double AngleRotPbGz=90*CLHEP::deg;
-	G4RotationMatrix* RotPbG=new G4RotationMatrix;
-	RotPbG->rotateZ(-AngleRotPbGz);
-
-	G4RotationMatrix* RotPbG2=new G4RotationMatrix;
-	G4double AngleRotPbGy=2*CLHEP::deg;
-	AngleRotPbGy=2*Angle;
-	RotPbG2->rotateZ(-AngleRotPbGz);
-	RotPbG2->rotateX(-AngleRotPbGy);
-	
-	G4RotationMatrix* RotPbG3=new G4RotationMatrix;
-	RotPbG3->rotateZ(-AngleRotPbGz);
-	RotPbG3->rotateX(AngleRotPbGy);
-	
-	G4double DeltaZ=0.2*cm;
 	G4double PbGX=(LeadGlass_sizeXt+LeadGlass_sizeXb)/2. + 1;
 
 	G4Trap* solidPbG = new G4Trap("PbG",LeadGlass_sizeZ/2., Angle, 0*deg, LeadGlass_sizeYt/2., LeadGlass_sizeXt/2., LeadGlass_sizeXt/2., 0*deg, LeadGlass_sizeYb/2.,LeadGlass_sizeXb/2., LeadGlass_sizeXb/2., 0*deg);
@@ -839,13 +887,14 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 //	G4cout<<"CIAONE "<<Angle/deg<<G4endl;
 	G4LogicalVolume* logicPbG = new G4LogicalVolume(solidPbG, PbGl,"PbG");
 	new G4PVPlacement(RotPbG,posPbG,logicPbG,"PbG",logicWorld,false,0,checkOverlaps);
-	new G4PVPlacement(RotPbG2,
+#if 0
+	new G4PVPlacement(RotPbG1c,
 										G4ThreeVector(PbGX,0,zPbG-1*m-DeltaZ)
 										,logicPbG,"PbG2",logicWorld,false,0,checkOverlaps);
-	new G4PVPlacement(RotPbG3,
+	new G4PVPlacement(RotPbG1a,
 										G4ThreeVector(-PbGX,0,zPbG-1*m-DeltaZ)
 										,logicPbG,"PbG3",logicWorld,false,0,checkOverlaps);
-
+#endif
 	
 	
 	//-- Cerenkov counter n 1
@@ -1017,7 +1066,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	fScoringVolume_Pb1c=logicPb1c;
 	fScoringVolume_Pb2a=logicPb2a;
 	fScoringVolume_Pb2b=logicPb2b;
-	fScoringVolume_Pb2c=logicPb2c;
+fScoringVolume_Pb2c=logicPb2c;
 	fScoringVolume_PbG=logicPbG;
 	//	fScoringVolume_Ce1=logicCe1;
 	//	fScoringVolume_Ce2=logicCe2;

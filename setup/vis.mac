@@ -302,9 +302,9 @@
 #/vis/viewer/set/viewpointThetaPhi -90 0
 #/vis/viewer/set/viewpointThetaPhi 180 90
 #/vis/viewer/set/targetPoint 0.5 0. 22.8 m #to view calos
-#/vis/viewer/set/targetPoint 0. 0. 22.8 m #to view calos
+/vis/viewer/set/targetPoint 0. 0. 22.8 m #to view calos
 #/vis/viewer/set/targetPoint 0 0 16.42 m #to view magnet (Z10)
-/vis/viewer/set/targetPoint 0. 0. 36.8 m #to view calos
+#/vis/viewer/set/targetPoint 0. 0. 36.8 m #to view calos
 #/vis/viewer/set/targetPoint 0. 0. 35 m #to view calos
 #/vis/viewer/set/targetPoint 0 0 20 m #to vie from magnet on (Z<10)
 /vis/viewer/zoomTo 10
