@@ -56,8 +56,8 @@
 
 #
 # To invert the above, drawing all particles except gammas,
-#/vis/filtering/trajectories/create/particleFilter
-#/vis/filtering/trajectories/particleFilter-0/add e+
+/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/particleFilter-0/add e+
 #/vis/filtering/trajectories/particleFilter-0/add e-
 #/vis/filtering/trajectories/particleFilter-0/add mu+
 #/vis/filtering/trajectories/particleFilter-0/add mu-
@@ -68,40 +68,40 @@
 # /vis/modeling/trajectories/drawByParticleID-0/set e+ blue
 # /vis/modeling/trajectories/drawByParticleID-0/set e- red
 
-/vis/filtering/trajectories/create/encounteredVolumeFilter Vol
-#/vis/filtering/trajectories/Vol/add Mu1
-#/vis/filtering/trajectories/Vol/add Mu2
-#/vis/filtering/trajectories/Vol/add Pb1a
-/vis/filtering/trajectories/Vol/add Pb1b
-#/vis/filtering/trajectories/Vol/add Pb1c
-/vis/filtering/trajectories/Vol/add Ce1
-/vis/filtering/trajectories/Vol/add S4
-/vis/filtering/trajectories/Vol/active 0
+# /vis/filtering/trajectories/create/encounteredVolumeFilter Vol
+# #/vis/filtering/trajectories/Vol/add Mu1
+# #/vis/filtering/trajectories/Vol/add Mu2
+# #/vis/filtering/trajectories/Vol/add Pb1a
+# /vis/filtering/trajectories/Vol/add Pb1b
+# #/vis/filtering/trajectories/Vol/add Pb1c
+# /vis/filtering/trajectories/Vol/add Ce1
+# /vis/filtering/trajectories/Vol/add S4
+# /vis/filtering/trajectories/Vol/active 0
 
 ###### TO FILTER TRACKS ACCORDING TO ENERGY!!!
 #
-# /vis/modeling/trajectories/create/drawByAttribute EnCut
-# /vis/modeling/trajectories/EnCut/setAttribute IKE
-#
-# /vis/modeling/trajectories/EnCut/addInterval interval1 0.0 keV 1 MeV
-# /vis/modeling/trajectories/EnCut/addInterval interval2 1 MeV 5 MeV
-# /vis/modeling/trajectories/EnCut/addInterval interval3 5 MeV 10 MeV
-# /vis/modeling/trajectories/EnCut/addInterval interval4 10 MeV 100 MeV
-# /vis/modeling/trajectories/EnCut/addInterval interval5 100 MeV 1 GeV
-# /vis/modeling/trajectories/EnCut/addInterval interval6 1 GeV 50 GeV
-#
-# /vis/modeling/trajectories/EnCut/interval1/setDrawLine  1
-# /vis/modeling/trajectories/EnCut/interval2/setDrawLine  1
-# /vis/modeling/trajectories/EnCut/interval3/setDrawLine  1
-# /vis/modeling/trajectories/EnCut/interval4/setDrawLine  1
-# /vis/modeling/trajectories/EnCut/interval5/setDrawLine  1
-# /vis/modeling/trajectories/EnCut/interval6/setDrawLine  1
-# /vis/modeling/trajectories/EnCut/interval1/setLineColour red
-# /vis/modeling/trajectories/EnCut/interval2/setLineColour green
-# /vis/modeling/trajectories/EnCut/interval3/setLineColour blue
-# /vis/modeling/trajectories/EnCut/interval4/setLineColour yellow
-# /vis/modeling/trajectories/EnCut/interval5/setLineColour magenta
-# /vis/modeling/trajectories/EnCut/interval6/setLineColour white
+/vis/modeling/trajectories/create/drawByAttribute EnCut
+/vis/modeling/trajectories/EnCut/setAttribute IKE
+
+/vis/modeling/trajectories/EnCut/addInterval interval1 0.0 keV 1 MeV
+/vis/modeling/trajectories/EnCut/addInterval interval2 1 MeV 5 MeV
+/vis/modeling/trajectories/EnCut/addInterval interval3 5 MeV 10 MeV
+/vis/modeling/trajectories/EnCut/addInterval interval4 10 MeV 100 MeV
+/vis/modeling/trajectories/EnCut/addInterval interval5 100 MeV 1 GeV
+/vis/modeling/trajectories/EnCut/addInterval interval6 1 GeV 50 GeV
+
+/vis/modeling/trajectories/EnCut/interval1/setDrawLine  0
+/vis/modeling/trajectories/EnCut/interval2/setDrawLine  0
+/vis/modeling/trajectories/EnCut/interval3/setDrawLine  0
+/vis/modeling/trajectories/EnCut/interval4/setDrawLine  0
+/vis/modeling/trajectories/EnCut/interval5/setDrawLine  1
+/vis/modeling/trajectories/EnCut/interval6/setDrawLine  1
+/vis/modeling/trajectories/EnCut/interval1/setLineColour red
+/vis/modeling/trajectories/EnCut/interval2/setLineColour green
+/vis/modeling/trajectories/EnCut/interval3/setLineColour blue
+/vis/modeling/trajectories/EnCut/interval4/setLineColour yellow
+/vis/modeling/trajectories/EnCut/interval5/setLineColour magenta
+/vis/modeling/trajectories/EnCut/interval6/setLineColour white
 
 #/vis/modeling/trajectories/EnCut/setAttribute PDG
 #/vis/modeling/trajectories/EnCut/addValue fotoni 22
@@ -131,7 +131,7 @@
 # Many other options are available with /vis/modeling and /vis/filtering.
 # For example, to select colour by particle ID:
 #
-# /vis/modeling/trajectories/create/drawByParticleID
+#/vis/modeling/trajectories/create/drawByParticleID
 # /vis/modeling/trajectories/drawByParticleID-0/set gamma green
 # /vis/modeling/trajectories/drawByParticleID-0/set e+ blue
 # /vis/modeling/trajectories/drawByParticleID-0/set e- red
@@ -143,7 +143,7 @@
 #
 # To superimpose all of the events from a given run:
 /vis/scene/endOfEventAction accumulate
-/vis/drawOnlyToBeKeptEvents
+#/vis/drawOnlyToBeKeptEvents
 #
 # Decorations
 # Name
@@ -210,7 +210,7 @@
 
 /vis/scene/add/scale 81.52 cm x 1 0 1 manual 0. 0 2158.49 cm #between LeadGlasses 1a
 /vis/scene/add/scale 23.63 cm x 1 0 1 manual 0. 0 2161.88 cm #between LeadGlasses 1b
-/vis/scene/add/scale 81.52 cm x 1 0 1 manual 0. 0 2192.55 cm #between LeadGlasses 2a
+/vis/scene/add/scale 89.7 cm x 1 0 1 manual 0. 0 2192.55 cm #between LeadGlasses 2a
 /vis/scene/add/scale 25.89 cm x 1 0 1 manual 0. 0 2196.66 cm #between LeadGlasses 2b
 /vis/scene/add/scale 32 cm x 1 0 1 manual 0. 0 2212.3 cm #between Cerenkovs
 /vis/scene/add/scale 11.8 cm x 1 0 1 manual 5.9 0 2327.8 cm #Shield 1
@@ -308,7 +308,7 @@
 #/vis/viewer/set/targetPoint 0. 0. 35 m #to view calos
 #/vis/viewer/set/targetPoint 0 0 20 m #to vie from magnet on (Z<10)
 /vis/viewer/zoomTo 10
-/vis/viewer/zoomTo 5
+#/vis/viewer/zoomTo 5
 
 
 # Re-establish auto refreshing and verbosity:

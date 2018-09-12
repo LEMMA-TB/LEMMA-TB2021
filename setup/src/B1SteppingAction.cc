@@ -43,6 +43,7 @@ fScoringVolume_Pb2c(0),
 fScoringVolume_PbG(0),
 fScoringVolume_Ce1(0),
 fScoringVolume_Ce2(0),
+fScoringVolume_Ce2tilt(0),
 fScoringVolume_Mu1(0),
 fScoringVolume_Mu2(0),
 fStoreCaloEnDepFlag(StoreCaloEnDepFlag),
@@ -100,12 +101,15 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	if (fDetEnterExitFlag) {
 		// ########################
 		// What enters PbGlass 1
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetLogicalVolume()==fScoringVolume_Pb1a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb1b || NextVol->GetLogicalVolume()==fScoringVolume_Pb1c) ) {
+		if (NextVol && ThisVol->GetName()=="CaloTable1" && ( NextVol->GetLogicalVolume()==fScoringVolume_Pb1a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb1b || NextVol->GetLogicalVolume()==fScoringVolume_Pb1c) ) {
 			(runStepAction->GetVectorPbGlass1EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorPbGlass1EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorPbGlass1EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
 			(runStepAction->GetVectorPbGlass1EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
 			(runStepAction->GetVectorPbGlass1EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorPbGlass1EnterVX()).push_back(step->GetTrack()->GetVertexPosition().x()/cm);
+			(runStepAction->GetVectorPbGlass1EnterVY()).push_back(step->GetTrack()->GetVertexPosition().y()/cm);
+			(runStepAction->GetVectorPbGlass1EnterVZ()).push_back(step->GetTrack()->GetVertexPosition().z()/cm);
 			(runStepAction->GetVectorPbGlass1EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
 			(runStepAction->GetVectorPbGlass1EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
 			(runStepAction->GetVectorPbGlass1EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
@@ -113,12 +117,15 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		
 		// ########################
 		// What enters PbGlass 2
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetLogicalVolume()==fScoringVolume_Pb2a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb2b || NextVol->GetLogicalVolume()==fScoringVolume_Pb2c) ) {
+		if (NextVol && ThisVol->GetName()=="CaloTable2" && ( NextVol->GetLogicalVolume()==fScoringVolume_Pb2a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb2b || NextVol->GetLogicalVolume()==fScoringVolume_Pb2c) ) {
 			(runStepAction->GetVectorPbGlass2EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorPbGlass2EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorPbGlass2EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
 			(runStepAction->GetVectorPbGlass2EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
 			(runStepAction->GetVectorPbGlass2EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorPbGlass2EnterVX()).push_back(step->GetTrack()->GetVertexPosition().x()/cm);
+			(runStepAction->GetVectorPbGlass2EnterVY()).push_back(step->GetTrack()->GetVertexPosition().y()/cm);
+			(runStepAction->GetVectorPbGlass2EnterVZ()).push_back(step->GetTrack()->GetVertexPosition().z()/cm);
 			(runStepAction->GetVectorPbGlass2EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
 			(runStepAction->GetVectorPbGlass2EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
 			(runStepAction->GetVectorPbGlass2EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
@@ -139,7 +146,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		
 		// ########################
 		// What exits PbGlass 1
-		if (NextVol && NextVol->GetName()=="World" && ( ThisVol->GetLogicalVolume()==fScoringVolume_Pb1a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb1b || NextVol->GetLogicalVolume()==fScoringVolume_Pb1c) ) {
+		if (NextVol && NextVol->GetName()=="CaloTable1" && ( ThisVol->GetLogicalVolume()==fScoringVolume_Pb1a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb1b || NextVol->GetLogicalVolume()==fScoringVolume_Pb1c) ) {
 			(runStepAction->GetVectorPbGlass1ExitEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorPbGlass1ExitPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorPbGlass1ExitX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -152,7 +159,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		
 		// ########################
 		// What exits PbGlass 2
-		if (NextVol && NextVol->GetName()=="World" && ( ThisVol->GetLogicalVolume()==fScoringVolume_Pb2a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb2b || NextVol->GetLogicalVolume()==fScoringVolume_Pb2c) ) {
+		if (NextVol && NextVol->GetName()=="CaloTable2" && ( ThisVol->GetLogicalVolume()==fScoringVolume_Pb2a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb2b || NextVol->GetLogicalVolume()==fScoringVolume_Pb2c) ) {
 			(runStepAction->GetVectorPbGlass2ExitEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorPbGlass2ExitPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorPbGlass2ExitX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -176,7 +183,149 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorPbGlassGExitPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		
-		
+		// ########################
+		// What enters Dummy1
+		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="Dummy1") ) {
+			(runStepAction->GetVectorDummy1EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorDummy1EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorDummy1EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorDummy1EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorDummy1EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorDummy1EnterVX()).push_back(step->GetTrack()->GetVertexPosition().x()/cm);
+			(runStepAction->GetVectorDummy1EnterVY()).push_back(step->GetTrack()->GetVertexPosition().y()/cm);
+			(runStepAction->GetVectorDummy1EnterVZ()).push_back(step->GetTrack()->GetVertexPosition().z()/cm);
+			(runStepAction->GetVectorDummy1EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorDummy1EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorDummy1EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+		}
+		// What enters Dummy2
+		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="Dummy2") ) {
+			(runStepAction->GetVectorDummy2EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorDummy2EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorDummy2EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorDummy2EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorDummy2EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorDummy2EnterVX()).push_back(step->GetTrack()->GetVertexPosition().x()/cm);
+			(runStepAction->GetVectorDummy2EnterVY()).push_back(step->GetTrack()->GetVertexPosition().y()/cm);
+			(runStepAction->GetVectorDummy2EnterVZ()).push_back(step->GetTrack()->GetVertexPosition().z()/cm);
+			(runStepAction->GetVectorDummy2EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorDummy2EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorDummy2EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+		}
+		// What enters Ce1
+		if (NextVol && ThisVol->GetName()=="CaloTable1" && ( NextVol->GetName()=="Ce1") ) {
+			(runStepAction->GetVectorCe1EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorCe1EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorCe1EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorCe1EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorCe1EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorCe1EnterVX()).push_back(step->GetTrack()->GetVertexPosition().x()/cm);
+			(runStepAction->GetVectorCe1EnterVY()).push_back(step->GetTrack()->GetVertexPosition().y()/cm);
+			(runStepAction->GetVectorCe1EnterVZ()).push_back(step->GetTrack()->GetVertexPosition().z()/cm);
+			(runStepAction->GetVectorCe1EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorCe1EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorCe1EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+		}
+		// What enters Ce2
+		if (NextVol && ThisVol->GetName()=="CaloTable2" && ( NextVol->GetName()=="Ce2") ) {
+			(runStepAction->GetVectorCe2EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorCe2EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorCe2EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorCe2EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorCe2EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorCe2EnterVX()).push_back(step->GetTrack()->GetVertexPosition().x()/cm);
+			(runStepAction->GetVectorCe2EnterVY()).push_back(step->GetTrack()->GetVertexPosition().y()/cm);
+			(runStepAction->GetVectorCe2EnterVZ()).push_back(step->GetTrack()->GetVertexPosition().z()/cm);
+			(runStepAction->GetVectorCe2EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorCe2EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorCe2EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+		}
+		// What enters S4
+		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="S4") ) {
+			(runStepAction->GetVectorS4EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorS4EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorS4EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorS4EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorS4EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorS4EnterVX()).push_back(step->GetTrack()->GetVertexPosition().x()/cm);
+			(runStepAction->GetVectorS4EnterVY()).push_back(step->GetTrack()->GetVertexPosition().y()/cm);
+			(runStepAction->GetVectorS4EnterVZ()).push_back(step->GetTrack()->GetVertexPosition().z()/cm);
+			(runStepAction->GetVectorS4EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorS4EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorS4EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+		}
+		// What enters S5
+		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="S5") ) {
+			(runStepAction->GetVectorS5EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorS5EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorS5EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorS5EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorS5EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorS5EnterVX()).push_back(step->GetTrack()->GetVertexPosition().x()/cm);
+			(runStepAction->GetVectorS5EnterVY()).push_back(step->GetTrack()->GetVertexPosition().y()/cm);
+			(runStepAction->GetVectorS5EnterVZ()).push_back(step->GetTrack()->GetVertexPosition().z()/cm);
+			(runStepAction->GetVectorS5EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorS5EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorS5EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+		}
+		// What enters S6
+		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="S6") ) {
+			(runStepAction->GetVectorS6EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorS6EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorS6EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorS6EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorS6EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorS6EnterVX()).push_back(step->GetTrack()->GetVertexPosition().x()/cm);
+			(runStepAction->GetVectorS6EnterVY()).push_back(step->GetTrack()->GetVertexPosition().y()/cm);
+			(runStepAction->GetVectorS6EnterVZ()).push_back(step->GetTrack()->GetVertexPosition().z()/cm);
+			(runStepAction->GetVectorS6EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorS6EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorS6EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+		}
+		// What enters S7
+		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="S7") ) {
+			(runStepAction->GetVectorS7EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorS7EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorS7EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorS7EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorS7EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorS7EnterVX()).push_back(step->GetTrack()->GetVertexPosition().x()/cm);
+			(runStepAction->GetVectorS7EnterVY()).push_back(step->GetTrack()->GetVertexPosition().y()/cm);
+			(runStepAction->GetVectorS7EnterVZ()).push_back(step->GetTrack()->GetVertexPosition().z()/cm);
+			(runStepAction->GetVectorS7EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorS7EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorS7EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+		}
+		// What enters Mu1
+		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="Mu1") ) {
+			(runStepAction->GetVectorMu1EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorMu1EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorMu1EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorMu1EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorMu1EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorMu1EnterVX()).push_back(step->GetTrack()->GetVertexPosition().x()/cm);
+			(runStepAction->GetVectorMu1EnterVY()).push_back(step->GetTrack()->GetVertexPosition().y()/cm);
+			(runStepAction->GetVectorMu1EnterVZ()).push_back(step->GetTrack()->GetVertexPosition().z()/cm);
+			(runStepAction->GetVectorMu1EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorMu1EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorMu1EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+			(runStepAction->GetVectorMu1EnterCopyNb()).push_back(step->GetPostStepPoint()->GetTouchableHandle()->GetCopyNumber());
+		}
+		// What enters Mu2
+		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="Mu2") ) {
+			(runStepAction->GetVectorMu2EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+			(runStepAction->GetVectorMu2EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
+			(runStepAction->GetVectorMu2EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
+			(runStepAction->GetVectorMu2EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
+			(runStepAction->GetVectorMu2EnterZ()).push_back(step->GetPostStepPoint()->GetPosition().z()/cm);
+			(runStepAction->GetVectorMu2EnterVX()).push_back(step->GetTrack()->GetVertexPosition().x()/cm);
+			(runStepAction->GetVectorMu2EnterVY()).push_back(step->GetTrack()->GetVertexPosition().y()/cm);
+			(runStepAction->GetVectorMu2EnterVZ()).push_back(step->GetTrack()->GetVertexPosition().z()/cm);
+			(runStepAction->GetVectorMu2EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
+			(runStepAction->GetVectorMu2EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
+			(runStepAction->GetVectorMu2EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+			(runStepAction->GetVectorMu2EnterCopyNb()).push_back(step->GetPostStepPoint()->GetTouchableHandle()->GetCopyNumber());
+		}
 	}
 	
 	G4bool SHOW = false;
@@ -274,7 +423,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	// ###############
 #if 1
 //	fEventAction->SetNoCriteria(6);
-	for (int ii=0; ii<fTriggerLogic.size(); ii++) if (subdet==fTriggerLogic[ii]) fEventAction->GetShowCriteria(ii)=1;
+	for (int ii=0; ii<(int)fTriggerLogic.size(); ii++) if (subdet==fTriggerLogic[ii]) fEventAction->GetShowCriteria(ii)=1;
 	
 	/*
 	if (subdet==63 ) fEventAction->GetShowCriteria(0)=1;

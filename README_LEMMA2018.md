@@ -243,8 +243,18 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - New positions according to geometra
 
 2018.08.24 by bollamaf
-- Added possibility of "trigger scheme" by means of event selection criteria in Step-Event Action
+- Added possibility of "trigger scheme" (TriggerLogic vector in main) by means of event selection criteria in Step-Event Action
 - First attempt to insert "real" geometry for LeadGlass
+
+2018.09.11 by collamaf
+- Real geometry for PbGlasses inserted
+- Added dummy layers to score particle flow in desired points
+- Added 3 new Scint palette to test other triggers
+- Added to DetEnter scoring S4-7, Dummy planes and Mu1-2
+- new Alignments
+
+
+
 `
 cp link.txt CMakeFiles/mainMCMC.dir/
 now is "gpc" as alias!
