@@ -59,8 +59,8 @@
 /vis/filtering/trajectories/create/particleFilter
 /vis/filtering/trajectories/particleFilter-0/add e+
 #/vis/filtering/trajectories/particleFilter-0/add e-
-#/vis/filtering/trajectories/particleFilter-0/add mu+
-#/vis/filtering/trajectories/particleFilter-0/add mu-
+/vis/filtering/trajectories/particleFilter-0/add mu+
+/vis/filtering/trajectories/particleFilter-0/add mu-
 #/vis/filtering/trajectories/particleFilter-0/add gamma
 
 # /vis/modeling/trajectories/create/drawByParticleID
@@ -270,26 +270,37 @@
 /vis/geometry/set/colour Pb2a 0 0 1 1   1
 /vis/geometry/set/colour Pb2b 0 0 1 1   1
 /vis/geometry/set/colour Pb2c 0 0 1 1   1
-/vis/geometry/set/colour Ce1 0 0.5 .5 .5 0.6
-/vis/geometry/set/colour Ce1Alu 0 0.7 .7 .7 .3
-/vis/geometry/set/colour Ce1Fe 0 0.2 .2 .2 1
-/vis/geometry/set/colour Ce1SiO 0 1 1 1 1
-/vis/geometry/set/colour Ce2 0 0.5 .5 .5 0.6
-/vis/geometry/set/colour Ce2Alu 0 0.7 .7 .7 .3
-/vis/geometry/set/colour Ce2Fe 0 0.2 .2 .2 1
-/vis/geometry/set/colour Ce2SiO 0 1 1 1 1
+# /vis/geometry/set/colour Ce1 0 0.5 .5 .5 0.6
+# /vis/geometry/set/colour Ce1Alu 0 0.7 .7 .7 .3
+# /vis/geometry/set/colour Ce1Fe 0 0.2 .2 .2 1
+# /vis/geometry/set/colour Ce1SiO 0 1 1 1 1
+# /vis/geometry/set/colour Ce2 0 0.5 .5 .5 0.6
+# /vis/geometry/set/colour Ce2Alu 0 0.7 .7 .7 .3
+# /vis/geometry/set/colour Ce2Fe 0 0.2 .2 .2 1
+# /vis/geometry/set/colour Ce2SiO 0 1 1 1 1
 /vis/geometry/set/colour Mu1 0 0 1 0 1
 /vis/geometry/set/colour Mu2 0 0 1 0 1
-/vis/geometry/set/colour Ce1W 0 1 0 0  1
-/vis/geometry/set/colour Ce1SiO 0 0 1 0 1
-/vis/geometry/set/colour Ce2W 0 1 0 0  1
-/vis/geometry/set/colour Ce2SiO 0 0 1 0 1
-/vis/geometry/set/colour Ce2SiOtilt 0 0 1 0 1
+# /vis/geometry/set/colour CeVW 0 1 0 0  1
+# /vis/geometry/set/colour CeVSiO 0 0 1 0 1
+# /vis/geometry/set/colour CeVW 0 1 0 0  1
+# /vis/geometry/set/colour CeVSiO 0 0 1 0 1
+# /vis/geometry/set/colour CeVSiOtilt 0 0 1 0 1
+# /vis/geometry/set/colour CeHW 0 1 0 0  1
+# /vis/geometry/set/colour CeHSiO 0 0 1 0 1
+# /vis/geometry/set/colour CeHW 0 1 0 0  1
+# /vis/geometry/set/colour CeHSiOtilt 0 0 1 0 1
 /vis/geometry/set/colour PbG 0 0 1 1   1
 /vis/geometry/set/colour PbG2 0 1 1 1   1
 /vis/geometry/set/colour PbG3 0 1 1 1   1
-
-
+/vis/geometry/set/colour CeHSiO 0 0 1 0 1
+/vis/geometry/set/colour CeVSiO 0 0 1 0 1
+/vis/geometry/set/colour CeHW 0 1 0 0  1
+/vis/geometry/set/colour CeVW 0 1 0 0  1
+/vis/geometry/set/colour CeVSiOtilt 0 0 1 0 1
+/vis/geometry/set/colour CeH 0 0.5 .5 .5 0.6
+/vis/geometry/set/colour CeV 0 0.5 .5 .5 0.6
+/vis/geometry/set/colour CeVAlu 0 0.7 .7 .7 .3
+/vis/geometry/set/colour CeHAlu 0 0.7 .7 .7 .3
 
 #/vis/geometry/set/colour [logic name] depth R G B opacity
 #/vis/viewer/set/viewpointThetaPhi 120 150

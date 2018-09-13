@@ -40,11 +40,12 @@ public:
 	G4LogicalVolume* GetScoringVolume_Pb2b() const { return fScoringVolume_Pb2b; }
 	G4LogicalVolume* GetScoringVolume_Pb2c() const { return fScoringVolume_Pb2c; }
 	G4LogicalVolume* GetScoringVolume_PbG() const { return fScoringVolume_PbG; }
-	G4LogicalVolume* GetScoringVolume_Ce1() const { return fScoringVolume_Ce1; }
-	G4LogicalVolume* GetScoringVolume_Ce2tilt() const { return fScoringVolume_Ce2tilt; }
-	G4LogicalVolume* GetScoringVolume_Ce2() const { return fScoringVolume_Ce2; }
+	G4LogicalVolume* GetScoringVolume_CeH() const { return fScoringVolume_CeH; }
+	G4LogicalVolume* GetScoringVolume_CeV() const { return fScoringVolume_CeV; }
+	G4LogicalVolume* GetScoringVolume_CeVtilt() const { return fScoringVolume_CeVtilt; }
 	G4LogicalVolume* GetScoringVolume_Mu1() const { return fScoringVolume_Mu1; }
 	G4LogicalVolume* GetScoringVolume_Mu2() const { return fScoringVolume_Mu2; }
+	G4bool GetHorsaVersaFlip() {return HorsaVersaFlip;}
 
 
 protected:
@@ -70,9 +71,9 @@ protected:
 	G4LogicalVolume*  fScoringVolume_Pb2b;
 	G4LogicalVolume*  fScoringVolume_Pb2c;
 	G4LogicalVolume*  fScoringVolume_PbG;
-	G4LogicalVolume*  fScoringVolume_Ce1;
-	G4LogicalVolume*  fScoringVolume_Ce2;
-	G4LogicalVolume*	fScoringVolume_Ce2tilt;
+	G4LogicalVolume*  fScoringVolume_CeH;
+	G4LogicalVolume*  fScoringVolume_CeV;
+	G4LogicalVolume*	fScoringVolume_CeVtilt;
 	G4LogicalVolume*  fScoringVolume_Mu1;
 	G4LogicalVolume*  fScoringVolume_Mu2;
 
@@ -88,6 +89,7 @@ private:
 	G4double fMagField;
 	G4double fGeometryZoom;
 	G4bool fAllVacFlag;
+	G4bool HorsaVersaFlip=true;
 
 public:
 	void SetChanneling(bool aBool, G4String aString) {

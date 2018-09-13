@@ -60,9 +60,9 @@ fScoringVolume_Pb1c(0),
 fScoringVolume_Pb2a(0),
 fScoringVolume_Pb2b(0),
 fScoringVolume_Pb2c(0),
-fScoringVolume_Ce1(0),
-fScoringVolume_Ce2(0),
-fScoringVolume_Ce2tilt(0),
+fScoringVolume_CeH(0),
+fScoringVolume_CeV(0),
+fScoringVolume_CeVtilt(0),
 fScoringVolume_Mu1(0),
 fScoringVolume_Mu2(0),
 fTargetFlag(TargetFlag),
@@ -221,6 +221,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double CaloTable_centerOffset=10*cm; //was 10cm in TB2018a
 	G4double DeltaZPbG=0.2*cm;
 	G4double DeltaXPbG=1*mm;
+	G4double DistXPbGl2Ce2=4*cm;
+	G4double LeadGlass2XOffset=2*cm;
 	
 	// shield wall:
 	G4double shield_sizeX = 80*cm;
@@ -258,12 +260,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xC7=-xC6; //Det
 										 //	G4double xPb1a=XOffSetLeadGlass+-LeadGlass_sizeX-CaloTable_centerOffset; //Det
 	G4double xPb1a=XOffSetLeadGlass-(LeadGlass_sizeXt+LeadGlass_sizeXb)/2.-CaloTable_centerOffset - DeltaXPbG; //Det
-	G4double xPb2a=-xPb1a; //Det
+	G4double xPb2a=-xPb1a+LeadGlass2XOffset; //Det
 	G4double xPb1b=XOffSetLeadGlass+0*cm-CaloTable_centerOffset; //Det
-	G4double xPb2b=-xPb1b; //Det
+	G4double xPb2b=-xPb1b+LeadGlass2XOffset; //Det
 												 //	G4double xPb1c=XOffSetLeadGlass+LeadGlass_sizeX-CaloTable_centerOffset; //Det
 	G4double xPb1c=XOffSetLeadGlass+(LeadGlass_sizeXt+LeadGlass_sizeXb)/2.-CaloTable_centerOffset + DeltaXPbG; //Det
-	G4double xPb2c=-xPb1c; //Det
+	G4double xPb2c=-xPb1c+LeadGlass2XOffset; //Det
 	G4double xCe1=0-CaloTable_centerOffset; //Det
 	G4double xCe2=-xCe1; //Det
 											 //	G4double xMu1=53*cm; //Det - was 48 up to 06-07-2018, was 37 up to 11-lug-18 (before change in B)
@@ -271,8 +273,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xMu1=Mu_offsetX+Mu_distX/2.+Mu_deadX+ Mu_sizeX/2.-Mu_shiftX;
 	G4double xMu2=Mu_offsetX-Mu_distX/2.-Mu_deadX- Mu_sizeX/2.+Mu_shiftX; //Det
 	G4double xCaloTable1=35*cm+CaloTable_centerOffset; //Det - Was 42 up to 2018.07.04, 34 before moving forward calos, was 29.8 + 1 for TB2018a
-	G4double xCaloTable2=-xCaloTable1; //Det
-	
+//	G4double xCaloTable2=-xCaloTable1; //Det
+	G4double xCaloTable2=-(35*cm+CaloTable_centerOffset)-DistXPbGl2Ce2; //Det
+
 	G4double xShield1=12*cm+shield_sizeX/2.; //!!!! number is distance edge-central beam axis //I wanted 27
 	G4double xShield2=-28.3*cm-shield_sizeX/2.; //I wanted 10
 	G4double xS4=xMu1-Mu_sizeX/2.+ -1*cm+ScintC_sizeX/2.+7*cm; //8cm is added for TB2018b
@@ -877,53 +880,53 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	// #######################################
 	//-- Cerenkov counter n 1
-	G4Box* solidCe1 = new G4Box("Ce1",Cerenkov_sizeX/2,Cerenkov_sizeY/2,Cerenkov_sizeZ/2);
-	G4LogicalVolume* logicCe1 = new G4LogicalVolume(solidCe1, aria,"Ce1");
+	G4Box* solidCeH = new G4Box("CeH",Cerenkov_sizeX/2,Cerenkov_sizeY/2,Cerenkov_sizeZ/2);
+	G4LogicalVolume* logicCeH = new G4LogicalVolume(solidCeH, aria,"CeH");
 
 	
 	//-- Cerenkov counter n 2
-	G4Box* solidCe2 = new G4Box("Ce2",Cerenkov_sizeX/2,Cerenkov_sizeY/2,Cerenkov_sizeZ/2);
-	G4LogicalVolume* logicCe2 = new G4LogicalVolume(solidCe2, aria,"Ce2");
+	G4Box* solidCeV = new G4Box("CeV",Cerenkov_sizeX/2,Cerenkov_sizeY/2,Cerenkov_sizeZ/2);
+	G4LogicalVolume* logicCeV = new G4LogicalVolume(solidCeV, aria,"CeV");
 
 
-	G4bool HorsaVersaFlip=true;
-	if (!HorsaVersaFlip) {
-		new G4PVPlacement(0,posCe1,logicCe1,"Ce1",logicCaloTable1,false,0,checkOverlaps);
-		new G4PVPlacement(0,posCe2,logicCe2,"Ce2",logicCaloTable2,false,0,checkOverlaps);
+	if (HorsaVersaFlip) {
+		new G4PVPlacement(0,posCe1,logicCeH,"Ce1",logicCaloTable1,false,0,checkOverlaps);
+		new G4PVPlacement(0,posCe2,logicCeV,"Ce2",logicCaloTable2,false,0,checkOverlaps);
 	} else {
-		new G4PVPlacement(0,posCe2,logicCe1,"Ce2",logicCaloTable2,false,0,checkOverlaps);
-		new G4PVPlacement(0,posCe1,logicCe2,"Ce1",logicCaloTable1,false,0,checkOverlaps);
+		new G4PVPlacement(0,posCe2,logicCeH,"Ce2",logicCaloTable2,false,0,checkOverlaps);
+		new G4PVPlacement(0,posCe1,logicCeV,"Ce1",logicCaloTable1,false,0,checkOverlaps);
 	}
 	
 	//-- Cerenkov counter elements
-	G4Box* solidCe1Alu = new G4Box("Ce1Alu",Cerenkov_sizeX/2,Cerenkov_sizeY/2,Cerenkov_AluZ/2);
-	G4LogicalVolume* logicCe1Alu = new G4LogicalVolume(solidCe1Alu,  alluminium,"Ce1Alu");
-	new G4PVPlacement(0,posCeAlu1,logicCe1Alu,"Ce1Alu1",logicCe1,false,1,checkOverlaps);
-	new G4PVPlacement(0,posCeAlu2,logicCe1Alu,"Ce1Alu2",logicCe1,false,2,checkOverlaps);
+	G4Box* solidCeAlu = new G4Box("CeHAlu",Cerenkov_sizeX/2,Cerenkov_sizeY/2,Cerenkov_AluZ/2);
+	G4LogicalVolume* logicCeHAlu = new G4LogicalVolume(solidCeAlu,  alluminium,"CeHAlu");
+	new G4PVPlacement(0,posCeAlu1,logicCeHAlu,"CeHAlu1",logicCeH,false,1,checkOverlaps);
+	new G4PVPlacement(0,posCeAlu2,logicCeHAlu,"CeHAlu2",logicCeH,false,2,checkOverlaps);
 	
-	G4Box* solidCe1SiO = new G4Box("Ce1SiO",Cerenkov_SiOX/2,Cerenkov_SiOY/2,Cerenkov_SiOZ/2);
-	G4LogicalVolume* logicCe1SiO = new G4LogicalVolume(solidCe1SiO,  SiO2,"Ce1SiO");
+	//Single fused-silica bar
+	G4Box* solidCeSiO = new G4Box("CeSiO",Cerenkov_SiOX/2,Cerenkov_SiOY/2,Cerenkov_SiOZ/2);
+	G4LogicalVolume* logicCeHSiO = new G4LogicalVolume(solidCeSiO,  SiO2,"CeHSiO");
 	
 	
 	for (int ii=0; ii<8; ii++) {
 		int kk=0;
 		for (int jj=0; jj<3; jj++) {
-			G4String VolName="Ce1SiO";
+			G4String VolName="CeHSiO";
 			G4String SubName[3]={"a","b","c"};
-			new G4PVPlacement(0,*posCeSiO[ii][jj],logicCe1SiO,VolName.append(std::to_string(ii) + SubName[jj]),logicCe1,false,kk++,checkOverlaps);
+			new G4PVPlacement(0,*posCeSiO[ii][jj],logicCeHSiO,VolName.append(std::to_string(ii) + SubName[jj]),logicCeH,false,kk++,checkOverlaps);
 		}
 	}
 	
-	
-	G4Box* solidCe1W = new G4Box("Ce1W",Cerenkov_Wx/2,Cerenkov_Wy/2,Cerenkov_Wz/2);
-	G4LogicalVolume* logicCe1W = new G4LogicalVolume(solidCe1W, Tungsteno,"Ce1W");
+	// Tungsten absorber layer
+	G4Box* solidCeW = new G4Box("CeW",Cerenkov_Wx/2,Cerenkov_Wy/2,Cerenkov_Wz/2);
+	G4LogicalVolume* logicCeW = new G4LogicalVolume(solidCeW, Tungsteno,"CeHW");
 	
 	for (int ii=0; ii<56; ii++) {
 		int kk=0;
-		G4String VolName="Ce1W";
-		new G4PVPlacement(0,*posCeW[ii],logicCe1W,VolName.append(""/*std::to_string(ii)*/),logicCe1,false,kk++,checkOverlaps);
+		G4String VolName="CeHW";
+		new G4PVPlacement(0,*posCeW[ii],logicCeW,VolName.append(""/*std::to_string(ii)*/),logicCeH,false,kk++,checkOverlaps);
 		
-		new G4PVPlacement(0,*posCeW[ii],logicCe1W,VolName.append(""/*std::to_string(ii)*/),logicCe1,false,kk++,checkOverlaps);
+//		new G4PVPlacement(0,*posCeW[ii],logicCeW,VolName.append(""/*std::to_string(ii)*/),logicCeH,false,kk++,checkOverlaps);
 	}
 	
 	
@@ -955,46 +958,46 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 
 	
 	//-- Cerenkov counter elements
-	G4Box* solidCe2Alu = new G4Box("Ce2Alu",Cerenkov_sizeX/2,Cerenkov_sizeY/2,Cerenkov_AluZ/2);
-	G4LogicalVolume* logicCe2Alu = new G4LogicalVolume(solidCe2Alu,  alluminium,"Ce2Alu");
-	new G4PVPlacement(0,posCeAlu1,logicCe2Alu,"Ce2Alu1",logicCe2,false,1,checkOverlaps);
-	new G4PVPlacement(0,posCeAlu2,logicCe2Alu,"Ce2Alu2",logicCe2,false,2,checkOverlaps);
+//	G4Box* solidCe2Alu = new G4Box("Ce2Alu",Cerenkov_sizeX/2,Cerenkov_sizeY/2,Cerenkov_AluZ/2);
+	G4LogicalVolume* logicCeVAlu = new G4LogicalVolume(solidCeAlu,  alluminium,"CeVAlu");
+	new G4PVPlacement(0,posCeAlu1,logicCeVAlu,"CeVAlu1",logicCeV,false,1,checkOverlaps);
+	new G4PVPlacement(0,posCeAlu2,logicCeVAlu,"CeVAlu2",logicCeV,false,2,checkOverlaps);
 	
-	G4Box* solidCe2SiO = new G4Box("Ce2SiO",Cerenkov_SiOX/2,Cerenkov_SiOY/2,Cerenkov_SiOZ/2);
-	G4LogicalVolume* logicCe2SiO = new G4LogicalVolume(solidCe2SiO,  SiO2,"Ce2SiO");
+//	G4Box* solidCe2SiO = new G4Box("Ce2SiO",Cerenkov_SiOX/2,Cerenkov_SiOY/2,Cerenkov_SiOZ/2);
+	G4LogicalVolume* logicCeVSiO = new G4LogicalVolume(solidCeSiO,  SiO2,"CeVSiO");
 	for (int ii=1; ii<7; ii++) {
 		int kk=0;
 		for (int jj=0;  jj<3; jj++) {
 			if ((ii==1)||(ii==6)) {
-				G4String VolName="Ce2SiO";
+				G4String VolName="CeVSiO";
 				G4String SubName[3]={"a","b","c"};
-				new G4PVPlacement(0,*posCeSiO[ii][jj],logicCe2SiO,VolName.append(std::to_string(ii) + SubName[jj]),logicCe2,false,8+kk++,checkOverlaps);
+				new G4PVPlacement(0,*posCeSiO[ii][jj],logicCeVSiO,VolName.append(std::to_string(ii) + SubName[jj]),logicCeV,false,8+kk++,checkOverlaps);
 				//				new G4PVPlacement(0,*posCeSiO[ii][jj],logicCe2SiO,VolName.append(std::to_string(ii) + SubName[jj]),logicCe2,false,8+((ii-1)*3+jj),checkOverlaps); //before TB with all channels
 				//			G4cout<<"Normali= "<<8+((ii-1)*3+jj)<<G4endl;
 			}
 		}
 	}
 	
-	G4Box* solidCe2SiOtilt = new G4Box("Ce2SiOtilt",Cerenkov_SiOXtilt/2,Cerenkov_SiOYtilt/2,Cerenkov_SiOZtilt/2);
-	G4LogicalVolume* logicCe2SiOtilt = new G4LogicalVolume(solidCe2SiOtilt,  SiO2,"Ce2SiOtilt");
+	G4Box* solidCeVSiOtilt = new G4Box("CeVSiOtilt",Cerenkov_SiOXtilt/2,Cerenkov_SiOYtilt/2,Cerenkov_SiOZtilt/2);
+	G4LogicalVolume* logicCeVSiOtilt = new G4LogicalVolume(solidCeVSiOtilt,  SiO2,"CeVSiOtilt");
 	for (int ii=0; ii<2; ii++) {
 		for (int jj=0; jj<8; jj++) {
-			G4String VolName="Ce2SiOtilt";
+			G4String VolName="CeVSiOtilt";
 			G4String SubName[8]={"a","b","c","d", "e", "f", "g", "h"};
-			new G4PVPlacement(0,*posCeSiOTilt[jj][ii],logicCe2SiOtilt,VolName.append(std::to_string(ii) + SubName[jj]),logicCe2,false,ii*14+(jj),checkOverlaps);
+			new G4PVPlacement(0,*posCeSiOTilt[jj][ii],logicCeVSiOtilt,VolName.append(std::to_string(ii) + SubName[jj]),logicCeV,false,ii*14+(jj),checkOverlaps);
 			//			new G4PVPlacement(0,*posCeSiOTilt[jj][ii],logicCe2SiOtilt,VolName.append(std::to_string(ii) + SubName[jj]),logicCe2,false,ii*26+(jj),checkOverlaps); //Before TB with all channels
 			//			G4cout<<"Tiltati= "<<ii*26+(jj)<<G4endl;
 			
 		}
 	}
 	
-	G4Box* solidCe2W = new G4Box("Ce2W",Cerenkov_Wx/2,Cerenkov_Wy/2,Cerenkov_Wz/2);
-	G4LogicalVolume* logicCe2W = new G4LogicalVolume(solidCe2W,  Tungsteno,"Ce2W");
+//	G4Box* solidCe2W = new G4Box("Ce2W",Cerenkov_Wx/2,Cerenkov_Wy/2,Cerenkov_Wz/2);
+	G4LogicalVolume* logicCeVW = new G4LogicalVolume(solidCeW,  Tungsteno,"CeVW");
 	for (int ii=0; ii<56; ii++) {
 		int kk=0;
-		G4String VolName="Ce2W";
-		new G4PVPlacement(0,*posCeW[ii],logicCe2W,VolName.append(""/*std::to_string(ii)*/),logicCe2,false,kk++,checkOverlaps);
-		new G4PVPlacement(0,*posCeW[ii],logicCe2W,VolName.append(""/*std::to_string(ii)*/),logicCe2,false,kk++,checkOverlaps);
+		G4String VolName="CeVW";
+		new G4PVPlacement(0,*posCeW[ii],logicCeVW,VolName.append(""/*std::to_string(ii)*/),logicCeV,false,kk++,checkOverlaps);
+//		new G4PVPlacement(0,*posCeW[ii],logicCeVW,VolName.append(""/*std::to_string(ii)*/),logicCeV,false,kk++,checkOverlaps);
 	}
 	
 #if 0 //light version, as in TB2018a
@@ -1106,16 +1109,17 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	fScoringVolume_PbG=logicPbG;
 	//	fScoringVolume_Ce1=logicCe1;
 	//	fScoringVolume_Ce2=logicCe2;
-	fScoringVolume_Ce1=logicCe1SiO;
-	fScoringVolume_Ce2tilt=logicCe2SiOtilt;
-	fScoringVolume_Ce2=logicCe2SiO;
+	fScoringVolume_CeH=logicCeHSiO;
+	fScoringVolume_CeVtilt=logicCeVSiOtilt;
+	fScoringVolume_CeV=logicCeVSiO;
 	fScoringVolume_Mu1=logicMu1;
 	fScoringVolume_Mu2=logicMu2;
+/*
 	if (HorsaVersaFlip) {
-		fScoringVolume_Ce1=logicCe2SiO;
-		fScoringVolume_Ce2=logicCe1SiO;
+		fScoringVolume_Ce1=logicCeVSiO;
+		fScoringVolume_Ce2=logicCeHSiO;
 	}
-	
+	*/
 	G4cout<<" ... Detector construction DONE !"<<G4endl;
 	return physWorld;
 }

@@ -283,7 +283,7 @@ void B1EventAction::EndOfEventAction(const G4Event* evt){
 	analysisManager->AddNtupleRow(2);
 	analysisManager->AddNtupleRow(3);
 	
-	if ((100/fPrintModulo*evtNb)%NevTot==0) G4cout <<"\n---> End of Event: "<<evt->GetEventID()<<G4endl;
+//	if ((100/fPrintModulo*evtNb)%NevTot==0) G4cout <<"\n---> End of Event: "<<evt->GetEventID()<<G4endl;
 	
 //	if (fShowCriteria1==TRUE && fShowCriteria2==TRUE && fShowCriteria3==TRUE) {
 	//it = find(AllMothers.begin(), AllMothers.end(),temp);

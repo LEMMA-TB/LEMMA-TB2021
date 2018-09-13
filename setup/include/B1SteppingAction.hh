@@ -47,9 +47,9 @@ private:
 	G4LogicalVolume*  fScoringVolume_Pb2b;
 	G4LogicalVolume*  fScoringVolume_Pb2c;
 	G4LogicalVolume*  fScoringVolume_PbG;
-	G4LogicalVolume*  fScoringVolume_Ce1;
-	G4LogicalVolume*  fScoringVolume_Ce2tilt;
-	G4LogicalVolume*  fScoringVolume_Ce2;
+	G4LogicalVolume*  fScoringVolume_CeH;
+	G4LogicalVolume*  fScoringVolume_CeV;
+	G4LogicalVolume*  fScoringVolume_CeVtilt;
 	G4LogicalVolume*  fScoringVolume_Mu1;
 	G4LogicalVolume*  fScoringVolume_Mu2;
 
