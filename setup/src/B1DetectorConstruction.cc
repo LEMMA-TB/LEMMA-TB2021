@@ -54,6 +54,9 @@ fScoringVolume_C7(0),
 fScoringVolume_S2(0),
 fScoringVolume_S3(0),
 fScoringVolume_S4(0),
+fScoringVolume_S5(0),
+fScoringVolume_S6(0),
+fScoringVolume_S7(0),
 fScoringVolume_Pb1a(0),
 fScoringVolume_Pb1b(0),
 fScoringVolume_Pb1c(0),
@@ -195,11 +198,11 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double Cerenkov_Wz=10*mm;
 	
 	//New Muon Chambers:
-	G4double Mu_sizeX=70*cm; //was 65 until 2018.05.11 - 73.7, 42.5cm dist +4 +4 morte
+	G4double Mu_sizeX=69.3*cm; //was 65 until 2018.05.11 - 73.7, 42.5cm dist +4 +4 morte - was 70 @TB2018a
 	G4double Mu_sizeY=84*cm;
 	G4double Mu_sizeZ=1.3*cm; //?? 1.3 single layer
 	G4double Mu_gapZ=77*cm; //was 34.6 cm before TB
-	G4double Mu_deadX=1*cm;
+	G4double Mu_deadX=2.2*cm;
 	
 	
 	//Calorimeter holding table:
@@ -214,10 +217,11 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	//	G4double XOffSetShield2=15*cm; //towards center
 	G4double XOffSetC6=C6_sizeX/3.;
 	G4double YOffSetC6=C6_sizeY/2.;
-	G4double Mu_offsetX=0*cm; //total offset of the MuChamber structure
+	G4double Mu_offsetX=-4*cm; //total offset of the MuChamber structure, towards up if positive
 	G4double Mu_shiftX=0*2*cm; //symmetrical: Mu1 towards up, Mu2 towards down
-	G4double Mu2_shiftX=4*cm;
-	G4double Mu_distX=52*cm; //was 47 for TB2018a
+	G4double Mu1_shiftX=4*cm; //offset of downstream super layer of Mu1
+	G4double Mu2_shiftX=4*cm; //offset of downstream super layer of Mu2
+	G4double Mu_distX=47.8*cm; //was 47 for TB2018a - is the measureable distances between the pysical sides of the layers
 	G4double CaloTable_centerOffset=10*cm; //was 10cm in TB2018a
 	G4double DeltaZPbG=0.2*cm;
 	G4double DeltaXPbG=1*mm;
@@ -239,6 +243,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double dummy_sizeY = 3*m;
 	G4double dummy_sizeZ = 0.1*mm;
 	
+	G4bool PipeFlag=false;
 	
 	// ============
 	//   positions - OF CENTERS
@@ -252,11 +257,11 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xBP2=0*cm; //Det
 	G4double xC1=0*cm; //Det
 	G4double xMag=0*cm; //Det
-	G4double xC2=8*cm; //Det //position from Tommaso was 8 up to 11-lug-18 (before change in B) - 7 if B=1.62T - 8 if Current=600
+	G4double xC2=11.5*cm; //Det //position from Tommaso was 8 up to 11-lug-18 (before change in B) - 7 if B=1.62T - 8 if Current=600 - was 8cm for TB2018a
 	G4double xC3=-xC2; //Det
-	G4double xC4=14*cm; //Det //position from Tommaso was 16 up to 11-lug-18 (before change in B) - 14 if B=1.62T - 15 if current=600
+	G4double xC4=18*cm; //Det //position from Tommaso was 16 up to 11-lug-18 (before change in B) - 14 if B=1.62T - 15 if current=600 was 14cm for TB2018a
 	G4double xC5=-xC4; //Det
-	G4double xC6=21*cm+XOffSetC6; //Det //position from Tommaso was 22 up to 11-lug-18 (before change in B) - 19 if B=1.62T - 22 if current=600
+	G4double xC6=24*cm+XOffSetC6; //Det //position from Tommaso was 22 up to 11-lug-18 (before change in B) - 19 if B=1.62T - 22 if current=600 was 21cm for TB2018a
 	G4double xC7=-xC6; //Det
 										 //	G4double xPb1a=XOffSetLeadGlass+-LeadGlass_sizeX-CaloTable_centerOffset; //Det
 	G4double xPb1a=XOffSetLeadGlass-(LeadGlass_sizeXt+LeadGlass_sizeXb)/2.-CaloTable_centerOffset - DeltaXPbG; //Det
@@ -274,16 +279,21 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double xMu2=Mu_offsetX-Mu_distX/2.-Mu_deadX- Mu_sizeX/2.+Mu_shiftX; //Det
 	G4double xCaloTable1=35*cm+CaloTable_centerOffset; //Det - Was 42 up to 2018.07.04, 34 before moving forward calos, was 29.8 + 1 for TB2018a
 //	G4double xCaloTable2=-xCaloTable1; //Det
-	G4double xCaloTable2=-(35*cm+CaloTable_centerOffset)-DistXPbGl2Ce2; //Det
+	G4double xCaloTable2=-(-1*cm+34*cm+CaloTable_centerOffset)-DistXPbGl2Ce2; //-1 is added to try to get also some part of MuMu when running @49GeV
 
-	G4double xShield1=12*cm+shield_sizeX/2.; //!!!! number is distance edge-central beam axis //I wanted 27
-	G4double xShield2=-28.3*cm-shield_sizeX/2.; //I wanted 10
-	G4double xS4=xMu1-Mu_sizeX/2.+ -1*cm+ScintC_sizeX/2.+7*cm; //8cm is added for TB2018b
-	G4double xS5=-(xMu1-Mu_sizeX/2.+ -1*cm+ScintC_sizeX/2.+7*cm);
-	G4double xS6=xS4+1*cm;
-	G4double xS7=xS5-1*cm;
+	G4double xShield1=7*cm+shield_sizeX/2.; //!!!! number is distance edge-central beam axis //I wanted 27 - was 12+xx for 2018a TB
+	G4double xShield2=-30*cm-shield_sizeX/2.; //I wanted 10 was 28.3+xx for 2018a TB
+	G4double xS4=xMu1-Mu_sizeX/2.+ScintC_sizeX/2.+6*cm; //8cm is added for TB2018b
+	G4double xS5=-(xMu1-Mu_sizeX/2.+ ScintC_sizeX/2.+6*cm)-2*cm;
+	G4double xS6=xS4+2*cm;
+	G4double xS7=xS5-3*cm;
 	G4double xLatShield1=Mu_distX/2.-Mu_deadX/2.-latShield_sizeX/2.;
-	G4double xLatShield2=-xLatShield1;
+	G4double xLatShield2=-xLatShield1-6*cm;
+
+	G4cout<<"DAJE xS4 = "<<xS4<<endl;
+	G4cout<<"xS5 = "<<xS5<<endl;
+	G4cout<<"xS6 = "<<xS6<<endl;
+	G4cout<<"xS7 = "<<xS7<<endl;
 
 	if (ZoomFactor>1) {
 		xC2=C2_sizeX/2.;
@@ -337,7 +347,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zC0=569.5*cm; //Det
 	G4double zBP2=1000*cm; //Det
 	G4double zC1=1526.2*cm; //Det - was 1500 until 2018-07-12 but is the exact border of the table -> 1510
-	G4double zMag=1719.3*cm-50*cm; //Det - 50cm new possible offset for TB 2018b
+	G4double zMag=1673.9*cm; //Det - 1719.3*cm-50*cm (1669.3) new possible offset for TB 2018b
 	G4double zC2=1880.3*cm; //Det - was 1780 until 2018-07-12 but is the exact border of the table -> 1790
 	G4double zC3=zC2; //Det
 	G4double zC4=2002.6*cm; //Det TBC
@@ -359,7 +369,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zMu2=zMu1; //Det
 	G4double zShield1=2327.5*cm+shield_sizeZ/2.;
 	G4double zShield2=zShield1;
-	G4double zS4=zMu1+Mu_sizeZ*4+20.8*cm;
+	G4double zS4=zMu1+Mu_sizeZ*4+7.8*cm; //was 20.8 for TB2018a
 	G4double zS5=zS4;
 	G4double zS6=zMu1+Mu_sizeZ*8+Mu_gapZ+5*cm;
 	G4double zS7=zS6;
@@ -768,12 +778,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	//-- Beam Pipe between C0 and C1 (supposed)
 	G4Tubs* geoBP2 = new G4Tubs("BP2",0*cm,BP2_R,BP2_sizeZ/2.,startAngle,spanningAngle);
 	G4LogicalVolume* logicBP2 = new G4LogicalVolume(geoBP2,vuoto,"BP2");
-	new G4PVPlacement(0,posBP2,logicBP2,"BP2",logicWorld,false,0,checkOverlaps);
+	if (PipeFlag) new G4PVPlacement(0,posBP2,logicBP2,"BP2",logicWorld,false,0,checkOverlaps);
 	
 	//-- Beam Pipe between C0 and C1 (supposed) EXT Al
 	G4Tubs* geoBP2ext = new G4Tubs("BP2ext",BP2_R, BP2_R+BP_AluThickness, BP2_sizeZ/2.,startAngle,spanningAngle);
 	G4LogicalVolume* logicBP2ext = new G4LogicalVolume(geoBP2ext,StainlessSteel ,"BP2ext");
-	new G4PVPlacement(0,posBP2,logicBP2ext,"BP2ext",logicWorld,false,0,checkOverlaps);
+	if (PipeFlag) new G4PVPlacement(0,posBP2,logicBP2ext,"BP2ext",logicWorld,false,0,checkOverlaps);
 	
 	//-- C1 ()
 	G4Box* geoC1 = new G4Box("C1",  C1_sizeX/2, C1_sizeY/2, C1_sizeZ/2);
@@ -1043,7 +1053,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 		new G4PVPlacement(0, G4ThreeVector(posMu2.x(), posMu2.y(), posMu2.z()+(ii+0.5)*Mu_sizeZ),logicMu2,"Mu2",logicWorld,false,ii,checkOverlaps);
 	}
 	for (int ii=4; ii<8; ii++) {
-		new G4PVPlacement(0, G4ThreeVector(posMu1.x(), posMu1.y(), posMu1.z()+(ii+0.5)*Mu_sizeZ+Mu_gapZ),logicMu1,"Mu1",logicWorld,false,ii,checkOverlaps);
+		new G4PVPlacement(0, G4ThreeVector(posMu1.x()+Mu1_shiftX, posMu1.y(), posMu1.z()+(ii+0.5)*Mu_sizeZ+Mu_gapZ),logicMu1,"Mu1",logicWorld,false,ii,checkOverlaps);
 		new G4PVPlacement(0, G4ThreeVector(posMu2.x()-Mu2_shiftX, posMu2.y(), posMu2.z()+(ii+0.5)*Mu_sizeZ+Mu_gapZ),logicMu2,"Mu2",logicWorld,false,ii,checkOverlaps);
 	}
 	
@@ -1100,6 +1110,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	fScoringVolume_S2=logicS2;
 	fScoringVolume_S3=logicS3;
 	fScoringVolume_S4=logicS4;
+	fScoringVolume_S5=logicS5;
+	fScoringVolume_S6=logicS6;
+	fScoringVolume_S7=logicS7;
 	fScoringVolume_Pb1a=logicPb1a;
 	fScoringVolume_Pb1b=logicPb1b;
 	fScoringVolume_Pb1c=logicPb1c;

@@ -34,6 +34,9 @@ fScoringVolume_C7(0),
 fScoringVolume_S2(0),
 fScoringVolume_S3(0),
 fScoringVolume_S4(0),
+fScoringVolume_S5(0),
+fScoringVolume_S6(0),
+fScoringVolume_S7(0),
 fScoringVolume_Pb1a(0),
 fScoringVolume_Pb1b(0),
 fScoringVolume_Pb1c(0),
@@ -78,6 +81,9 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	if (!fScoringVolume_S2) {fScoringVolume_S2 = detectorConstruction->GetScoringVolume_S2();}
 	if (!fScoringVolume_S3) {fScoringVolume_S3 = detectorConstruction->GetScoringVolume_S3();}
 	if (!fScoringVolume_S4) {fScoringVolume_S4 = detectorConstruction->GetScoringVolume_S4();}
+	if (!fScoringVolume_S5) {fScoringVolume_S5 = detectorConstruction->GetScoringVolume_S5();}
+	if (!fScoringVolume_S6) {fScoringVolume_S6 = detectorConstruction->GetScoringVolume_S6();}
+	if (!fScoringVolume_S7) {fScoringVolume_S7 = detectorConstruction->GetScoringVolume_S7();}
 	if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a = detectorConstruction->GetScoringVolume_Pb1a();}
 	if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b = detectorConstruction->GetScoringVolume_Pb1b();}
 	if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c = detectorConstruction->GetScoringVolume_Pb1c();}
@@ -328,9 +334,11 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		}
 	}
 
+	// Were HORSA and VERSA flipped?
 	B1DetectorConstruction* detectorConstructionNonConst = (B1DetectorConstruction*)
 	(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 	G4bool HorsaVersaFlip=detectorConstructionNonConst->GetHorsaVersaFlip();
+	
 	G4bool SHOW = false;
 	G4bool dofill = false;
 	G4int subdet=-10;
@@ -349,6 +357,9 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	else if (volume==fScoringVolume_S2)   {subdet=38; dofill=true;}  //
 	else if (volume==fScoringVolume_S3)   {subdet=39; dofill=true;}  //
 	else if (volume==fScoringVolume_S4)   {subdet=63; dofill=true;}  //
+	else if (volume==fScoringVolume_S5)   {subdet=64; dofill=true;}  //
+	else if (volume==fScoringVolume_S6)   {subdet=65; dofill=true;}  //
+	else if (volume==fScoringVolume_S7)   {subdet=66; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb1a)   {subdet=41; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb1b)   {subdet=42; dofill=true;}  //
 	else if (volume==fScoringVolume_Pb1c)   {subdet=43; dofill=true;}  //
@@ -384,6 +395,9 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		else if (Postvolume==fScoringVolume_S2)   {Postsubdet=38; }  //
 		else if (Postvolume==fScoringVolume_S3)   {Postsubdet=39; }  //
 		else if (Postvolume==fScoringVolume_S4)   {Postsubdet=63; }  //
+		else if (Postvolume==fScoringVolume_S5)   {Postsubdet=64; }  //
+		else if (Postvolume==fScoringVolume_S6)   {Postsubdet=65; }  //
+		else if (Postvolume==fScoringVolume_S7)   {Postsubdet=66; }  //
 		else if (Postvolume==fScoringVolume_Pb1a)   {Postsubdet=41; }  //
 		else if (Postvolume==fScoringVolume_Pb1b)   {Postsubdet=42; }  //
 		else if (Postvolume==fScoringVolume_Pb1c)   {Postsubdet=43; }  //
@@ -425,14 +439,21 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	 G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
 	 evt->KeepTheEvent();
 	 }
+
+	if (subdet==64) {
+		G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
+		evt->KeepTheEvent();
+	}
 #endif
+	
 	
 	// ##############################################################################
 	// ##################### TRIGGER LOGIC
 	// ###############
 #if 1
 //	fEventAction->SetNoCriteria(6);
-	for (int ii=0; ii<(int)fTriggerLogic.size(); ii++) if (subdet==fTriggerLogic[ii]) fEventAction->GetShowCriteria(ii)=1;
+	for (int ii=0; ii<(int)fTriggerLogic.size(); ii++)
+		if (subdet==fTriggerLogic[ii]) fEventAction->GetShowCriteria(ii)=1;
 	
 	/*
 	if (subdet==63 ) fEventAction->GetShowCriteria(0)=1;

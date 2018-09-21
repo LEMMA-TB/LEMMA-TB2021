@@ -255,7 +255,7 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 
 2018.09.13 by collamaf
 - Completed possibility to easily flip Horsa/Versa (and now flipped)
-
+- New Dead thickness for Mu: 2.2cm
 
 
 `

@@ -285,14 +285,15 @@ void B1EventAction::EndOfEventAction(const G4Event* evt){
 	
 //	if ((100/fPrintModulo*evtNb)%NevTot==0) G4cout <<"\n---> End of Event: "<<evt->GetEventID()<<G4endl;
 	
-//	if (fShowCriteria1==TRUE && fShowCriteria2==TRUE && fShowCriteria3==TRUE) {
+	//	if (fShowCriteria1==TRUE && fShowCriteria2==TRUE && fShowCriteria3==TRUE) {
 	//it = find(AllMothers.begin(), AllMothers.end(),temp);
 	G4double somma=0;
 	for (int ii=0; ii<fNoCriteria; ii++) somma+=fShowCriteria[ii];
-		if (somma==fNoCriteria) {
+	if (somma==fNoCriteria) {
 		G4Event* evt2 = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
 		evt2->KeepTheEvent();
 //		G4cout<<"BINGO! Trigger"<<G4endl;
+//		for (int ii=0; ii<fNoCriteria; ii++) G4cout<<"CIAONE ii "<<ii<<" fShowCriteria[ii] "<<fShowCriteria[ii]<<G4endl;
 	}
 	
 }

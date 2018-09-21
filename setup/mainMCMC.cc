@@ -194,7 +194,7 @@ int main(int argc,char** argv)
 			VisFlag=false;
 		}
 	
-	std::vector<G4int>  TriggerLogic={38, 39, 63, 42, 45, 51};
+	std::vector<G4int>  TriggerLogic={38, 39, 63};
 	
 	// ###############
 	// ##################### END: COMMAND LINE PARAMETERS INPUT
@@ -413,7 +413,7 @@ int main(int argc,char** argv)
 	else if (ElectronBeamFlag) OutputFilename.append("_Ele"+ std::to_string(G4int (BeamEnergy)) );
 	else if (CalibMuMBeamFlag) OutputFilename.append("_CalibMuM"+ std::to_string(G4int (BeamEnergy)) );
 	else if (CalibMuPBeamFlag) OutputFilename.append("_CalibMuP"+ std::to_string(G4int (BeamEnergy)) );
-	else if (ProdMuonBeamFlag) OutputFilename.append("_ProdMuM");
+	else if (ProdMuonBeamFlag) OutputFilename.append("_ProdMuP");
 	else OutputFilename.append("_Pos"+ std::to_string(G4int (BeamEnergy)) );
 	if (SimpleFlag) OutputFilename.append("_simple");
 	if (BeamDP!=0.01) OutputFilename.append("_DP"+ std::to_string(G4int (1000*BeamDP)) );

@@ -33,6 +33,9 @@ public:
 	G4LogicalVolume* GetScoringVolume_S2() const { return fScoringVolume_S2; }
 	G4LogicalVolume* GetScoringVolume_S3() const { return fScoringVolume_S3; }
 	G4LogicalVolume* GetScoringVolume_S4() const { return fScoringVolume_S4; }
+	G4LogicalVolume* GetScoringVolume_S5() const { return fScoringVolume_S5; }
+	G4LogicalVolume* GetScoringVolume_S6() const { return fScoringVolume_S6; }
+	G4LogicalVolume* GetScoringVolume_S7() const { return fScoringVolume_S7; }
 	G4LogicalVolume* GetScoringVolume_Pb1a() const { return fScoringVolume_Pb1a; }
 	G4LogicalVolume* GetScoringVolume_Pb1b() const { return fScoringVolume_Pb1b; }
 	G4LogicalVolume* GetScoringVolume_Pb1c() const { return fScoringVolume_Pb1c; }
@@ -64,6 +67,9 @@ protected:
 	G4LogicalVolume*  fScoringVolume_S2;
 	G4LogicalVolume*  fScoringVolume_S3;
 	G4LogicalVolume*  fScoringVolume_S4;
+	G4LogicalVolume*  fScoringVolume_S5;
+	G4LogicalVolume*  fScoringVolume_S6;
+	G4LogicalVolume*  fScoringVolume_S7;
 	G4LogicalVolume*  fScoringVolume_Pb1a;
 	G4LogicalVolume*  fScoringVolume_Pb1b;
 	G4LogicalVolume*  fScoringVolume_Pb1c;
@@ -89,7 +95,7 @@ private:
 	G4double fMagField;
 	G4double fGeometryZoom;
 	G4bool fAllVacFlag;
-	G4bool HorsaVersaFlip=true;
+	G4bool HorsaVersaFlip=false;
 
 public:
 	void SetChanneling(bool aBool, G4String aString) {

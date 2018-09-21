@@ -55,8 +55,8 @@ fExtSourceFlagMu(ExtSourceFlagMu)
 			particle = particleTable->FindParticle(particleName="mu+"); //Primary Muon Beam
 			G4cout<<"I am simulating a Mu+ primary beam of energy "<<fBeamEnergy/GeV<<" GeV"<<G4endl;
 		} else if(fProdMuonBeamFlag) {
-			particle = particleTable->FindParticle(particleName="mu-"); //Primary Muon Beam produced after Target
-			G4cout<<"I am simulating a Mu- primary beam of energy in 15-30 GeV to simulate pair production STARTING AFTER THE TARGET"<<G4endl;
+			particle = particleTable->FindParticle(particleName="mu+"); //Primary Muon Beam produced after Target
+			G4cout<<"I am simulating a Mu+ primary beam of energy in 15-30 GeV to simulate pair production STARTING AFTER THE TARGET"<<G4endl;
 		}else if(fElectronBeamFlag) {
 			particle = particleTable->FindParticle(particleName="e-"); //Primary Electron Beam
 			G4cout<<"I am simulating a e- primary beam of energy "<<fBeamEnergy/GeV<<" GeV"<<G4endl;
@@ -152,7 +152,7 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	G4double Energy = G4RandGauss::shoot(Energy0, Energy0*EnergySpread);
 	
 	if (fProdMuonBeamFlag) {
-		Energy=22.5*GeV+ ( 15*GeV* (G4UniformRand()-0.5)); //flat in 15-30 GeV
+		Energy=24.5*GeV+ ( 17*GeV* (G4UniformRand()-0.5)); //22.5 + 15 for flat in 15-30 GeV - put 24.5 + 17... to have 16-33
 	}
 	
 	fParticleGun->SetParticleEnergy(Energy);
