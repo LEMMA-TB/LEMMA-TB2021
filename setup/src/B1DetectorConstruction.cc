@@ -37,7 +37,7 @@
 #include "G4SubtractionSolid.hh"
 
 
-B1DetectorConstruction::B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFieldFlag, G4double MagField, G4double GeometryZoom, G4bool AllVacFlag)
+B1DetectorConstruction::B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFieldFlag, G4double MagField, G4double GeometryZoom, G4bool AllVacFlag, G4int TargMat, G4double TargDZ)
 : G4VUserDetectorConstruction(),
 fScoringVolume_S1(0),
 fScoringVolume_T1(0),
@@ -72,7 +72,9 @@ fTargetFlag(TargetFlag),
 fFlipFieldFlag(FlipFieldFlag),
 fMagField(MagField),
 fGeometryZoom(GeometryZoom),
-fAllVacFlag(AllVacFlag)
+fAllVacFlag(AllVacFlag),
+fTargMat(TargMat),
+fTargDZ(TargDZ)
 {}
 
 
@@ -137,9 +139,10 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	
 	//--> Be amorphous crystal target:
-	G4double target_R = 2.5*cm;
-	G4double target_Z = 60*mm; //was "30" till 2017.12.29
-	
+	G4double target_R = 2*cm; //was 2.5 until 2018.9.24
+//	G4double target_Z = 60*mm; //was "30" till 2017.12.29
+	G4double target_Z = fTargDZ; //was "30" till 2017.12.29
+
 	//--> dipole magnet
 	G4double Mag_R = 100.*cm;
 	G4double Mag_sizeY = 40.*cm;
@@ -379,8 +382,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 //	G4double zS5=zS4;
 	G4double zS4=zMu1+Mu_sizeZ*8+Mu_gapZ+5*cm;
 	G4double zS5=zS4;
-	G4double zDummy1=zMu1-0.1*cm;
-	G4double zDummy2=zMu1+Mu_gapZ+4*Mu_sizeZ; 
+	G4double zDummy1=zMu1-2*cm;
+	G4double zDummy2=zMu1+Mu_gapZ-1*cm;
 	G4double zLatShield=zMu1+Mu_gapZ/2.+4*Mu_sizeZ;
 	
 	// ROTATION MATRICES FOR PbGlasses
@@ -591,7 +594,27 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4Material* piombo = nist->FindOrBuildMaterial("G4_Pb");
 	G4Material* Tungsteno = nist->FindOrBuildMaterial("G4_W");
 	
+	//Graphite
+	G4Material* Graphite =
+	new G4Material("Graphite", 6., 12.0107*g/mole, 2.5*g/cm3);
 	
+	G4Element* elMo = nist->FindOrBuildElement("Mo");
+	G4Element* elC = nist->FindOrBuildElement("C");
+	
+	G4Material* carbonio = nist->FindOrBuildMaterial("G4_C"); //has density 2
+	G4Material* Molibdeno = nist->FindOrBuildMaterial("G4_Mo"); //has density 10.22
+	
+	
+	G4Material* MoGr= new G4Material("MoGr", 2.5*g/cm3, 2);
+	//	MoGr->AddElement(elC, 0.95);
+	//	MoGr->AddElement(elMo, 0.05);
+	MoGr->AddMaterial(Graphite, 0.95);
+	MoGr->AddMaterial(Molibdeno, 0.05);
+
+	
+	
+	G4Material* TargMat = berillio;
+	if (fTargMat==1) TargMat=MoGr;
 	
 	
 	// Use NIST database for elements and materials whereever possible.
@@ -643,7 +666,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	//	PBOP->AddProperty("RINDEX", photonEnergyCer, refractiveIndex_silica, nCerPointsCer);
 	
 	//	if (fCalibMuMBeamFlag || fElectronBeamFlag) berillio=nist->FindOrBuildMaterial("G4_Galactic");;  //if MuonBeam case I want no target
-	if (!fTargetFlag) berillio=nist->FindOrBuildMaterial("G4_Galactic");;  //if I do not want the target
+	if (!fTargetFlag) TargMat=nist->FindOrBuildMaterial("G4_Galactic");;  //if I do not want the target
 																																				 //--PbWO4 G-CAL crystal (CMS)
 	G4double A,Z,d;
 	d=8.28*g/cm3;
@@ -665,7 +688,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	//	SiO2->SetMaterialPropertiesTable(silicaOP);  //toggle cerenkov in SiO2
 	
 	A=1.008*g/mole; Z=1; G4Element* elH = new G4Element("Hydrogen","H",Z,A);
-	A=12.011*g/mole; Z=6; G4Element* elC = new G4Element("Carbon","C",Z,A);
+//	A=12.011*g/mole; Z=6; G4Element* elC = new G4Element("Carbon","C",Z,A);
 	//Epoxy (for FR4 )
 	d = 1.2*g/cm3;
 	G4Material* Epoxy = new G4Material("Epoxy" , d, 2);
@@ -751,7 +774,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	else{
 		//-- amorphous Be TARGET
 		G4Tubs* geoTarg = new G4Tubs("Target",0,target_R,target_Z/2.,startAngle,spanningAngle);
-		logicTarg = new G4LogicalVolume(geoTarg, berillio, "Target");
+		logicTarg = new G4LogicalVolume(geoTarg, TargMat, "Target");
 		new G4PVPlacement(0,posTarg,logicTarg,"Target",logicWorld,false,0,checkOverlaps);
 	}
 	
@@ -892,7 +915,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4Trap* solidPbG = new G4Trap("PbG",LeadGlass_sizeZ/2., Angle, 0*deg, LeadGlass_sizeYt/2., LeadGlass_sizeXt/2., LeadGlass_sizeXt/2., 0*deg, LeadGlass_sizeYb/2.,LeadGlass_sizeXb/2., LeadGlass_sizeXb/2., 0*deg);
 	//	G4cout<<"CIAONE "<<Angle/deg<<G4endl;
 	G4LogicalVolume* logicPbG = new G4LogicalVolume(solidPbG, PbGl,"PbG");
-	new G4PVPlacement(RotPbGg,posPbG,logicPbG,"PbG",logicWorld,false,0,checkOverlaps);
+//	new G4PVPlacement(RotPbGg,posPbG,logicPbG,"PbG",logicWorld,false,0,checkOverlaps);
 	
 	
 	// #######################################

@@ -15,7 +15,7 @@
 #include "HepMCG4AsciiReader.hh"
 #endif
 
-B1PrimaryGeneratorAction::B1PrimaryGeneratorAction(G4double BeamEnergy,G4double BeamDP, G4bool CalibMuMBeamFlag, G4bool CalibMuPBeamFlag, G4bool ProdMuonBeamFlag, G4bool ElectronBeamFlag, G4bool SimpleFlag, G4bool ExtSourceFlagBha, G4bool ExtSourceFlagMu)
+B1PrimaryGeneratorAction::B1PrimaryGeneratorAction(G4double BeamEnergy,G4double BeamDP, G4bool CalibMuMBeamFlag, G4bool CalibMuPBeamFlag, G4bool ProdMuonBeamFlag, G4bool ElectronBeamFlag, G4bool SimpleFlag, G4bool ExtSourceFlagBha, G4bool ExtSourceFlagMu,  G4int TargMat, G4double TargDZ)
 : G4VUserPrimaryGeneratorAction(),
 fParticleGun(0),
 fBeamEnergy(BeamEnergy),
@@ -26,7 +26,9 @@ fProdMuonBeamFlag(ProdMuonBeamFlag),
 fElectronBeamFlag(ElectronBeamFlag),
 fSimpleFlag(SimpleFlag),
 fExtSourceFlagBha(ExtSourceFlagBha),
-fExtSourceFlagMu(ExtSourceFlagMu)
+fExtSourceFlagMu(ExtSourceFlagMu),
+fTargMat(TargMat),
+fTargDZ(TargDZ)
 {
 	G4int n_particle = 1;
 	fParticleGun  = new G4ParticleGun(n_particle);
@@ -36,15 +38,24 @@ fExtSourceFlagMu(ExtSourceFlagMu)
 	G4ParticleDefinition* particle;
 	particle = particleTable->FindParticle(particleName="e+"); //Primary Positron Beam by default
 	
+//	G4cout<<"  fTargMat = "<< fTargMat<<G4endl;
+//	G4cout<<"  fTargDZ = "<< fTargDZ<<G4endl;
+
 	if(fExtSourceFlagBha) {
 		G4cout<<"# # # # # # # # # # # # # # # # # # # # # # # # # # # "<<G4endl<<"I am using as primary particles externally generated e+e- bhabha pairs"<<G4endl;
 #ifdef HEPFLAG
-		hepmcAscii = new HepMCG4AsciiReader("ExtData_ep.dat"); //path must be relative to where the code runs (eg build directory)
+		if (fTargMat==0 || (fTargMat==1 && fTargDZ==6*cm))
+			hepmcAscii = new HepMCG4AsciiReader("ExtData_ep-prepared-Be6cmLEMMA18-2.0.dat"); //path must be relative to where the code runs (eg build directory)
+		else if (fTargMat==1)
+			hepmcAscii = new HepMCG4AsciiReader("ExtData_ep-prepared-C2cmLEMMA18-2.0.dat"); //path must be relative to where the code runs (eg build directory)
 #endif
 	} else if(fExtSourceFlagMu) {
 		G4cout<<"# # # # # # # # # # # # # # # # # # # # # # # # # # # "<<G4endl<<"I am using as primary particles externally generated mu+mu- pairs"<<G4endl;
 #ifdef HEPFLAG
-		hepmcAscii = new HepMCG4AsciiReader("ExtData_mm.dat"); //path must be relative to where the code runs (eg build directory)
+		if (fTargMat==0 || (fTargMat==1 && fTargDZ==6*cm))
+			hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-Be6cmLEMMA18-2.0.dat"); //path must be relative to where the code runs (eg build directory)
+		else if (fTargMat==1)
+			hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-C2cmLEMMA18-2.0.dat"); //path must be relative to where the code runs (eg build directory)
 //		hepmcAscii = new HepMCG4AsciiReader("Camilla.dat"); //path must be relative to where the code runs (eg build directory)
 #endif
 	} else {
@@ -152,7 +163,8 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	G4double Energy = G4RandGauss::shoot(Energy0, Energy0*EnergySpread);
 	
 	if (fProdMuonBeamFlag) {
-		Energy=24.5*GeV+ ( 17*GeV* (G4UniformRand()-0.5)); //22.5 + 15 for flat in 15-30 GeV - put 24.5 + 17... to have 16-33
+		Energy=22.5*GeV+ ( 15*GeV* (G4UniformRand()-0.5)); //22.5 + 15 for flat in 15-30 GeV - put 24.5 + 17... to have 16-33
+//		Energy=24.5*GeV+ ( 17*GeV* (G4UniformRand()-0.5)); //22.5 + 15 for flat in 15-30 GeV - put 24.5 + 17... to have 16-33
 	}
 	
 	fParticleGun->SetParticleEnergy(Energy);

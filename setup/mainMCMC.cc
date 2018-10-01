@@ -65,6 +65,8 @@ int main(int argc,char** argv)
 	G4bool ExtSourceFlagBha=false;
 	G4bool ExtSourceFlagMu=false;
 	
+	G4int TargMat = 0; //0 is Be, 1 is C
+	G4double TargDZ = 6*cm; //default total length for target
 	G4bool TargetFlag=true; //Place or not the target
 	G4bool FlipFieldFlag=false; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
 //	G4double MagField=700; //running current (in A) of the magnet. If negative is the exact magnetic field to be used as constant
@@ -131,6 +133,14 @@ int main(int argc,char** argv)
 			{
 				TargetFlag=stoi (argv[++i], NULL);;
 			}
+			else if(option.compare("-TargMat")==0)
+			{
+				TargMat=stoi (argv[++i], NULL);;
+			}
+			else if(option.compare("-TargDZ")==0)
+			{
+				TargDZ=strtod (argv[++i], NULL)*cm;;
+			}
 			else if(option.compare("-FlipField")==0)
 			{
 				FlipFieldFlag=stoi (argv[++i], NULL);;
@@ -194,7 +204,7 @@ int main(int argc,char** argv)
 			VisFlag=false;
 		}
 	
-	std::vector<G4int>  TriggerLogic={38, 39, 63};
+	std::vector<G4int>  TriggerLogic={65, 66};
 	
 	// ###############
 	// ##################### END: COMMAND LINE PARAMETERS INPUT
@@ -319,7 +329,7 @@ int main(int argc,char** argv)
 	G4bool channeling = false;
 	G4String ctype = "Si" ;  // "C" or "Si"
 	
-	B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag);
+	B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag, TargMat, TargDZ);
 	detector->SetChanneling(channeling,ctype);
 	
 	if ( FTFP ){
@@ -354,11 +364,11 @@ int main(int argc,char** argv)
 	
 	if (MTFlag) {
 		runManagerMT->SetUserInitialization(detector);
-		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels, TriggerLogic));
+		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ));
 		runManagerMT->Initialize();  // init kernel
 	} else {
 		runManager->SetUserInitialization(detector);
-		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag,NTotChannels, TriggerLogic));
+		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag,NTotChannels, TriggerLogic,  TargMat, TargDZ));
 		runManager->Initialize();  // init kernel
 	}
 	
@@ -416,10 +426,15 @@ int main(int argc,char** argv)
 	else if (ProdMuonBeamFlag) OutputFilename.append("_ProdMuP");
 	else OutputFilename.append("_Pos"+ std::to_string(G4int (BeamEnergy)) );
 	if (SimpleFlag) OutputFilename.append("_simple");
-	if (BeamDP!=0.01) OutputFilename.append("_DP"+ std::to_string(G4int (1000*BeamDP)) );
+	if (BeamDP!=0.017) OutputFilename.append("_DP"+ std::to_string(G4int (1000*BeamDP)) );
 	
 	//Target ?
-	if (TargetFlag) OutputFilename.append("_T");
+	if (TargetFlag) {
+		OutputFilename.append("_T");
+		if (TargMat==0) OutputFilename.append("Be");
+		else if (TargMat==1) OutputFilename.append("C");
+		OutputFilename.append("_"+ std::to_string(G4int (TargDZ/mm)) );
+	}
 	else  OutputFilename.append("_NoT");
 	
 	//Magnetic field
@@ -428,7 +443,7 @@ int main(int argc,char** argv)
 		if (MagField!=700) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Map: if different from default current (700) write its value
 	} else  {
 		OutputFilename.append("_FieldF");
-		if (MagField!=-1.7476) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Fixed: write the fixed value used
+		if (MagField!=-2) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Fixed: write the fixed value used
 	}
 	if (FlipFieldFlag) OutputFilename.append("f");
 	

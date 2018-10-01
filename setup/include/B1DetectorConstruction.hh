@@ -13,7 +13,7 @@ class PurgMagTabulatedField3D;
 class B1DetectorConstruction : public G4VUserDetectorConstruction
 {
 public:
-	B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFieldFlag, G4double MagField, G4double GeometryZoom, G4bool AllVacFlag);
+	B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFieldFlag, G4double MagField, G4double GeometryZoom, G4bool AllVacFlag, G4int TargMat, G4double TargDZ);
 	virtual ~B1DetectorConstruction();
 	virtual G4VPhysicalVolume* Construct();
 	virtual void ConstructSDandField();
@@ -96,6 +96,8 @@ private:
 	G4double fGeometryZoom;
 	G4bool fAllVacFlag;
 	G4bool HorsaVersaFlip=false;
+	G4int fTargMat;
+	G4double fTargDZ;
 
 public:
 	void SetChanneling(bool aBool, G4String aString) {
