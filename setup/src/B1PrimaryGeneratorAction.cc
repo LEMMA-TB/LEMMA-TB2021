@@ -53,9 +53,13 @@ fTargDZ(TargDZ)
 		G4cout<<"# # # # # # # # # # # # # # # # # # # # # # # # # # # "<<G4endl<<"I am using as primary particles externally generated mu+mu- pairs"<<G4endl;
 #ifdef HEPFLAG
 		if (fTargMat==0 || (fTargMat==1 && fTargDZ==6*cm))
-			hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-Be6cmLEMMA18-2.0.dat"); //path must be relative to where the code runs (eg build directory)
+//			hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-Be6cmLEMMA18-2.0.dat"); //path must be relative to where the code runs (eg build directory)
+//			hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-Be6cmLEMMA18-2.0AddPos.dat"); //path must be relative to where the code runs (eg build directory) NORMAL
+		hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-Be6cmLEMMA18-2.0-GausGaus.dat"); //path must be relative to where the code runs (eg build directory) - 16.05.2019 by abertolin
 		else if (fTargMat==1)
 			hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-C2cmLEMMA18-2.0.dat"); //path must be relative to where the code runs (eg build directory)
+		
+		
 //		hepmcAscii = new HepMCG4AsciiReader("Camilla.dat"); //path must be relative to where the code runs (eg build directory)
 #endif
 	} else {
