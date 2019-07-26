@@ -15,6 +15,9 @@
 #include "G4ProcessType.hh"
 #include "G4OpticalPhoton.hh"
 
+#define FLAG2018A
+
+
 B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::map<G4int,G4int> & ChannelMap, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic)
 : G4UserSteppingAction(),
 fEventAction(eventAction),
@@ -57,6 +60,7 @@ fDetEnterExitFlag(DetEnterExitFlag),
 fTriggerLogic(TriggerLogic)
 {}
 
+
 B1SteppingAction::~B1SteppingAction()
 {}
 
@@ -81,9 +85,14 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	if (!fScoringVolume_S2) {fScoringVolume_S2 = detectorConstruction->GetScoringVolume_S2();}
 	if (!fScoringVolume_S3) {fScoringVolume_S3 = detectorConstruction->GetScoringVolume_S3();}
 	if (!fScoringVolume_S4) {fScoringVolume_S4 = detectorConstruction->GetScoringVolume_S4();}
-	if (!fScoringVolume_S5) {fScoringVolume_S5 = detectorConstruction->GetScoringVolume_S5();}
-	if (!fScoringVolume_S6) {fScoringVolume_S6 = detectorConstruction->GetScoringVolume_S6();}
-	if (!fScoringVolume_S7) {fScoringVolume_S7 = detectorConstruction->GetScoringVolume_S7();}
+#ifndef FLAG2018A
+		if (!fScoringVolume_S5) {fScoringVolume_S5 = detectorConstruction->GetScoringVolume_S5();}
+		if (!fScoringVolume_S6) {fScoringVolume_S6 = detectorConstruction->GetScoringVolume_S6();}
+		if (!fScoringVolume_S7) {fScoringVolume_S7 = detectorConstruction->GetScoringVolume_S7();}
+	if (!fScoringVolume_CeH) {fScoringVolume_CeH = detectorConstruction->GetScoringVolume_CeH();}
+	if (!fScoringVolume_CeVtilt) {fScoringVolume_CeVtilt = detectorConstruction->GetScoringVolume_CeVtilt();}
+	if (!fScoringVolume_CeV) {fScoringVolume_CeV = detectorConstruction->GetScoringVolume_CeV();}
+#endif
 	if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a = detectorConstruction->GetScoringVolume_Pb1a();}
 	if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b = detectorConstruction->GetScoringVolume_Pb1b();}
 	if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c = detectorConstruction->GetScoringVolume_Pb1c();}
@@ -91,9 +100,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstruction->GetScoringVolume_Pb2b();}
 	if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstruction->GetScoringVolume_Pb2c();}
 	if (!fScoringVolume_PbG) {fScoringVolume_PbG = detectorConstruction->GetScoringVolume_PbG();}
-	if (!fScoringVolume_CeH) {fScoringVolume_CeH = detectorConstruction->GetScoringVolume_CeH();}
-	if (!fScoringVolume_CeVtilt) {fScoringVolume_CeVtilt = detectorConstruction->GetScoringVolume_CeVtilt();}
-	if (!fScoringVolume_CeV) {fScoringVolume_CeV = detectorConstruction->GetScoringVolume_CeV();}
+
 	if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstruction->GetScoringVolume_Mu1();}
 	if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstruction->GetScoringVolume_Mu2();}
 	
@@ -337,7 +344,12 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	// Were HORSA and VERSA flipped?
 	B1DetectorConstruction* detectorConstructionNonConst = (B1DetectorConstruction*)
 	(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+	
+#ifndef FLAG2018A
 	G4bool HorsaVersaFlip=detectorConstructionNonConst->GetHorsaVersaFlip();
+#else
+	G4bool HorsaVersaFlip=true;
+#endif
 	
 	G4bool SHOW = false;
 	G4bool dofill = false;

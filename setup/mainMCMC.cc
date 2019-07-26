@@ -37,6 +37,8 @@
 #include <stdlib.h>
 #include <vector>
 
+//#define AUGFLAG
+
 using namespace std;
 
 int main(int argc,char** argv)
@@ -329,7 +331,13 @@ int main(int argc,char** argv)
 	G4bool channeling = false;
 	G4String ctype = "Si" ;  // "C" or "Si"
 	
+#ifndef AUGFLAG
+	G4cout<<"September Geometry required"<<G4endl;
 	B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag, TargMat, TargDZ);
+#else
+	G4cout<<"August Geometry required"<<G4endl;
+	B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag);
+#endif
 	detector->SetChanneling(channeling,ctype);
 	
 	if ( FTFP ){
