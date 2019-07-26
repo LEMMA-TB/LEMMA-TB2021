@@ -59,7 +59,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh ${PROJECT_SOURCE_DIR}/proce
 add_executable(mainMCMC mainMCMC.cc ${sources} ${headers})
 target_link_libraries(mainMCMC ${Geant4_LIBRARIES} 
                       ${HEPMC_LIBRARIES} 
-                      ${HEPMC_FIO_LIBRARIES} ${PYTHIA6_LIBRARIES}  gfortran)
+                      ${HEPMC_FIO_LIBRARIES} ${PYTHIA6_LIBRARIES} )
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
