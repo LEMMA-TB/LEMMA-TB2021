@@ -257,6 +257,8 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 - Completed possibility to easily flip Horsa/Versa (and now flipped)
 - New Dead thickness for Mu: 2.2cm
 
+2019.07.29 by collamaf
+- Added possibility to use August Geometry: there are 2 #define FLAG2018A (in main and  in StepAct) to disable what was added after it. But DetConst files (cc and hh) need to be copied by hand from ../setup/GeometriaTBAgosto/
 
 `
 cp link.txt CMakeFiles/mainMCMC.dir/
