@@ -56,8 +56,11 @@ fTargDZ(TargDZ)
 //			hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-Be6cmLEMMA18-2.0.dat"); //path must be relative to where the code runs (eg build directory)
 //			hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-Be6cmLEMMA18-2.0AddPos.dat"); //path must be relative to where the code runs (eg build directory) NORMAL
 //		hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-Be6cmLEMMA18-2.0-GausGaus.dat"); //path must be relative to where the code runs (eg build directory) - 16.05.2019 by abertolin
-		hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-cylinder.dat"); //path must be relative to where the code runs (eg build directory) - 25.07.2019 by abertolin for 2018 august test beam
-		
+			//hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-cylinder.dat"); //path must be relative to where the code runs (eg build directory) - 25.07.2019 by abertolin for 2018 august test beam
+			hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared+multscat.dat"); //path must be relative to where the code runs (eg build directory) - 25.07.2019 by abertolin for 2018 august test beam
+
+//			hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-Check2018.dat"); //path must be relative to where the code runs (eg build directory) - 27.08.2019 by abertolin for 2018 august test beam quello di agosto 2018 per trovare l'errore
+
 		else if (fTargMat==1)
 			hepmcAscii = new HepMCG4AsciiReader("ExtData_mm-prepared-C2cmLEMMA18-2.0.dat"); //path must be relative to where the code runs (eg build directory)
 		

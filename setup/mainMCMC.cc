@@ -7,6 +7,7 @@
 #include "G4UImanager.hh"
 #include "G4Run.hh"
 #include "B1DetectorConstruction.hh"
+#include "B1DetectorConstructionAug.hh"
 #include "B1ActionInitialization.hh"
 #include "G4StepLimiterPhysics.hh"
 #include "G4VUserPhysicsList.hh"
@@ -37,7 +38,6 @@
 #include <stdlib.h>
 #include <vector>
 
-//#define FLAG2018A
 
 using namespace std;
 
@@ -71,7 +71,7 @@ int main(int argc,char** argv)
 	G4double TargDZ = 6*cm; //default total length for target
 	G4bool TargetFlag=true; //Place or not the target
 	G4bool FlipFieldFlag=false; //non-flipped (=false) field sends positrons towards down in the sketc, flipped (=true) sends positrons up
-//	G4double MagField=700; //running current (in A) of the magnet. If negative is the exact magnetic field to be used as constant
+	//	G4double MagField=700; //running current (in A) of the magnet. If negative is the exact magnetic field to be used as constant
 	G4double MagField=-2; //updated on 2018.08.15 @CERN, since there is no map for this magnet, we plan to run it @ 580A, was -1.7476 T during TB2018a
 	G4bool AllVacFlag=false; //Set all materials (except Target) to air, to see what happens to primary particles
 	G4double RootCutThr=1; //Flag to cut on output file: photons with energy lower than this value (in GeV) will not be written. Set negative to write them all
@@ -83,6 +83,8 @@ int main(int argc,char** argv)
 	
 	G4bool MTFlag=TRUE; //Toggle Multi Thread running
 	G4int NProcInput=1; // default value for number of threads requested (1-> SingleT, <0-> all threads MultiT, X-> X threads)
+	
+	G4bool Aug2018Flag=false; //To choose TB2018a (aug) geometry
 	
 	G4bool VisFlag=false; //To enable visualization
 	G4int NoOfPrimToGen=100, Verbose=0;
@@ -167,6 +169,10 @@ int main(int argc,char** argv)
 			{
 				ExtSourceFlagMu=stoi (argv[++i], NULL);;
 			}
+			else if(option.compare("-Aug2018")==0)
+			{
+				Aug2018Flag=stoi (argv[++i], NULL);;
+			}
 			else if(option.compare("-DetZoom")==0)
 			{
 				GeometryZoom=strtod (argv[++i], NULL);;
@@ -245,7 +251,7 @@ int main(int argc,char** argv)
 #endif
 	
 	std::map<G4int,G4int> Mappa;
-
+	
 #if 1
 	Mappa[4100]=0;
 	Mappa[4200]=1;
@@ -271,7 +277,7 @@ int main(int argc,char** argv)
 	Mappa[5123]=13;
 	Mappa[5124]=13;
 	
-
+	
 	Mappa[5200]=14;
 	Mappa[5201]=15;
 	Mappa[5202]=16;
@@ -284,11 +290,11 @@ int main(int argc,char** argv)
 	Mappa[5208]=18;
 	Mappa[5209]=18;
 	Mappa[5210]=18;
-
+	
 	Mappa[5211]=19;
 	Mappa[5212]=19;
 	Mappa[5213]=19;
-
+	
 	Mappa[5214]=20;
 	Mappa[5215]=21;
 	Mappa[5216]=22;
@@ -297,25 +303,25 @@ int main(int argc,char** argv)
 	Mappa[5219]=23;
 	Mappa[5220]=23;
 	Mappa[5221]=23;
-
-
+	
+	
 #endif
 	G4int NDumChannels=1;
 	G4int NTotChannels=Mappa[5221]+1+NDumChannels;
-
+	
 	// ###############
 	// ##################### END: PREPARE CALO-MAP VECTOR
 	// ##############################################################################
 	G4cout<<"DIMENSIONE MAPPA: size= "<<Mappa.size()<<G4endl;
-
+	
 	G4cout<<"DIMENSIONE MAPPA: max element = "<<NTotChannels<<G4endl;
 	
 #if 0
 	for (int ii=0; ii<ChannelMap.size(); ii++) G4cout<<"MAPPA vector: i= "<<ii<<" channel= "<<ChannelMap.at(ii)<<G4endl;
-
-//	std::vector<int>::iterator iteratore;
+	
+	//	std::vector<int>::iterator iteratore;
 	for (int ii=0; ii<3; ii++) {
-//		iteratore = find(Mappa.begin(), Mappa.end(),4100+ii);
+		//		iteratore = find(Mappa.begin(), Mappa.end(),4100+ii);
 		auto iter = Mappa.find((41+ii)*100);
 		if (iter != Mappa.end()) G4cout<<"MAPPA map: i= "<<ii<<" looking for "<< (41+ii)*100<<" iter->first= "<<iter->first<<" iter->second= "<<iter->second<<" Mappa[]= "<<Mappa[(41+ii)*100]<<G4endl;
 	}
@@ -331,14 +337,19 @@ int main(int argc,char** argv)
 	G4bool channeling = false;
 	G4String ctype = "Si" ;  // "C" or "Si"
 	
-#ifndef FLAG2018A
-	G4cout<<"September Geometry required"<<G4endl;
-	B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag, TargMat, TargDZ);
-#else
-	G4cout<<"August Geometry required"<<G4endl;
-	B1DetectorConstruction* detector =new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag);
-#endif
-	detector->SetChanneling(channeling,ctype);
+	//Define both DetConst (Aug/Sept)
+	B1DetectorConstruction* detector;
+	B1DetectorConstructionAug* detectorAug;
+	
+	if (!Aug2018Flag) { // september 2018 setup
+		G4cout<<"September Geometry required"<<G4endl;
+		detector=new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag, TargMat, TargDZ);
+		detector->SetChanneling(channeling,ctype);
+	}
+	else { //august 2018 setup
+		G4cout<<"August Geometry required"<<G4endl;
+		detectorAug =new B1DetectorConstructionAug( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag);		detectorAug->SetChanneling(channeling,ctype);
+	}
 	
 	if ( FTFP ){
 		G4PhysListFactory *physListFactory = new G4PhysListFactory();
@@ -371,12 +382,14 @@ int main(int argc,char** argv)
 	// ##############################################################################
 	
 	if (MTFlag) {
-		runManagerMT->SetUserInitialization(detector);
-		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ));
+		if (!Aug2018Flag) 	runManagerMT->SetUserInitialization(detector);
+		else runManagerMT->SetUserInitialization(detectorAug);
+		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
 		runManagerMT->Initialize();  // init kernel
 	} else {
-		runManager->SetUserInitialization(detector);
-		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag,NTotChannels, TriggerLogic,  TargMat, TargDZ));
+		if (!Aug2018Flag) 	runManager->SetUserInitialization(detector);
+		else runManager->SetUserInitialization(detectorAug);
+		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag,NTotChannels, TriggerLogic,  TargMat, TargDZ, Aug2018Flag));
 		runManager->Initialize();  // init kernel
 	}
 	
@@ -425,6 +438,8 @@ int main(int argc,char** argv)
 	
 	G4String OutputFilename = "Lemma2018MC";
 	
+	if(Aug2018Flag) OutputFilename.append("_Aug");
+	
 	//Primary particle info
 	if (ExtSourceFlagMu) OutputFilename.append("_MuMu");
 	else if (ExtSourceFlagBha) OutputFilename.append("_Bhabha");
@@ -451,7 +466,7 @@ int main(int argc,char** argv)
 		if (MagField!=700) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Map: if different from default current (700) write its value
 	} else  {
 		OutputFilename.append("_FieldF");
-		if (MagField!=-2) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Fixed: write the fixed value used
+		if ((!Aug2018Flag&& MagField!=-2) || Aug2018Flag) OutputFilename.append(std::to_string(G4int (-MagField*100) )); //Fixed: write the fixed value used
 	}
 	if (FlipFieldFlag) OutputFilename.append("f");
 	

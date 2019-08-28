@@ -62,11 +62,11 @@
  /vis/filtering/trajectories/particleFilter-0/add mu+
  /vis/filtering/trajectories/particleFilter-0/add mu-
 #/vis/filtering/trajectories/particleFilter-0/add gamma
- /vis/filtering/trajectories/particleFilter-0/active 0
+ /vis/filtering/trajectories/particleFilter-0/active 1
 
 /vis/filtering/trajectories/create/particleFilter noGamma
 /vis/filtering/trajectories/noGamma/add gamma
-/vis/filtering/trajectories/noGamma/invert 1
+#/vis/filtering/trajectories/noGamma/invert 1
 /vis/filtering/trajectories/noGamma/active 0
 
 # /vis/modeling/trajectories/create/drawByParticleID
@@ -75,13 +75,13 @@
 # /vis/modeling/trajectories/drawByParticleID-0/set e- red
 
 /vis/filtering/trajectories/create/encounteredVolumeFilter Vol
-#/vis/filtering/trajectories/Vol/add Mu1
+/vis/filtering/trajectories/Vol/add Mu1
 #/vis/filtering/trajectories/Vol/add Mu2
 # #/vis/filtering/trajectories/Vol/add Pb1a
 # /vis/filtering/trajectories/Vol/add Pb1b
 # #/vis/filtering/trajectories/Vol/add Pb1c
 # /vis/filtering/trajectories/Vol/add Ce1
-/vis/filtering/trajectories/Vol/add S4
+#/vis/filtering/trajectories/Vol/add S4
  /vis/filtering/trajectories/Vol/active 0
 
 ###### TO FILTER TRACKS ACCORDING TO ENERGY!!!
@@ -175,15 +175,15 @@
 # /vis/scene/add/scale 24.3 m z 0 1 0 manual 0 0 12.15 m
 /vis/scene/add/scale 26 m z 0 1 0 manual 0 0 13 m
 
-/vis/scene/add/scale 84.6 cm z 0 0 1 manual 0 0 42.3 cm # T1
-/vis/scene/add/scale 444.5 cm z 0 0 1 manual 0 0 222.25 cm # T2
+/vis/scene/add/scale 82.78 cm z 0 0 1 manual 0 0 41.39 cm # T1
+/vis/scene/add/scale 441.63 cm z 0 0 1 manual 0 0 220.815 cm # T2
 /vis/scene/add/scale 457.9 cm z 0 0 1 manual 0 0 228.85 cm #Targ
-/vis/scene/add/scale 569.5 cm z 0 0 1 manual 0 0 284.75 cm #C0
-/vis/scene/add/scale 1526.2 cm z 0 0 1 manual 0 0 763.1 cm #C1
+/vis/scene/add/scale 549.93 cm z 0 0 1 manual 0 0 274.965 cm #C0
+/vis/scene/add/scale 1492.93 cm z 0 0 1 manual 0 0 746.465 cm #C1
 
-/vis/scene/add/scale 1880.3 cm z 0 0 1 manual 0 0 940.15 cm #C2-3
-/vis/scene/add/scale 2002.6 cm z 0 0 1 manual 0 0 1001.3 cm #C4-5
-/vis/scene/add/scale 2134.0 cm z 0 0 1 manual 0 0 1067 cm #C6-7
+/vis/scene/add/scale 1873.93 cm z 0 0 1 manual 0 0 936.965 cm #C2-3
+/vis/scene/add/scale 1995.43 cm z 0 0 1 manual 0 0 997.715 cm #C4-5
+/vis/scene/add/scale 2125 cm z 0 0 1 manual 0 0 1062.5 cm #C6-7
 
 # /vis/scene/add/scale 2158.5 cm z 0 0 1 manual 0. 0 1079.25 cm
 # /vis/scene/add/scale 2212.3 cm z 0 0 1 manual 0. 0 1106.15 cm
@@ -211,45 +211,62 @@
 #/vis/scene/add/scale 25 cm x 0 1 1 manual 0.125 0 20.8 m
 #/vis/scene/add/scale 27.34 cm x 0 1 1 manual 0.125 0 21.8 m
 
-/vis/scene/add/scale 11.5 cm x 1 0 1 manual 0.0575 0 18.803 m #C2-3
-/vis/scene/add/scale 18 cm x 1 0 1 manual 0.09 0 20.026 m #C4-5
-/vis/scene/add/scale 24 cm x 1 0 1 manual 0.12 0 21.34 m #C6-7
+/vis/scene/add/scale 11.5 cm x 1 0 1 manual 0.0575 0 18.7393 m #C2-3
 
-#/vis/scene/add/scale 81.52 cm x 1 0 1 manual 0. 0 2158.49 cm #between LeadGlasses 1a
-/vis/scene/add/scale 49.5 cm x 1 0 1 manual 24.75 0 2161 cm # PbGlass1Startext
-#/vis/scene/add/scale 50.6 cm x 1 0 1 manual -25.3 0 2161 cm # PbGlass2Startext - BEFORE -1cm
-/vis/scene/add/scale 49.6 cm x 1 0 1 manual -24.8 0 2161 cm # PbGlass2Startext - BEFORE -1cm
-#/vis/scene/add/scale 23.63 cm x 1 0 1 manual 0. 0 2161.88 cm #between LeadGlasses 1b
-/vis/scene/add/scale 19.5 cm x 1 0 1 manual 9.75 0 2163 cm # PbGlass1Startin
-#/vis/scene/add/scale 20.4 cm x 1 0 1 manual -10.2 0 2163 cm # PbGlass2Startin - BEFORE -1cm
-/vis/scene/add/scale 19.4 cm x 1 0 1 manual -9.7 0 2163 cm # PbGlass2Startin
+/vis/scene/add/scale 18 cm x 1 0 1 manual 0.09 0 19.9543 m #C4-5
 
-/vis/scene/add/scale 54.25 cm x 1 0 1 manual 27.125 0 2197.7 cm # PbGlass1Endext
-#/vis/scene/add/scale 55.2 cm x 1 0 1 manual -27.6 0 2197.7 cm # PbGlass2Endext - BEFORE -1cm
-/vis/scene/add/scale 54.2 cm x 1 0 1 manual -27.1 0 2197.7 cm # PbGlass2Endext
+/vis/scene/add/scale 24 cm x 1 0 1 manual 0.12 0 21.25 m #C6-7
+/vis/scene/add/scale 18 cm x 1 0 1 manual -0.09 0 21.25 m #C7
 
-/vis/scene/add/scale 21.1 cm x 1 0 1 manual 10.55 0 2199.9 cm # PbGlass1EndInt
-#/vis/scene/add/scale 22.1 cm x 1 0 1 manual -11.05 0 2199.9 cm # PbGlass2EndInt  - BEFORE -1cm
-/vis/scene/add/scale 21.1 cm x 1 0 1 manual -10.55 0 2199.9 cm # PbGlass2EndInt
+/vis/scene/add/scale 48.23 cm x 1 0 1 manual 24.115 0 2169.33 cm # PbGlass1Startext 44_LUJ
+/vis/scene/add/scale 45.63 cm x 1 0 1 manual -22.815 0 2163.4 cm # PbGlass2Startext 44_RUS
+/vis/scene/add/scale 19.37 cm x 1 0 1 manual 9.685 0 2171.96 cm # PbGlass1Startin 44_LUS
+/vis/scene/add/scale 16.77 cm x 1 0 1 manual -8.385 0 2165.72 cm # PbGlass2Startin 44_RUJ
+/vis/scene/add/scale 53.65 cm x 1 0 1 manual 26.825 0 2207.43 cm # PbGlass1Endext 44_LDJ
+/vis/scene/add/scale 51.25 cm x 1 0 1 manual -25.625 0 2201.6 cm # PbGlass2Endext 44_RDS
+/vis/scene/add/scale 20.36 cm x 1 0 1 manual 10.18 0 2210.48 cm # PbGlass1EndInt 44_LDS
+/vis/scene/add/scale 18.09 cm x 1 0 1 manual -9.045 0 2204.51 cm # PbGlass2EndInt 44_RDJ
+
+/vis/scene/add/scale 52.44 cm x 1 0 1 manual 26.22 0 2228.37 cm # Ce1Startext 51_UJ
+/vis/scene/add/scale 48.45 cm x 1 0 1 manual -24.225 0 2227.89 cm # Ce2Startext 52_US
+/vis/scene/add/scale 21.77 cm x 1 0 1 manual 10.885 0 2229.89 cm # Ce1Startin 51_US
+/vis/scene/add/scale 17.67 cm x 1 0 1 manual -8.835 0 2229.17 cm # Ce2Startin 52_UJ
+/vis/scene/add/scale 56.99 cm x 1 0 1 manual 28.495 0 2319.75 cm # Ce1Endext 51_DJ
+/vis/scene/add/scale 52.26 cm x 1 0 1 manual -26.13 0 2319.16 cm # Ce2Endext 52_DS
+/vis/scene/add/scale 26.4 cm x 1 0 1 manual 13.2 0 2321.25 cm # Ce1EndInt 51_DS
+/vis/scene/add/scale 21.5 cm x 1 0 1 manual -10.75 0 2320.45 cm # Ce2EndInt 52_DJ
 
 
-/vis/scene/add/scale 18.5 cm x 1 0 1 manual 9.25 0 2209 cm # Ce1Start
-#/vis/scene/add/scale 21.6 cm x 1 0 1 manual -10.8 0 2209 cm # Ce2Start - BEFORE -1cm
-/vis/scene/add/scale 20.6 cm x 1 0 1 manual -10.3 0 2209 cm # Ce2Start
-
-/vis/scene/add/scale 23.2 cm x 1 0 1 manual 11.6 0 2298 cm # Ce1End
-#/vis/scene/add/scale 26.3 cm x 1 0 1 manual -13.15 0 2298 cm # Ce2End  - BEFORE -1cm
-/vis/scene/add/scale 25.3 cm x 1 0 1 manual -12.65 0 2298 cm # Ce2End
+# /vis/scene/add/scale 18.5 cm x 1 0 1 manual 9.25 0 2209 cm # Ce1Start
+# #/vis/scene/add/scale 21.6 cm x 1 0 1 manual -10.8 0 2209 cm # Ce2Start - BEFORE -1cm
+# /vis/scene/add/scale 20.6 cm x 1 0 1 manual -10.3 0 2209 cm # Ce2Start
+#
+# /vis/scene/add/scale 23.2 cm x 1 0 1 manual 11.6 0 2298 cm # Ce1End
+# #/vis/scene/add/scale 26.3 cm x 1 0 1 manual -13.15 0 2298 cm # Ce2End  - BEFORE -1cm
+# /vis/scene/add/scale 25.3 cm x 1 0 1 manual -12.65 0 2298 cm # Ce2End
 
 #/vis/scene/add/scale 25.89 cm x 1 0 1 manual 0. 0 2196.66 cm #between LeadGlasses 2b
 #/vis/scene/add/scale 32 cm x 1 0 1 manual 0. 0 2212.3 cm #between Cerenkovs
-/vis/scene/add/scale 7 cm x 1 0 1 manual 3.5 0 2327.8 cm #Shield 1
-/vis/scene/add/scale 30 cm x 1 0 1 manual -15 0 2337.8 cm #Shield 2
+/vis/scene/add/scale 8.71 cm x 1 0 1 manual 4.335 0 2348.66 cm #Shield 1
+/vis/scene/add/scale 30.54 cm x 1 0 1 manual -15.27 0 2347.07 cm #Shield 2
 
 # /vis/scene/add/scale 47 cm x 0 1 1 manual 0. 0 2375.2 cm
 # /vis/scene/add/scale 51 cm x 0 1 1 manual -2 0 2462.6 cm
-/vis/scene/add/scale 52.2 cm x 0 1 1 manual -4 0 2375.2 cm #between Mu upstream
-/vis/scene/add/scale 60.2 cm x 0 1 1 manual -4 0 2462 cm #between Mu downstream
+
+#/vis/scene/add/scale 52.2 cm x 0 1 1 manual -4 0 2394.6 cm #between Mu upstream
+#/vis/scene/add/scale 60.2 cm x 0 1 1 manual -4 0 2480 cm #between Mu downstream
+/vis/scene/add/scale 22.29 cm x 0 1 1 manual 11.145 0 2394.6 cm
+/vis/scene/add/scale 29.33 cm x 0 1 1 manual -14.665 0 2394.6 cm
+
+/vis/scene/add/scale 91.65 cm x 0 1 1 manual 45.825 0 2394.6 cm
+/vis/scene/add/scale 98.69 cm x 0 1 1 manual -49.345 0 2394.6 cm
+
+/vis/scene/add/scale 25.04 cm x 0 1 1 manual 12.52 0 2480 cm
+/vis/scene/add/scale 34.99 cm x 0 1 1 manual -17.495 0 2480 cm
+
+/vis/scene/add/scale 94.38 cm x 0 1 1 manual 47.19 0 2480 cm
+/vis/scene/add/scale 104.23 cm x 0 1 1 manual -52.115 0 2480 cm
+/vis/scene/add/scale 4.8 cm x 1 1 1 manual 104.23 0 2480 cm
 #/vis/scene/add/scale 56 cm x 1 0 1 manual 0. 0 23.8365 m
 #/vis/scene/add/scale 41.5 cm x 1 0 1 manual 0. 0 2301.2 cm
 
@@ -276,7 +293,7 @@
 /vis/geometry/set/visibility Envelope 0 false
 /vis/geometry/set/visibility CaloTable1 0 false
 /vis/geometry/set/visibility CaloTable2 0 false
-/vis/geometry/set/visibility Dummy1 0 false
+/vis/geometry/set/visibility Dummy1 0 true
 /vis/geometry/set/visibility Dummy2 0 false
 
 #/vis/viewer/set/style surface
@@ -298,6 +315,8 @@
 /vis/geometry/set/colour S1 0 0 0 1 1
 /vis/geometry/set/colour S2 0 0 0 1 1
 /vis/geometry/set/colour S3 0 0 0 1 1
+/vis/geometry/set/colour S4 0 0 0 1 1
+/vis/geometry/set/colour S5 0 0 0 1 1
 /vis/geometry/set/colour Pb1a 0 0 1 1   1
 /vis/geometry/set/colour Pb1b 0 0 1 1   1
 /vis/geometry/set/colour Pb1c 0 0 1 1   1
@@ -335,7 +354,7 @@
 /vis/geometry/set/colour CeV 0 0.5 .5 .5 0.6
 /vis/geometry/set/colour CeVAlu 0 0.7 .7 .7 .3
 /vis/geometry/set/colour CeHAlu 0 0.7 .7 .7 .3
-
+/vis/geometry/set/colour Shield 0 0.7 .7 .7 1
 #/vis/geometry/set/colour [logic name] depth R G B opacity
 #/vis/viewer/set/viewpointThetaPhi 120 150
 #/vis/viewer/set/viewpointThetaPhi 90 0
@@ -354,7 +373,7 @@
 #/vis/viewer/set/targetPoint 0 0 20 m #to vie from magnet on (Z<10)
 /vis/viewer/zoomTo 10
 #/vis/viewer/zoomTo 5
-
+#/vis/viewer/set/background white
 
 # Re-establish auto refreshing and verbosity:
 /vis/viewer/set/autoRefresh true

@@ -16,7 +16,7 @@ class G4LogicalVolume;
 class B1SteppingAction : public G4UserSteppingAction
 {
 public:
-	B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::map<G4int,G4int> & ChannelMap, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic);
+	B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::map<G4int,G4int> & ChannelMap, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic, G4bool Aug2018Flag);
 	virtual ~B1SteppingAction();
 	// method from the base class
 	virtual void UserSteppingAction(const G4Step*);
@@ -61,6 +61,8 @@ private:
 	
 	G4double fEThr;
 	G4bool fCutFlag=false;
+	
+	G4bool fAug2018Flag;
 	
 	std::map<G4int,G4int> fChannelMap;
 	G4bool fDetEnterExitFlag;

@@ -260,6 +260,9 @@ LEMMA->Draw("Kinev:CopyNb","subdet==77&&Idp==-11","lego")
 2019.07.29 by collamaf
 - Added possibility to use August Geometry: there are 2 #define FLAG2018A (in main and  in StepAct) to disable what was added after it. But DetConst files (cc and hh) need to be copied by hand from ../setup/GeometriaTBAgosto/
 
+2019.08.28 by collamaf
+- GUT: Now unified August 2018 and September 2018 setups! There is a new command line flag (Aug2018, default false) that calls the proper geometry and StepAction.. seems to work! - REMEMBER for 2018a use -MagField -1.7476 
+
 `
 cp link.txt CMakeFiles/mainMCMC.dir/
 now is "gpc" as alias!

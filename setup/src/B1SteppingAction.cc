@@ -1,6 +1,7 @@
 #include "B1SteppingAction.hh"
 #include "B1EventAction.hh"
 #include "B1DetectorConstruction.hh"
+#include "B1DetectorConstructionAug.hh"
 #include "HistoManager.hh"
 #include "B1RunAction.hh"
 #include "G4Step.hh"
@@ -18,7 +19,7 @@
 #define FLAG2018A
 
 
-B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::map<G4int,G4int> & ChannelMap, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic)
+B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::map<G4int,G4int> & ChannelMap, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic, G4bool Aug2018Flag)
 : G4UserSteppingAction(),
 fEventAction(eventAction),
 runStepAction(runAction),
@@ -55,6 +56,7 @@ fScoringVolume_Mu2(0),
 fStoreCaloEnDepFlag(StoreCaloEnDepFlag),
 fStoreGammaConvDepFlag(StoreGammaConvDepFlag),
 fEThr(EThr),
+fAug2018Flag(Aug2018Flag),
 fChannelMap(ChannelMap),
 fDetEnterExitFlag(DetEnterExitFlag),
 fTriggerLogic(TriggerLogic)
@@ -68,42 +70,78 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	const G4double hplanck=4.136e-15; //eV*s
 	const G4double clight=3e14; //um/s
 	const G4double CerFotLambdaCut=0.2; //in [um], cut due to PMT sensitivity
-	const B1DetectorConstruction* detectorConstruction = static_cast<const B1DetectorConstruction*>
-	(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-	if (!fScoringVolume_S1) {fScoringVolume_S1 = detectorConstruction->GetScoringVolume_S1();}
-	if (!fScoringVolume_T1) {fScoringVolume_T1 = detectorConstruction->GetScoringVolume_T1();}
-	if (!fScoringVolume_T2) {fScoringVolume_T2 = detectorConstruction->GetScoringVolume_T2();}
-	if (!fScoringVolume_Targ) {fScoringVolume_Targ = detectorConstruction->GetScoringVolume_Targ();}
-	if (!fScoringVolume_C0) {fScoringVolume_C0 = detectorConstruction->GetScoringVolume_C0();}
-	if (!fScoringVolume_C1) {fScoringVolume_C1 = detectorConstruction->GetScoringVolume_C1();}
-	if (!fScoringVolume_C2) {fScoringVolume_C2 = detectorConstruction->GetScoringVolume_C2();}
-	if (!fScoringVolume_C3) {fScoringVolume_C3 = detectorConstruction->GetScoringVolume_C3();}
-	if (!fScoringVolume_C4) {fScoringVolume_C4 = detectorConstruction->GetScoringVolume_C4();}
-	if (!fScoringVolume_C5) {fScoringVolume_C5 = detectorConstruction->GetScoringVolume_C5();}
-	if (!fScoringVolume_C6) {fScoringVolume_C6 = detectorConstruction->GetScoringVolume_C6();}
-	if (!fScoringVolume_C7) {fScoringVolume_C7 = detectorConstruction->GetScoringVolume_C7();}
-	if (!fScoringVolume_S2) {fScoringVolume_S2 = detectorConstruction->GetScoringVolume_S2();}
-	if (!fScoringVolume_S3) {fScoringVolume_S3 = detectorConstruction->GetScoringVolume_S3();}
-	if (!fScoringVolume_S4) {fScoringVolume_S4 = detectorConstruction->GetScoringVolume_S4();}
-#ifndef FLAG2018A
+
+	const B1DetectorConstruction* detectorConstruction;
+	const B1DetectorConstructionAug* detectorConstructionAug;
+	
+	if (fAug2018Flag) {
+		detectorConstruction= static_cast<const B1DetectorConstruction*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+	} else {
+		detectorConstructionAug= static_cast<const B1DetectorConstructionAug*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+	}
+	
+	if (!fAug2018Flag) { //se è settembre
+		if (!fScoringVolume_S1) {fScoringVolume_S1 = detectorConstruction->GetScoringVolume_S1();}
+		if (!fScoringVolume_T1) {fScoringVolume_T1 = detectorConstruction->GetScoringVolume_T1();}
+		if (!fScoringVolume_T2) {fScoringVolume_T2 = detectorConstruction->GetScoringVolume_T2();}
+		if (!fScoringVolume_Targ) {fScoringVolume_Targ = detectorConstruction->GetScoringVolume_Targ();}
+		if (!fScoringVolume_C0) {fScoringVolume_C0 = detectorConstruction->GetScoringVolume_C0();}
+		if (!fScoringVolume_C1) {fScoringVolume_C1 = detectorConstruction->GetScoringVolume_C1();}
+		if (!fScoringVolume_C2) {fScoringVolume_C2 = detectorConstruction->GetScoringVolume_C2();}
+		if (!fScoringVolume_C3) {fScoringVolume_C3 = detectorConstruction->GetScoringVolume_C3();}
+		if (!fScoringVolume_C4) {fScoringVolume_C4 = detectorConstruction->GetScoringVolume_C4();}
+		if (!fScoringVolume_C5) {fScoringVolume_C5 = detectorConstruction->GetScoringVolume_C5();}
+		if (!fScoringVolume_C6) {fScoringVolume_C6 = detectorConstruction->GetScoringVolume_C6();}
+		if (!fScoringVolume_C7) {fScoringVolume_C7 = detectorConstruction->GetScoringVolume_C7();}
+		if (!fScoringVolume_S2) {fScoringVolume_S2 = detectorConstruction->GetScoringVolume_S2();}
+		if (!fScoringVolume_S3) {fScoringVolume_S3 = detectorConstruction->GetScoringVolume_S3();}
+		if (!fScoringVolume_S4) {fScoringVolume_S4 = detectorConstruction->GetScoringVolume_S4();}
 		if (!fScoringVolume_S5) {fScoringVolume_S5 = detectorConstruction->GetScoringVolume_S5();}
 		if (!fScoringVolume_S6) {fScoringVolume_S6 = detectorConstruction->GetScoringVolume_S6();}
 		if (!fScoringVolume_S7) {fScoringVolume_S7 = detectorConstruction->GetScoringVolume_S7();}
-	if (!fScoringVolume_CeH) {fScoringVolume_CeH = detectorConstruction->GetScoringVolume_CeH();}
-	if (!fScoringVolume_CeVtilt) {fScoringVolume_CeVtilt = detectorConstruction->GetScoringVolume_CeVtilt();}
-	if (!fScoringVolume_CeV) {fScoringVolume_CeV = detectorConstruction->GetScoringVolume_CeV();}
-#endif
-	if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a = detectorConstruction->GetScoringVolume_Pb1a();}
-	if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b = detectorConstruction->GetScoringVolume_Pb1b();}
-	if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c = detectorConstruction->GetScoringVolume_Pb1c();}
-	if (!fScoringVolume_Pb2a) {fScoringVolume_Pb2a = detectorConstruction->GetScoringVolume_Pb2a();}
-	if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstruction->GetScoringVolume_Pb2b();}
-	if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstruction->GetScoringVolume_Pb2c();}
-	if (!fScoringVolume_PbG) {fScoringVolume_PbG = detectorConstruction->GetScoringVolume_PbG();}
-
-	if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstruction->GetScoringVolume_Mu1();}
-	if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstruction->GetScoringVolume_Mu2();}
-	
+		if (!fScoringVolume_CeH) {fScoringVolume_CeH = detectorConstruction->GetScoringVolume_CeH();}
+		if (!fScoringVolume_CeVtilt) {fScoringVolume_CeVtilt = detectorConstruction->GetScoringVolume_CeVtilt();}
+		if (!fScoringVolume_CeV) {fScoringVolume_CeV = detectorConstruction->GetScoringVolume_CeV();}
+		
+		if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a = detectorConstruction->GetScoringVolume_Pb1a();}
+		if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b = detectorConstruction->GetScoringVolume_Pb1b();}
+		if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c = detectorConstruction->GetScoringVolume_Pb1c();}
+		if (!fScoringVolume_Pb2a) {fScoringVolume_Pb2a = detectorConstruction->GetScoringVolume_Pb2a();}
+		if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstruction->GetScoringVolume_Pb2b();}
+		if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstruction->GetScoringVolume_Pb2c();}
+		if (!fScoringVolume_PbG) {fScoringVolume_PbG = detectorConstruction->GetScoringVolume_PbG();}
+		
+		if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstruction->GetScoringVolume_Mu1(); }
+		if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstruction->GetScoringVolume_Mu2();}
+	} else { //se è agosto
+		
+		if (!fScoringVolume_S1) {fScoringVolume_S1 = detectorConstructionAug->GetScoringVolume_S1();}
+		if (!fScoringVolume_T1) {fScoringVolume_T1 = detectorConstructionAug->GetScoringVolume_T1();}
+		if (!fScoringVolume_T2) {fScoringVolume_T2 = detectorConstructionAug->GetScoringVolume_T2();}
+		if (!fScoringVolume_Targ) {fScoringVolume_Targ = detectorConstructionAug->GetScoringVolume_Targ();}
+		if (!fScoringVolume_C0) {fScoringVolume_C0 = detectorConstructionAug->GetScoringVolume_C0();}
+		if (!fScoringVolume_C1) {fScoringVolume_C1 = detectorConstructionAug->GetScoringVolume_C1();}
+		if (!fScoringVolume_C2) {fScoringVolume_C2 = detectorConstructionAug->GetScoringVolume_C2();}
+		if (!fScoringVolume_C3) {fScoringVolume_C3 = detectorConstructionAug->GetScoringVolume_C3();}
+		if (!fScoringVolume_C4) {fScoringVolume_C4 = detectorConstructionAug->GetScoringVolume_C4();}
+		if (!fScoringVolume_C5) {fScoringVolume_C5 = detectorConstructionAug->GetScoringVolume_C5();}
+		if (!fScoringVolume_C6) {fScoringVolume_C6 = detectorConstructionAug->GetScoringVolume_C6();}
+		if (!fScoringVolume_C7) {fScoringVolume_C7 = detectorConstructionAug->GetScoringVolume_C7();}
+		if (!fScoringVolume_S2) {fScoringVolume_S2 = detectorConstructionAug->GetScoringVolume_S2();}
+		if (!fScoringVolume_S3) {fScoringVolume_S3 = detectorConstructionAug->GetScoringVolume_S3();}
+		if (!fScoringVolume_S4) {fScoringVolume_S4 = detectorConstructionAug->GetScoringVolume_S4();}
+		
+		if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a = detectorConstructionAug->GetScoringVolume_Pb1a();}
+		if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b = detectorConstructionAug->GetScoringVolume_Pb1b();}
+		if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c = detectorConstructionAug->GetScoringVolume_Pb1c();}
+		if (!fScoringVolume_Pb2a) {fScoringVolume_Pb2a = detectorConstructionAug->GetScoringVolume_Pb2a();}
+		if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstructionAug->GetScoringVolume_Pb2b();}
+		if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstructionAug->GetScoringVolume_Pb2c();}
+		if (!fScoringVolume_PbG) {fScoringVolume_PbG = detectorConstructionAug->GetScoringVolume_PbG();}
+		
+		if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstructionAug->GetScoringVolume_Mu1();}
+		if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstructionAug->GetScoringVolume_Mu2();}
+	}
 	
 	G4LogicalVolume* volume =
 	step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
@@ -340,16 +378,18 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorMu2EnterCopyNb()).push_back(step->GetPostStepPoint()->GetTouchableHandle()->GetCopyNumber());
 		}
 	}
-
+	
 	// Were HORSA and VERSA flipped?
 	B1DetectorConstruction* detectorConstructionNonConst = (B1DetectorConstruction*)
 	(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 	
-#ifndef FLAG2018A
-	G4bool HorsaVersaFlip=detectorConstructionNonConst->GetHorsaVersaFlip();
-#else
-	G4bool HorsaVersaFlip=true;
-#endif
+	//#ifndef FLAG2018A
+	G4bool HorsaVersaFlip=false;
+	if (!fAug2018Flag) 	HorsaVersaFlip=detectorConstructionNonConst->GetHorsaVersaFlip();
+	else HorsaVersaFlip=true;
+	//#else
+	//
+	//#endif
 	
 	G4bool SHOW = false;
 	G4bool dofill = false;
@@ -447,35 +487,39 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	}
 	
 #if 0
-	 if (subdet==61 && step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber()>3) {
-	 G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
-	 evt->KeepTheEvent();
-	 }
-
+	if (subdet==61 && step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber()>3) {
+		G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
+		evt->KeepTheEvent();
+	}
+	
 	if (subdet==64) {
 		G4Event* evt = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
 		evt->KeepTheEvent();
 	}
 #endif
 	
+	//	if (volume==fScoringVolume_CeV || volume==fScoringVolume_CeH ) {
+	//		G4cout<<"CIAONE AAA "<<G4endl;
+	//	}
 	
+//	G4cout<<"RI-CIAONE subdet= "<< subdet <<" nome "<<volume->GetName()<<" CFR "<<fScoringVolume_Mu1<<G4endl;
 	// ##############################################################################
 	// ##################### TRIGGER LOGIC
 	// ###############
 #if 1
-//	fEventAction->SetNoCriteria(6);
+	//	fEventAction->SetNoCriteria(6);
 	for (int ii=0; ii<(int)fTriggerLogic.size(); ii++)
 		if (subdet==fTriggerLogic[ii]) fEventAction->GetShowCriteria(ii)=1;
 	
 	/*
-	if (subdet==63 ) fEventAction->GetShowCriteria(0)=1;
-	if (subdet>=42 && subdet <=42) fEventAction->GetShowCriteria(1)=1;
-	if (subdet>=45 && subdet <=45) fEventAction->GetShowCriteria(2)=1;
-	if (subdet==51) fEventAction->GetShowCriteria(3)=1;
-//	if (subdet==10) fEventAction->GetShowCriateria(4)=1;
-	if (subdet==38) fEventAction->GetShowCriteria(4)=1;
-	if (subdet==39) fEventAction->GetShowCriteria(5)=1;
-*/
+	 if (subdet==63 ) fEventAction->GetShowCriteria(0)=1;
+	 if (subdet>=42 && subdet <=42) fEventAction->GetShowCriteria(1)=1;
+	 if (subdet>=45 && subdet <=45) fEventAction->GetShowCriteria(2)=1;
+	 if (subdet==51) fEventAction->GetShowCriteria(3)=1;
+	 //	if (subdet==10) fEventAction->GetShowCriateria(4)=1;
+	 if (subdet==38) fEventAction->GetShowCriteria(4)=1;
+	 if (subdet==39) fEventAction->GetShowCriteria(5)=1;
+	 */
 #endif
 	/// ###############
 	// ##############################################################################
@@ -492,15 +536,15 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	// ###############
 	
 	if (fStoreCaloEnDepFlag && ((subdet>=41 && subdet <=46) || subdet==51 || subdet==52 || subdet == 77)) {
-//		std::vector<G4int>::iterator it;
+		//		std::vector<G4int>::iterator it;
 		G4int CaloChannelToSearch=100*subdet+CopyNb;
 		
 		auto it = fChannelMap.find(CaloChannelToSearch);
 		
-//		it = find(fChannelMap.begin(), fChannelMap.end(),CaloChannelToSearch); //cerco l'attuale canale nella lista di quelli già visti
+		//		it = find(fChannelMap.begin(), fChannelMap.end(),CaloChannelToSearch); //cerco l'attuale canale nella lista di quelli già visti
 		if (it != fChannelMap.end()) { //se ho trovato il canale, scrivo il deposito energia nella posizione corrispondente del vettore
 			(runStepAction->GetCaloEnDep())[it->second]+=DepEne;
-	
+			
 			if (0 && (subdet==52 || subdet==51))		G4cout<<"DEBUG !!! subdet= "<<subdet<<" Nome= "<<step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName()<<" CopyNb="<<CopyNb<<" Cerco canale "<<CaloChannelToSearch<<" Trovato in pos= "<<it->second<<G4endl;
 		}
 	}
@@ -512,7 +556,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	if (fEThr>0) fCutFlag=true;
 	
 	if (step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "Cerenkov") { //se sto facendo uno step di tipo cerenkov
-																																													 //		G4cout<<"DEBUG Cerenkov!!!"<<G4endl;
+		//		G4cout<<"DEBUG Cerenkov!!!"<<G4endl;
 		const std::vector<const G4Track*>* secondaries = step->GetSecondaryInCurrentStep();
 		if (secondaries->size()>0) {
 			for (unsigned int i=0; i<secondaries->size(); i++) { //ciclo su tutti i secondari di questo step
