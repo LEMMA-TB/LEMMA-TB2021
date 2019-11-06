@@ -74,7 +74,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	const B1DetectorConstruction* detectorConstruction;
 	const B1DetectorConstructionAug* detectorConstructionAug;
 	
-	if (fAug2018Flag) {
+	if (!fAug2018Flag) {
 		detectorConstruction= static_cast<const B1DetectorConstruction*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 	} else {
 		detectorConstructionAug= static_cast<const B1DetectorConstructionAug*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
