@@ -29,6 +29,7 @@
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
 #endif
+#include "G4VisExecutive.hh"
 
 #ifdef G4UI_USE
 #include "G4UIExecutive.hh"
@@ -87,7 +88,7 @@ int main(int argc,char** argv)
 	G4bool Aug2018Flag=false; //To choose TB2018a (aug) geometry
 	
 	G4bool VisFlag=false; //To enable visualization
-	G4int NoOfPrimToGen=100, Verbose=0;
+	G4int NoOfPrimToGen=500, Verbose=0;
 	G4String MacroName="";
 	G4String FileNameLabel="";
 	G4UIExecutive* ui = 0;
@@ -209,7 +210,7 @@ int main(int argc,char** argv)
 		else
 		{
 			MacroName = argv[i]; //If I found a macro (without trailing "-") it means that I do NOT want visualization
-			VisFlag=false;
+			//VisFlag=false; 
 		}
 	
 	std::vector<G4int>  TriggerLogic={65, 66};
@@ -392,13 +393,14 @@ int main(int argc,char** argv)
 		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag,NTotChannels, TriggerLogic,  TargMat, TargDZ, Aug2018Flag));
 		runManager->Initialize();  // init kernel
 	}
-	
-#ifdef G4VIS_USE
+	G4VisManager* visManager ;
+if (VisFlag) {	
+//#ifdef G4VIS_USE
 	// Initialize visualization
-	G4VisManager* visManager = new G4VisExecutive;
+	visManager = new G4VisExecutive;
 	visManager->Initialize();
-#endif
-	
+//#endif
+	}
 	// Get the pointer to the User Interface manager
 	G4UImanager* UImanager = G4UImanager::GetUIpointer();
 	

@@ -131,6 +131,18 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetVectorPbGlassGExitPX()).clear();
 	(fRunAction->GetVectorPbGlassGExitPY()).clear();
 	(fRunAction->GetVectorPbGlassGExitPZ()).clear();
+
+	(fRunAction->GetVectorDummy0EnterEne()).clear();
+	(fRunAction->GetVectorDummy0EnterPart()).clear();
+	(fRunAction->GetVectorDummy0EnterX()).clear();
+	(fRunAction->GetVectorDummy0EnterY()).clear();
+	(fRunAction->GetVectorDummy0EnterZ()).clear();
+	(fRunAction->GetVectorDummy0EnterVX()).clear();
+	(fRunAction->GetVectorDummy0EnterVY()).clear();
+	(fRunAction->GetVectorDummy0EnterVZ()).clear();
+	(fRunAction->GetVectorDummy0EnterPX()).clear();
+	(fRunAction->GetVectorDummy0EnterPY()).clear();
+	(fRunAction->GetVectorDummy0EnterPZ()).clear();
 	
 	(fRunAction->GetVectorDummy1EnterEne()).clear();
 	(fRunAction->GetVectorDummy1EnterPart()).clear();
@@ -227,7 +239,79 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetVectorS7EnterPX()).clear();
 	(fRunAction->GetVectorS7EnterPY()).clear();
 	(fRunAction->GetVectorS7EnterPZ()).clear();
+
+	(fRunAction->GetVectorT1EnterEne()).clear();
+	(fRunAction->GetVectorT1EnterPart()).clear();
+	(fRunAction->GetVectorT1EnterX()).clear();
+	(fRunAction->GetVectorT1EnterY()).clear();
+	(fRunAction->GetVectorT1EnterZ()).clear();
+	(fRunAction->GetVectorT1EnterVX()).clear();
+	(fRunAction->GetVectorT1EnterVY()).clear();
+	(fRunAction->GetVectorT1EnterVZ()).clear();
+	(fRunAction->GetVectorT1EnterPX()).clear();
+	(fRunAction->GetVectorT1EnterPY()).clear();
+	(fRunAction->GetVectorT1EnterPZ()).clear();
+
+	(fRunAction->GetVectorT2EnterEne()).clear();
+	(fRunAction->GetVectorT2EnterPart()).clear();
+	(fRunAction->GetVectorT2EnterX()).clear();
+	(fRunAction->GetVectorT2EnterY()).clear();
+	(fRunAction->GetVectorT2EnterZ()).clear();
+	(fRunAction->GetVectorT2EnterVX()).clear();
+	(fRunAction->GetVectorT2EnterVY()).clear();
+	(fRunAction->GetVectorT2EnterVZ()).clear();
+	(fRunAction->GetVectorT2EnterPX()).clear();
+	(fRunAction->GetVectorT2EnterPY()).clear();
+	(fRunAction->GetVectorT2EnterPZ()).clear();
+
+	(fRunAction->GetVectorT3EnterEne()).clear();
+	(fRunAction->GetVectorT3EnterPart()).clear();
+	(fRunAction->GetVectorT3EnterX()).clear();
+	(fRunAction->GetVectorT3EnterY()).clear();
+	(fRunAction->GetVectorT3EnterZ()).clear();
+	(fRunAction->GetVectorT3EnterVX()).clear();
+	(fRunAction->GetVectorT3EnterVY()).clear();
+	(fRunAction->GetVectorT3EnterVZ()).clear();
+	(fRunAction->GetVectorT3EnterPX()).clear();
+	(fRunAction->GetVectorT3EnterPY()).clear();
+	(fRunAction->GetVectorT3EnterPZ()).clear();
+
+	(fRunAction->GetVectorT4EnterEne()).clear();
+	(fRunAction->GetVectorT4EnterPart()).clear();
+	(fRunAction->GetVectorT4EnterX()).clear();
+	(fRunAction->GetVectorT4EnterY()).clear();
+	(fRunAction->GetVectorT4EnterZ()).clear();
+	(fRunAction->GetVectorT4EnterVX()).clear();
+	(fRunAction->GetVectorT4EnterVY()).clear();
+	(fRunAction->GetVectorT4EnterVZ()).clear();
+	(fRunAction->GetVectorT4EnterPX()).clear();
+	(fRunAction->GetVectorT4EnterPY()).clear();
+	(fRunAction->GetVectorT4EnterPZ()).clear();
+
+	(fRunAction->GetVectorT5EnterEne()).clear();
+	(fRunAction->GetVectorT5EnterPart()).clear();
+	(fRunAction->GetVectorT5EnterX()).clear();
+	(fRunAction->GetVectorT5EnterY()).clear();
+	(fRunAction->GetVectorT5EnterZ()).clear();
+	(fRunAction->GetVectorT5EnterVX()).clear();
+	(fRunAction->GetVectorT5EnterVY()).clear();
+	(fRunAction->GetVectorT5EnterVZ()).clear();
+	(fRunAction->GetVectorT5EnterPX()).clear();
+	(fRunAction->GetVectorT5EnterPY()).clear();
+	(fRunAction->GetVectorT5EnterPZ()).clear();
 	
+	(fRunAction->GetVectorT6EnterEne()).clear();
+	(fRunAction->GetVectorT6EnterPart()).clear();
+	(fRunAction->GetVectorT6EnterX()).clear();
+	(fRunAction->GetVectorT6EnterY()).clear();
+	(fRunAction->GetVectorT6EnterZ()).clear();
+	(fRunAction->GetVectorT6EnterVX()).clear();
+	(fRunAction->GetVectorT6EnterVY()).clear();
+	(fRunAction->GetVectorT6EnterVZ()).clear();
+	(fRunAction->GetVectorT6EnterPX()).clear();
+	(fRunAction->GetVectorT6EnterPY()).clear();
+	(fRunAction->GetVectorT6EnterPZ()).clear();
+
 	(fRunAction->GetVectorMu1EnterEne()).clear();
 	(fRunAction->GetVectorMu1EnterPart()).clear();
 	(fRunAction->GetVectorMu1EnterX()).clear();

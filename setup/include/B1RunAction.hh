@@ -123,6 +123,18 @@ public:
 	std::vector<G4double>& GetVectorPbGlassGExitPX() {return RunVectorPbGlassGExitPX; }
 	std::vector<G4double>& GetVectorPbGlassGExitPY() {return RunVectorPbGlassGExitPY; }
 	std::vector<G4double>& GetVectorPbGlassGExitPZ() {return RunVectorPbGlassGExitPZ; }
+
+	std::vector<G4double>& GetVectorDummy0EnterEne() {return RunVectorDummy0EnterEne; }
+	std::vector<G4double>& GetVectorDummy0EnterPart() {return RunVectorDummy0EnterPart; }
+	std::vector<G4double>& GetVectorDummy0EnterX() {return RunVectorDummy0EnterX; }
+	std::vector<G4double>& GetVectorDummy0EnterY() {return RunVectorDummy0EnterY; }
+	std::vector<G4double>& GetVectorDummy0EnterZ() {return RunVectorDummy0EnterZ; }
+	std::vector<G4double>& GetVectorDummy0EnterVX() {return RunVectorDummy0EnterVX; }
+	std::vector<G4double>& GetVectorDummy0EnterVY() {return RunVectorDummy0EnterVY; }
+	std::vector<G4double>& GetVectorDummy0EnterVZ() {return RunVectorDummy0EnterVZ; }
+	std::vector<G4double>& GetVectorDummy0EnterPX() {return RunVectorDummy0EnterPX; }
+	std::vector<G4double>& GetVectorDummy0EnterPY() {return RunVectorDummy0EnterPY; }
+	std::vector<G4double>& GetVectorDummy0EnterPZ() {return RunVectorDummy0EnterPZ; }
 	
 	std::vector<G4double>& GetVectorDummy1EnterEne() {return RunVectorDummy1EnterEne; }
 	std::vector<G4double>& GetVectorDummy1EnterPart() {return RunVectorDummy1EnterPart; }
@@ -220,6 +232,78 @@ public:
 	std::vector<G4double>& GetVectorS7EnterPX() {return RunVectorS7EnterPX; }
 	std::vector<G4double>& GetVectorS7EnterPY() {return RunVectorS7EnterPY; }
 	std::vector<G4double>& GetVectorS7EnterPZ() {return RunVectorS7EnterPZ; }
+
+	std::vector<G4double>& GetVectorT1EnterEne() {return RunVectorT1EnterEne; }
+	std::vector<G4double>& GetVectorT1EnterPart() {return RunVectorT1EnterPart; }
+	std::vector<G4double>& GetVectorT1EnterX() {return RunVectorT1EnterX; }
+	std::vector<G4double>& GetVectorT1EnterY() {return RunVectorT1EnterY; }
+	std::vector<G4double>& GetVectorT1EnterZ() {return RunVectorT1EnterZ; }
+	std::vector<G4double>& GetVectorT1EnterVX() {return RunVectorT1EnterVX; }
+	std::vector<G4double>& GetVectorT1EnterVY() {return RunVectorT1EnterVY; }
+	std::vector<G4double>& GetVectorT1EnterVZ() {return RunVectorT1EnterVZ; }
+	std::vector<G4double>& GetVectorT1EnterPX() {return RunVectorT1EnterPX; }
+	std::vector<G4double>& GetVectorT1EnterPY() {return RunVectorT1EnterPY; }
+	std::vector<G4double>& GetVectorT1EnterPZ() {return RunVectorT1EnterPZ; }
+
+	std::vector<G4double>& GetVectorT2EnterEne() {return RunVectorT2EnterEne; }
+	std::vector<G4double>& GetVectorT2EnterPart() {return RunVectorT2EnterPart; }
+	std::vector<G4double>& GetVectorT2EnterX() {return RunVectorT2EnterX; }
+	std::vector<G4double>& GetVectorT2EnterY() {return RunVectorT2EnterY; }
+	std::vector<G4double>& GetVectorT2EnterZ() {return RunVectorT2EnterZ; }
+	std::vector<G4double>& GetVectorT2EnterVX() {return RunVectorT2EnterVX; }
+	std::vector<G4double>& GetVectorT2EnterVY() {return RunVectorT2EnterVY; }
+	std::vector<G4double>& GetVectorT2EnterVZ() {return RunVectorT2EnterVZ; }
+	std::vector<G4double>& GetVectorT2EnterPX() {return RunVectorT2EnterPX; }
+	std::vector<G4double>& GetVectorT2EnterPY() {return RunVectorT2EnterPY; }
+	std::vector<G4double>& GetVectorT2EnterPZ() {return RunVectorT2EnterPZ; }
+
+	std::vector<G4double>& GetVectorT3EnterEne() {return RunVectorT3EnterEne; }
+	std::vector<G4double>& GetVectorT3EnterPart() {return RunVectorT3EnterPart; }
+	std::vector<G4double>& GetVectorT3EnterX() {return RunVectorT3EnterX; }
+	std::vector<G4double>& GetVectorT3EnterY() {return RunVectorT3EnterY; }
+	std::vector<G4double>& GetVectorT3EnterZ() {return RunVectorT3EnterZ; }
+	std::vector<G4double>& GetVectorT3EnterVX() {return RunVectorT3EnterVX; }
+	std::vector<G4double>& GetVectorT3EnterVY() {return RunVectorT3EnterVY; }
+	std::vector<G4double>& GetVectorT3EnterVZ() {return RunVectorT3EnterVZ; }
+	std::vector<G4double>& GetVectorT3EnterPX() {return RunVectorT3EnterPX; }
+	std::vector<G4double>& GetVectorT3EnterPY() {return RunVectorT3EnterPY; }
+	std::vector<G4double>& GetVectorT3EnterPZ() {return RunVectorT3EnterPZ; }
+
+	std::vector<G4double>& GetVectorT4EnterEne() {return RunVectorT4EnterEne; }
+	std::vector<G4double>& GetVectorT4EnterPart() {return RunVectorT4EnterPart; }
+	std::vector<G4double>& GetVectorT4EnterX() {return RunVectorT4EnterX; }
+	std::vector<G4double>& GetVectorT4EnterY() {return RunVectorT4EnterY; }
+	std::vector<G4double>& GetVectorT4EnterZ() {return RunVectorT4EnterZ; }
+	std::vector<G4double>& GetVectorT4EnterVX() {return RunVectorT4EnterVX; }
+	std::vector<G4double>& GetVectorT4EnterVY() {return RunVectorT4EnterVY; }
+	std::vector<G4double>& GetVectorT4EnterVZ() {return RunVectorT4EnterVZ; }
+	std::vector<G4double>& GetVectorT4EnterPX() {return RunVectorT4EnterPX; }
+	std::vector<G4double>& GetVectorT4EnterPY() {return RunVectorT4EnterPY; }
+	std::vector<G4double>& GetVectorT4EnterPZ() {return RunVectorT4EnterPZ; }
+
+	std::vector<G4double>& GetVectorT5EnterEne() {return RunVectorT5EnterEne; }
+	std::vector<G4double>& GetVectorT5EnterPart() {return RunVectorT5EnterPart; }
+	std::vector<G4double>& GetVectorT5EnterX() {return RunVectorT5EnterX; }
+	std::vector<G4double>& GetVectorT5EnterY() {return RunVectorT5EnterY; }
+	std::vector<G4double>& GetVectorT5EnterZ() {return RunVectorT5EnterZ; }
+	std::vector<G4double>& GetVectorT5EnterVX() {return RunVectorT5EnterVX; }
+	std::vector<G4double>& GetVectorT5EnterVY() {return RunVectorT5EnterVY; }
+	std::vector<G4double>& GetVectorT5EnterVZ() {return RunVectorT5EnterVZ; }
+	std::vector<G4double>& GetVectorT5EnterPX() {return RunVectorT5EnterPX; }
+	std::vector<G4double>& GetVectorT5EnterPY() {return RunVectorT5EnterPY; }
+	std::vector<G4double>& GetVectorT5EnterPZ() {return RunVectorT5EnterPZ; }
+
+	std::vector<G4double>& GetVectorT6EnterEne() {return RunVectorT6EnterEne; }
+	std::vector<G4double>& GetVectorT6EnterPart() {return RunVectorT6EnterPart; }
+	std::vector<G4double>& GetVectorT6EnterX() {return RunVectorT6EnterX; }
+	std::vector<G4double>& GetVectorT6EnterY() {return RunVectorT6EnterY; }
+	std::vector<G4double>& GetVectorT6EnterZ() {return RunVectorT6EnterZ; }
+	std::vector<G4double>& GetVectorT6EnterVX() {return RunVectorT6EnterVX; }
+	std::vector<G4double>& GetVectorT6EnterVY() {return RunVectorT6EnterVY; }
+	std::vector<G4double>& GetVectorT6EnterVZ() {return RunVectorT6EnterVZ; }
+	std::vector<G4double>& GetVectorT6EnterPX() {return RunVectorT6EnterPX; }
+	std::vector<G4double>& GetVectorT6EnterPY() {return RunVectorT6EnterPY; }
+	std::vector<G4double>& GetVectorT6EnterPZ() {return RunVectorT6EnterPZ; }
 	
 	std::vector<G4double>& GetVectorMu1EnterEne() {return RunVectorMu1EnterEne; }
 	std::vector<G4double>& GetVectorMu1EnterPart() {return RunVectorMu1EnterPart; }
@@ -373,6 +457,18 @@ private:
 	//	std::vector<G4int> RunVectorCerenkovDepoOpt;
 	
 	std::vector<G4double> RunVectorCross;
+
+	std::vector<G4double> RunVectorDummy0EnterEne;
+	std::vector<G4double> RunVectorDummy0EnterPart;
+	std::vector<G4double> RunVectorDummy0EnterX;
+	std::vector<G4double> RunVectorDummy0EnterY;
+	std::vector<G4double> RunVectorDummy0EnterZ;
+	std::vector<G4double> RunVectorDummy0EnterVX;
+	std::vector<G4double> RunVectorDummy0EnterVY;
+	std::vector<G4double> RunVectorDummy0EnterVZ;
+	std::vector<G4double> RunVectorDummy0EnterPX;
+	std::vector<G4double> RunVectorDummy0EnterPY;
+	std::vector<G4double> RunVectorDummy0EnterPZ;
 	
 	std::vector<G4double> RunVectorDummy1EnterEne;
 	std::vector<G4double> RunVectorDummy1EnterPart;
@@ -470,6 +566,78 @@ private:
 	std::vector<G4double> RunVectorS7EnterPX;
 	std::vector<G4double> RunVectorS7EnterPY;
 	std::vector<G4double> RunVectorS7EnterPZ;
+
+	std::vector<G4double> RunVectorT1EnterEne;
+	std::vector<G4double> RunVectorT1EnterPart;
+	std::vector<G4double> RunVectorT1EnterX;
+	std::vector<G4double> RunVectorT1EnterY;
+	std::vector<G4double> RunVectorT1EnterZ;
+	std::vector<G4double> RunVectorT1EnterVX;
+	std::vector<G4double> RunVectorT1EnterVY;
+	std::vector<G4double> RunVectorT1EnterVZ;
+	std::vector<G4double> RunVectorT1EnterPX;
+	std::vector<G4double> RunVectorT1EnterPY;
+	std::vector<G4double> RunVectorT1EnterPZ;
+
+	std::vector<G4double> RunVectorT2EnterEne;
+	std::vector<G4double> RunVectorT2EnterPart;
+	std::vector<G4double> RunVectorT2EnterX;
+	std::vector<G4double> RunVectorT2EnterY;
+	std::vector<G4double> RunVectorT2EnterZ;
+	std::vector<G4double> RunVectorT2EnterVX;
+	std::vector<G4double> RunVectorT2EnterVY;
+	std::vector<G4double> RunVectorT2EnterVZ;
+	std::vector<G4double> RunVectorT2EnterPX;
+	std::vector<G4double> RunVectorT2EnterPY;
+	std::vector<G4double> RunVectorT2EnterPZ;
+
+	std::vector<G4double> RunVectorT3EnterEne;
+	std::vector<G4double> RunVectorT3EnterPart;
+	std::vector<G4double> RunVectorT3EnterX;
+	std::vector<G4double> RunVectorT3EnterY;
+	std::vector<G4double> RunVectorT3EnterZ;
+	std::vector<G4double> RunVectorT3EnterVX;
+	std::vector<G4double> RunVectorT3EnterVY;
+	std::vector<G4double> RunVectorT3EnterVZ;
+	std::vector<G4double> RunVectorT3EnterPX;
+	std::vector<G4double> RunVectorT3EnterPY;
+	std::vector<G4double> RunVectorT3EnterPZ;
+
+	std::vector<G4double> RunVectorT4EnterEne;
+	std::vector<G4double> RunVectorT4EnterPart;
+	std::vector<G4double> RunVectorT4EnterX;
+	std::vector<G4double> RunVectorT4EnterY;
+	std::vector<G4double> RunVectorT4EnterZ;
+	std::vector<G4double> RunVectorT4EnterVX;
+	std::vector<G4double> RunVectorT4EnterVY;
+	std::vector<G4double> RunVectorT4EnterVZ;
+	std::vector<G4double> RunVectorT4EnterPX;
+	std::vector<G4double> RunVectorT4EnterPY;
+	std::vector<G4double> RunVectorT4EnterPZ;
+
+	std::vector<G4double> RunVectorT5EnterEne;
+	std::vector<G4double> RunVectorT5EnterPart;
+	std::vector<G4double> RunVectorT5EnterX;
+	std::vector<G4double> RunVectorT5EnterY;
+	std::vector<G4double> RunVectorT5EnterZ;
+	std::vector<G4double> RunVectorT5EnterVX;
+	std::vector<G4double> RunVectorT5EnterVY;
+	std::vector<G4double> RunVectorT5EnterVZ;
+	std::vector<G4double> RunVectorT5EnterPX;
+	std::vector<G4double> RunVectorT5EnterPY;
+	std::vector<G4double> RunVectorT5EnterPZ;
+
+	std::vector<G4double> RunVectorT6EnterEne;
+	std::vector<G4double> RunVectorT6EnterPart;
+	std::vector<G4double> RunVectorT6EnterX;
+	std::vector<G4double> RunVectorT6EnterY;
+	std::vector<G4double> RunVectorT6EnterZ;
+	std::vector<G4double> RunVectorT6EnterVX;
+	std::vector<G4double> RunVectorT6EnterVY;
+	std::vector<G4double> RunVectorT6EnterVZ;
+	std::vector<G4double> RunVectorT6EnterPX;
+	std::vector<G4double> RunVectorT6EnterPY;
+	std::vector<G4double> RunVectorT6EnterPZ;
 
 	std::vector<G4double> RunVectorMu1EnterEne;
 	std::vector<G4double> RunVectorMu1EnterPart;

@@ -43,8 +43,12 @@ B1DetectorConstruction::B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFie
 fScoringVolume_S1(0),
 fScoringVolume_T1(0),
 fScoringVolume_T2(0),
+fScoringVolume_T3(0),
 fScoringVolume_Targ(0),
-fScoringVolume_C0(0),
+fScoringVolume_T4(0),
+fScoringVolume_T5(0),
+fScoringVolume_T6(0),
+//fScoringVolume_C0(0),
 fScoringVolume_C1(0),
 fScoringVolume_C2(0),
 fScoringVolume_C3(0),
@@ -103,10 +107,26 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double T2_sizeX = ZoomFactor*1.9*cm;
 	G4double T2_sizeY = ZoomFactor*1.9*cm;
 	G4double T2_sizeZ = 0.6*mm;
+
+	G4double T3_sizeX = ZoomFactor*1.9*cm;
+	G4double T3_sizeY = ZoomFactor*1.9*cm;
+	G4double T3_sizeZ = 0.6*mm;
+
+	G4double T4_sizeX = ZoomFactor*1.9*cm;
+	G4double T4_sizeY = ZoomFactor*1.9*cm;
+	G4double T4_sizeZ = 0.6*mm;
 	
-	G4double C0_sizeX = ZoomFactor*9.3*cm;
-	G4double C0_sizeY = ZoomFactor*9.3*cm;
-	G4double C0_sizeZ = 0.8*mm;
+	G4double T5_sizeX = ZoomFactor*1.9*cm;
+	G4double T5_sizeY = ZoomFactor*1.9*cm;
+	G4double T5_sizeZ = 0.6*mm;
+
+	G4double T6_sizeX = ZoomFactor*1.9*cm;
+	G4double T6_sizeY = ZoomFactor*1.9*cm;
+	G4double T6_sizeZ = 0.6*mm;	
+
+	//G4double C0_sizeX = ZoomFactor*9.3*cm;
+	//G4double C0_sizeY = ZoomFactor*9.3*cm;
+	//G4double C0_sizeZ = 0.8*mm;
 	
 	G4double C1_sizeX = ZoomFactor*9.3*cm;
 	G4double C1_sizeY = ZoomFactor*9.3*cm;
@@ -151,8 +171,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double spanningAngle = 360.*deg;
 	
 	//--> Beam Pipes
-	G4double BP1_R = 10*cm;
-	G4double BP1_sizeZ = 220*cm;
+	//G4double BP1_R = 10*cm;
+	//G4double BP1_sizeZ = 220*cm;
 	G4double BP2_R = 10*cm;
 	G4double BP2_sizeZ = 758*cm; //was 800
 	G4double BP_AluThickness=5*mm;
@@ -255,10 +275,14 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	// ============
 	
 	G4double xT1=0*cm; //Det 10
-	G4double xBP1=0*cm;
-	G4double xT2=0*cm; //Det 20
+	//G4double xBP1=0*cm;
+	G4double xT2=0*cm; //Det 11
+	G4double xT3=0*cm; //Det 12
 	G4double xTarg=0*cm; //Be target
-	G4double xC0=0*cm; //Det
+	G4double xT4=0*cm; //Det 20
+	G4double xT5=0*cm; //Det 21
+	G4double xT6=0*cm; //Det 22
+	//G4double xC0=0*cm; //Det
 	G4double xBP2=0*cm; //Det
 	G4double xC1=0*cm; //Det
 	G4double xMag=0*cm; //Det
@@ -314,10 +338,14 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	
 	G4double yT1=0*cm; //Det 10
-	G4double yBP1=0*cm; //Det
-	G4double yT2=0*cm; //Det 20
+	//G4double yBP1=0*cm; //Det
+	G4double yT2=0*cm; //Det 11
+	G4double yT3=0*cm; //Det 12
 	G4double yTarg=0*cm; //Be target
-	G4double yC0=0*cm; //Det
+	G4double yT4=0*cm; //Det 20
+	G4double yT5=0*cm; //Det 21
+	G4double yT6=0*cm; //Det 22	
+	//G4double yC0=0*cm; //Det
 	G4double yBP2=0*cm; //Det
 	G4double yC1=0*cm; //Det
 	G4double yMag=0*cm; //Det
@@ -349,10 +377,15 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	
 	G4double zT1=82.78*cm; //Det 10
-	G4double zBP1=220*cm; //Det
-	G4double zT2=441.63*cm; //Det 20
-	G4double zTarg=zT2+16.3*cm+target_Z/2.; //Be target - 460.93
-	G4double zC0=549.93*cm; //Det
+	//G4double zBP1=220*cm; //Det
+	G4double zT2=262.51*cm; //Det 11   // = zT1+(zT3-zT1)/2 +0.3 --> spessore di T2 è 0.6cm --> z da ricontrollare!!
+	G4double zT3=441.63*cm; //Det 12  //Vecchio T2 ora T3
+	G4double zTarg=zT3+16.3*cm+target_Z/2.; //Be target - 460.93
+	G4double zDummy0=zTarg+target_Z/2.; //Nuovo dummy subito all'uscita della targhetta
+	G4double zT4=zTarg +target_Z+10*cm+0.3*cm; //Det 20	--> spessore di T4 è 0.6cm --> z da ricontrollare!!
+	G4double zT5=zTarg +target_Z+20*cm+0.3*cm; //Det 21	--> spessore di T5 è 0.6cm --> z da ricontrollare!!
+	G4double zT6=zTarg +target_Z+30*cm+0.3*cm; //Det 22	--> spessore di T6 è 0.6cm --> z da ricontrollare!!
+	//G4double zC0=549.93*cm; //Det
 	G4double zBP2=1000*cm; //Det
 	G4double zC1=1492.93*cm; //Det - was 1500 until 2018-07-12 but is the exact border of the table -> 1510
 	G4double zMag=1673.79*cm; //Det - 1719.3*cm-50*cm (1669.3) new possible offset for TB 2018b
@@ -429,11 +462,15 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	// ============
 	
 	G4ThreeVector posT1  = G4ThreeVector(xT1,yT1,zT1); // Subdet
-	G4ThreeVector posS1  = G4ThreeVector(xT1,yT1,zT1-ScintA_sizeZ/2-0.5*cm); // Subdet
-	G4ThreeVector posBP1  = G4ThreeVector(xBP1,yBP1,zBP1); // Subdet
+	G4ThreeVector posS1  = G4ThreeVector(xT2,yT2,zT2-ScintA_sizeZ/2-0.5*cm); // Subdet --> accoppiato a T2 e non T1
+	//G4ThreeVector posBP1  = G4ThreeVector(xBP1,yBP1,zBP1); // Subdet
 	G4ThreeVector posT2  = G4ThreeVector(xT2,yT2,zT2); // Subdet
+	G4ThreeVector posT3  = G4ThreeVector(xT3,yT3,zT3); // Subdet
 	G4ThreeVector posTarg  = G4ThreeVector(xTarg,yTarg,zTarg); // Subdet
-	G4ThreeVector posC0  = G4ThreeVector(xC0,yC0,zC0); // Subdet
+	G4ThreeVector posT4  = G4ThreeVector(xT4,yT4,zT4); // Subdet
+	G4ThreeVector posT5  = G4ThreeVector(xT5,yT5,zT5); // Subdet
+	G4ThreeVector posT6  = G4ThreeVector(xT6,yT6,zT6); // Subdet
+	//G4ThreeVector posC0  = G4ThreeVector(xC0,yC0,zC0); // Subdet
 	G4ThreeVector posBP2  = G4ThreeVector(xBP2,yBP2,zBP2); // Subdet
 	G4ThreeVector posC1  = G4ThreeVector(xC1,yC1,zC1); // Subdet
 	G4ThreeVector posMag  = G4ThreeVector(xMag,yMag,zMag); // Subdet
@@ -791,21 +828,40 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	
 	
 	//-- Beam Pipe between T1 and T2
-	G4Tubs* geoBP1 = new G4Tubs("BP1",0*cm,BP1_R,BP1_sizeZ/2.,startAngle,spanningAngle);
-	G4LogicalVolume* logicBP1 = new G4LogicalVolume(geoBP1,vuoto,"BP1");
-	new G4PVPlacement(0,posBP1,logicBP1,"BP1",logicWorld,false,0,checkOverlaps);
-	
+	//G4Tubs* geoBP1 = new G4Tubs("BP1",0*cm,BP1_R,BP1_sizeZ/2.,startAngle,spanningAngle);
+	//G4LogicalVolume* logicBP1 = new G4LogicalVolume(geoBP1,vuoto,"BP1");
+	//new G4PVPlacement(0,posBP1,logicBP1,"BP1",logicWorld,false,0,checkOverlaps);
 	
 	//-- T2-Si (subdet=)
 	G4Box* geoT2 = new G4Box("T2",  T2_sizeX/2, T2_sizeY/2, T2_sizeZ/2);
 	G4LogicalVolume* logicT2 = new G4LogicalVolume(geoT2, silicio, "T2");
 	new G4PVPlacement(0,posT2,logicT2,"T2",logicWorld,false,0,checkOverlaps);
+
+	//-- T3-Si (subdet=)
+	G4Box* geoT3 = new G4Box("T3",  T3_sizeX/2, T3_sizeY/2, T3_sizeZ/2);
+	G4LogicalVolume* logicT3 = new G4LogicalVolume(geoT3, silicio, "T3");
+	new G4PVPlacement(0,posT3,logicT3,"T3",logicWorld,false,0,checkOverlaps);
 	
 	//-- C0 ()
-	G4Box* geoC0 = new G4Box("C0",  C0_sizeX/2, C0_sizeY/2, C0_sizeZ/2);
-	G4LogicalVolume* logicC0 = new G4LogicalVolume(geoC0, silicio, "C0");
-	new G4PVPlacement(0,posC0,logicC0,"C0",logicWorld,false,0,checkOverlaps);
-	
+	//G4Box* geoC0 = new G4Box("C0",  C0_sizeX/2, C0_sizeY/2, C0_sizeZ/2);
+	//G4LogicalVolume* logicC0 = new G4LogicalVolume(geoC0, silicio, "C0");
+	//new G4PVPlacement(0,posC0,logicC0,"C0",logicWorld,false,0,checkOverlaps);
+
+	//-- T4-Si (subdet=)
+	G4Box* geoT4 = new G4Box("T4",  T4_sizeX/2, T4_sizeY/2, T4_sizeZ/2);
+	G4LogicalVolume* logicT4 = new G4LogicalVolume(geoT4, silicio, "T4");
+	new G4PVPlacement(0,posT4,logicT4,"T4",logicWorld,false,0,checkOverlaps);
+
+	//-- T5-Si (subdet=)
+	G4Box* geoT5 = new G4Box("T5",  T5_sizeX/2, T5_sizeY/2, T5_sizeZ/2);
+	G4LogicalVolume* logicT5 = new G4LogicalVolume(geoT5, silicio, "T5");
+	new G4PVPlacement(0,posT5,logicT5,"T5",logicWorld,false,0,checkOverlaps);
+
+	//-- T6-Si (subdet=)
+	G4Box* geoT6 = new G4Box("T6",  T6_sizeX/2, T6_sizeY/2, T6_sizeZ/2);
+	G4LogicalVolume* logicT6 = new G4LogicalVolume(geoT6, silicio, "T6");
+	new G4PVPlacement(0,posT6,logicT6,"T6",logicWorld,false,0,checkOverlaps);
+
 	//-- Beam Pipe between C0 and C1 (supposed)
 	G4Tubs* geoBP2 = new G4Tubs("BP2",0*cm,BP2_R,BP2_sizeZ/2.,startAngle,spanningAngle);
 	G4LogicalVolume* logicBP2 = new G4LogicalVolume(geoBP2,vuoto,"BP2");
@@ -1109,10 +1165,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	*/
 	//-- DUMMY LAYER FOR SCORING
 	G4Box* geoDummy = new G4Box("Dummy",  dummy_sizeX/2, dummy_sizeY/2, dummy_sizeZ/2);
+	G4LogicalVolume* logicDummy0 = new G4LogicalVolume(geoDummy, aria, "Dummy0");
+	new G4PVPlacement(0,G4ThreeVector(0,0,zDummy0),logicDummy0,"Dummy0",logicWorld,false,0,checkOverlaps);
 	G4LogicalVolume* logicDummy1 = new G4LogicalVolume(geoDummy, aria, "Dummy1");
 	new G4PVPlacement(0,G4ThreeVector(0,0,zDummy1),logicDummy1,"Dummy1",logicWorld,false,0,checkOverlaps);
 	G4LogicalVolume* logicDummy2 = new G4LogicalVolume(geoDummy, aria, "Dummy2");
-	new G4PVPlacement(0,G4ThreeVector(0,0,zDummy2),logicDummy1,"Dummy2",logicWorld,false,0,checkOverlaps);
+	new G4PVPlacement(0,G4ThreeVector(0,0,zDummy2),logicDummy2,"Dummy2",logicWorld,false,0,checkOverlaps);  //corretto bug -->logicDummy1 doveva essere 2
 	/*
 	 G4cout<<"##################################\nSUMMARIZING GEOMETRY\n"<<G4endl;
 	 G4cout<<"physCe2Fe->z="<<physCe2Fe->GetTranslation().z()<<G4endl;
@@ -1131,7 +1189,11 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	fScoringVolume_S1=logicS1;
 	fScoringVolume_T1=logicT1;
 	fScoringVolume_T2=logicT2;
-	fScoringVolume_C0=logicC0;
+	fScoringVolume_T3=logicT3;
+	//fScoringVolume_C0=logicC0;
+	fScoringVolume_T4=logicT4;
+	fScoringVolume_T5=logicT5;
+	fScoringVolume_T6=logicT6;
 	fScoringVolume_C1=logicC1;
 	fScoringVolume_C2=logicC2;
 	fScoringVolume_C3=logicC3;

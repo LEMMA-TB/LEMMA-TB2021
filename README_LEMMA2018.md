@@ -276,7 +276,9 @@ TODO LIST
 
 
 
-
+2019.11.12 by ivai
+- New geometry including: 3 1.9x1.9 (T1, T2, T3) trackers before the Be target and 3 1.9x1.9 (T4, T5, T6) trackers after the Be target. C0 removed and new Dummy layer, called Dummy0, inserted just after the Be target --> modified only Sept geometry, Aug one is untouched
+- included runAnaLEMMA.C macro to run the AnaLEMMA analysis
 
 
 

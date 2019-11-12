@@ -160,6 +160,18 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(2,"Ce2PX", RunVectorCe2EnterPX);
 	analysisManager->CreateNtupleDColumn(2,"Ce2PY", RunVectorCe2EnterPY);
 	analysisManager->CreateNtupleDColumn(2,"Ce2PZ", RunVectorCe2EnterPZ);
+
+	analysisManager->CreateNtupleDColumn(2,"Dummy0Ene", RunVectorDummy0EnterEne);
+	analysisManager->CreateNtupleDColumn(2,"Dummy0Part", RunVectorDummy0EnterPart);
+	analysisManager->CreateNtupleDColumn(2,"Dummy0X", RunVectorDummy0EnterX);
+	analysisManager->CreateNtupleDColumn(2,"Dummy0Y", RunVectorDummy0EnterY);
+	analysisManager->CreateNtupleDColumn(2,"Dummy0Z", RunVectorDummy0EnterZ);
+	analysisManager->CreateNtupleDColumn(2,"Dummy0VX", RunVectorDummy0EnterVX);
+	analysisManager->CreateNtupleDColumn(2,"Dummy0VY", RunVectorDummy0EnterVY);
+	analysisManager->CreateNtupleDColumn(2,"Dummy0VZ", RunVectorDummy0EnterVZ);
+	analysisManager->CreateNtupleDColumn(2,"Dummy0PX", RunVectorDummy0EnterPX);
+	analysisManager->CreateNtupleDColumn(2,"Dummy0PY", RunVectorDummy0EnterPY);
+	analysisManager->CreateNtupleDColumn(2,"Dummy0PZ", RunVectorDummy0EnterPZ);
 	
 	analysisManager->CreateNtupleDColumn(2,"Dummy1Ene", RunVectorDummy1EnterEne);
 	analysisManager->CreateNtupleDColumn(2,"Dummy1Part", RunVectorDummy1EnterPart);
@@ -232,6 +244,79 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(2,"S7PX", RunVectorS7EnterPX);
 	analysisManager->CreateNtupleDColumn(2,"S7PY", RunVectorS7EnterPY);
 	analysisManager->CreateNtupleDColumn(2,"S7PZ", RunVectorS7EnterPZ);
+
+	analysisManager->CreateNtupleDColumn(2,"T1Ene", RunVectorT1EnterEne);
+	analysisManager->CreateNtupleDColumn(2,"T1Part", RunVectorT1EnterPart);
+	analysisManager->CreateNtupleDColumn(2,"T1X", RunVectorT1EnterX);
+	analysisManager->CreateNtupleDColumn(2,"T1Y", RunVectorT1EnterY);
+	analysisManager->CreateNtupleDColumn(2,"T1Z", RunVectorT1EnterZ);
+	analysisManager->CreateNtupleDColumn(2,"T1VX", RunVectorT1EnterVX);
+	analysisManager->CreateNtupleDColumn(2,"T1VY", RunVectorT1EnterVY);
+	analysisManager->CreateNtupleDColumn(2,"T1VZ", RunVectorT1EnterVZ);
+	analysisManager->CreateNtupleDColumn(2,"T1PX", RunVectorT1EnterPX);
+	analysisManager->CreateNtupleDColumn(2,"T1PY", RunVectorT1EnterPY);
+	analysisManager->CreateNtupleDColumn(2,"T1PZ", RunVectorT1EnterPZ);
+
+	analysisManager->CreateNtupleDColumn(2,"T2Ene", RunVectorT2EnterEne);
+	analysisManager->CreateNtupleDColumn(2,"T2Part", RunVectorT2EnterPart);
+	analysisManager->CreateNtupleDColumn(2,"T2X", RunVectorT2EnterX);
+	analysisManager->CreateNtupleDColumn(2,"T2Y", RunVectorT2EnterY);
+	analysisManager->CreateNtupleDColumn(2,"T2Z", RunVectorT2EnterZ);
+	analysisManager->CreateNtupleDColumn(2,"T2VX", RunVectorT2EnterVX);
+	analysisManager->CreateNtupleDColumn(2,"T2VY", RunVectorT2EnterVY);
+	analysisManager->CreateNtupleDColumn(2,"T2VZ", RunVectorT2EnterVZ);
+	analysisManager->CreateNtupleDColumn(2,"T2PX", RunVectorT2EnterPX);
+	analysisManager->CreateNtupleDColumn(2,"T2PY", RunVectorT2EnterPY);
+	analysisManager->CreateNtupleDColumn(2,"T2PZ", RunVectorT2EnterPZ);
+
+	analysisManager->CreateNtupleDColumn(2,"T3Ene", RunVectorT3EnterEne);
+	analysisManager->CreateNtupleDColumn(2,"T3Part", RunVectorT3EnterPart);
+	analysisManager->CreateNtupleDColumn(2,"T3X", RunVectorT3EnterX);
+	analysisManager->CreateNtupleDColumn(2,"T3Y", RunVectorT3EnterY);
+	analysisManager->CreateNtupleDColumn(2,"T3Z", RunVectorT3EnterZ);
+	analysisManager->CreateNtupleDColumn(2,"T3VX", RunVectorT3EnterVX);
+	analysisManager->CreateNtupleDColumn(2,"T3VY", RunVectorT3EnterVY);
+	analysisManager->CreateNtupleDColumn(2,"T3VZ", RunVectorT3EnterVZ);
+	analysisManager->CreateNtupleDColumn(2,"T3PX", RunVectorT3EnterPX);
+	analysisManager->CreateNtupleDColumn(2,"T3PY", RunVectorT3EnterPY);
+	analysisManager->CreateNtupleDColumn(2,"T3PZ", RunVectorT3EnterPZ);
+
+	analysisManager->CreateNtupleDColumn(2,"T4Ene", RunVectorT4EnterEne);
+	analysisManager->CreateNtupleDColumn(2,"T4Part", RunVectorT4EnterPart);
+	analysisManager->CreateNtupleDColumn(2,"T4X", RunVectorT4EnterX);
+	analysisManager->CreateNtupleDColumn(2,"T4Y", RunVectorT4EnterY);
+	analysisManager->CreateNtupleDColumn(2,"T4Z", RunVectorT4EnterZ);
+	analysisManager->CreateNtupleDColumn(2,"T4VX", RunVectorT4EnterVX);
+	analysisManager->CreateNtupleDColumn(2,"T4VY", RunVectorT4EnterVY);
+	analysisManager->CreateNtupleDColumn(2,"T4VZ", RunVectorT4EnterVZ);
+	analysisManager->CreateNtupleDColumn(2,"T4PX", RunVectorT4EnterPX);
+	analysisManager->CreateNtupleDColumn(2,"T4PY", RunVectorT4EnterPY);
+	analysisManager->CreateNtupleDColumn(2,"T4PZ", RunVectorT4EnterPZ);
+
+	analysisManager->CreateNtupleDColumn(2,"T5Ene", RunVectorT5EnterEne);
+	analysisManager->CreateNtupleDColumn(2,"T5Part", RunVectorT5EnterPart);
+	analysisManager->CreateNtupleDColumn(2,"T5X", RunVectorT5EnterX);
+	analysisManager->CreateNtupleDColumn(2,"T5Y", RunVectorT5EnterY);
+	analysisManager->CreateNtupleDColumn(2,"T5Z", RunVectorT5EnterZ);
+	analysisManager->CreateNtupleDColumn(2,"T5VX", RunVectorT5EnterVX);
+	analysisManager->CreateNtupleDColumn(2,"T5VY", RunVectorT5EnterVY);
+	analysisManager->CreateNtupleDColumn(2,"T5VZ", RunVectorT5EnterVZ);
+	analysisManager->CreateNtupleDColumn(2,"T5PX", RunVectorT5EnterPX);
+	analysisManager->CreateNtupleDColumn(2,"T5PY", RunVectorT5EnterPY);
+	analysisManager->CreateNtupleDColumn(2,"T5PZ", RunVectorT5EnterPZ);
+
+	analysisManager->CreateNtupleDColumn(2,"T6Ene", RunVectorT6EnterEne);
+	analysisManager->CreateNtupleDColumn(2,"T6Part", RunVectorT6EnterPart);
+	analysisManager->CreateNtupleDColumn(2,"T6X", RunVectorT6EnterX);
+	analysisManager->CreateNtupleDColumn(2,"T6Y", RunVectorT6EnterY);
+	analysisManager->CreateNtupleDColumn(2,"T6Z", RunVectorT6EnterZ);
+	analysisManager->CreateNtupleDColumn(2,"T6VX", RunVectorT6EnterVX);
+	analysisManager->CreateNtupleDColumn(2,"T6VY", RunVectorT6EnterVY);
+	analysisManager->CreateNtupleDColumn(2,"T6VZ", RunVectorT6EnterVZ);
+	analysisManager->CreateNtupleDColumn(2,"T6PX", RunVectorT6EnterPX);
+	analysisManager->CreateNtupleDColumn(2,"T6PY", RunVectorT6EnterPY);
+	analysisManager->CreateNtupleDColumn(2,"T6PZ", RunVectorT6EnterPZ);
+
 
 	analysisManager->CreateNtupleDColumn(2,"Mu1Ene", RunVectorMu1EnterEne);
 	analysisManager->CreateNtupleDColumn(2,"Mu1Part", RunVectorMu1EnterPart);

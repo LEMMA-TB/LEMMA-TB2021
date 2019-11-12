@@ -13,10 +13,13 @@
 #define ZBW 10
 
 #define NPART 5
-#define NDET 24
+#define NDET 28
 
 void AnaLEMMA::Loop()
 {
+
+
+
 	// Class-based macro to analyze the output of the LEMMA 2018 Test Beam Simulation
 	//
 	// Last Modified: 9-aug-2018
@@ -48,11 +51,14 @@ void AnaLEMMA::Loop()
 	
 	std::vector<int>DetectorId={
 		//		int DetectorId[NDET]={
-		9,
 		10,
-		20,
+		9,
+		11,
+		12,
 		25,
-		30,
+		20,
+		21,
+		22,
 		31,
 		32,
 		33,
@@ -71,10 +77,13 @@ void AnaLEMMA::Loop()
 		51,
 		52,
 		61,
-		62,
+		62
 	};
 	
 	std::vector<double>DetectorCenterX={
+		0,
+		0,
+		0,
 		0,
 		0,
 		0,
@@ -105,8 +114,11 @@ void AnaLEMMA::Loop()
 		1.9,
 		1.9,
 		1.9,
+		1.9,
 		2.5, //BeTarget
-		9.5,
+		1.9,
+		1.9,
+		1.9,
 		9.5,
 		8,
 		8,
@@ -125,16 +137,16 @@ void AnaLEMMA::Loop()
 		30, //Cerenkov
 		30,
 		50, //MuChamber
-		50,
+		50
 	};
 	
 	double XYBinW=0.1; //cm
 	
 	
 	int ElementPosition;
-	
-	
+		
 	//	cout<<"pos= "<<pos<<endl;
+
 	TDirectory* DirHistoSingleDet[NDET];
 	
 	
@@ -320,4 +332,6 @@ void AnaLEMMA::Loop()
 	 ZMuM->Write();
 	 ZMuP->Write();
 	 */
+
+
 }

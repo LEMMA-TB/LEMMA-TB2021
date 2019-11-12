@@ -11,6 +11,7 @@
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
+#include <fstream>
 
 // Header file for the classes stored in the TTree if any.
 #include "vector"
@@ -111,8 +112,8 @@ public :
 	TBranch        *b_GammaConvEnePos;   //!
 	TBranch        *b_GammaConvEneEle;   //!
 
-//   AnaLEMMA(TTree *tree=0);
-	AnaLEMMA(TString);
+
+   AnaLEMMA(TTree *tree=0);
    virtual ~AnaLEMMA();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
@@ -121,63 +122,47 @@ public :
    virtual void     Loop();
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
+	
 	TFile* outputfile;
 	TDirectory* DirHistoZ;
 	TDirectory* DirHistoZX;
 	TDirectory* DirHistoDet;
 	TDirectory* DirHistoBeam;
-	TString  nomefile;
+	
 };
 
 #endif
 
+
+
 #ifdef AnaLEMMA_cxx
-//AnaLEMMA::AnaLEMMA(TTree *tree) : fChain(0)
-AnaLEMMA::AnaLEMMA(TString filename) : fChain(0)
+AnaLEMMA::AnaLEMMA(TTree *tree) : fChain(0)
 {
-	nomefile=filename;
-	// if parameter tree is not specified (or zero), connect the file
-	// used to generate this class and read the Tree.
-//	if (tree == 0) {
-	
-	
-	TFile *f = new TFile(Form("%s.root",filename.Data()));
-	TTree* tree = (TTree*)gDirectory->Get("LEMMA");
-	Init(tree);
 
-	/*
-	outfile=new TFile(Form("%s_out.root", filename.Data()), "RECREATE");
-	DirHistoEne = outfile->mkdir("DirHistoEne");
+ /*  	
+   if (tree == 0) {
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("Lemma2018MC_Pos45000_TBe_60_FieldF_calo_gconv_N10000.root");
+      if (!f || !f->IsOpen()) {
+         f = new TFile("Lemma2018MC_Pos45000_TBe_60_FieldF_calo_gconv_N10000.root");
+      }
+ */    
+     tree = (TTree*)gDirectory->Get("LEMMA");
+
+    /*  f->GetObject("LEMMA",tree);*/
+
+ /*  } */
 	
-	
-#ifdef SINGLE_TREE
-		// The following code should be used if you want this class to access
-		// a single tree instead of a chain
-		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("Memory Directory");
-		if (!f || !f->IsOpen()) {
-			f = new TFile("Memory Directory");
-		}
-		f->GetObject("LEMMA",tree);
 
 
-#else // SINGLE_TREE
-		
-		// The following code should be used if you want this class to access a chain
-		// of trees.
-		TChain * chain = new TChain("LEMMA","");
-		
-		chain->Add("build/LemmaMC2018_Pos45000_T_Mf_calo_N10000.root/LEMMA");
-		tree = chain;
-#endif // SINGLE_TREE
-		*/
-	
-		outputfile=new TFile(Form("%s_out.root", filename.Data()), "RECREATE");
+
+		outputfile=new TFile("pippo.root", "RECREATE");
+/*		outputfile=new TFile(Form("%s_out.root", filename.Data()),"RECREATE");*/
 		DirHistoBeam=outputfile->mkdir("HistoBeam");
 		DirHistoZ = outputfile->mkdir("HistoZ");
 		DirHistoZX = outputfile->mkdir("HistoZX");
 		DirHistoDet=outputfile->mkdir("HistoSubdet");
 
-//	}
+
 	Init(tree);
 }
 
