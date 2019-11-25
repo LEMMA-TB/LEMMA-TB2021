@@ -30,6 +30,7 @@ private:
 	G4LogicalVolume*  fScoringVolume_T2;
 	G4LogicalVolume*  fScoringVolume_T3;
 	G4LogicalVolume*  fScoringVolume_Targ;
+	G4LogicalVolume*  fScoringVolume_Dummy;
 	G4LogicalVolume*  fScoringVolume_C0;
 	G4LogicalVolume*  fScoringVolume_T4;
 	G4LogicalVolume*  fScoringVolume_T5;

@@ -45,6 +45,7 @@ fScoringVolume_T1(0),
 fScoringVolume_T2(0),
 fScoringVolume_T3(0),
 fScoringVolume_Targ(0),
+fScoringVolume_Dummy(0),
 fScoringVolume_T4(0),
 fScoringVolume_T5(0),
 fScoringVolume_T6(0),
@@ -382,9 +383,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4double zT3=441.63*cm; //Det 12  //Vecchio T2 ora T3
 	G4double zTarg=zT3+16.3*cm+target_Z/2.; //Be target - 460.93
 	G4double zDummy0=zTarg+target_Z/2.; //Nuovo dummy subito all'uscita della targhetta
-	G4double zT4=zTarg +target_Z+10*cm+0.3*cm; //Det 20	--> spessore di T4 è 0.6cm --> z da ricontrollare!!
-	G4double zT5=zTarg +target_Z+20*cm+0.3*cm; //Det 21	--> spessore di T5 è 0.6cm --> z da ricontrollare!!
-	G4double zT6=zTarg +target_Z+30*cm+0.3*cm; //Det 22	--> spessore di T6 è 0.6cm --> z da ricontrollare!!
+	G4double zT4=zTarg +target_Z/2+10*cm+0.3*cm; //Det 20	--> spessore di T4 è 0.6cm --> z da ricontrollare!!
+	G4double zT5=zTarg +target_Z/2+20*cm+0.3*cm; //Det 21	--> spessore di T5 è 0.6cm --> z da ricontrollare!!
+	G4double zT6=zTarg +target_Z/2+30*cm+0.3*cm; //Det 22	--> spessore di T6 è 0.6cm --> z da ricontrollare!!
 	//G4double zC0=549.93*cm; //Det
 	G4double zBP2=1000*cm; //Det
 	G4double zC1=1492.93*cm; //Det - was 1500 until 2018-07-12 but is the exact border of the table -> 1510
@@ -1190,6 +1191,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	fScoringVolume_T1=logicT1;
 	fScoringVolume_T2=logicT2;
 	fScoringVolume_T3=logicT3;
+	fScoringVolume_Dummy=logicDummy0;
 	//fScoringVolume_C0=logicC0;
 	fScoringVolume_T4=logicT4;
 	fScoringVolume_T5=logicT5;

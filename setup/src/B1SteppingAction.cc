@@ -28,6 +28,7 @@ fScoringVolume_T1(0),
 fScoringVolume_T2(0),
 fScoringVolume_T3(0),
 fScoringVolume_Targ(0),
+fScoringVolume_Dummy(0),
 fScoringVolume_C0(0),
 fScoringVolume_T4(0),
 fScoringVolume_T5(0),
@@ -90,6 +91,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		if (!fScoringVolume_T2) {fScoringVolume_T2 = detectorConstruction->GetScoringVolume_T2();}
 		if (!fScoringVolume_T3) {fScoringVolume_T3 = detectorConstruction->GetScoringVolume_T3();}
 		if (!fScoringVolume_Targ) {fScoringVolume_Targ = detectorConstruction->GetScoringVolume_Targ();}
+		if (!fScoringVolume_Dummy) {fScoringVolume_Dummy = detectorConstruction->GetScoringVolume_Dummy();}
 		if (!fScoringVolume_C0) {fScoringVolume_C0 = detectorConstruction->GetScoringVolume_C0();}
 		if (!fScoringVolume_T4) {fScoringVolume_T4 = detectorConstruction->GetScoringVolume_T4();}
 		if (!fScoringVolume_T5) {fScoringVolume_T5 = detectorConstruction->GetScoringVolume_T5();}
@@ -510,6 +512,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	else if (volume==fScoringVolume_T2)   {subdet=11; dofill=true;}  //
 	else if (volume==fScoringVolume_T3)   {subdet=12; dofill=true;}  //
 	else if (volume==fScoringVolume_Targ)   {subdet=25; dofill=true;}  //
+	else if (volume==fScoringVolume_Dummy)   {subdet=26; dofill=true;}  //
 	else if (volume==fScoringVolume_T4) {subdet=20; dofill=true;}  //
 	else if (volume==fScoringVolume_T5)   {subdet=21; dofill=true;}  //
 	else if (volume==fScoringVolume_T6)   {subdet=22; dofill=true;}  //

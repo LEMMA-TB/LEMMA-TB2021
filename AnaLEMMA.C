@@ -13,7 +13,7 @@
 #define ZBW 10
 
 #define NPART 5
-#define NDET 28
+#define NDET 29
 
 void AnaLEMMA::Loop()
 {
@@ -56,6 +56,7 @@ void AnaLEMMA::Loop()
 		11,
 		12,
 		25,
+		26,
 		20,
 		21,
 		22,
@@ -81,6 +82,7 @@ void AnaLEMMA::Loop()
 	};
 	
 	std::vector<double>DetectorCenterX={
+		0,
 		0,
 		0,
 		0,
@@ -116,6 +118,7 @@ void AnaLEMMA::Loop()
 		1.9,
 		1.9,
 		2.5, //BeTarget
+		300,
 		1.9,
 		1.9,
 		1.9,

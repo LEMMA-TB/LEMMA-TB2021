@@ -7,7 +7,7 @@ void runAnaLEMMA()
   gROOT->ProcessLine(".L AnaLEMMA.C");
  
 	//Here insert input file 
-	sprintf(tt,"build/Lemma2018MC_Pos45000_TBe_60_FieldF_calo_gconv_N500.root");
+	sprintf(tt,"build/Lemma2018MC_MuMu_TBe_60_FieldF_calo_gconv_N500.root");
 	cout << "Input file is: " << tt << endl;
 
 	//Opening tree and running analysis

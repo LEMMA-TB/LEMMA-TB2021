@@ -24,6 +24,7 @@ public:
 	G4LogicalVolume* GetScoringVolume_T2() const { return fScoringVolume_T2; }
 	G4LogicalVolume* GetScoringVolume_T3() const { return fScoringVolume_T3; }
 	G4LogicalVolume* GetScoringVolume_Targ()   const { return fScoringVolume_Targ; }
+	G4LogicalVolume* GetScoringVolume_Dummy()   const { return fScoringVolume_Dummy; }
 	G4LogicalVolume* GetScoringVolume_C0() const { return fScoringVolume_C0; }
 	G4LogicalVolume* GetScoringVolume_T4() const { return fScoringVolume_T4; }
 	G4LogicalVolume* GetScoringVolume_T5() const { return fScoringVolume_T5; }
@@ -62,6 +63,7 @@ protected:
 	G4LogicalVolume*  fScoringVolume_T2;
 	G4LogicalVolume*  fScoringVolume_T3;
 	G4LogicalVolume*  fScoringVolume_Targ;
+	G4LogicalVolume*  fScoringVolume_Dummy;
 	G4LogicalVolume*  fScoringVolume_C0;
 	G4LogicalVolume*  fScoringVolume_T4;
 	G4LogicalVolume*  fScoringVolume_T5;

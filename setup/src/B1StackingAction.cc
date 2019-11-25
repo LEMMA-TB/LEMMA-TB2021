@@ -19,6 +19,11 @@ B1StackingAction::~B1StackingAction()
 
 G4ClassificationOfNewTrack B1StackingAction::ClassifyNewTrack(const G4Track* atrack)
 {
+// if (atrack->GetParentID() == 0 && atrack->GetDynamicParticle()->GetDefinition()->GetPDGEncoding() == -11 && atrack->GetVolume() != 0 ) {
+// if (atrack->GetVolume()->GetName() == "Mu1" || atrack->GetVolume()->GetName() == "Mu2" ) {
+//    G4cout << " trovato positrone " << atrack->GetParentID() << " " <<  atrack->GetVolume() << G4endl;
+// 	}
+// 	}
 	if (atrack->GetParentID() == 0 && atrack->GetCurrentStepNumber()==0) { //modified by collamaf on 2017.12.29 - If is a new Primary particle - used to save info on primaries even if red by external file!
 																																				 // on 2018.02.12 added StepNumberCheck to avoid counting here also new particles created thereafter (eg optical photons)
 		
