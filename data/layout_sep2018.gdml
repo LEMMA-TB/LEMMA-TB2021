@@ -1,0 +1,1341 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+  <define/>
+
+  <materials>
+    <material Z="4" name="G4_Be" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="63.7"/>
+      <D unit="g/cm3" value="1.848"/>
+      <atom unit="g/mole" value="9.01218"/>
+    </material>
+    <isotope N="12" Z="6" name="C12">
+      <atom unit="g/mole" value="12"/>
+    </isotope>
+    <isotope N="13" Z="6" name="C13">
+      <atom unit="g/mole" value="13.0034"/>
+    </isotope>
+    <element name="C">
+      <fraction n="0.9893" ref="C12"/>
+      <fraction n="0.0107" ref="C13"/>
+    </element>
+    <isotope N="1" Z="1" name="H1">
+      <atom unit="g/mole" value="1.00782503081372"/>
+    </isotope>
+    <isotope N="2" Z="1" name="H2">
+      <atom unit="g/mole" value="2.01410199966617"/>
+    </isotope>
+    <element name="H">
+      <fraction n="0.999885" ref="H1"/>
+      <fraction n="0.000115" ref="H2"/>
+    </element>
+    <material name="G4_PLASTIC_SC_VINYLTOLUENE" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="64.7"/>
+      <D unit="g/cm3" value="1.032"/>
+      <fraction n="0.914708531800025" ref="C"/>
+      <fraction n="0.0852914681999746" ref="H"/>
+    </material>
+    <isotope N="28" Z="14" name="Si28">
+      <atom unit="g/mole" value="27.9769"/>
+    </isotope>
+    <isotope N="29" Z="14" name="Si29">
+      <atom unit="g/mole" value="28.9765"/>
+    </isotope>
+    <isotope N="30" Z="14" name="Si30">
+      <atom unit="g/mole" value="29.9738"/>
+    </isotope>
+    <element name="Si">
+      <fraction n="0.922296077703922" ref="Si28"/>
+      <fraction n="0.0468319531680468" ref="Si29"/>
+      <fraction n="0.0308719691280309" ref="Si30"/>
+    </element>
+    <material name="G4_Si" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="173"/>
+      <D unit="g/cm3" value="2.33"/>
+      <fraction n="1" ref="Si"/>
+    </material>
+    <isotope N="14" Z="7" name="N14">
+      <atom unit="g/mole" value="14.0031"/>
+    </isotope>
+    <isotope N="15" Z="7" name="N15">
+      <atom unit="g/mole" value="15.0001"/>
+    </isotope>
+    <element name="N">
+      <fraction n="0.99632" ref="N14"/>
+      <fraction n="0.00368" ref="N15"/>
+    </element>
+    <isotope N="16" Z="8" name="O16">
+      <atom unit="g/mole" value="15.9949"/>
+    </isotope>
+    <isotope N="17" Z="8" name="O17">
+      <atom unit="g/mole" value="16.9991"/>
+    </isotope>
+    <isotope N="18" Z="8" name="O18">
+      <atom unit="g/mole" value="17.9992"/>
+    </isotope>
+    <element name="O">
+      <fraction n="0.99757" ref="O16"/>
+      <fraction n="0.00038" ref="O17"/>
+      <fraction n="0.00205" ref="O18"/>
+    </element>
+    <isotope N="36" Z="18" name="Ar36">
+      <atom unit="g/mole" value="35.9675"/>
+    </isotope>
+    <isotope N="38" Z="18" name="Ar38">
+      <atom unit="g/mole" value="37.9627"/>
+    </isotope>
+    <isotope N="40" Z="18" name="Ar40">
+      <atom unit="g/mole" value="39.9624"/>
+    </isotope>
+    <element name="Ar">
+      <fraction n="0.003365" ref="Ar36"/>
+      <fraction n="0.000632" ref="Ar38"/>
+      <fraction n="0.996003" ref="Ar40"/>
+    </element>
+    <material name="G4_AIR" state="gas">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="85.7"/>
+      <D unit="g/cm3" value="0.00120479"/>
+      <fraction n="0.000124000124000124" ref="C"/>
+      <fraction n="0.755267755267755" ref="N"/>
+      <fraction n="0.231781231781232" ref="O"/>
+      <fraction n="0.0128270128270128" ref="Ar"/>
+    </material>
+    <isotope N="204" Z="82" name="Pb204">
+      <atom unit="g/mole" value="203.973"/>
+    </isotope>
+    <isotope N="206" Z="82" name="Pb206">
+      <atom unit="g/mole" value="205.974"/>
+    </isotope>
+    <isotope N="207" Z="82" name="Pb207">
+      <atom unit="g/mole" value="206.976"/>
+    </isotope>
+    <isotope N="208" Z="82" name="Pb208">
+      <atom unit="g/mole" value="207.977"/>
+    </isotope>
+    <element name="Lead">
+      <fraction n="0.014" ref="Pb204"/>
+      <fraction n="0.241" ref="Pb206"/>
+      <fraction n="0.221" ref="Pb207"/>
+      <fraction n="0.524" ref="Pb208"/>
+    </element>
+    <isotope N="28" Z="14" name="Si28">
+      <atom unit="g/mole" value="27.9769"/>
+    </isotope>
+    <isotope N="29" Z="14" name="Si29">
+      <atom unit="g/mole" value="28.9765"/>
+    </isotope>
+    <isotope N="30" Z="14" name="Si30">
+      <atom unit="g/mole" value="29.9738"/>
+    </isotope>
+    <element name="Silicon">
+      <fraction n="0.922296077703922" ref="Si28"/>
+      <fraction n="0.0468319531680468" ref="Si29"/>
+      <fraction n="0.0308719691280309" ref="Si30"/>
+    </element>
+    <isotope N="16" Z="8" name="O216">
+      <atom unit="g/mole" value="15.9949"/>
+    </isotope>
+    <isotope N="17" Z="8" name="O217">
+      <atom unit="g/mole" value="16.9991"/>
+    </isotope>
+    <isotope N="18" Z="8" name="O218">
+      <atom unit="g/mole" value="17.9992"/>
+    </isotope>
+    <element name="Oxygen">
+      <fraction n="0.99757" ref="O216"/>
+      <fraction n="0.00038" ref="O217"/>
+      <fraction n="0.00205" ref="O218"/>
+    </element>
+    <material name="Lead_Glass" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="306.016985346606"/>
+      <D unit="g/cm3" value="3.85"/>
+      <fraction n="0.5316" ref="Lead"/>
+      <fraction n="0.218960825428524" ref="Silicon"/>
+      <fraction n="0.249439174571476" ref="Oxygen"/>
+    </material>
+    <isotope N="27" Z="13" name="Al27">
+      <atom unit="g/mole" value="26.9815"/>
+    </isotope>
+    <element name="Al">
+      <fraction n="1" ref="Al27"/>
+    </element>
+    <material name="G4_ALUMINUM_OXIDE" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="145.2"/>
+      <D unit="g/cm3" value="3.97"/>
+      <fraction n="0.529250491608071" ref="Al"/>
+      <fraction n="0.470749508391929" ref="O"/>
+    </material>
+    <material name="quartz" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="125.663004061076"/>
+      <D unit="g/cm3" value="2.2"/>
+      <fraction n="0.467465468463971" ref="Silicon"/>
+      <fraction n="0.532534531536029" ref="Oxygen"/>
+    </material>
+    <isotope N="180" Z="74" name="W180">
+      <atom unit="g/mole" value="179.947"/>
+    </isotope>
+    <isotope N="182" Z="74" name="W182">
+      <atom unit="g/mole" value="181.948"/>
+    </isotope>
+    <isotope N="183" Z="74" name="W183">
+      <atom unit="g/mole" value="182.95"/>
+    </isotope>
+    <isotope N="184" Z="74" name="W184">
+      <atom unit="g/mole" value="183.951"/>
+    </isotope>
+    <isotope N="186" Z="74" name="W186">
+      <atom unit="g/mole" value="185.954"/>
+    </isotope>
+    <element name="W">
+      <fraction n="0.0012" ref="W180"/>
+      <fraction n="0.265" ref="W182"/>
+      <fraction n="0.1431" ref="W183"/>
+      <fraction n="0.3064" ref="W184"/>
+      <fraction n="0.2843" ref="W186"/>
+    </element>
+    <material name="G4_W" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="727"/>
+      <D unit="g/cm3" value="19.3"/>
+      <fraction n="1" ref="W"/>
+    </material>
+    <isotope N="54" Z="26" name="Fe54">
+      <atom unit="g/mole" value="53.9396"/>
+    </isotope>
+    <isotope N="56" Z="26" name="Fe56">
+      <atom unit="g/mole" value="55.9349"/>
+    </isotope>
+    <isotope N="57" Z="26" name="Fe57">
+      <atom unit="g/mole" value="56.9354"/>
+    </isotope>
+    <isotope N="58" Z="26" name="Fe58">
+      <atom unit="g/mole" value="57.9333"/>
+    </isotope>
+    <element name="Fe">
+      <fraction n="0.05845" ref="Fe54"/>
+      <fraction n="0.91754" ref="Fe56"/>
+      <fraction n="0.02119" ref="Fe57"/>
+      <fraction n="0.00282" ref="Fe58"/>
+    </element>
+    <material name="G4_Fe" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="286"/>
+      <D unit="g/cm3" value="7.874"/>
+      <fraction n="1" ref="Fe"/>
+    </material>
+  </materials>
+
+  <solids>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="Target" rmax="20" rmin="0" startphi="0" z="60"/>
+    <box lunit="mm" name="S1" x="100" y="100" z="10"/>
+    <box lunit="mm" name="T1" x="19" y="19" z="0.6"/>
+    <box lunit="mm" name="T2" x="19" y="19" z="0.6"/>
+    <box lunit="mm" name="T3" x="19" y="19" z="0.6"/>
+    <box lunit="mm" name="T4" x="19" y="19" z="0.6"/>
+    <box lunit="mm" name="T5" x="19" y="19" z="0.6"/>
+    <box lunit="mm" name="T6" x="19" y="19" z="0.6"/>
+    <box lunit="mm" name="C1" x="93" y="93" z="0.8"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="Mag" rmax="1000" rmin="0" startphi="0" z="400"/>
+    <box lunit="mm" name="C2" x="80" y="80" z="1"/>
+    <box lunit="mm" name="C3" x="80" y="80" z="1"/>
+    <box lunit="mm" name="C4" x="93" y="93" z="0.8"/>
+    <box lunit="mm" name="C5" x="93" y="93" z="0.8"/>
+    <box lunit="mm" name="C6" x="90" y="90" z="1"/>
+    <box lunit="mm" name="C7" x="90" y="90" z="1"/>
+    <box lunit="mm" name="S2" x="100" y="100" z="10"/>
+    <box lunit="mm" name="S3" x="100" y="100" z="10"/>
+    <trap alpha1="0" alpha2="0" aunit="deg" lunit="mm" name="Pb1" phi="0" theta="0.774078849488984" x1="100" x2="100" x3="110" x4="110" y1="100" y2="110" z="370"/>
+    <box lunit="mm" name="CeHAlu" x="300" y="300" z="4"/>
+    <box lunit="mm" name="CeSiO" x="279.4" y="25.4" z="25.4"/>
+    <box lunit="mm" name="CeVSiOtilt" x="25.4" y="76.2" z="25.4"/>
+    <box lunit="mm" name="CeW" x="279.4" y="76.2" z="10"/>
+    <box lunit="mm" name="CeV" x="300" y="300" z="891.6"/>
+    <box lunit="mm" name="CaloTable1" x="800" y="840" z="1700"/>
+    <trap alpha1="0" alpha2="0" aunit="deg" lunit="mm" name="Pb2" phi="0" theta="0.774078849488984" x1="100" x2="100" x3="110" x4="110" y1="100" y2="110" z="370"/>
+    <box lunit="mm" name="CeH" x="300" y="300" z="891.6"/>
+    <box lunit="mm" name="CaloTable2" x="600" y="840" z="1700"/>
+    <box lunit="mm" name="Shield" x="800" y="1800" z="400"/>
+    <box lunit="mm" name="Mu1" x="693" y="840" z="13"/>
+    <box lunit="mm" name="Mu2" x="693" y="840" z="13"/>
+    <box lunit="mm" name="S4" x="310" y="150" z="10"/>
+    <box lunit="mm" name="S5" x="310" y="150" z="10"/>
+    <box lunit="mm" name="Dummy" x="3000" y="3000" z="0.1"/>
+    <box lunit="mm" name="World" x="8000" y="8000" z="80000"/>
+  </solids>
+
+  <structure>
+    <volume name="Target">
+      <materialref ref="G4_Be"/>
+      <solidref ref="Target"/>
+    </volume>
+    <volume name="S1">
+      <materialref ref="G4_PLASTIC_SC_VINYLTOLUENE"/>
+      <solidref ref="S1"/>
+    </volume>
+    <volume name="T1">
+      <materialref ref="G4_Si"/>
+      <solidref ref="T1"/>
+    </volume>
+    <volume name="T2">
+      <materialref ref="G4_Si"/>
+      <solidref ref="T2"/>
+    </volume>
+    <volume name="T3">
+      <materialref ref="G4_Si"/>
+      <solidref ref="T3"/>
+    </volume>
+    <volume name="T4">
+      <materialref ref="G4_Si"/>
+      <solidref ref="T4"/>
+    </volume>
+    <volume name="T5">
+      <materialref ref="G4_Si"/>
+      <solidref ref="T5"/>
+    </volume>
+    <volume name="T6">
+      <materialref ref="G4_Si"/>
+      <solidref ref="T6"/>
+    </volume>
+    <volume name="C1">
+      <materialref ref="G4_Si"/>
+      <solidref ref="C1"/>
+    </volume>
+    <volume name="Mag">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="Mag"/>
+    </volume>
+    <volume name="C2">
+      <materialref ref="G4_Si"/>
+      <solidref ref="C2"/>
+    </volume>
+    <volume name="C3">
+      <materialref ref="G4_Si"/>
+      <solidref ref="C3"/>
+    </volume>
+    <volume name="C4">
+      <materialref ref="G4_Si"/>
+      <solidref ref="C4"/>
+    </volume>
+    <volume name="C5">
+      <materialref ref="G4_Si"/>
+      <solidref ref="C5"/>
+    </volume>
+    <volume name="C6">
+      <materialref ref="G4_Si"/>
+      <solidref ref="C6"/>
+    </volume>
+    <volume name="C7">
+      <materialref ref="G4_Si"/>
+      <solidref ref="C7"/>
+    </volume>
+    <volume name="S2">
+      <materialref ref="G4_PLASTIC_SC_VINYLTOLUENE"/>
+      <solidref ref="S2"/>
+    </volume>
+    <volume name="S3">
+      <materialref ref="G4_PLASTIC_SC_VINYLTOLUENE"/>
+      <solidref ref="S3"/>
+    </volume>
+    <volume name="Pb1b">
+      <materialref ref="Lead_Glass"/>
+      <solidref ref="Pb1"/>
+    </volume>
+    <volume name="Pb1a">
+      <materialref ref="Lead_Glass"/>
+      <solidref ref="Pb1"/>
+    </volume>
+    <volume name="Pb1c">
+      <materialref ref="Lead_Glass"/>
+      <solidref ref="Pb1"/>
+    </volume>
+    <volume name="CeVAlu">
+      <materialref ref="G4_ALUMINUM_OXIDE"/>
+      <solidref ref="CeHAlu"/>
+    </volume>
+    <volume name="CeVSiO">
+      <materialref ref="quartz"/>
+      <solidref ref="CeSiO"/>
+    </volume>
+    <volume name="CeVSiOtilt">
+      <materialref ref="quartz"/>
+      <solidref ref="CeVSiOtilt"/>
+    </volume>
+    <volume name="CeVW">
+      <materialref ref="G4_W"/>
+      <solidref ref="CeW"/>
+    </volume>
+    <volume name="CeV">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="CeV"/>
+      <physvol copynumber="1" name="CeVAlu1">
+        <volumeref ref="CeVAlu"/>
+        <position name="CeVAlu1_pos" unit="mm" x="0" y="0" z="-443.8"/>
+      </physvol>
+      <physvol copynumber="2" name="CeVAlu2">
+        <volumeref ref="CeVAlu"/>
+        <position name="CeVAlu2_pos" unit="mm" x="0" y="0" z="443.8"/>
+      </physvol>
+      <physvol copynumber="8" name="CeVSiO1a">
+        <volumeref ref="CeVSiO"/>
+        <position name="CeVSiO1a_pos" unit="mm" x="0" y="-25.4" z="-317.5"/>
+      </physvol>
+      <physvol copynumber="9" name="CeVSiO1b">
+        <volumeref ref="CeVSiO"/>
+        <position name="CeVSiO1b_pos" unit="mm" x="0" y="0" z="-317.5"/>
+      </physvol>
+      <physvol copynumber="10" name="CeVSiO1c">
+        <volumeref ref="CeVSiO"/>
+        <position name="CeVSiO1c_pos" unit="mm" x="0" y="25.4" z="-317.5"/>
+      </physvol>
+      <physvol copynumber="8" name="CeVSiO6a">
+        <volumeref ref="CeVSiO"/>
+        <position name="CeVSiO6a_pos" unit="mm" x="0" y="-25.4" z="333.5"/>
+      </physvol>
+      <physvol copynumber="9" name="CeVSiO6b">
+        <volumeref ref="CeVSiO"/>
+        <position name="CeVSiO6b_pos" unit="mm" x="0" y="0" z="333.5"/>
+      </physvol>
+      <physvol copynumber="10" name="CeVSiO6c">
+        <volumeref ref="CeVSiO"/>
+        <position name="CeVSiO6c_pos" unit="mm" x="0" y="25.4" z="333.5"/>
+      </physvol>
+      <physvol name="CeVSiOtilt0a">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt0a_pos" unit="mm" x="88.9" y="0" z="-377.7"/>
+      </physvol>
+      <physvol copynumber="1" name="CeVSiOtilt0b">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt0b_pos" unit="mm" x="63.5" y="0" z="-377.7"/>
+      </physvol>
+      <physvol copynumber="2" name="CeVSiOtilt0c">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt0c_pos" unit="mm" x="38.1" y="0" z="-377.7"/>
+      </physvol>
+      <physvol copynumber="3" name="CeVSiOtilt0d">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt0d_pos" unit="mm" x="12.7" y="0" z="-377.7"/>
+      </physvol>
+      <physvol copynumber="4" name="CeVSiOtilt0e">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt0e_pos" unit="mm" x="-12.7" y="0" z="-377.7"/>
+      </physvol>
+      <physvol copynumber="5" name="CeVSiOtilt0f">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt0f_pos" unit="mm" x="-38.1" y="0" z="-377.7"/>
+      </physvol>
+      <physvol copynumber="6" name="CeVSiOtilt0g">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt0g_pos" unit="mm" x="-63.5" y="0" z="-377.7"/>
+      </physvol>
+      <physvol copynumber="7" name="CeVSiOtilt0h">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt0h_pos" unit="mm" x="-88.9" y="0" z="-377.7"/>
+      </physvol>
+      <physvol copynumber="14" name="CeVSiOtilt1a">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt1a_pos" unit="mm" x="88.9" y="0" z="393.7"/>
+      </physvol>
+      <physvol copynumber="15" name="CeVSiOtilt1b">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt1b_pos" unit="mm" x="63.5" y="0" z="393.7"/>
+      </physvol>
+      <physvol copynumber="16" name="CeVSiOtilt1c">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt1c_pos" unit="mm" x="38.1" y="0" z="393.7"/>
+      </physvol>
+      <physvol copynumber="17" name="CeVSiOtilt1d">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt1d_pos" unit="mm" x="12.7" y="0" z="393.7"/>
+      </physvol>
+      <physvol copynumber="18" name="CeVSiOtilt1e">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt1e_pos" unit="mm" x="-12.7" y="0" z="393.7"/>
+      </physvol>
+      <physvol copynumber="19" name="CeVSiOtilt1f">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt1f_pos" unit="mm" x="-38.1" y="0" z="393.7"/>
+      </physvol>
+      <physvol copynumber="20" name="CeVSiOtilt1g">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt1g_pos" unit="mm" x="-63.5" y="0" z="393.7"/>
+      </physvol>
+      <physvol copynumber="21" name="CeVSiOtilt1h">
+        <volumeref ref="CeVSiOtilt"/>
+        <position name="CeVSiOtilt1h_pos" unit="mm" x="-88.9" y="0" z="393.7"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-357.6"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-347.6"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-337.6"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-297.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-287.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-277.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-267.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-257.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-217.2"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-207.2"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-197.2"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-187.2"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-177.2"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-137"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-127"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-117"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-107"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-97.0000000000001"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-56.8000000000001"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-46.8000000000001"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-36.8000000000001"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-26.8000000000001"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="-16.8000000000001"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="23.3999999999999"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="33.3999999999999"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="43.3999999999999"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="53.3999999999999"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="63.3999999999999"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="73.3999999999999"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="83.3999999999999"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="93.3999999999999"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="103.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="113.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="123.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="133.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="143.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="153.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="163.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="173.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="183.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="193.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="203.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="213.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="223.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="233.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="243.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="253.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="263.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="273.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="283.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="293.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="303.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="313.4"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="353.6"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="363.6"/>
+      </physvol>
+      <physvol name="CeVW">
+        <volumeref ref="CeVW"/>
+        <position name="CeVW_pos" unit="mm" x="0" y="0" z="373.6"/>
+      </physvol>
+    </volume>
+    <volume name="CaloTable1">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="CaloTable1"/>
+      <physvol name="Pb1b">
+        <volumeref ref="Pb1b"/>
+        <position name="Pb1b_pos" unit="mm" x="-60" y="0" z="-655"/>
+        <rotation name="Pb1b_rot" unit="deg" x="0" y="-2" z="-90"/>
+      </physvol>
+      <physvol name="Pb1a">
+        <volumeref ref="Pb1a"/>
+        <position name="Pb1a_pos" unit="mm" x="-166" y="0" z="-657"/>
+        <rotation name="Pb1a_rot" unit="deg" x="0" y="-0.451842301022032" z="-90"/>
+      </physvol>
+      <physvol name="Pb1c">
+        <volumeref ref="Pb1c"/>
+        <position name="Pb1c_pos" unit="mm" x="46" y="0" z="-657"/>
+        <rotation name="Pb1c_rot" unit="deg" x="0" y="-3.54815769897797" z="-90"/>
+      </physvol>
+      <physvol name="Ce1">
+        <volumeref ref="CeV"/>
+        <position name="Ce1_pos" unit="mm" x="-70" y="0" z="185.8"/>
+      </physvol>
+    </volume>
+    <volume name="Pb2b">
+      <materialref ref="Lead_Glass"/>
+      <solidref ref="Pb2"/>
+    </volume>
+    <volume name="Pb2a">
+      <materialref ref="Lead_Glass"/>
+      <solidref ref="Pb2"/>
+    </volume>
+    <volume name="Pb2c">
+      <materialref ref="Lead_Glass"/>
+      <solidref ref="Pb2"/>
+    </volume>
+    <volume name="CeHAlu">
+      <materialref ref="G4_ALUMINUM_OXIDE"/>
+      <solidref ref="CeHAlu"/>
+    </volume>
+    <volume name="CeHSiO">
+      <materialref ref="quartz"/>
+      <solidref ref="CeSiO"/>
+    </volume>
+    <volume name="CeHW">
+      <materialref ref="G4_W"/>
+      <solidref ref="CeW"/>
+    </volume>
+    <volume name="CeH">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="CeH"/>
+      <physvol copynumber="1" name="CeHAlu1">
+        <volumeref ref="CeHAlu"/>
+        <position name="CeHAlu1_pos" unit="mm" x="0" y="0" z="-443.8"/>
+      </physvol>
+      <physvol copynumber="2" name="CeHAlu2">
+        <volumeref ref="CeHAlu"/>
+        <position name="CeHAlu2_pos" unit="mm" x="0" y="0" z="443.8"/>
+      </physvol>
+      <physvol name="CeHSiO0a">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO0a_pos" unit="mm" x="0" y="-25.4" z="-377.7"/>
+      </physvol>
+      <physvol copynumber="1" name="CeHSiO0b">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO0b_pos" unit="mm" x="0" y="0" z="-377.7"/>
+      </physvol>
+      <physvol copynumber="2" name="CeHSiO0c">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO0c_pos" unit="mm" x="0" y="25.4" z="-377.7"/>
+      </physvol>
+      <physvol name="CeHSiO1a">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO1a_pos" unit="mm" x="0" y="-25.4" z="-317.5"/>
+      </physvol>
+      <physvol copynumber="1" name="CeHSiO1b">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO1b_pos" unit="mm" x="0" y="0" z="-317.5"/>
+      </physvol>
+      <physvol copynumber="2" name="CeHSiO1c">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO1c_pos" unit="mm" x="0" y="25.4" z="-317.5"/>
+      </physvol>
+      <physvol name="CeHSiO2a">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO2a_pos" unit="mm" x="0" y="-25.4" z="-237.3"/>
+      </physvol>
+      <physvol copynumber="1" name="CeHSiO2b">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO2b_pos" unit="mm" x="0" y="0" z="-237.3"/>
+      </physvol>
+      <physvol copynumber="2" name="CeHSiO2c">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO2c_pos" unit="mm" x="0" y="25.4" z="-237.3"/>
+      </physvol>
+      <physvol name="CeHSiO3a">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO3a_pos" unit="mm" x="0" y="-25.4" z="-157.1"/>
+      </physvol>
+      <physvol copynumber="1" name="CeHSiO3b">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO3b_pos" unit="mm" x="0" y="0" z="-157.1"/>
+      </physvol>
+      <physvol copynumber="2" name="CeHSiO3c">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO3c_pos" unit="mm" x="0" y="25.4" z="-157.1"/>
+      </physvol>
+      <physvol name="CeHSiO4a">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO4a_pos" unit="mm" x="0" y="-25.4" z="-76.9000000000001"/>
+      </physvol>
+      <physvol copynumber="1" name="CeHSiO4b">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO4b_pos" unit="mm" x="0" y="0" z="-76.9000000000001"/>
+      </physvol>
+      <physvol copynumber="2" name="CeHSiO4c">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO4c_pos" unit="mm" x="0" y="25.4" z="-76.9000000000001"/>
+      </physvol>
+      <physvol name="CeHSiO5a">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO5a_pos" unit="mm" x="0" y="-25.4" z="3.29999999999992"/>
+      </physvol>
+      <physvol copynumber="1" name="CeHSiO5b">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO5b_pos" unit="mm" x="0" y="0" z="3.29999999999992"/>
+      </physvol>
+      <physvol copynumber="2" name="CeHSiO5c">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO5c_pos" unit="mm" x="0" y="25.4" z="3.29999999999992"/>
+      </physvol>
+      <physvol name="CeHSiO6a">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO6a_pos" unit="mm" x="0" y="-25.4" z="333.5"/>
+      </physvol>
+      <physvol copynumber="1" name="CeHSiO6b">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO6b_pos" unit="mm" x="0" y="0" z="333.5"/>
+      </physvol>
+      <physvol copynumber="2" name="CeHSiO6c">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO6c_pos" unit="mm" x="0" y="25.4" z="333.5"/>
+      </physvol>
+      <physvol name="CeHSiO7a">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO7a_pos" unit="mm" x="0" y="-25.4" z="393.7"/>
+      </physvol>
+      <physvol copynumber="1" name="CeHSiO7b">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO7b_pos" unit="mm" x="0" y="0" z="393.7"/>
+      </physvol>
+      <physvol copynumber="2" name="CeHSiO7c">
+        <volumeref ref="CeHSiO"/>
+        <position name="CeHSiO7c_pos" unit="mm" x="0" y="25.4" z="393.7"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-357.6"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-347.6"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-337.6"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-297.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-287.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-277.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-267.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-257.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-217.2"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-207.2"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-197.2"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-187.2"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-177.2"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-137"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-127"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-117"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-107"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-97.0000000000001"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-56.8000000000001"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-46.8000000000001"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-36.8000000000001"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-26.8000000000001"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="-16.8000000000001"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="23.3999999999999"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="33.3999999999999"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="43.3999999999999"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="53.3999999999999"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="63.3999999999999"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="73.3999999999999"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="83.3999999999999"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="93.3999999999999"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="103.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="113.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="123.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="133.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="143.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="153.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="163.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="173.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="183.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="193.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="203.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="213.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="223.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="233.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="243.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="253.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="263.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="273.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="283.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="293.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="303.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="313.4"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="353.6"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="363.6"/>
+      </physvol>
+      <physvol name="CeHW">
+        <volumeref ref="CeHW"/>
+        <position name="CeHW_pos" unit="mm" x="0" y="0" z="373.6"/>
+      </physvol>
+    </volume>
+    <volume name="CaloTable2">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="CaloTable2"/>
+      <physvol name="Pb2b">
+        <volumeref ref="Pb2b"/>
+        <position name="Pb2b_pos" unit="mm" x="80" y="0" z="-655"/>
+        <rotation name="Pb2b_rot" unit="deg" x="0" y="2" z="-90"/>
+      </physvol>
+      <physvol name="Pb2a">
+        <volumeref ref="Pb2a"/>
+        <position name="Pb2a_pos" unit="mm" x="186" y="0" z="-657"/>
+        <rotation name="Pb2a_rot" unit="deg" x="0" y="0.451842301022032" z="-90"/>
+      </physvol>
+      <physvol name="Pb2c">
+        <volumeref ref="Pb2c"/>
+        <position name="Pb2c_pos" unit="mm" x="-26" y="0" z="-657"/>
+        <rotation name="Pb2c_rot" unit="deg" x="0" y="3.54815769897797" z="-90"/>
+      </physvol>
+      <physvol name="Ce2">
+        <volumeref ref="CeH"/>
+        <position name="Ce2_pos" unit="mm" x="100" y="0" z="235.8"/>
+      </physvol>
+    </volume>
+    <volume name="Shield">
+      <materialref ref="G4_Fe"/>
+      <solidref ref="Shield"/>
+    </volume>
+    <volume name="Mu1">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="Mu1"/>
+    </volume>
+    <volume name="Mu2">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="Mu2"/>
+    </volume>
+    <volume name="S4">
+      <materialref ref="G4_PLASTIC_SC_VINYLTOLUENE"/>
+      <solidref ref="S4"/>
+    </volume>
+    <volume name="S5">
+      <materialref ref="G4_PLASTIC_SC_VINYLTOLUENE"/>
+      <solidref ref="S5"/>
+    </volume>
+    <volume name="Dummy0">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="Dummy"/>
+    </volume>
+    <volume name="Dummy1">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="Dummy"/>
+    </volume>
+    <volume name="Dummy2">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="Dummy"/>
+    </volume>
+    <volume name="World">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="World"/>
+      <physvol name="Target">
+        <volumeref ref="Target"/>
+        <position name="Target_pos" unit="mm" x="0" y="0" z="4609.3"/>
+      </physvol>
+      <physvol name="S1">
+        <volumeref ref="S1"/>
+        <position name="S1_pos" unit="mm" x="0" y="0" z="2615.1"/>
+      </physvol>
+      <physvol name="T1">
+        <volumeref ref="T1"/>
+        <position name="T1_pos" unit="mm" x="0" y="0" z="827.8"/>
+      </physvol>
+      <physvol name="T2">
+        <volumeref ref="T2"/>
+        <position name="T2_pos" unit="mm" x="0" y="0" z="2625.1"/>
+      </physvol>
+      <physvol name="T3">
+        <volumeref ref="T3"/>
+        <position name="T3_pos" unit="mm" x="0" y="0" z="4416.3"/>
+      </physvol>
+      <physvol name="T4">
+        <volumeref ref="T4"/>
+        <position name="T4_pos" unit="mm" x="0" y="0" z="4742.3"/>
+      </physvol>
+      <physvol name="T5">
+        <volumeref ref="T5"/>
+        <position name="T5_pos" unit="mm" x="0" y="0" z="4842.3"/>
+      </physvol>
+      <physvol name="T6">
+        <volumeref ref="T6"/>
+        <position name="T6_pos" unit="mm" x="0" y="0" z="4942.3"/>
+      </physvol>
+      <physvol name="C1">
+        <volumeref ref="C1"/>
+        <position name="C1_pos" unit="mm" x="0" y="0" z="14929.3"/>
+      </physvol>
+      <physvol name="Mag">
+        <volumeref ref="Mag"/>
+        <position name="Mag_pos" unit="mm" x="0" y="0" z="16737.9"/>
+        <rotation name="Mag_rot" unit="deg" x="90" y="0" z="0"/>
+      </physvol>
+      <physvol name="C2">
+        <volumeref ref="C2"/>
+        <position name="C2_pos" unit="mm" x="115" y="0" z="18739.3"/>
+      </physvol>
+      <physvol name="C3">
+        <volumeref ref="C3"/>
+        <position name="C3_pos" unit="mm" x="-115" y="0" z="18739.3"/>
+      </physvol>
+      <physvol name="C4">
+        <volumeref ref="C4"/>
+        <position name="C4_pos" unit="mm" x="180" y="0" z="19954.3"/>
+      </physvol>
+      <physvol name="C5">
+        <volumeref ref="C5"/>
+        <position name="C5_pos" unit="mm" x="-180" y="0" z="19959.3"/>
+      </physvol>
+      <physvol name="C6a">
+        <volumeref ref="C6"/>
+        <position name="C6a_pos" unit="mm" x="315.5" y="90.5" z="21254.3"/>
+      </physvol>
+      <physvol name="C6b">
+        <volumeref ref="C6"/>
+        <position name="C6b_pos" unit="mm" x="224.5" y="90.5" z="21254.3"/>
+      </physvol>
+      <physvol name="C6c">
+        <volumeref ref="C6"/>
+        <position name="C6c_pos" unit="mm" x="224.5" y="-0.5" z="21254.3"/>
+      </physvol>
+      <physvol name="C6d">
+        <volumeref ref="C6"/>
+        <position name="C6d_pos" unit="mm" x="315.5" y="-0.5" z="21254.3"/>
+      </physvol>
+      <physvol name="C7a">
+        <volumeref ref="C7"/>
+        <position name="C7a_pos" unit="mm" x="-224.5" y="90.5" z="21249.3"/>
+      </physvol>
+      <physvol name="C7b">
+        <volumeref ref="C7"/>
+        <position name="C7b_pos" unit="mm" x="-315.5" y="90.5" z="21249.3"/>
+      </physvol>
+      <physvol name="C7c">
+        <volumeref ref="C7"/>
+        <position name="C7c_pos" unit="mm" x="-315.5" y="-0.5" z="21249.3"/>
+      </physvol>
+      <physvol name="C7d">
+        <volumeref ref="C7"/>
+        <position name="C7d_pos" unit="mm" x="-224.5" y="-0.5" z="21249.3"/>
+      </physvol>
+      <physvol name="S2">
+        <volumeref ref="S2"/>
+        <position name="S2_pos" unit="mm" x="180" y="0" z="19964.3"/>
+      </physvol>
+      <physvol name="S3">
+        <volumeref ref="S3"/>
+        <position name="S3_pos" unit="mm" x="-180" y="0" z="19969.3"/>
+      </physvol>
+      <physvol name="CaloTable1">
+        <volumeref ref="CaloTable1"/>
+        <position name="CaloTable1_pos" unit="mm" x="450" y="0" z="22548"/>
+        <rotation name="CaloTable1_rot" unit="deg" x="0" y="-3" z="0"/>
+      </physvol>
+      <physvol name="CaloTable2">
+        <volumeref ref="CaloTable2"/>
+        <position name="CaloTable2_pos" unit="mm" x="-440" y="0" z="22488"/>
+        <rotation name="CaloTable2_rot" unit="deg" x="0" y="2" z="0"/>
+      </physvol>
+      <physvol name="Shield1">
+        <volumeref ref="Shield"/>
+        <position name="Shield1_pos" unit="mm" x="487.1" y="0" z="23686.6"/>
+      </physvol>
+      <physvol name="Shield2">
+        <volumeref ref="Shield"/>
+        <position name="Shield2_pos" unit="mm" x="-705.4" y="0" z="23670.6"/>
+      </physvol>
+      <physvol name="Mu1">
+        <volumeref ref="Mu1"/>
+        <position name="Mu1_pos" unit="mm" x="567.5" y="0" z="23946.5"/>
+      </physvol>
+      <physvol name="Mu2">
+        <volumeref ref="Mu2"/>
+        <position name="Mu2_pos" unit="mm" x="-647.5" y="0" z="23937.5"/>
+      </physvol>
+      <physvol copynumber="1" name="Mu1">
+        <volumeref ref="Mu1"/>
+        <position name="Mu1_pos" unit="mm" x="567.5" y="0" z="23959.5"/>
+      </physvol>
+      <physvol copynumber="1" name="Mu2">
+        <volumeref ref="Mu2"/>
+        <position name="Mu2_pos" unit="mm" x="-647.5" y="0" z="23950.5"/>
+      </physvol>
+      <physvol copynumber="2" name="Mu1">
+        <volumeref ref="Mu1"/>
+        <position name="Mu1_pos" unit="mm" x="567.5" y="0" z="23972.5"/>
+      </physvol>
+      <physvol copynumber="2" name="Mu2">
+        <volumeref ref="Mu2"/>
+        <position name="Mu2_pos" unit="mm" x="-647.5" y="0" z="23963.5"/>
+      </physvol>
+      <physvol copynumber="3" name="Mu1">
+        <volumeref ref="Mu1"/>
+        <position name="Mu1_pos" unit="mm" x="567.5" y="0" z="23985.5"/>
+      </physvol>
+      <physvol copynumber="3" name="Mu2">
+        <volumeref ref="Mu2"/>
+        <position name="Mu2_pos" unit="mm" x="-647.5" y="0" z="23976.5"/>
+      </physvol>
+      <physvol copynumber="4" name="Mu1">
+        <volumeref ref="Mu1"/>
+        <position name="Mu1_pos" unit="mm" x="607.5" y="0" z="24768.5"/>
+      </physvol>
+      <physvol copynumber="4" name="Mu2">
+        <volumeref ref="Mu2"/>
+        <position name="Mu2_pos" unit="mm" x="-687.5" y="0" z="24759.5"/>
+      </physvol>
+      <physvol copynumber="5" name="Mu1">
+        <volumeref ref="Mu1"/>
+        <position name="Mu1_pos" unit="mm" x="607.5" y="0" z="24781.5"/>
+      </physvol>
+      <physvol copynumber="5" name="Mu2">
+        <volumeref ref="Mu2"/>
+        <position name="Mu2_pos" unit="mm" x="-687.5" y="0" z="24772.5"/>
+      </physvol>
+      <physvol copynumber="6" name="Mu1">
+        <volumeref ref="Mu1"/>
+        <position name="Mu1_pos" unit="mm" x="607.5" y="0" z="24794.5"/>
+      </physvol>
+      <physvol copynumber="6" name="Mu2">
+        <volumeref ref="Mu2"/>
+        <position name="Mu2_pos" unit="mm" x="-687.5" y="0" z="24785.5"/>
+      </physvol>
+      <physvol copynumber="7" name="Mu1">
+        <volumeref ref="Mu1"/>
+        <position name="Mu1_pos" unit="mm" x="607.5" y="0" z="24807.5"/>
+      </physvol>
+      <physvol copynumber="7" name="Mu2">
+        <volumeref ref="Mu2"/>
+        <position name="Mu2_pos" unit="mm" x="-687.5" y="0" z="24798.5"/>
+      </physvol>
+      <physvol name="S4">
+        <volumeref ref="S4"/>
+        <position name="S4_pos" unit="mm" x="464" y="0" z="24864"/>
+      </physvol>
+      <physvol name="S5">
+        <volumeref ref="S5"/>
+        <position name="S5_pos" unit="mm" x="-496" y="0" z="24864"/>
+      </physvol>
+      <physvol name="Dummy0">
+        <volumeref ref="Dummy0"/>
+        <position name="Dummy0_pos" unit="mm" x="0" y="0" z="4639.3"/>
+      </physvol>
+      <physvol name="Dummy1">
+        <volumeref ref="Dummy1"/>
+        <position name="Dummy1_pos" unit="mm" x="0" y="0" z="23920"/>
+      </physvol>
+      <physvol name="Dummy2">
+        <volumeref ref="Dummy2"/>
+        <position name="Dummy2_pos" unit="mm" x="0" y="0" z="24700"/>
+      </physvol>
+    </volume>
+  </structure>
+
+  <setup name="Default" version="1.0">
+    <world ref="World"/>
+  </setup>
+
+</gdml>
