@@ -1,13 +1,11 @@
-#ifdef G4MULTITHREADED
 #include "G4MTRunManager.hh"
-#else
 #include "G4RunManager.hh"  
-#endif
 //----------------------------------
 #include "G4UImanager.hh"
 #include "G4Run.hh"
 #include "B1DetectorConstruction.hh"
 #include "B1DetectorConstructionAug.hh"
+#include "TBDetectorConstruction.hh"
 #include "B1ActionInitialization.hh"
 #include "G4StepLimiterPhysics.hh"
 #include "G4VUserPhysicsList.hh"
@@ -26,14 +24,14 @@
 #include "G4EmStandardPhysicsSS.hh"
 #include "G4SystemOfUnits.hh"
 //------------------------------
-#ifdef G4VIS_USE
+//#ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
-#endif
+//#endif
 #include "G4VisExecutive.hh"
 
-#ifdef G4UI_USE
+//#ifdef G4UI_USE
 #include "G4UIExecutive.hh"
-#endif
+//#endif
 
 #include <stdio.h>      /* printf, NULL */
 #include <stdlib.h>
@@ -66,7 +64,7 @@ int main(int argc,char** argv)
 	//Note that the filename is provided in PrimaryGenAction (path must be relative to where the code runs (eg build directory))
 	//These flags ovverride previous ones (CalibMuMBeamFlag, ElectronBeamFlag etc) and also BeamEnergy
 	G4bool ExtSourceFlagBha=false;
-	G4bool ExtSourceFlagMu=true;
+	G4bool ExtSourceFlagMu=false;
 	
 	G4int TargMat = 0; //0 is Be, 1 is C
 	G4double TargDZ = 6*cm; //default total length for target
@@ -86,6 +84,9 @@ int main(int argc,char** argv)
 	G4int NProcInput=1; // default value for number of threads requested (1-> SingleT, <0-> all threads MultiT, X-> X threads)
 	
 	G4bool Aug2018Flag=false; //To choose TB2018a (aug) geometry
+
+	G4bool ReadGeoFromFile=false;
+	G4String GeoFileName="layout_sep2018.gdml";
 	
 	G4bool VisFlag=false; //To enable visualization
 	G4int NoOfPrimToGen=500, Verbose=0;
@@ -341,8 +342,13 @@ int main(int argc,char** argv)
 	//Define both DetConst (Aug/Sept)
 	B1DetectorConstruction* detector;
 	B1DetectorConstructionAug* detectorAug;
+	TBDetectorConstruction* tbDetector;
 	
-	if (!Aug2018Flag) { // september 2018 setup
+	if ( ReadGeoFromFile )  {
+	  G4cout<<"Initializing geometry from GDML file: " << GeoFileName << G4endl;
+	  tbDetector = new TBDetectorConstruction(GeoFileName);
+	}
+	else if (!ReadGeoFromFile && !Aug2018Flag) { // september 2018 setup
 		G4cout<<"September Geometry required"<<G4endl;
 		detector=new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag, TargMat, TargDZ);
 		detector->SetChanneling(channeling,ctype);
@@ -382,18 +388,36 @@ int main(int argc,char** argv)
 	// ##################### END: PHYSICS LIST AND DETECTOR CONSTRUCTION
 	// ##############################################################################
 	
-	if (MTFlag) {
-		if (!Aug2018Flag) 	runManagerMT->SetUserInitialization(detector);
-		else runManagerMT->SetUserInitialization(detectorAug);
-		runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
-		runManagerMT->Initialize();  // init kernel
-	} else {
-		if (!Aug2018Flag) 	runManager->SetUserInitialization(detector);
-		else runManager->SetUserInitialization(detectorAug);
-		runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag,NTotChannels, TriggerLogic,  TargMat, TargDZ, Aug2018Flag));
-		runManager->Initialize();  // init kernel
-	}
-	G4VisManager* visManager ;
+	  if (ReadGeoFromFile) {
+	    if ( MTFlag ) {
+	      runManagerMT->SetUserInitialization(tbDetector);
+	      runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
+	      runManagerMT->Initialize();  // init kernel
+	    } else {
+	      runManager->SetUserInitialization(tbDetector);
+	      runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
+	      runManager->Initialize();  // init kernel
+	    }
+	    
+	  }
+	  else {
+	    if (MTFlag) {
+	      
+	      
+	      if (!Aug2018Flag) 	runManagerMT->SetUserInitialization(detector);
+	      else runManagerMT->SetUserInitialization(detectorAug);
+	      runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
+	      runManagerMT->Initialize();  // init kernel
+	    } else {
+	      if (!Aug2018Flag) 	runManager->SetUserInitialization(detector);
+	      else runManager->SetUserInitialization(detectorAug);
+	      runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag,NTotChannels, TriggerLogic,  TargMat, TargDZ, Aug2018Flag));
+	      runManager->Initialize();  // init kernel
+	    }
+	  }
+
+	
+	  G4VisManager* visManager ;
 if (VisFlag) {	
 //#ifdef G4VIS_USE
 	// Initialize visualization
