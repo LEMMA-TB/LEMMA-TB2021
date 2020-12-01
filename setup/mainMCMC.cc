@@ -82,7 +82,7 @@ int main(int argc,char** argv)
 	G4bool StoreGammaConvFlag=true; //To enable the storing on information on gamma conversion position and energy
 	G4bool DetEnterExitFlag=true; //To enable scoring of what eneters and exits PbGlass and Cerenkov detectors
 	
-	G4bool MTFlag=TRUE; //Toggle Multi Thread running
+	G4bool MTFlag=false; //Toggle Multi Thread running
 	G4int NProcInput=1; // default value for number of threads requested (1-> SingleT, <0-> all threads MultiT, X-> X threads)
 	
 	G4bool Aug2018Flag=false; //To choose TB2018a (aug) geometry
