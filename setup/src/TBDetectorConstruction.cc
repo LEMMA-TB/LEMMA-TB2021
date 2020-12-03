@@ -5,14 +5,18 @@
 #include "G4MagneticField.hh"
 #include "G4FieldManager.hh"
 #include "G4UniformMagField.hh"
-#include "G4GDMLParser.hh"
 #include "PurgMagTabulatedField3D.hh"
 #include "G4ChannelingOptrMultiParticleChangeCrossSection.hh"
 
 TBDetectorConstruction::TBDetectorConstruction(G4String fileName) :
+  G4VUserDetectorConstruction(),
   m_fileName(fileName),
-  m_fMagField(0)
-{ }
+  m_fMagField(-2.0)
+{
+
+  m_parser.Read(m_fileName,false);
+
+}
 
 
 TBDetectorConstruction::~TBDetectorConstruction()
@@ -22,29 +26,44 @@ G4VPhysicalVolume* TBDetectorConstruction::Construct()
 {
   G4VPhysicalVolume* world = NULL;
 
-  G4GDMLParser parser;
-  parser.Read(m_fileName,false);
-
-  world = parser.GetWorldVolume();
-
-  std::cout << "Number of objects in the world: " << world->GetMultiplicity() << std::endl;
+  world = m_parser.GetWorldVolume();
   
+  // set the pointers the volumes in the store
+  G4PhysicalVolumeStore* volumeStore = G4PhysicalVolumeStore::GetInstance();
+  for(unsigned int i=0; i<volumeStore->size(); i++) {
+    G4String name = volumeStore->at(i)->GetName();
+    int iRep = volumeStore->at(i)->GetCopyNo();
+    std::cout << name << ' ' << iRep << std::endl;
+    G4LogicalVolume* vol = volumeStore->GetVolume(name,true)->GetLogicalVolume();
+
+    m_logicalVolumes.insert(std::pair<G4String,G4LogicalVolume*>(name,vol));
+  
+  }
   return world;
-}
-
-bool TBDetectorConstruction::importGeometry()
-{
-  
-  return true;
 }
 
 bool TBDetectorConstruction::exportGeometry(G4VPhysicalVolume* physVol)
 {
-  G4GDMLParser parser;
-
-  parser.Write("output.gdml",physVol,false);
+  m_parser.Write("output.gdml",physVol,false);
   
   return true;
+}
+
+G4LogicalVolume* TBDetectorConstruction::getScoringVolume(G4String volName) const
+{
+
+  G4LogicalVolume* vol = NULL;
+
+  std::map<G4String,G4LogicalVolume*>::const_iterator it;
+  it = m_logicalVolumes.find(volName);
+  if ( it != m_logicalVolumes.end() ) {
+    vol = (*it).second;
+  }
+  else {
+    G4cout << ">>>> ERROR: Logical volume: " << volName << " not found !!" << G4endl;
+  }
+  
+  return vol;
 }
 
 

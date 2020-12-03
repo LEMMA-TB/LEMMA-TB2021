@@ -1230,6 +1230,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	}
 	*/
 	G4cout<<" ... Detector construction DONE !"<<G4endl;
+
+	G4cout << "Number of objects in the phys world: " << physWorld->GetMultiplicity() << G4endl; 
 	return physWorld;
 }
 

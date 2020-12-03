@@ -72,6 +72,9 @@ private:
 	std::map<G4int,G4int> fChannelMap;
 	G4bool fDetEnterExitFlag;
 	std::vector<G4int>  fTriggerLogic;
+
+  G4bool m_readGeoFromFile;
+
 };
 
 #endif

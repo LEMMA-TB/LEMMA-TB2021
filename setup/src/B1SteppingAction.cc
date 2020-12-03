@@ -2,6 +2,7 @@
 #include "B1EventAction.hh"
 #include "B1DetectorConstruction.hh"
 #include "B1DetectorConstructionAug.hh"
+#include "TBDetectorConstruction.hh"
 #include "HistoManager.hh"
 #include "B1RunAction.hh"
 #include "G4Step.hh"
@@ -20,51 +21,52 @@
 
 
 B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::map<G4int,G4int> & ChannelMap, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic, G4bool Aug2018Flag)
-: G4UserSteppingAction(),
-fEventAction(eventAction),
-runStepAction(runAction),
-fScoringVolume_S1(0),
-fScoringVolume_T1(0),
-fScoringVolume_T2(0),
-fScoringVolume_T3(0),
-fScoringVolume_Targ(0),
-fScoringVolume_Dummy(0),
-fScoringVolume_C0(0),
-fScoringVolume_T4(0),
-fScoringVolume_T5(0),
-fScoringVolume_T6(0),
-fScoringVolume_C1(0),
-fScoringVolume_C2(0),
-fScoringVolume_C3(0),
-fScoringVolume_C4(0),
-fScoringVolume_C5(0),
-fScoringVolume_C6(0),
-fScoringVolume_C7(0),
-fScoringVolume_S2(0),
-fScoringVolume_S3(0),
-fScoringVolume_S4(0),
-fScoringVolume_S5(0),
-fScoringVolume_S6(0),
-fScoringVolume_S7(0),
-fScoringVolume_Pb1a(0),
-fScoringVolume_Pb1b(0),
-fScoringVolume_Pb1c(0),
-fScoringVolume_Pb2a(0),
-fScoringVolume_Pb2b(0),
-fScoringVolume_Pb2c(0),
-fScoringVolume_PbG(0),
-fScoringVolume_CeH(0),
-fScoringVolume_CeV(0),
-fScoringVolume_CeVtilt(0),
-fScoringVolume_Mu1(0),
-fScoringVolume_Mu2(0),
-fStoreCaloEnDepFlag(StoreCaloEnDepFlag),
-fStoreGammaConvDepFlag(StoreGammaConvDepFlag),
-fEThr(EThr),
-fAug2018Flag(Aug2018Flag),
-fChannelMap(ChannelMap),
-fDetEnterExitFlag(DetEnterExitFlag),
-fTriggerLogic(TriggerLogic)
+  : G4UserSteppingAction(),
+    fEventAction(eventAction),
+    runStepAction(runAction),
+    fScoringVolume_S1(0),
+    fScoringVolume_T1(0),
+    fScoringVolume_T2(0),
+    fScoringVolume_T3(0),
+    fScoringVolume_Targ(0),
+    fScoringVolume_Dummy(0),
+    fScoringVolume_C0(0),
+    fScoringVolume_T4(0),
+    fScoringVolume_T5(0),
+    fScoringVolume_T6(0),
+    fScoringVolume_C1(0),
+    fScoringVolume_C2(0),
+    fScoringVolume_C3(0),
+    fScoringVolume_C4(0),
+    fScoringVolume_C5(0),
+    fScoringVolume_C6(0),
+    fScoringVolume_C7(0),
+    fScoringVolume_S2(0),
+    fScoringVolume_S3(0),
+    fScoringVolume_S4(0),
+    fScoringVolume_S5(0),
+    fScoringVolume_S6(0),
+    fScoringVolume_S7(0),
+    fScoringVolume_Pb1a(0),
+    fScoringVolume_Pb1b(0),
+    fScoringVolume_Pb1c(0),
+    fScoringVolume_Pb2a(0),
+    fScoringVolume_Pb2b(0),
+    fScoringVolume_Pb2c(0),
+    fScoringVolume_PbG(0),
+    fScoringVolume_CeH(0),
+    fScoringVolume_CeV(0),
+    fScoringVolume_CeVtilt(0),
+    fScoringVolume_Mu1(0),
+    fScoringVolume_Mu2(0),
+    fStoreCaloEnDepFlag(StoreCaloEnDepFlag),
+    fStoreGammaConvDepFlag(StoreGammaConvDepFlag),
+    fEThr(EThr),
+    fAug2018Flag(Aug2018Flag),
+    fChannelMap(ChannelMap),
+    fDetEnterExitFlag(DetEnterExitFlag),
+    fTriggerLogic(TriggerLogic),
+    m_readGeoFromFile(true)
 {}
 
 
@@ -78,79 +80,116 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 
 	const B1DetectorConstruction* detectorConstruction;
 	const B1DetectorConstructionAug* detectorConstructionAug;
+	const TBDetectorConstruction* tbDetectorConstruction;
 	
-	if (!fAug2018Flag) {
-		detectorConstruction= static_cast<const B1DetectorConstruction*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-	} else {
-		detectorConstructionAug= static_cast<const B1DetectorConstructionAug*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+	if (m_readGeoFromFile) {
+	  tbDetectorConstruction = static_cast<const TBDetectorConstruction*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 	}
-	
-	if (!fAug2018Flag) { //se è settembre
-		if (!fScoringVolume_S1) {fScoringVolume_S1 = detectorConstruction->GetScoringVolume_S1();}
-		if (!fScoringVolume_T1) {fScoringVolume_T1 = detectorConstruction->GetScoringVolume_T1();}
-		if (!fScoringVolume_T2) {fScoringVolume_T2 = detectorConstruction->GetScoringVolume_T2();}
-		if (!fScoringVolume_T3) {fScoringVolume_T3 = detectorConstruction->GetScoringVolume_T3();}
-		if (!fScoringVolume_Targ) {fScoringVolume_Targ = detectorConstruction->GetScoringVolume_Targ();}
-		if (!fScoringVolume_Dummy) {fScoringVolume_Dummy = detectorConstruction->GetScoringVolume_Dummy();}
-		if (!fScoringVolume_C0) {fScoringVolume_C0 = detectorConstruction->GetScoringVolume_C0();}
-		if (!fScoringVolume_T4) {fScoringVolume_T4 = detectorConstruction->GetScoringVolume_T4();}
-		if (!fScoringVolume_T5) {fScoringVolume_T5 = detectorConstruction->GetScoringVolume_T5();}
-		if (!fScoringVolume_T6) {fScoringVolume_T6 = detectorConstruction->GetScoringVolume_T6();}
-		if (!fScoringVolume_C1) {fScoringVolume_C1 = detectorConstruction->GetScoringVolume_C1();}
-		if (!fScoringVolume_C2) {fScoringVolume_C2 = detectorConstruction->GetScoringVolume_C2();}
-		if (!fScoringVolume_C3) {fScoringVolume_C3 = detectorConstruction->GetScoringVolume_C3();}
-		if (!fScoringVolume_C4) {fScoringVolume_C4 = detectorConstruction->GetScoringVolume_C4();}
-		if (!fScoringVolume_C5) {fScoringVolume_C5 = detectorConstruction->GetScoringVolume_C5();}
-		if (!fScoringVolume_C6) {fScoringVolume_C6 = detectorConstruction->GetScoringVolume_C6();}
-		if (!fScoringVolume_C7) {fScoringVolume_C7 = detectorConstruction->GetScoringVolume_C7();}
-		if (!fScoringVolume_S2) {fScoringVolume_S2 = detectorConstruction->GetScoringVolume_S2();}
-		if (!fScoringVolume_S3) {fScoringVolume_S3 = detectorConstruction->GetScoringVolume_S3();}
-		if (!fScoringVolume_S4) {fScoringVolume_S4 = detectorConstruction->GetScoringVolume_S4();}
-		if (!fScoringVolume_S5) {fScoringVolume_S5 = detectorConstruction->GetScoringVolume_S5();}
-		if (!fScoringVolume_S6) {fScoringVolume_S6 = detectorConstruction->GetScoringVolume_S6();}
-		if (!fScoringVolume_S7) {fScoringVolume_S7 = detectorConstruction->GetScoringVolume_S7();}
-		if (!fScoringVolume_CeH) {fScoringVolume_CeH = detectorConstruction->GetScoringVolume_CeH();}
-		if (!fScoringVolume_CeVtilt) {fScoringVolume_CeVtilt = detectorConstruction->GetScoringVolume_CeVtilt();}
-		if (!fScoringVolume_CeV) {fScoringVolume_CeV = detectorConstruction->GetScoringVolume_CeV();}
-		
-		if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a = detectorConstruction->GetScoringVolume_Pb1a();}
-		if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b = detectorConstruction->GetScoringVolume_Pb1b();}
-		if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c = detectorConstruction->GetScoringVolume_Pb1c();}
-		if (!fScoringVolume_Pb2a) {fScoringVolume_Pb2a = detectorConstruction->GetScoringVolume_Pb2a();}
-		if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstruction->GetScoringVolume_Pb2b();}
-		if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstruction->GetScoringVolume_Pb2c();}
-		if (!fScoringVolume_PbG) {fScoringVolume_PbG = detectorConstruction->GetScoringVolume_PbG();}
-		
-		if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstruction->GetScoringVolume_Mu1(); }
-		if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstruction->GetScoringVolume_Mu2();}
-	} else { //se è agosto
-		
-		if (!fScoringVolume_S1) {fScoringVolume_S1 = detectorConstructionAug->GetScoringVolume_S1();}
-		if (!fScoringVolume_T1) {fScoringVolume_T1 = detectorConstructionAug->GetScoringVolume_T1();}
-		if (!fScoringVolume_T2) {fScoringVolume_T2 = detectorConstructionAug->GetScoringVolume_T2();}
-		if (!fScoringVolume_Targ) {fScoringVolume_Targ = detectorConstructionAug->GetScoringVolume_Targ();}
-		if (!fScoringVolume_C0) {fScoringVolume_C0 = detectorConstructionAug->GetScoringVolume_C0();}
-		if (!fScoringVolume_C1) {fScoringVolume_C1 = detectorConstructionAug->GetScoringVolume_C1();}
-		if (!fScoringVolume_C2) {fScoringVolume_C2 = detectorConstructionAug->GetScoringVolume_C2();}
-		if (!fScoringVolume_C3) {fScoringVolume_C3 = detectorConstructionAug->GetScoringVolume_C3();}
-		if (!fScoringVolume_C4) {fScoringVolume_C4 = detectorConstructionAug->GetScoringVolume_C4();}
-		if (!fScoringVolume_C5) {fScoringVolume_C5 = detectorConstructionAug->GetScoringVolume_C5();}
-		if (!fScoringVolume_C6) {fScoringVolume_C6 = detectorConstructionAug->GetScoringVolume_C6();}
-		if (!fScoringVolume_C7) {fScoringVolume_C7 = detectorConstructionAug->GetScoringVolume_C7();}
-		if (!fScoringVolume_S2) {fScoringVolume_S2 = detectorConstructionAug->GetScoringVolume_S2();}
-		if (!fScoringVolume_S3) {fScoringVolume_S3 = detectorConstructionAug->GetScoringVolume_S3();}
-		if (!fScoringVolume_S4) {fScoringVolume_S4 = detectorConstructionAug->GetScoringVolume_S4();}
-		
-		if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a = detectorConstructionAug->GetScoringVolume_Pb1a();}
-		if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b = detectorConstructionAug->GetScoringVolume_Pb1b();}
-		if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c = detectorConstructionAug->GetScoringVolume_Pb1c();}
-		if (!fScoringVolume_Pb2a) {fScoringVolume_Pb2a = detectorConstructionAug->GetScoringVolume_Pb2a();}
-		if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstructionAug->GetScoringVolume_Pb2b();}
-		if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstructionAug->GetScoringVolume_Pb2c();}
-		if (!fScoringVolume_PbG) {fScoringVolume_PbG = detectorConstructionAug->GetScoringVolume_PbG();}
-		
-		if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstructionAug->GetScoringVolume_Mu1();}
-		if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstructionAug->GetScoringVolume_Mu2();}
+	else {
+	  if (!fAug2018Flag) {
+	    detectorConstruction= static_cast<const B1DetectorConstruction*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+	  } else {
+	    detectorConstructionAug= static_cast<const B1DetectorConstructionAug*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+	  }
+	}
+
+	if ( m_readGeoFromFile ) {
+	    if (!fScoringVolume_S1) {fScoringVolume_S1           = tbDetectorConstruction->getScoringVolume("S1");}
+	    if (!fScoringVolume_T1) {fScoringVolume_T1           = tbDetectorConstruction->getScoringVolume("T1");}
+	    if (!fScoringVolume_T2) {fScoringVolume_T2           = tbDetectorConstruction->getScoringVolume("T2");}
+	    if (!fScoringVolume_T3) {fScoringVolume_T3           = tbDetectorConstruction->getScoringVolume("T3");}
+	    //	    if (!fScoringVolume_Targ) {fScoringVolume_Targ       = tbDetectorConstruction->getScoringVolume("Targ");}
+	    //	    if (!fScoringVolume_Dummy) {fScoringVolume_Dummy     = tbDetectorConstruction->getScoringVolume("Dummy");}
+	    if (!fScoringVolume_T4) {fScoringVolume_T4           = tbDetectorConstruction->getScoringVolume("T4");}
+	    if (!fScoringVolume_T5) {fScoringVolume_T5           = tbDetectorConstruction->getScoringVolume("T5");}
+	    if (!fScoringVolume_T6) {fScoringVolume_T6           = tbDetectorConstruction->getScoringVolume("T6");}
+	    if (!fScoringVolume_C1) {fScoringVolume_C1           = tbDetectorConstruction->getScoringVolume("C1");}
+	    if (!fScoringVolume_C2) {fScoringVolume_C2           = tbDetectorConstruction->getScoringVolume("C2");}
+	    if (!fScoringVolume_C3) {fScoringVolume_C3           = tbDetectorConstruction->getScoringVolume("C3");}
+	    if (!fScoringVolume_C4) {fScoringVolume_C4           = tbDetectorConstruction->getScoringVolume("C4");}
+	    if (!fScoringVolume_C5) {fScoringVolume_C5           = tbDetectorConstruction->getScoringVolume("C5");}
+	    if (!fScoringVolume_S2) {fScoringVolume_S2           = tbDetectorConstruction->getScoringVolume("S2");}
+	    if (!fScoringVolume_S3) {fScoringVolume_S3           = tbDetectorConstruction->getScoringVolume("S3");}
+	    if (!fScoringVolume_S4) {fScoringVolume_S4           = tbDetectorConstruction->getScoringVolume("S4");}
+	    if (!fScoringVolume_S5) {fScoringVolume_S5           = tbDetectorConstruction->getScoringVolume("S5");}
+	    //	    if (!fScoringVolume_CeV) {fScoringVolume_CeV         = tbDetectorConstruction->getScoringVolume("CeV");}
+	    if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a       = tbDetectorConstruction->getScoringVolume("Pb1a");}
+	    if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b       = tbDetectorConstruction->getScoringVolume("Pb1b");}
+	    if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c       = tbDetectorConstruction->getScoringVolume("Pb1c");}
+	    if (!fScoringVolume_Pb2a) {fScoringVolume_Pb2a       = tbDetectorConstruction->getScoringVolume("Pb2a");}
+	    if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b       = tbDetectorConstruction->getScoringVolume("Pb2b");}
+	    if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c       = tbDetectorConstruction->getScoringVolume("Pb2c");}
+	    if (!fScoringVolume_Mu1) {fScoringVolume_Mu1         = tbDetectorConstruction->getScoringVolume("Mu1");}
+	    if (!fScoringVolume_Mu2) {fScoringVolume_Mu2         = tbDetectorConstruction->getScoringVolume("Mu2");}
+	    
+	} else {
+	  if (!fAug2018Flag) { //se è settembre
+	    if (!fScoringVolume_S1) {fScoringVolume_S1 = detectorConstruction->GetScoringVolume_S1();}
+	    if (!fScoringVolume_T1) {fScoringVolume_T1 = detectorConstruction->GetScoringVolume_T1();}
+	    if (!fScoringVolume_T2) {fScoringVolume_T2 = detectorConstruction->GetScoringVolume_T2();}
+	    if (!fScoringVolume_T3) {fScoringVolume_T3 = detectorConstruction->GetScoringVolume_T3();}
+	    if (!fScoringVolume_Targ) {fScoringVolume_Targ = detectorConstruction->GetScoringVolume_Targ();}
+	    if (!fScoringVolume_Dummy) {fScoringVolume_Dummy = detectorConstruction->GetScoringVolume_Dummy();}
+	    if (!fScoringVolume_C0) {fScoringVolume_C0 = detectorConstruction->GetScoringVolume_C0();}
+	    if (!fScoringVolume_T4) {fScoringVolume_T4 = detectorConstruction->GetScoringVolume_T4();}
+	    if (!fScoringVolume_T5) {fScoringVolume_T5 = detectorConstruction->GetScoringVolume_T5();}
+	    if (!fScoringVolume_T6) {fScoringVolume_T6 = detectorConstruction->GetScoringVolume_T6();}
+	    if (!fScoringVolume_C1) {fScoringVolume_C1 = detectorConstruction->GetScoringVolume_C1();}
+	    if (!fScoringVolume_C2) {fScoringVolume_C2 = detectorConstruction->GetScoringVolume_C2();}
+	    if (!fScoringVolume_C3) {fScoringVolume_C3 = detectorConstruction->GetScoringVolume_C3();}
+	    if (!fScoringVolume_C4) {fScoringVolume_C4 = detectorConstruction->GetScoringVolume_C4();}
+	    if (!fScoringVolume_C5) {fScoringVolume_C5 = detectorConstruction->GetScoringVolume_C5();}
+	    if (!fScoringVolume_C6) {fScoringVolume_C6 = detectorConstruction->GetScoringVolume_C6();}
+	    if (!fScoringVolume_C7) {fScoringVolume_C7 = detectorConstruction->GetScoringVolume_C7();}
+	    if (!fScoringVolume_S2) {fScoringVolume_S2 = detectorConstruction->GetScoringVolume_S2();}
+	    if (!fScoringVolume_S3) {fScoringVolume_S3 = detectorConstruction->GetScoringVolume_S3();}
+	    if (!fScoringVolume_S4) {fScoringVolume_S4 = detectorConstruction->GetScoringVolume_S4();}
+	    if (!fScoringVolume_S5) {fScoringVolume_S5 = detectorConstruction->GetScoringVolume_S5();}
+	    if (!fScoringVolume_S6) {fScoringVolume_S6 = detectorConstruction->GetScoringVolume_S6();}
+	    if (!fScoringVolume_S7) {fScoringVolume_S7 = detectorConstruction->GetScoringVolume_S7();}
+	    if (!fScoringVolume_CeH) {fScoringVolume_CeH = detectorConstruction->GetScoringVolume_CeH();}
+	    if (!fScoringVolume_CeVtilt) {fScoringVolume_CeVtilt = detectorConstruction->GetScoringVolume_CeVtilt();}
+	    if (!fScoringVolume_CeV) {fScoringVolume_CeV = detectorConstruction->GetScoringVolume_CeV();}
+	    
+	    if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a = detectorConstruction->GetScoringVolume_Pb1a();}
+	    if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b = detectorConstruction->GetScoringVolume_Pb1b();}
+	    if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c = detectorConstruction->GetScoringVolume_Pb1c();}
+	    if (!fScoringVolume_Pb2a) {fScoringVolume_Pb2a = detectorConstruction->GetScoringVolume_Pb2a();}
+	    if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstruction->GetScoringVolume_Pb2b();}
+	    if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstruction->GetScoringVolume_Pb2c();}
+	    if (!fScoringVolume_PbG) {fScoringVolume_PbG = detectorConstruction->GetScoringVolume_PbG();}
+	    
+	    if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstruction->GetScoringVolume_Mu1(); }
+	    if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstruction->GetScoringVolume_Mu2();}
+	  } else { //se è agosto
+	    
+	    if (!fScoringVolume_S1) {fScoringVolume_S1 = detectorConstructionAug->GetScoringVolume_S1();}
+	    if (!fScoringVolume_T1) {fScoringVolume_T1 = detectorConstructionAug->GetScoringVolume_T1();}
+	    if (!fScoringVolume_T2) {fScoringVolume_T2 = detectorConstructionAug->GetScoringVolume_T2();}
+	    if (!fScoringVolume_Targ) {fScoringVolume_Targ = detectorConstructionAug->GetScoringVolume_Targ();}
+	    if (!fScoringVolume_C0) {fScoringVolume_C0 = detectorConstructionAug->GetScoringVolume_C0();}
+	    if (!fScoringVolume_C1) {fScoringVolume_C1 = detectorConstructionAug->GetScoringVolume_C1();}
+	    if (!fScoringVolume_C2) {fScoringVolume_C2 = detectorConstructionAug->GetScoringVolume_C2();}
+	    if (!fScoringVolume_C3) {fScoringVolume_C3 = detectorConstructionAug->GetScoringVolume_C3();}
+	    if (!fScoringVolume_C4) {fScoringVolume_C4 = detectorConstructionAug->GetScoringVolume_C4();}
+	    if (!fScoringVolume_C5) {fScoringVolume_C5 = detectorConstructionAug->GetScoringVolume_C5();}
+	    if (!fScoringVolume_C6) {fScoringVolume_C6 = detectorConstructionAug->GetScoringVolume_C6();}
+	    if (!fScoringVolume_C7) {fScoringVolume_C7 = detectorConstructionAug->GetScoringVolume_C7();}
+	    if (!fScoringVolume_S2) {fScoringVolume_S2 = detectorConstructionAug->GetScoringVolume_S2();}
+	    if (!fScoringVolume_S3) {fScoringVolume_S3 = detectorConstructionAug->GetScoringVolume_S3();}
+	    if (!fScoringVolume_S4) {fScoringVolume_S4 = detectorConstructionAug->GetScoringVolume_S4();}
+	    
+	    if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a = detectorConstructionAug->GetScoringVolume_Pb1a();}
+	    if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b = detectorConstructionAug->GetScoringVolume_Pb1b();}
+	    if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c = detectorConstructionAug->GetScoringVolume_Pb1c();}
+	    if (!fScoringVolume_Pb2a) {fScoringVolume_Pb2a = detectorConstructionAug->GetScoringVolume_Pb2a();}
+	    if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstructionAug->GetScoringVolume_Pb2b();}
+	    if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstructionAug->GetScoringVolume_Pb2c();}
+	    if (!fScoringVolume_PbG) {fScoringVolume_PbG = detectorConstructionAug->GetScoringVolume_PbG();}
+	    
+	    if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstructionAug->GetScoringVolume_Mu1();}
+	    if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstructionAug->GetScoringVolume_Mu2();}
+	  }
 	}
 	
 	G4LogicalVolume* volume =

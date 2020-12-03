@@ -85,7 +85,7 @@ int main(int argc,char** argv)
 	
 	G4bool Aug2018Flag=false; //To choose TB2018a (aug) geometry
 
-	G4bool ReadGeoFromFile=false;
+	G4bool ReadGeoFromFile=true;
 	G4String GeoFileName="layout_sep2018.gdml";
 	
 	G4bool VisFlag=false; //To enable visualization
@@ -347,6 +347,7 @@ int main(int argc,char** argv)
 	if ( ReadGeoFromFile )  {
 	  G4cout<<"Initializing geometry from GDML file: " << GeoFileName << G4endl;
 	  tbDetector = new TBDetectorConstruction(GeoFileName);
+	  
 	}
 	else if (!ReadGeoFromFile && !Aug2018Flag) { // september 2018 setup
 		G4cout<<"September Geometry required"<<G4endl;
