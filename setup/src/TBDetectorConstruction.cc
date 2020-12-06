@@ -58,6 +58,7 @@ G4LogicalVolume* TBDetectorConstruction::getScoringVolume(G4String volName) cons
   it = m_logicalVolumes.find(volName);
   if ( it != m_logicalVolumes.end() ) {
     vol = (*it).second;
+    std::cout << "Retrieving the scoring volume: " << volName << std::endl;
   }
   else {
     G4cout << ">>>> ERROR: Logical volume: " << volName << " not found !!" << G4endl;

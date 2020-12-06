@@ -81,15 +81,20 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	const B1DetectorConstruction* detectorConstruction;
 	const B1DetectorConstructionAug* detectorConstructionAug;
 	const TBDetectorConstruction* tbDetectorConstruction;
+
+	G4String worldName;
 	
 	if (m_readGeoFromFile) {
 	  tbDetectorConstruction = static_cast<const TBDetectorConstruction*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+	  worldName="World_PV";
 	}
 	else {
 	  if (!fAug2018Flag) {
 	    detectorConstruction= static_cast<const B1DetectorConstruction*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+	    worldName="World";
 	  } else {
 	    detectorConstructionAug= static_cast<const B1DetectorConstructionAug*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+	    worldName="World";
 	  }
 	}
 
@@ -199,7 +204,8 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	G4VPhysicalVolume* NextVol = step->GetPostStepPoint()->GetTouchableHandle()->GetVolume();
 	
 	if (fDetEnterExitFlag) {
-		// ########################
+
+	  // ########################
 		// What enters PbGlass 1
 		if (NextVol && ThisVol->GetName()=="CaloTable1" && ( NextVol->GetLogicalVolume()==fScoringVolume_Pb1a ||  NextVol->GetLogicalVolume()==fScoringVolume_Pb1b || NextVol->GetLogicalVolume()==fScoringVolume_Pb1c) ) {
 			(runStepAction->GetVectorPbGlass1EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
@@ -233,7 +239,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		
 		// ########################
 		// What enters PbGlassG
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetLogicalVolume()==fScoringVolume_PbG) ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetLogicalVolume()==fScoringVolume_PbG) ) {
 			(runStepAction->GetVectorPbGlassGEnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorPbGlassGEnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorPbGlassGEnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -272,7 +278,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		
 		// ########################
 		// What exits PbGlassG
-		if (NextVol && NextVol->GetName()=="World" && ( ThisVol->GetLogicalVolume()==fScoringVolume_PbG ) ) {
+		if (NextVol && NextVol->GetName()==worldName && ( ThisVol->GetLogicalVolume()==fScoringVolume_PbG ) ) {
 			(runStepAction->GetVectorPbGlassGExitEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorPbGlassGExitPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorPbGlassGExitX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -286,7 +292,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		// ########################
 
 		// What enters Dummy0
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="Dummy0") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="Dummy0") ) {
 			(runStepAction->GetVectorDummy0EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorDummy0EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorDummy0EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -301,7 +307,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		}
 
 		// What enters Dummy1
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="Dummy1") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="Dummy1") ) {
 			(runStepAction->GetVectorDummy1EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorDummy1EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorDummy1EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -315,7 +321,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorDummy1EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		// What enters Dummy2
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="Dummy2") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="Dummy2") ) {
 			(runStepAction->GetVectorDummy2EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorDummy2EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorDummy2EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -357,7 +363,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorCe2EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		// What enters S4
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="S4") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="S4") ) {
 			(runStepAction->GetVectorS4EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorS4EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorS4EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -371,7 +377,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorS4EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		// What enters S5
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="S5") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="S5") ) {
 			(runStepAction->GetVectorS5EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorS5EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorS5EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -385,7 +391,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorS5EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		// What enters S6
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="S6") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="S6") ) {
 			(runStepAction->GetVectorS6EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorS6EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorS6EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -399,7 +405,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorS6EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		// What enters S7
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="S7") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="S7") ) {
 			(runStepAction->GetVectorS7EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorS7EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorS7EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -414,7 +420,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		}
 
 		// What enters T1
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="T1") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="T1") ) {
 			(runStepAction->GetVectorT1EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorT1EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorT1EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -428,7 +434,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorT1EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		// What enters T2
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="T2") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="T2") ) {
 			(runStepAction->GetVectorT2EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorT2EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorT2EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -442,7 +448,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorT2EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		// What enters T3
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="T3") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="T3") ) {
 			(runStepAction->GetVectorT3EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorT3EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorT3EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -456,7 +462,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorT3EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		// What enters T4
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="T4") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="T4") ) {
 			(runStepAction->GetVectorT4EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorT4EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorT4EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -470,7 +476,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorT4EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		// What enters T5
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="T5") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="T5") ) {
 			(runStepAction->GetVectorT5EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorT5EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorT5EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -484,7 +490,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorT5EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 		}
 		// What enters T6
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="T6") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="T6") ) {
 			(runStepAction->GetVectorT6EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorT6EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorT6EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -500,7 +506,8 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 
 
 		// What enters Mu1
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="Mu1") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="Mu1") ) {
+
 			(runStepAction->GetVectorMu1EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorMu1EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorMu1EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
@@ -515,7 +522,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 			(runStepAction->GetVectorMu1EnterCopyNb()).push_back(step->GetPostStepPoint()->GetTouchableHandle()->GetCopyNumber());
 		}
 		// What enters Mu2
-		if (NextVol && ThisVol->GetName()=="World" && ( NextVol->GetName()=="Mu2") ) {
+		if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="Mu2") ) {
 			(runStepAction->GetVectorMu2EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 			(runStepAction->GetVectorMu2EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 			(runStepAction->GetVectorMu2EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
