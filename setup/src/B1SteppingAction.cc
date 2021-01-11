@@ -411,6 +411,22 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		       (runStepAction->GetVectorT1EnterPX()).push_back(step->GetPostStepPoint()->GetMomentum().x()/GeV);
 		       (runStepAction->GetVectorT1EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
 		       (runStepAction->GetVectorT1EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
+
+		       /// digitize and fill the ntuple
+		       G4ThreeVector digitPos,digitPosErr;
+		       bool digi = m_siDigitizer->getPosition(step->GetPostStepPoint()->GetPosition(),0.0,digitPos,digitPosErr);
+		       if ( digi ) {
+			 runStepAction->GetXDig().push_back(digitPos.x());
+			 runStepAction->GetYDig().push_back(digitPos.y());
+			 runStepAction->GetZDig().push_back(digitPos.z());
+			 runStepAction->GetXErrDig().push_back(digitPosErr.x());
+			 runStepAction->GetYErrDig().push_back(digitPosErr.y());
+			 runStepAction->GetZErrDig().push_back(digitPosErr.z());
+			 /// get the corresponding hit index
+			 int hitIndex = runStepAction->GetVectorT1EnterEne().size()-1;
+			 runStepAction->GetDigHitIndex().push_back(hitIndex);
+		       }
+		       
 	       }
 	       // What enters T2
 	       if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="T2") ) {

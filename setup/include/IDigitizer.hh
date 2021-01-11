@@ -13,9 +13,9 @@ class IDigitizer
   
  public:
 
-  virtual void getPosition(const G4ThreeVector hitPos, G4double deposit, G4ThreeVector& digitPos, G4ThreeVector& digitPosErr) = 0;
-
-  virtual void getEnergyAndPosition(const G4ThreeVector hitPos, const G4LorentzVector hitMom,
+  virtual bool getPosition(const G4ThreeVector hitPos, G4double deposit, G4ThreeVector& digitPos, G4ThreeVector& digitPosErr) = 0;
+  
+  virtual bool getEnergyAndPosition(const G4ThreeVector hitPos, const G4LorentzVector hitMom,
 				    G4double deposit, G4ThreeVector& digitPos, G4double& energy) = 0;
   
 };  // IDigitizer

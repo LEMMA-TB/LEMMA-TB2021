@@ -15,9 +15,9 @@ public:
   SiDigitizer();
   virtual ~SiDigitizer() {};
 
-  void getPosition(const G4ThreeVector hitPos, G4double deposit, G4ThreeVector& digitPos, G4ThreeVector& digitPosErr);
+  bool getPosition(const G4ThreeVector hitPos, G4double deposit, G4ThreeVector& digitPos, G4ThreeVector& digitPosErr);
   
-  void getEnergyAndPosition(const G4ThreeVector hitPos, const G4LorentzVector hitMom,
+  bool getEnergyAndPosition(const G4ThreeVector hitPos, const G4LorentzVector hitMom,
 			    G4double deposit, G4ThreeVector& digitPos, G4double& energy);
   
 private:

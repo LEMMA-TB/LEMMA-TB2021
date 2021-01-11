@@ -11,7 +11,7 @@ SiDigitizer::SiDigitizer() :
 
 
 
-void SiDigitizer::getPosition(const G4ThreeVector hitPos, G4double deposit, G4ThreeVector& digitPos, G4ThreeVector& digitPosErr)
+bool SiDigitizer::getPosition(const G4ThreeVector hitPos, G4double deposit, G4ThreeVector& digitPos, G4ThreeVector& digitPosErr)
 {
 
   G4double dx = G4RandGauss::shoot(0.0,m_xRes);
@@ -25,10 +25,16 @@ void SiDigitizer::getPosition(const G4ThreeVector hitPos, G4double deposit, G4Th
   digitPosErr.setY(m_yRes);
   digitPosErr.setZ(0.0);
 
+  /// false to be added (inefficiencies)
+  return true;
+  
 }
 
-void SiDigitizer::getEnergyAndPosition(const G4ThreeVector hitPos, const G4LorentzVector hitMom,
+bool SiDigitizer::getEnergyAndPosition(const G4ThreeVector hitPos, const G4LorentzVector hitMom,
 				       G4double deposit, G4ThreeVector& digitPos, G4double& energy)
 {
 
+  /// false to be added (inefficiencies)
+  return true;
+  
 }
