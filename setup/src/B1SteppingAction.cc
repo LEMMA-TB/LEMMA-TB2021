@@ -135,7 +135,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	   if (!fScoringVolume_Mu2) {fScoringVolume_Mu2         = tbDetectorConstruction->getScoringVolume("Mu2");}
 
        } else {
-	 if (!fAug2018Flag) { //se è settembre
+
 	   if (!fScoringVolume_S1) {fScoringVolume_S1 = detectorConstruction->GetScoringVolume_S1();}
 	   if (!fScoringVolume_T1) {fScoringVolume_T1 = detectorConstruction->GetScoringVolume_T1();}
 	   if (!fScoringVolume_T2) {fScoringVolume_T2 = detectorConstruction->GetScoringVolume_T2();}
@@ -173,35 +173,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 
 	   if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstruction->GetScoringVolume_Mu1(); }
 	   if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstruction->GetScoringVolume_Mu2();}
-	 } else { //se è agosto
 
-	   if (!fScoringVolume_S1) {fScoringVolume_S1 = detectorConstructionAug->GetScoringVolume_S1();}
-	   if (!fScoringVolume_T1) {fScoringVolume_T1 = detectorConstructionAug->GetScoringVolume_T1();}
-	   if (!fScoringVolume_T2) {fScoringVolume_T2 = detectorConstructionAug->GetScoringVolume_T2();}
-	   if (!fScoringVolume_Targ) {fScoringVolume_Targ = detectorConstructionAug->GetScoringVolume_Targ();}
-	   if (!fScoringVolume_C0) {fScoringVolume_C0 = detectorConstructionAug->GetScoringVolume_C0();}
-	   if (!fScoringVolume_C1) {fScoringVolume_C1 = detectorConstructionAug->GetScoringVolume_C1();}
-	   if (!fScoringVolume_C2) {fScoringVolume_C2 = detectorConstructionAug->GetScoringVolume_C2();}
-	   if (!fScoringVolume_C3) {fScoringVolume_C3 = detectorConstructionAug->GetScoringVolume_C3();}
-	   if (!fScoringVolume_C4) {fScoringVolume_C4 = detectorConstructionAug->GetScoringVolume_C4();}
-	   if (!fScoringVolume_C5) {fScoringVolume_C5 = detectorConstructionAug->GetScoringVolume_C5();}
-	   if (!fScoringVolume_C6) {fScoringVolume_C6 = detectorConstructionAug->GetScoringVolume_C6();}
-	   if (!fScoringVolume_C7) {fScoringVolume_C7 = detectorConstructionAug->GetScoringVolume_C7();}
-	   if (!fScoringVolume_S2) {fScoringVolume_S2 = detectorConstructionAug->GetScoringVolume_S2();}
-	   if (!fScoringVolume_S3) {fScoringVolume_S3 = detectorConstructionAug->GetScoringVolume_S3();}
-	   if (!fScoringVolume_S4) {fScoringVolume_S4 = detectorConstructionAug->GetScoringVolume_S4();}
-
-	   if (!fScoringVolume_Pb1a) {fScoringVolume_Pb1a = detectorConstructionAug->GetScoringVolume_Pb1a();}
-	   if (!fScoringVolume_Pb1b) {fScoringVolume_Pb1b = detectorConstructionAug->GetScoringVolume_Pb1b();}
-	   if (!fScoringVolume_Pb1c) {fScoringVolume_Pb1c = detectorConstructionAug->GetScoringVolume_Pb1c();}
-	   if (!fScoringVolume_Pb2a) {fScoringVolume_Pb2a = detectorConstructionAug->GetScoringVolume_Pb2a();}
-	   if (!fScoringVolume_Pb2b) {fScoringVolume_Pb2b = detectorConstructionAug->GetScoringVolume_Pb2b();}
-	   if (!fScoringVolume_Pb2c) {fScoringVolume_Pb2c = detectorConstructionAug->GetScoringVolume_Pb2c();}
-	   if (!fScoringVolume_PbG) {fScoringVolume_PbG = detectorConstructionAug->GetScoringVolume_PbG();}
-
-	   if (!fScoringVolume_Mu1) {fScoringVolume_Mu1 = detectorConstructionAug->GetScoringVolume_Mu1();}
-	   if (!fScoringVolume_Mu2) {fScoringVolume_Mu2 = detectorConstructionAug->GetScoringVolume_Mu2();}
-	 }
        }
 
        G4LogicalVolume* volume =
