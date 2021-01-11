@@ -89,7 +89,7 @@ int main(int argc,char** argv)
 	G4String GeoFileName="layout_sep2018.gdml";
 	
 	G4bool VisFlag=false; //To enable visualization
-	G4int NoOfPrimToGen=500, Verbose=0;
+	G4int NoOfPrimToGen=10000, Verbose=0;
 	G4String MacroName="";
 	G4String FileNameLabel="";
 	G4UIExecutive* ui = 0;

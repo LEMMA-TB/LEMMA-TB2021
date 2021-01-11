@@ -60,9 +60,9 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(0,"Ipar", RunVectorIpar);
 	analysisManager->CreateNtupleDColumn(0,"itrack", RunVectorItrack);
 	analysisManager->CreateNtupleDColumn(0,"Time", RunVectorTime);
-	analysisManager->CreateNtupleDColumn(0,"xh", RunVectorX);
-	analysisManager->CreateNtupleDColumn(0,"yh", RunVectorY);
-	analysisManager->CreateNtupleDColumn(0,"zh", RunVectorZ);
+	analysisManager->CreateNtupleDColumn(0,"xhit", RunVectorX);
+	analysisManager->CreateNtupleDColumn(0,"yhit", RunVectorY);
+	analysisManager->CreateNtupleDColumn(0,"zhit", RunVectorZ);
 	analysisManager->CreateNtupleDColumn(0,"P", RunVectorP);
 	analysisManager->CreateNtupleDColumn(0,"PX", RunVectorPX);
 	analysisManager->CreateNtupleDColumn(0,"PY", RunVectorPY);
@@ -89,6 +89,15 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(0,"GammaConvSubdet", RunVectorGammaConvSubdet);
 	analysisManager->CreateNtupleDColumn(0,"GammaConvEnePos", RunVectorGammaConvEnePos);
 	analysisManager->CreateNtupleDColumn(0,"GammaConvEneEle", RunVectorGammaConvEneEle);
+
+	/// digit variables (dimension can be different from the one of the hits )
+	analysisManager->CreateNtupleDColumn(0,"xDig",RunVectorXDig);
+	analysisManager->CreateNtupleDColumn(0,"yDig",RunVectorYDig);
+	analysisManager->CreateNtupleDColumn(0,"zDig",RunVectorZDig);
+	analysisManager->CreateNtupleDColumn(0,"xErrDig",RunVectorXErrDig);
+	analysisManager->CreateNtupleDColumn(0,"yErrDig",RunVectorYErrDig);
+	analysisManager->CreateNtupleDColumn(0,"zErrDig",RunVectorZErrDig);
+	analysisManager->CreateNtupleIColumn(0,"digHitIndex",RunVectorDigHitIndex);
 	
 	// ######### BEAM NTUPLE
 	analysisManager->CreateNtuple("Beam", "SimulatedBeamInfo");

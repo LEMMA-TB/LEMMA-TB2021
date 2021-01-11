@@ -69,7 +69,14 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetVectorGammaConvSubdet()).clear();
 	(fRunAction->GetVectorGammaConvEnePos()).clear();
 	(fRunAction->GetVectorGammaConvEneEle()).clear();
-	
+
+	(fRunAction->GetXDig()).clear();
+	(fRunAction->GetYDig()).clear();
+	(fRunAction->GetZDig()).clear();
+	(fRunAction->GetXErrDig()).clear();
+	(fRunAction->GetYErrDig()).clear();
+	(fRunAction->GetZErrDig()).clear();
+	(fRunAction->GetDigHitIndex()).clear();
 	
 	
 	(fRunAction->GetVectorPbGlass1EnterEne()).clear();

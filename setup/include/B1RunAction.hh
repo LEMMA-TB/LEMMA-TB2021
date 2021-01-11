@@ -62,7 +62,17 @@ public:
 	std::vector<G4double>& GetVectorGammaConvSubdet() {return RunVectorGammaConvSubdet; }
 	std::vector<G4double>& GetVectorGammaConvEnePos() {return RunVectorGammaConvEnePos; }
 	std::vector<G4double>& GetVectorGammaConvEneEle() {return RunVectorGammaConvEneEle; }
-	
+
+	std::vector<G4double>& GetXDig() {return RunVectorXDig; }
+	std::vector<G4double>& GetYDig() {return RunVectorYDig; }
+	std::vector<G4double>& GetZDig() {return RunVectorZDig; }
+	std::vector<G4double>& GetXErrDig() {return RunVectorXErrDig; }
+	std::vector<G4double>& GetYErrDig() {return RunVectorYErrDig; }
+	std::vector<G4double>& GetZErrDig() {return RunVectorZErrDig; }
+
+  	std::vector<G4int>& GetDigHitIndex() {return RunVectorDigHitIndex; }
+
+  
 	
 	std::vector<G4double>& GetVectorPbGlass1EnterEne() {return RunVectorPbGlass1EnterEne; }
 	std::vector<G4double>& GetVectorPbGlass1EnterPart() {return RunVectorPbGlass1EnterPart; }
@@ -346,340 +356,346 @@ public:
 	
 	
 private:
-	std::vector<G4double> RunVectorBeamX;
-	std::vector<G4double> RunVectorBeamY;
-	std::vector<G4double> RunVectorBeamZ;
-	std::vector<G4double> RunVectorBeamCX;
-	std::vector<G4double> RunVectorBeamCY;
-	std::vector<G4double> RunVectorBeamCZ;
-	std::vector<G4double> RunVectorBeamEne;
-	std::vector<G4double> RunVectorBeamPart;
-	
-	std::vector<G4double> RunVectorSubdet;
-	std::vector<G4double> RunVectorIdp;
-	std::vector<G4double> RunVectorIpar;
-	std::vector<G4double> RunVectorItrack;
-	std::vector<G4double> RunVectorTime;
-	std::vector<G4double> RunVectorX;
-	std::vector<G4double> RunVectorY;
-	std::vector<G4double> RunVectorZ;
-	std::vector<G4double> RunVectorP;
-	std::vector<G4double> RunVectorPX;
-	std::vector<G4double> RunVectorPY;
-	std::vector<G4double> RunVectorPZ;
-	std::vector<G4double> RunVectorVertexX;
-	std::vector<G4double> RunVectorVertexY;
-	std::vector<G4double> RunVectorVertexZ;
-	std::vector<G4double> RunVectorKinev;
-	std::vector<G4double> RunVectorPXvdir;
-	std::vector<G4double> RunVectorPYvdir;
-	std::vector<G4double> RunVectorPZvdir;
-	std::vector<G4int> RunVectorProcess;
-	std::vector<G4double> RunVectorIev;
-	std::vector<G4double> RunVectorStep;
-	std::vector<G4double> RunVectorInextStep;
-	std::vector<G4double> RunVectorCopyNb;
-	
-	std::vector<G4double> RunVectorCaloEnDep;
-	
-	std::vector<G4double>  RunVectorGammaConvX;
-	std::vector<G4double>  RunVectorGammaConvY;
-	std::vector<G4double>  RunVectorGammaConvZ;
-	std::vector<G4double>  RunVectorGammaConvEne;
-	std::vector<G4double>	RunVectorGammaConvSubdet;
-	std::vector<G4double>  RunVectorGammaConvEnePos;
-	std::vector<G4double>  RunVectorGammaConvEneEle;
-	
-	
-	
-	std::vector<G4double> RunVectorPbGlass1EnterEne;
-	std::vector<G4double> RunVectorPbGlass1EnterPart;
-	std::vector<G4double> RunVectorPbGlass1EnterX;
-	std::vector<G4double> RunVectorPbGlass1EnterY;
-	std::vector<G4double> RunVectorPbGlass1EnterZ;
-	std::vector<G4double> RunVectorPbGlass1EnterVX;
-	std::vector<G4double> RunVectorPbGlass1EnterVY;
-	std::vector<G4double> RunVectorPbGlass1EnterVZ;
-	std::vector<G4double> RunVectorPbGlass1EnterPX;
-	std::vector<G4double> RunVectorPbGlass1EnterPY;
-	std::vector<G4double> RunVectorPbGlass1EnterPZ;
-	
-	std::vector<G4double> RunVectorPbGlass2EnterEne;
-	std::vector<G4double> RunVectorPbGlass2EnterPart;
-	std::vector<G4double> RunVectorPbGlass2EnterX;
-	std::vector<G4double> RunVectorPbGlass2EnterY;
-	std::vector<G4double> RunVectorPbGlass2EnterZ;
-	std::vector<G4double> RunVectorPbGlass2EnterVX;
-	std::vector<G4double> RunVectorPbGlass2EnterVY;
-	std::vector<G4double> RunVectorPbGlass2EnterVZ;
-	std::vector<G4double> RunVectorPbGlass2EnterPX;
-	std::vector<G4double> RunVectorPbGlass2EnterPY;
-	std::vector<G4double> RunVectorPbGlass2EnterPZ;
-	
-	std::vector<G4double> RunVectorPbGlassGEnterEne;
-	std::vector<G4double> RunVectorPbGlassGEnterPart;
-	std::vector<G4double> RunVectorPbGlassGEnterX;
-	std::vector<G4double> RunVectorPbGlassGEnterY;
-	std::vector<G4double> RunVectorPbGlassGEnterZ;
-	std::vector<G4double> RunVectorPbGlassGEnterPX;
-	std::vector<G4double> RunVectorPbGlassGEnterPY;
-	std::vector<G4double> RunVectorPbGlassGEnterPZ;
-	
-	
-	std::vector<G4double> RunVectorPbGlass1ExitEne;
-	std::vector<G4double> RunVectorPbGlass1ExitPart;
-	std::vector<G4double> RunVectorPbGlass1ExitX;
-	std::vector<G4double> RunVectorPbGlass1ExitY;
-	std::vector<G4double> RunVectorPbGlass1ExitZ;
-	std::vector<G4double> RunVectorPbGlass1ExitPX;
-	std::vector<G4double> RunVectorPbGlass1ExitPY;
-	std::vector<G4double> RunVectorPbGlass1ExitPZ;
-	
-	std::vector<G4double> RunVectorPbGlass2ExitEne;
-	std::vector<G4double> RunVectorPbGlass2ExitPart;
-	std::vector<G4double> RunVectorPbGlass2ExitX;
-	std::vector<G4double> RunVectorPbGlass2ExitY;
-	std::vector<G4double> RunVectorPbGlass2ExitZ;
-	std::vector<G4double> RunVectorPbGlass2ExitPX;
-	std::vector<G4double> RunVectorPbGlass2ExitPY;
-	std::vector<G4double> RunVectorPbGlass2ExitPZ;
-	
-	std::vector<G4double> RunVectorPbGlassGExitEne;
-	std::vector<G4double> RunVectorPbGlassGExitPart;
-	std::vector<G4double> RunVectorPbGlassGExitX;
-	std::vector<G4double> RunVectorPbGlassGExitY;
-	std::vector<G4double> RunVectorPbGlassGExitZ;
-	std::vector<G4double> RunVectorPbGlassGExitPX;
-	std::vector<G4double> RunVectorPbGlassGExitPY;
-	std::vector<G4double> RunVectorPbGlassGExitPZ;
-	
-	//	std::vector<G4double> RunVectorCerenkovDepo;
-	//	std::vector<G4int> RunVectorCerenkovDepoOpt;
-	
-	std::vector<G4double> RunVectorCross;
-
-	std::vector<G4double> RunVectorDummy0EnterEne;
-	std::vector<G4double> RunVectorDummy0EnterPart;
-	std::vector<G4double> RunVectorDummy0EnterX;
-	std::vector<G4double> RunVectorDummy0EnterY;
-	std::vector<G4double> RunVectorDummy0EnterZ;
-	std::vector<G4double> RunVectorDummy0EnterVX;
-	std::vector<G4double> RunVectorDummy0EnterVY;
-	std::vector<G4double> RunVectorDummy0EnterVZ;
-	std::vector<G4double> RunVectorDummy0EnterPX;
-	std::vector<G4double> RunVectorDummy0EnterPY;
-	std::vector<G4double> RunVectorDummy0EnterPZ;
-	
-	std::vector<G4double> RunVectorDummy1EnterEne;
-	std::vector<G4double> RunVectorDummy1EnterPart;
-	std::vector<G4double> RunVectorDummy1EnterX;
-	std::vector<G4double> RunVectorDummy1EnterY;
-	std::vector<G4double> RunVectorDummy1EnterZ;
-	std::vector<G4double> RunVectorDummy1EnterVX;
-	std::vector<G4double> RunVectorDummy1EnterVY;
-	std::vector<G4double> RunVectorDummy1EnterVZ;
-	std::vector<G4double> RunVectorDummy1EnterPX;
-	std::vector<G4double> RunVectorDummy1EnterPY;
-	std::vector<G4double> RunVectorDummy1EnterPZ;
-
-	std::vector<G4double> RunVectorDummy2EnterEne;
-	std::vector<G4double> RunVectorDummy2EnterPart;
-	std::vector<G4double> RunVectorDummy2EnterX;
-	std::vector<G4double> RunVectorDummy2EnterY;
-	std::vector<G4double> RunVectorDummy2EnterZ;
-	std::vector<G4double> RunVectorDummy2EnterVX;
-	std::vector<G4double> RunVectorDummy2EnterVY;
-	std::vector<G4double> RunVectorDummy2EnterVZ;
-	std::vector<G4double> RunVectorDummy2EnterPX;
-	std::vector<G4double> RunVectorDummy2EnterPY;
-	std::vector<G4double> RunVectorDummy2EnterPZ;
-	
-	
-	std::vector<G4double> RunVectorCe1EnterEne;
-	std::vector<G4double> RunVectorCe1EnterPart;
-	std::vector<G4double> RunVectorCe1EnterX;
-	std::vector<G4double> RunVectorCe1EnterY;
-	std::vector<G4double> RunVectorCe1EnterZ;
-	std::vector<G4double> RunVectorCe1EnterVX;
-	std::vector<G4double> RunVectorCe1EnterVY;
-	std::vector<G4double> RunVectorCe1EnterVZ;
-	std::vector<G4double> RunVectorCe1EnterPX;
-	std::vector<G4double> RunVectorCe1EnterPY;
-	std::vector<G4double> RunVectorCe1EnterPZ;
-	
-	std::vector<G4double> RunVectorCe2EnterEne;
-	std::vector<G4double> RunVectorCe2EnterPart;
-	std::vector<G4double> RunVectorCe2EnterX;
-	std::vector<G4double> RunVectorCe2EnterY;
-	std::vector<G4double> RunVectorCe2EnterZ;
-	std::vector<G4double> RunVectorCe2EnterVX;
-	std::vector<G4double> RunVectorCe2EnterVY;
-	std::vector<G4double> RunVectorCe2EnterVZ;
-	std::vector<G4double> RunVectorCe2EnterPX;
-	std::vector<G4double> RunVectorCe2EnterPY;
-	std::vector<G4double> RunVectorCe2EnterPZ;
-	
-	std::vector<G4double> RunVectorS4EnterEne;
-	std::vector<G4double> RunVectorS4EnterPart;
-	std::vector<G4double> RunVectorS4EnterX;
-	std::vector<G4double> RunVectorS4EnterY;
-	std::vector<G4double> RunVectorS4EnterZ;
-	std::vector<G4double> RunVectorS4EnterVX;
-	std::vector<G4double> RunVectorS4EnterVY;
-	std::vector<G4double> RunVectorS4EnterVZ;
-	std::vector<G4double> RunVectorS4EnterPX;
-	std::vector<G4double> RunVectorS4EnterPY;
-	std::vector<G4double> RunVectorS4EnterPZ;
-
-	std::vector<G4double> RunVectorS5EnterEne;
-	std::vector<G4double> RunVectorS5EnterPart;
-	std::vector<G4double> RunVectorS5EnterX;
-	std::vector<G4double> RunVectorS5EnterY;
-	std::vector<G4double> RunVectorS5EnterZ;
-	std::vector<G4double> RunVectorS5EnterVX;
-	std::vector<G4double> RunVectorS5EnterVY;
-	std::vector<G4double> RunVectorS5EnterVZ;
-	std::vector<G4double> RunVectorS5EnterPX;
-	std::vector<G4double> RunVectorS5EnterPY;
-	std::vector<G4double> RunVectorS5EnterPZ;
-	
-	std::vector<G4double> RunVectorS6EnterEne;
-	std::vector<G4double> RunVectorS6EnterPart;
-	std::vector<G4double> RunVectorS6EnterX;
-	std::vector<G4double> RunVectorS6EnterY;
-	std::vector<G4double> RunVectorS6EnterZ;
-	std::vector<G4double> RunVectorS6EnterVX;
-	std::vector<G4double> RunVectorS6EnterVY;
-	std::vector<G4double> RunVectorS6EnterVZ;
-	std::vector<G4double> RunVectorS6EnterPX;
-	std::vector<G4double> RunVectorS6EnterPY;
-	std::vector<G4double> RunVectorS6EnterPZ;
-	
-	std::vector<G4double> RunVectorS7EnterEne;
-	std::vector<G4double> RunVectorS7EnterPart;
-	std::vector<G4double> RunVectorS7EnterX;
-	std::vector<G4double> RunVectorS7EnterY;
-	std::vector<G4double> RunVectorS7EnterZ;
-	std::vector<G4double> RunVectorS7EnterVX;
-	std::vector<G4double> RunVectorS7EnterVY;
-	std::vector<G4double> RunVectorS7EnterVZ;
-	std::vector<G4double> RunVectorS7EnterPX;
-	std::vector<G4double> RunVectorS7EnterPY;
-	std::vector<G4double> RunVectorS7EnterPZ;
-
-	std::vector<G4double> RunVectorT1EnterEne;
-	std::vector<G4double> RunVectorT1EnterPart;
-	std::vector<G4double> RunVectorT1EnterX;
-	std::vector<G4double> RunVectorT1EnterY;
-	std::vector<G4double> RunVectorT1EnterZ;
-	std::vector<G4double> RunVectorT1EnterVX;
-	std::vector<G4double> RunVectorT1EnterVY;
-	std::vector<G4double> RunVectorT1EnterVZ;
-	std::vector<G4double> RunVectorT1EnterPX;
-	std::vector<G4double> RunVectorT1EnterPY;
-	std::vector<G4double> RunVectorT1EnterPZ;
-
-	std::vector<G4double> RunVectorT2EnterEne;
-	std::vector<G4double> RunVectorT2EnterPart;
-	std::vector<G4double> RunVectorT2EnterX;
-	std::vector<G4double> RunVectorT2EnterY;
-	std::vector<G4double> RunVectorT2EnterZ;
-	std::vector<G4double> RunVectorT2EnterVX;
-	std::vector<G4double> RunVectorT2EnterVY;
-	std::vector<G4double> RunVectorT2EnterVZ;
-	std::vector<G4double> RunVectorT2EnterPX;
-	std::vector<G4double> RunVectorT2EnterPY;
-	std::vector<G4double> RunVectorT2EnterPZ;
-
-	std::vector<G4double> RunVectorT3EnterEne;
-	std::vector<G4double> RunVectorT3EnterPart;
-	std::vector<G4double> RunVectorT3EnterX;
-	std::vector<G4double> RunVectorT3EnterY;
-	std::vector<G4double> RunVectorT3EnterZ;
-	std::vector<G4double> RunVectorT3EnterVX;
-	std::vector<G4double> RunVectorT3EnterVY;
-	std::vector<G4double> RunVectorT3EnterVZ;
-	std::vector<G4double> RunVectorT3EnterPX;
-	std::vector<G4double> RunVectorT3EnterPY;
-	std::vector<G4double> RunVectorT3EnterPZ;
-
-	std::vector<G4double> RunVectorT4EnterEne;
-	std::vector<G4double> RunVectorT4EnterPart;
-	std::vector<G4double> RunVectorT4EnterX;
-	std::vector<G4double> RunVectorT4EnterY;
-	std::vector<G4double> RunVectorT4EnterZ;
-	std::vector<G4double> RunVectorT4EnterVX;
-	std::vector<G4double> RunVectorT4EnterVY;
-	std::vector<G4double> RunVectorT4EnterVZ;
-	std::vector<G4double> RunVectorT4EnterPX;
-	std::vector<G4double> RunVectorT4EnterPY;
-	std::vector<G4double> RunVectorT4EnterPZ;
-
-	std::vector<G4double> RunVectorT5EnterEne;
-	std::vector<G4double> RunVectorT5EnterPart;
-	std::vector<G4double> RunVectorT5EnterX;
-	std::vector<G4double> RunVectorT5EnterY;
-	std::vector<G4double> RunVectorT5EnterZ;
-	std::vector<G4double> RunVectorT5EnterVX;
-	std::vector<G4double> RunVectorT5EnterVY;
-	std::vector<G4double> RunVectorT5EnterVZ;
-	std::vector<G4double> RunVectorT5EnterPX;
-	std::vector<G4double> RunVectorT5EnterPY;
-	std::vector<G4double> RunVectorT5EnterPZ;
-
-	std::vector<G4double> RunVectorT6EnterEne;
-	std::vector<G4double> RunVectorT6EnterPart;
-	std::vector<G4double> RunVectorT6EnterX;
-	std::vector<G4double> RunVectorT6EnterY;
-	std::vector<G4double> RunVectorT6EnterZ;
-	std::vector<G4double> RunVectorT6EnterVX;
-	std::vector<G4double> RunVectorT6EnterVY;
-	std::vector<G4double> RunVectorT6EnterVZ;
-	std::vector<G4double> RunVectorT6EnterPX;
-	std::vector<G4double> RunVectorT6EnterPY;
-	std::vector<G4double> RunVectorT6EnterPZ;
-
-	std::vector<G4double> RunVectorMu1EnterEne;
-	std::vector<G4double> RunVectorMu1EnterPart;
-	std::vector<G4double> RunVectorMu1EnterX;
-	std::vector<G4double> RunVectorMu1EnterY;
-	std::vector<G4double> RunVectorMu1EnterZ;
-	std::vector<G4double> RunVectorMu1EnterVX;
-	std::vector<G4double> RunVectorMu1EnterVY;
-	std::vector<G4double> RunVectorMu1EnterVZ;
-	std::vector<G4double> RunVectorMu1EnterPX;
-	std::vector<G4double> RunVectorMu1EnterPY;
-	std::vector<G4double> RunVectorMu1EnterPZ;
-	std::vector<G4double> RunVectorMu1EnterCopyNb;
-
-	std::vector<G4double> RunVectorMu2EnterEne;
-	std::vector<G4double> RunVectorMu2EnterPart;
-	std::vector<G4double> RunVectorMu2EnterX;
-	std::vector<G4double> RunVectorMu2EnterY;
-	std::vector<G4double> RunVectorMu2EnterZ;
-	std::vector<G4double> RunVectorMu2EnterVX;
-	std::vector<G4double> RunVectorMu2EnterVY;
-	std::vector<G4double> RunVectorMu2EnterVZ;
-	std::vector<G4double> RunVectorMu2EnterPX;
-	std::vector<G4double> RunVectorMu2EnterPY;
-	std::vector<G4double> RunVectorMu2EnterPZ;
-	std::vector<G4double> RunVectorMu2EnterCopyNb;
-
-	std::vector<G4double> BeamInfoX;
-	std::vector<G4double> BeamInfoY;
-	std::vector<G4double> BeamInfoZ;
-	std::vector<G4double> BeamInfoCX;
-	std::vector<G4double> BeamInfoCY;
-	std::vector<G4double> BeamInfoCZ;
-	std::vector<G4double> BeamInfoEne;
-	std::vector<G4double> BeamInfoPart;
-	
-	std::map<G4int,G4int> fChannelMap;
-	
-	//	std::vector<G4double> RunVectorNHits;
-	//	std::vector<G4double> RunVectorItrack;
-	
-	
+  std::vector<G4double> RunVectorBeamX;
+  std::vector<G4double> RunVectorBeamY;
+  std::vector<G4double> RunVectorBeamZ;
+  std::vector<G4double> RunVectorBeamCX;
+  std::vector<G4double> RunVectorBeamCY;
+  std::vector<G4double> RunVectorBeamCZ;
+  std::vector<G4double> RunVectorBeamEne;
+  std::vector<G4double> RunVectorBeamPart;
+  
+  std::vector<G4double> RunVectorSubdet;
+  std::vector<G4double> RunVectorIdp;
+  std::vector<G4double> RunVectorIpar;
+  std::vector<G4double> RunVectorItrack;
+  std::vector<G4double> RunVectorTime;
+  std::vector<G4double> RunVectorX;
+  std::vector<G4double> RunVectorY;
+  std::vector<G4double> RunVectorZ;
+  std::vector<G4double> RunVectorP;
+  std::vector<G4double> RunVectorPX;
+  std::vector<G4double> RunVectorPY;
+  std::vector<G4double> RunVectorPZ;
+  std::vector<G4double> RunVectorVertexX;
+  std::vector<G4double> RunVectorVertexY;
+  std::vector<G4double> RunVectorVertexZ;
+  std::vector<G4double> RunVectorKinev;
+  std::vector<G4double> RunVectorPXvdir;
+  std::vector<G4double> RunVectorPYvdir;
+  std::vector<G4double> RunVectorPZvdir;
+  std::vector<G4int> RunVectorProcess;
+  std::vector<G4double> RunVectorIev;
+  std::vector<G4double> RunVectorStep;
+  std::vector<G4double> RunVectorInextStep;
+  std::vector<G4double> RunVectorCopyNb;
+  
+  std::vector<G4double> RunVectorCaloEnDep;
+  
+  std::vector<G4double>  RunVectorGammaConvX;
+  std::vector<G4double>  RunVectorGammaConvY;
+  std::vector<G4double>  RunVectorGammaConvZ;
+  std::vector<G4double>  RunVectorGammaConvEne;
+  std::vector<G4double>	RunVectorGammaConvSubdet;
+  std::vector<G4double>  RunVectorGammaConvEnePos;
+  std::vector<G4double>  RunVectorGammaConvEneEle;
+  
+  // digits position ( mainly for tracking detectors )
+  std::vector<G4double> RunVectorXDig;
+  std::vector<G4double> RunVectorYDig;
+  std::vector<G4double> RunVectorZDig;
+  std::vector<G4double> RunVectorXErrDig;
+  std::vector<G4double> RunVectorYErrDig;
+  std::vector<G4double> RunVectorZErrDig;
+  // link to the corresponding hit that generated the digit
+  std::vector<G4int> RunVectorDigHitIndex;
+  
+  
+  std::vector<G4double> RunVectorPbGlass1EnterEne;
+  std::vector<G4double> RunVectorPbGlass1EnterPart;
+  std::vector<G4double> RunVectorPbGlass1EnterX;
+  std::vector<G4double> RunVectorPbGlass1EnterY;
+  std::vector<G4double> RunVectorPbGlass1EnterZ;
+  std::vector<G4double> RunVectorPbGlass1EnterVX;
+  std::vector<G4double> RunVectorPbGlass1EnterVY;
+  std::vector<G4double> RunVectorPbGlass1EnterVZ;
+  std::vector<G4double> RunVectorPbGlass1EnterPX;
+  std::vector<G4double> RunVectorPbGlass1EnterPY;
+  std::vector<G4double> RunVectorPbGlass1EnterPZ;
+  
+  std::vector<G4double> RunVectorPbGlass2EnterEne;
+  std::vector<G4double> RunVectorPbGlass2EnterPart;
+  std::vector<G4double> RunVectorPbGlass2EnterX;
+  std::vector<G4double> RunVectorPbGlass2EnterY;
+  std::vector<G4double> RunVectorPbGlass2EnterZ;
+  std::vector<G4double> RunVectorPbGlass2EnterVX;
+  std::vector<G4double> RunVectorPbGlass2EnterVY;
+  std::vector<G4double> RunVectorPbGlass2EnterVZ;
+  std::vector<G4double> RunVectorPbGlass2EnterPX;
+  std::vector<G4double> RunVectorPbGlass2EnterPY;
+  std::vector<G4double> RunVectorPbGlass2EnterPZ;
+  
+  std::vector<G4double> RunVectorPbGlassGEnterEne;
+  std::vector<G4double> RunVectorPbGlassGEnterPart;
+  std::vector<G4double> RunVectorPbGlassGEnterX;
+  std::vector<G4double> RunVectorPbGlassGEnterY;
+  std::vector<G4double> RunVectorPbGlassGEnterZ;
+  std::vector<G4double> RunVectorPbGlassGEnterPX;
+  std::vector<G4double> RunVectorPbGlassGEnterPY;
+  std::vector<G4double> RunVectorPbGlassGEnterPZ;
+  
+  
+  std::vector<G4double> RunVectorPbGlass1ExitEne;
+  std::vector<G4double> RunVectorPbGlass1ExitPart;
+  std::vector<G4double> RunVectorPbGlass1ExitX;
+  std::vector<G4double> RunVectorPbGlass1ExitY;
+  std::vector<G4double> RunVectorPbGlass1ExitZ;
+  std::vector<G4double> RunVectorPbGlass1ExitPX;
+  std::vector<G4double> RunVectorPbGlass1ExitPY;
+  std::vector<G4double> RunVectorPbGlass1ExitPZ;
+  
+  std::vector<G4double> RunVectorPbGlass2ExitEne;
+  std::vector<G4double> RunVectorPbGlass2ExitPart;
+  std::vector<G4double> RunVectorPbGlass2ExitX;
+  std::vector<G4double> RunVectorPbGlass2ExitY;
+  std::vector<G4double> RunVectorPbGlass2ExitZ;
+  std::vector<G4double> RunVectorPbGlass2ExitPX;
+  std::vector<G4double> RunVectorPbGlass2ExitPY;
+  std::vector<G4double> RunVectorPbGlass2ExitPZ;
+  
+  std::vector<G4double> RunVectorPbGlassGExitEne;
+  std::vector<G4double> RunVectorPbGlassGExitPart;
+  std::vector<G4double> RunVectorPbGlassGExitX;
+  std::vector<G4double> RunVectorPbGlassGExitY;
+  std::vector<G4double> RunVectorPbGlassGExitZ;
+  std::vector<G4double> RunVectorPbGlassGExitPX;
+  std::vector<G4double> RunVectorPbGlassGExitPY;
+  std::vector<G4double> RunVectorPbGlassGExitPZ;
+  
+  //	std::vector<G4double> RunVectorCerenkovDepo;
+  //	std::vector<G4int> RunVectorCerenkovDepoOpt;
+  
+  std::vector<G4double> RunVectorCross;
+  
+  std::vector<G4double> RunVectorDummy0EnterEne;
+  std::vector<G4double> RunVectorDummy0EnterPart;
+  std::vector<G4double> RunVectorDummy0EnterX;
+  std::vector<G4double> RunVectorDummy0EnterY;
+  std::vector<G4double> RunVectorDummy0EnterZ;
+  std::vector<G4double> RunVectorDummy0EnterVX;
+  std::vector<G4double> RunVectorDummy0EnterVY;
+  std::vector<G4double> RunVectorDummy0EnterVZ;
+  std::vector<G4double> RunVectorDummy0EnterPX;
+  std::vector<G4double> RunVectorDummy0EnterPY;
+  std::vector<G4double> RunVectorDummy0EnterPZ;
+  
+  std::vector<G4double> RunVectorDummy1EnterEne;
+  std::vector<G4double> RunVectorDummy1EnterPart;
+  std::vector<G4double> RunVectorDummy1EnterX;
+  std::vector<G4double> RunVectorDummy1EnterY;
+  std::vector<G4double> RunVectorDummy1EnterZ;
+  std::vector<G4double> RunVectorDummy1EnterVX;
+  std::vector<G4double> RunVectorDummy1EnterVY;
+  std::vector<G4double> RunVectorDummy1EnterVZ;
+  std::vector<G4double> RunVectorDummy1EnterPX;
+  std::vector<G4double> RunVectorDummy1EnterPY;
+  std::vector<G4double> RunVectorDummy1EnterPZ;
+  
+  std::vector<G4double> RunVectorDummy2EnterEne;
+  std::vector<G4double> RunVectorDummy2EnterPart;
+  std::vector<G4double> RunVectorDummy2EnterX;
+  std::vector<G4double> RunVectorDummy2EnterY;
+  std::vector<G4double> RunVectorDummy2EnterZ;
+  std::vector<G4double> RunVectorDummy2EnterVX;
+  std::vector<G4double> RunVectorDummy2EnterVY;
+  std::vector<G4double> RunVectorDummy2EnterVZ;
+  std::vector<G4double> RunVectorDummy2EnterPX;
+  std::vector<G4double> RunVectorDummy2EnterPY;
+  std::vector<G4double> RunVectorDummy2EnterPZ;
+  
+  
+  std::vector<G4double> RunVectorCe1EnterEne;
+  std::vector<G4double> RunVectorCe1EnterPart;
+  std::vector<G4double> RunVectorCe1EnterX;
+  std::vector<G4double> RunVectorCe1EnterY;
+  std::vector<G4double> RunVectorCe1EnterZ;
+  std::vector<G4double> RunVectorCe1EnterVX;
+  std::vector<G4double> RunVectorCe1EnterVY;
+  std::vector<G4double> RunVectorCe1EnterVZ;
+  std::vector<G4double> RunVectorCe1EnterPX;
+  std::vector<G4double> RunVectorCe1EnterPY;
+  std::vector<G4double> RunVectorCe1EnterPZ;
+  
+  std::vector<G4double> RunVectorCe2EnterEne;
+  std::vector<G4double> RunVectorCe2EnterPart;
+  std::vector<G4double> RunVectorCe2EnterX;
+  std::vector<G4double> RunVectorCe2EnterY;
+  std::vector<G4double> RunVectorCe2EnterZ;
+  std::vector<G4double> RunVectorCe2EnterVX;
+  std::vector<G4double> RunVectorCe2EnterVY;
+  std::vector<G4double> RunVectorCe2EnterVZ;
+  std::vector<G4double> RunVectorCe2EnterPX;
+  std::vector<G4double> RunVectorCe2EnterPY;
+  std::vector<G4double> RunVectorCe2EnterPZ;
+  
+  std::vector<G4double> RunVectorS4EnterEne;
+  std::vector<G4double> RunVectorS4EnterPart;
+  std::vector<G4double> RunVectorS4EnterX;
+  std::vector<G4double> RunVectorS4EnterY;
+  std::vector<G4double> RunVectorS4EnterZ;
+  std::vector<G4double> RunVectorS4EnterVX;
+  std::vector<G4double> RunVectorS4EnterVY;
+  std::vector<G4double> RunVectorS4EnterVZ;
+  std::vector<G4double> RunVectorS4EnterPX;
+  std::vector<G4double> RunVectorS4EnterPY;
+  std::vector<G4double> RunVectorS4EnterPZ;
+  
+  std::vector<G4double> RunVectorS5EnterEne;
+  std::vector<G4double> RunVectorS5EnterPart;
+  std::vector<G4double> RunVectorS5EnterX;
+  std::vector<G4double> RunVectorS5EnterY;
+  std::vector<G4double> RunVectorS5EnterZ;
+  std::vector<G4double> RunVectorS5EnterVX;
+  std::vector<G4double> RunVectorS5EnterVY;
+  std::vector<G4double> RunVectorS5EnterVZ;
+  std::vector<G4double> RunVectorS5EnterPX;
+  std::vector<G4double> RunVectorS5EnterPY;
+  std::vector<G4double> RunVectorS5EnterPZ;
+  
+  std::vector<G4double> RunVectorS6EnterEne;
+  std::vector<G4double> RunVectorS6EnterPart;
+  std::vector<G4double> RunVectorS6EnterX;
+  std::vector<G4double> RunVectorS6EnterY;
+  std::vector<G4double> RunVectorS6EnterZ;
+  std::vector<G4double> RunVectorS6EnterVX;
+  std::vector<G4double> RunVectorS6EnterVY;
+  std::vector<G4double> RunVectorS6EnterVZ;
+  std::vector<G4double> RunVectorS6EnterPX;
+  std::vector<G4double> RunVectorS6EnterPY;
+  std::vector<G4double> RunVectorS6EnterPZ;
+  
+  std::vector<G4double> RunVectorS7EnterEne;
+  std::vector<G4double> RunVectorS7EnterPart;
+  std::vector<G4double> RunVectorS7EnterX;
+  std::vector<G4double> RunVectorS7EnterY;
+  std::vector<G4double> RunVectorS7EnterZ;
+  std::vector<G4double> RunVectorS7EnterVX;
+  std::vector<G4double> RunVectorS7EnterVY;
+  std::vector<G4double> RunVectorS7EnterVZ;
+  std::vector<G4double> RunVectorS7EnterPX;
+  std::vector<G4double> RunVectorS7EnterPY;
+  std::vector<G4double> RunVectorS7EnterPZ;
+  
+  std::vector<G4double> RunVectorT1EnterEne;
+  std::vector<G4double> RunVectorT1EnterPart;
+  std::vector<G4double> RunVectorT1EnterX;
+  std::vector<G4double> RunVectorT1EnterY;
+  std::vector<G4double> RunVectorT1EnterZ;
+  std::vector<G4double> RunVectorT1EnterVX;
+  std::vector<G4double> RunVectorT1EnterVY;
+  std::vector<G4double> RunVectorT1EnterVZ;
+  std::vector<G4double> RunVectorT1EnterPX;
+  std::vector<G4double> RunVectorT1EnterPY;
+  std::vector<G4double> RunVectorT1EnterPZ;
+  
+  std::vector<G4double> RunVectorT2EnterEne;
+  std::vector<G4double> RunVectorT2EnterPart;
+  std::vector<G4double> RunVectorT2EnterX;
+  std::vector<G4double> RunVectorT2EnterY;
+  std::vector<G4double> RunVectorT2EnterZ;
+  std::vector<G4double> RunVectorT2EnterVX;
+  std::vector<G4double> RunVectorT2EnterVY;
+  std::vector<G4double> RunVectorT2EnterVZ;
+  std::vector<G4double> RunVectorT2EnterPX;
+  std::vector<G4double> RunVectorT2EnterPY;
+  std::vector<G4double> RunVectorT2EnterPZ;
+  
+  std::vector<G4double> RunVectorT3EnterEne;
+  std::vector<G4double> RunVectorT3EnterPart;
+  std::vector<G4double> RunVectorT3EnterX;
+  std::vector<G4double> RunVectorT3EnterY;
+  std::vector<G4double> RunVectorT3EnterZ;
+  std::vector<G4double> RunVectorT3EnterVX;
+  std::vector<G4double> RunVectorT3EnterVY;
+  std::vector<G4double> RunVectorT3EnterVZ;
+  std::vector<G4double> RunVectorT3EnterPX;
+  std::vector<G4double> RunVectorT3EnterPY;
+  std::vector<G4double> RunVectorT3EnterPZ;
+  
+  std::vector<G4double> RunVectorT4EnterEne;
+  std::vector<G4double> RunVectorT4EnterPart;
+  std::vector<G4double> RunVectorT4EnterX;
+  std::vector<G4double> RunVectorT4EnterY;
+  std::vector<G4double> RunVectorT4EnterZ;
+  std::vector<G4double> RunVectorT4EnterVX;
+  std::vector<G4double> RunVectorT4EnterVY;
+  std::vector<G4double> RunVectorT4EnterVZ;
+  std::vector<G4double> RunVectorT4EnterPX;
+  std::vector<G4double> RunVectorT4EnterPY;
+  std::vector<G4double> RunVectorT4EnterPZ;
+  
+  std::vector<G4double> RunVectorT5EnterEne;
+  std::vector<G4double> RunVectorT5EnterPart;
+  std::vector<G4double> RunVectorT5EnterX;
+  std::vector<G4double> RunVectorT5EnterY;
+  std::vector<G4double> RunVectorT5EnterZ;
+  std::vector<G4double> RunVectorT5EnterVX;
+  std::vector<G4double> RunVectorT5EnterVY;
+  std::vector<G4double> RunVectorT5EnterVZ;
+  std::vector<G4double> RunVectorT5EnterPX;
+  std::vector<G4double> RunVectorT5EnterPY;
+  std::vector<G4double> RunVectorT5EnterPZ;
+  
+  std::vector<G4double> RunVectorT6EnterEne;
+  std::vector<G4double> RunVectorT6EnterPart;
+  std::vector<G4double> RunVectorT6EnterX;
+  std::vector<G4double> RunVectorT6EnterY;
+  std::vector<G4double> RunVectorT6EnterZ;
+  std::vector<G4double> RunVectorT6EnterVX;
+  std::vector<G4double> RunVectorT6EnterVY;
+  std::vector<G4double> RunVectorT6EnterVZ;
+  std::vector<G4double> RunVectorT6EnterPX;
+  std::vector<G4double> RunVectorT6EnterPY;
+  std::vector<G4double> RunVectorT6EnterPZ;
+  
+  std::vector<G4double> RunVectorMu1EnterEne;
+  std::vector<G4double> RunVectorMu1EnterPart;
+  std::vector<G4double> RunVectorMu1EnterX;
+  std::vector<G4double> RunVectorMu1EnterY;
+  std::vector<G4double> RunVectorMu1EnterZ;
+  std::vector<G4double> RunVectorMu1EnterVX;
+  std::vector<G4double> RunVectorMu1EnterVY;
+  std::vector<G4double> RunVectorMu1EnterVZ;
+  std::vector<G4double> RunVectorMu1EnterPX;
+  std::vector<G4double> RunVectorMu1EnterPY;
+  std::vector<G4double> RunVectorMu1EnterPZ;
+  std::vector<G4double> RunVectorMu1EnterCopyNb;
+  
+  std::vector<G4double> RunVectorMu2EnterEne;
+  std::vector<G4double> RunVectorMu2EnterPart;
+  std::vector<G4double> RunVectorMu2EnterX;
+  std::vector<G4double> RunVectorMu2EnterY;
+  std::vector<G4double> RunVectorMu2EnterZ;
+  std::vector<G4double> RunVectorMu2EnterVX;
+  std::vector<G4double> RunVectorMu2EnterVY;
+  std::vector<G4double> RunVectorMu2EnterVZ;
+  std::vector<G4double> RunVectorMu2EnterPX;
+  std::vector<G4double> RunVectorMu2EnterPY;
+  std::vector<G4double> RunVectorMu2EnterPZ;
+  std::vector<G4double> RunVectorMu2EnterCopyNb;
+  
+  std::vector<G4double> BeamInfoX;
+  std::vector<G4double> BeamInfoY;
+  std::vector<G4double> BeamInfoZ;
+  std::vector<G4double> BeamInfoCX;
+  std::vector<G4double> BeamInfoCY;
+  std::vector<G4double> BeamInfoCZ;
+  std::vector<G4double> BeamInfoEne;
+  std::vector<G4double> BeamInfoPart;
+  
+  std::map<G4int,G4int> fChannelMap;
+  
+  
 };
 
 

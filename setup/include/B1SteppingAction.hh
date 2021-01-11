@@ -4,6 +4,7 @@
 #include "globals.hh"
 #include <vector>
 #include "G4SystemOfUnits.hh"
+#include "SiDigitizer.hh"
 #include <map>
 
 
@@ -74,6 +75,11 @@ private:
   std::vector<G4int>  fTriggerLogic;
   
   G4bool m_readGeoFromFile;
+
+
+  // set of the digitizers
+  SiDigitizer* m_siDigitizer;
+  
   
 };
 
