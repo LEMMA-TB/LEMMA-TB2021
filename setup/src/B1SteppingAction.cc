@@ -412,21 +412,6 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 		       (runStepAction->GetVectorT1EnterPY()).push_back(step->GetPostStepPoint()->GetMomentum().y()/GeV);
 		       (runStepAction->GetVectorT1EnterPZ()).push_back(step->GetPostStepPoint()->GetMomentum().z()/GeV);
 
-		       /// digitize and fill the ntuple
-		       G4ThreeVector digitPos,digitPosErr;
-		       bool digi = m_siDigitizer->getPosition(step->GetPostStepPoint()->GetPosition(),0.0,digitPos,digitPosErr);
-		       if ( digi ) {
-			 runStepAction->GetXDig().push_back(digitPos.x());
-			 runStepAction->GetYDig().push_back(digitPos.y());
-			 runStepAction->GetZDig().push_back(digitPos.z());
-			 runStepAction->GetXErrDig().push_back(digitPosErr.x());
-			 runStepAction->GetYErrDig().push_back(digitPosErr.y());
-			 runStepAction->GetZErrDig().push_back(digitPosErr.z());
-			 /// get the corresponding hit index
-			 int hitIndex = runStepAction->GetVectorT1EnterEne().size()-1;
-			 runStepAction->GetDigHitIndex().push_back(hitIndex);
-		       }
-		       
 	       }
 	       // What enters T2
 	       if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="T2") ) {
@@ -832,16 +817,16 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	 (runStepAction->GetIpar()).push_back(Ipar);
 	 (runStepAction->GetItrack()).push_back(Itrack);
 	 (runStepAction->GetTime()).push_back(time);
-	 (runStepAction->GetVectorX()).push_back(xsubdet.x()/cm);
-	 (runStepAction->GetVectorY()).push_back(xsubdet.y()/cm);
-	 (runStepAction->GetVectorZ()).push_back(xsubdet.z()/cm);
+	 (runStepAction->GetVectorX()).push_back(xsubdet.x()/mm);
+	 (runStepAction->GetVectorY()).push_back(xsubdet.y()/mm);
+	 (runStepAction->GetVectorZ()).push_back(xsubdet.z()/mm);
 	 (runStepAction->GetVectorP()).push_back(momentum.mag()/GeV);
 	 (runStepAction->GetVectorPX()).push_back(momentum.x()/GeV);
 	 (runStepAction->GetVectorPY()).push_back(momentum.y()/GeV);
 	 (runStepAction->GetVectorPZ()).push_back(momentum.z()/GeV);
-	 (runStepAction->GetVertexX()).push_back(xvertex.x()/cm);
-	 (runStepAction->GetVertexY()).push_back(xvertex.y()/cm);
-	 (runStepAction->GetVertexZ()).push_back(xvertex.z()/cm);
+	 (runStepAction->GetVertexX()).push_back(xvertex.x()/mm);
+	 (runStepAction->GetVertexY()).push_back(xvertex.y()/mm);
+	 (runStepAction->GetVertexZ()).push_back(xvertex.z()/mm);
 	 (runStepAction->GetKinev()).push_back(kinev/GeV);
 	 (runStepAction->GetVectorPXvdir()).push_back(pvertexdir.x()/GeV);
 	 (runStepAction->GetVectorPYvdir()).push_back(pvertexdir.y()/GeV);
@@ -853,6 +838,26 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	 //		(runStepAction->GetNHits()).push_back(Inextstep);
 	 //		(runStepAction->GetItrack()).push_back(-999);
 
+	 /// here add the digitization block
+	 /// digitize and fill the ntuple
+	 if ( (subdet >= 10 && subdet <= 12) || (subdet >=20 && subdet <=22 ) ) { 
+	   G4ThreeVector digitPos,digitPosErr;
+	   bool digi = m_siDigitizer->getPosition(xsubdet,0.0,digitPos,digitPosErr);
+	   if ( digi ) {
+	     runStepAction->GetXDig().push_back(digitPos.x());
+	     runStepAction->GetYDig().push_back(digitPos.y());
+	     runStepAction->GetZDig().push_back(digitPos.z());
+	     runStepAction->GetXErrDig().push_back(digitPosErr.x());
+	     runStepAction->GetYErrDig().push_back(digitPosErr.y());
+	     runStepAction->GetZErrDig().push_back(digitPosErr.z());
+	     /// get the corresponding hit index
+	     int hitIndex = runStepAction->GetStep().size()-1;
+	     runStepAction->GetDigHitIndex().push_back(hitIndex);
+	   }
+	 }
+	 
+
+	 
 
 	 if (step->GetPreStepPoint() && step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary && step->GetPostStepPoint() && step->GetPostStepPoint()->GetStepStatus()!=fGeomBoundary) { //se la traccia NASCEVA sul bordo E NON ci moriva
 	   (runStepAction->GetVectorCross()).push_back(-1);
