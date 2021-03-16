@@ -5,10 +5,19 @@
 
   <materials>
     <material name="G10" state="solid">
-      <fraction n="0.11" name="Si"/>
-      <fraction n="0.23" name="O"/>
-      <fraction n="0.33" name="C"/>
-      <fraction n="0.33" name="H"/>
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="64.7"/>
+      <D unit="g/cm3" value="1.032"/>
+      <fraction n="0.11" ref="Si"/>
+      <fraction n="0.23" ref="O"/>
+      <fraction n="0.33" ref="C"/>
+      <fraction n="0.33" ref="H"/>
+    </material>
+    <material name="GEM_GAS" state="gas">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="85.7"/>
+      <D unit="g/cm3" value="0.00120479"/>
+      <fraction n="1.0" ref="Ar"/>
     </material>
     <material Z="4" name="G4_Be" state="solid">
       <T unit="K" value="293.15"/>
@@ -101,12 +110,6 @@
       <fraction n="0.000632" ref="Ar38"/>
       <fraction n="0.996003" ref="Ar40"/>
     </element>
-    <material name="GEM_GAS" state="gas">
-      <T unit="K" value="293.15"/>
-      <MEE unit="eV" value="85.7"/>
-      <D unit="g/cm3" value="0.00120479"/>
-      <fraction n="1.0" ref="Ar"/>
-    </material>    
     <material name="G4_AIR" state="gas">
       <T unit="K" value="293.15"/>
       <MEE unit="eV" value="85.7"/>
@@ -1255,86 +1258,86 @@
       </physvol>
       <physvol name="GEM2_NEGX_DRIFT">
         <volumeref ref="GEM2_NEGX_DRIFT"/>
-        <position name="GEM2_NEGX_DRIFT_pos" unit="mm" x="-150" y="0" z="9000"/>
+        <position name="GEM2_NEGX_DRIFT_pos" unit="mm" x="-80" y="0" z="9000"/>
       </physvol>
       <physvol name="GEM2_NEGX_GAS">
         <volumeref ref="GEM2_NEGX_GAS"/>
-        <position name="GEM2_NEGX_GAS_pos" unit="mm" x="-150" y="0" z="9005.1"/>
+        <position name="GEM2_NEGX_GAS_pos" unit="mm" x="-80" y="0" z="9005.1"/>
       </physvol>
       <physvol name="GEM2_NEGX_RO">
         <volumeref ref="GEM2_NEGX_RO"/>
-        <position name="GEM2_NEGX_RO_pos" unit="mm" x="-150" y="0" z="9010.2"/>
+        <position name="GEM2_NEGX_RO_pos" unit="mm" x="-80" y="0" z="9010.2"/>
       </physvol>
       <physvol name="GEM2_POSX_DRIFT">
         <volumeref ref="GEM2_POSX_DRIFT"/>
-        <position name="GEM2_POSX_DRIFT_pos" unit="mm" x="+150" y="0" z="9000"/>
+        <position name="GEM2_POSX_DRIFT_pos" unit="mm" x="+80" y="0" z="9000"/>
       </physvol>
       <physvol name="GEM2_POSX_GAS">
         <volumeref ref="GEM2_POSX_GAS"/>
-        <position name="GEM2_POSX_GAS_pos" unit="mm" x="+150" y="0" z="9005.1"/>
+        <position name="GEM2_POSX_GAS_pos" unit="mm" x="+80" y="0" z="9005.1"/>
       </physvol>
       <physvol name="GEM2_POSX_RO">
         <volumeref ref="GEM2_POSX_RO"/>
-        <position name="GEM2_POSX_RO_pos" unit="mm" x="+150" y="0" z="9010.2"/>
+        <position name="GEM2_POSX_RO_pos" unit="mm" x="+80" y="0" z="9010.2"/>
       </physvol>  
       <physvol name="GEM3_NEGX_DRIFT">
         <volumeref ref="GEM3_NEGX_DRIFT"/>
-        <position name="GEM3_NEGX_DRIFT_pos" unit="mm" x="-400" y="0" z="10000"/>
+        <position name="GEM3_NEGX_DRIFT_pos" unit="mm" x="-350" y="0" z="10000"/>
 	<rotation name="GEM3_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM3_NEGX_GAS">
         <volumeref ref="GEM3_NEGX_GAS"/>
-        <position name="GEM3_NEGX_GAS_pos" unit="mm" x="-400" y="0" z="10005.1"/>
+        <position name="GEM3_NEGX_GAS_pos" unit="mm" x="-350" y="0" z="10005.1"/>
 	<rotation name="GEM3_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM3_NEGX_RO">
         <volumeref ref="GEM3_NEGX_RO"/>
-        <position name="GEM3_NEGX_RO_pos" unit="mm" x="-400" y="0" z="10010.2"/>
+        <position name="GEM3_NEGX_RO_pos" unit="mm" x="-350" y="0" z="10010.2"/>
 	<rotation name="GEM3_rotate" unit="deg" x="90"/>
       </physvol> 
       <physvol name="GEM3_POSX_DRIFT">
         <volumeref ref="GEM3_POSX_DRIFT"/>
-        <position name="GEM3_POSX_DRIFT_pos" unit="mm" x="+400" y="0" z="10000"/>
+        <position name="GEM3_POSX_DRIFT_pos" unit="mm" x="+350" y="0" z="10000"/>
 	<rotation name="GEM3_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM3_POSX_GAS">
         <volumeref ref="GEM3_POSX_GAS"/>
-        <position name="GEM3_POSX_GAS_pos" unit="mm" x="+400" y="0" z="10005.1"/>
+        <position name="GEM3_POSX_GAS_pos" unit="mm" x="+350" y="0" z="10005.1"/>
 	<rotation name="GEM3_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM3_POSX_RO">
         <volumeref ref="GEM3_POSX_RO"/>
-        <position name="GEM3_POSX_RO_pos" unit="mm" x="+400" y="0" z="10010.2"/>
+        <position name="GEM3_POSX_RO_pos" unit="mm" x="+350" y="0" z="10010.2"/>
 	<rotation name="GEM3_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM4_NEGX_DRIFT">
         <volumeref ref="GEM4_NEGX_DRIFT"/>
-        <position name="GEM4_NEGX_DRIFT_pos" unit="mm" x="-500" y="0" z="11000"/>
+        <position name="GEM4_NEGX_DRIFT_pos" unit="mm" x="-400" y="0" z="11000"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM4_NEGX_GAS">
         <volumeref ref="GEM4_NEGX_GAS"/>
-        <position name="GEM4_NEGX_GAS_pos" unit="mm" x="-500" y="0" z="11005.1"/>
+        <position name="GEM4_NEGX_GAS_pos" unit="mm" x="-400" y="0" z="11005.1"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM4_NEGX_RO">
         <volumeref ref="GEM4_NEGX_RO"/>
-        <position name="GEM4_NEGX_RO_pos" unit="mm" x="-500" y="0" z="11010.2"/>
+        <position name="GEM4_NEGX_RO_pos" unit="mm" x="-400" y="0" z="11010.2"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
       </physvol> 
       <physvol name="GEM4_POSX_DRIFT">
         <volumeref ref="GEM4_POSX_DRIFT"/>
-        <position name="GEM4_POSX_DRIFT_pos" unit="mm" x="+500" y="0" z="11000"/>
+        <position name="GEM4_POSX_DRIFT_pos" unit="mm" x="+400" y="0" z="11000"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM4_POSX_GAS">
         <volumeref ref="GEM4_POSX_GAS"/>
-        <position name="GEM4_POSX_GAS_pos" unit="mm" x="+500" y="0" z="11005.1"/>
+        <position name="GEM4_POSX_GAS_pos" unit="mm" x="+400" y="0" z="11005.1"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM4_POSX_RO">
         <volumeref ref="GEM4_POSX_RO"/>
-        <position name="GEM4_POSX_RO_pos" unit="mm" x="+500" y="0" z="11010.2"/>
+        <position name="GEM4_POSX_RO_pos" unit="mm" x="+400" y="0" z="11010.2"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
       </physvol> -->
       <physvol name="CaloTable1">

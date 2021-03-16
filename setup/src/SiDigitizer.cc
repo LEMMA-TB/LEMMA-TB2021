@@ -3,12 +3,11 @@
 #include "Randomize.hh"
 
 SiDigitizer::SiDigitizer() :
-  m_xRes(0.030),
-  m_yRes(0.030)
+  m_xRes(0.010),
+  m_yRes(0.010)
 {
 
 }
-
 
 
 bool SiDigitizer::getPosition(const G4ThreeVector hitPos, G4double deposit, G4ThreeVector& digitPos, G4ThreeVector& digitPosErr)
