@@ -52,11 +52,11 @@ int main(int argc,char** argv)
 	// ################### These are defaults, can be overridden by command line ####
 	// ###############
 	
-	G4bool CalibMuMBeamFlag=false;  //switching on this flag generates mu- primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
+	G4bool CalibMuMBeamFlag=true;  //switching on this flag generates mu- primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
 	G4bool CalibMuPBeamFlag=false;  //switching on this flag generates mu+ primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
 	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu- beam at the end of the target, to simulate the muon production: E in 15-30 GeV, along Z
 	G4bool ElectronBeamFlag=false;  //switching on this flag generates e- beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
-	G4double BeamEnergy=45.*GeV; //Primary Beam Energy (18, 22, 26 GeV options for e+ calibration) - 45 GeV for real TB
+	G4double BeamEnergy=22.5*GeV; //Primary Beam Energy (18, 22, 26 GeV options for e+ calibration) - 45 GeV for real TB
 	G4bool SimpleFlag=false; //Generates a "simple-ideal" beam: no spread, no emittance...
 	G4double BeamDP=0.017; //was 0.01, but Mario obtained 1.7%
 	

@@ -34,8 +34,10 @@ G4VPhysicalVolume* TBDetectorConstruction::Construct()
     G4String name = volumeStore->at(i)->GetName();
     int iRep = volumeStore->at(i)->GetCopyNo();
     std::cout << name << ' ' << iRep << std::endl;
-    G4LogicalVolume* vol = volumeStore->GetVolume(name,true)->GetLogicalVolume();
+    G4VPhysicalVolume* physVol = volumeStore->GetVolume(name,true);
+    G4LogicalVolume* vol = physVol->GetLogicalVolume();
 
+    m_physicalVolumes.insert(std::pair<G4String,G4VPhysicalVolume*>(name,physVol));
     m_logicalVolumes.insert(std::pair<G4String,G4LogicalVolume*>(name,vol));
   
   }
@@ -62,6 +64,24 @@ G4LogicalVolume* TBDetectorConstruction::getScoringVolume(G4String volName) cons
   }
   else {
     G4cout << ">>>> ERROR: Logical volume: " << volName << " not found !!" << G4endl;
+  }
+  
+  return vol;
+}
+
+G4VPhysicalVolume* TBDetectorConstruction::getPhysicalVolume(G4String volName) const
+{
+
+  G4VPhysicalVolume* vol = NULL;
+
+  std::map<G4String,G4VPhysicalVolume*>::const_iterator it;
+  it = m_physicalVolumes.find(volName);
+  if ( it != m_physicalVolumes.end() ) {
+    vol = (*it).second;
+    std::cout << "Retrieving the physical volume: " << volName << std::endl;
+  }
+  else {
+    G4cout << ">>>> ERROR: physical volume: " << volName << " not found !!" << G4endl;
   }
   
   return vol;

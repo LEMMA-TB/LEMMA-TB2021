@@ -24,6 +24,7 @@ public:
   G4bool exportGeometry(G4VPhysicalVolume* physVol);
 
   G4LogicalVolume* getScoringVolume(G4String volName) const;
+  G4VPhysicalVolume* getPhysicalVolume(G4String volName) const;
   
   void SetChanneling(G4bool channeling, G4String ctype) { m_channeling = channeling; m_ctype = ctype; return; }
   G4bool GetChanneling() {return m_channeling;}
@@ -42,7 +43,10 @@ private:
 
   // pointers to the logical volumes
   std::map<G4String,G4LogicalVolume*> m_logicalVolumes;
-  
+
+  // pointers to the logical volumes
+  std::map<G4String,G4VPhysicalVolume*> m_physicalVolumes;
+
 };
 
 #endif

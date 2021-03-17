@@ -637,10 +637,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	G4Material* Graphite =
 	new G4Material("Graphite", 6., 12.0107*g/mole, 2.5*g/cm3);
 	
-	G4Element* elMo = nist->FindOrBuildElement("Mo");
 	G4Element* elC = nist->FindOrBuildElement("C");
 	
-	G4Material* carbonio = nist->FindOrBuildMaterial("G4_C"); //has density 2
 	G4Material* Molibdeno = nist->FindOrBuildMaterial("G4_Mo"); //has density 10.22
 	
 	
@@ -1115,12 +1113,6 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct(){
 	// ############## END OF CALORIMETERS
 	
 	
-	
-	//-- Shield Foil (Pb) beside chambers
-	G4Box* latShield = new G4Box("latShield",latShield_sizeX/2, latShield_sizeY/2, latShield_sizeZ/2);
-	G4LogicalVolume* logicLatShield = new G4LogicalVolume(latShield, piombo, "latShield");
-//	new G4PVPlacement(0,posLatShield1,logicLatShield,"latShield1",logicWorld,false,0,checkOverlaps);
-//	new G4PVPlacement(0,posLatShield2,logicLatShield,"latShield2",logicWorld,false,0,checkOverlaps);
 	
 	//-- Shield Wall (Fe) before chambers
 	G4Box* shield = new G4Box("Shield",shield_sizeX/2, shield_sizeY/2, shield_sizeZ/2);

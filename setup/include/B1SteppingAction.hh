@@ -6,6 +6,7 @@
 #include "G4SystemOfUnits.hh"
 #include "G4LogicalVolume.hh"
 #include "SiDigitizer.hh"
+#include "GEMDigitizer.hh"
 #include <map>
 
 class B1EventAction;
@@ -53,9 +54,10 @@ private:
   
   G4bool m_readGeoFromFile;
 
-
   // set of the digitizers
   SiDigitizer* m_siDigitizer;
+  /// digitizer of each gem
+  GEMDigitizer* m_gemDigitizer[7];
   
   
 };

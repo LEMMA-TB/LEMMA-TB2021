@@ -36,7 +36,10 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
 
   // create the digitizers
   m_siDigitizer = new SiDigitizer();
-
+  for (int i=0 ; i<7 ; ++i ) {
+    m_gemDigitizer[i] = new GEMDigitizer();
+  }
+  
   m_activeVolumes = {"S1","T1","T2","T3","Target","T4","T5","T6",
     "GEM1_DRIFT","GEM1_GAS","GEM1_RO",
     "Mag",
@@ -62,6 +65,9 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
 B1SteppingAction::~B1SteppingAction()
 {
   delete m_siDigitizer;
+  for (int i=0 ; i<7 ; ++i ) {
+    delete m_gemDigitizer[i];
+  }
 }
 
 void B1SteppingAction::UserSteppingAction(const G4Step* step){
@@ -86,6 +92,60 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	std::cout << "ADDING a new scoring volume with detectorId, name: " << svol.detectorId << " "
 		  << svol.name << std::endl;
 	m_scoringVolumes.insert(std::pair<std::string,ScoringVolume>(svol.name,svol));
+
+	/// get the position of the physica volume
+	G4VPhysicalVolume* physVol = tbDetectorConstruction->getPhysicalVolume(m_activeVolumes[i]);
+
+	if (svol.detectorId==31) {
+	  m_gemDigitizer[0]->setPhysicalVolume(physVol);
+	  m_gemDigitizer[0]->setBase(100,100);
+	  m_gemDigitizer[0]->setSize(100);
+	  m_gemDigitizer[0]->setPitch(0.260);
+	  m_gemDigitizer[0]->setMeasY(true);
+	}
+	else if (svol.detectorId==32) {
+	  m_gemDigitizer[1]->setPhysicalVolume(physVol);
+	  m_gemDigitizer[1]->setBase(100,100);
+	  m_gemDigitizer[1]->setSize(100);
+	  m_gemDigitizer[1]->setPitch(0.260);
+	  m_gemDigitizer[1]->setMeasY(true);
+	}
+	else if (svol.detectorId==33) {
+	  m_gemDigitizer[2]->setPhysicalVolume(physVol);
+	  m_gemDigitizer[2]->setBase(100,100);
+	  m_gemDigitizer[2]->setSize(100);
+	  m_gemDigitizer[2]->setPitch(0.260);
+	  m_gemDigitizer[2]->setMeasY(true);
+	}
+	else if (svol.detectorId==34) {
+	  m_gemDigitizer[3]->setPhysicalVolume(physVol);
+	  m_gemDigitizer[3]->setBase(483.3,636.2);
+	  m_gemDigitizer[3]->setSize(391);
+	  m_gemDigitizer[3]->setPitch(1.260);
+	  m_gemDigitizer[3]->setMeasY(false);
+	}
+	else if (svol.detectorId==35) {
+	  m_gemDigitizer[4]->setPhysicalVolume(physVol);
+	  m_gemDigitizer[4]->setBase(483.3,636.2);
+	  m_gemDigitizer[4]->setSize(391);
+	  m_gemDigitizer[4]->setPitch(1.260);
+	  m_gemDigitizer[4]->setMeasY(false);
+	}
+	else if (svol.detectorId==36) {
+	  m_gemDigitizer[5]->setPhysicalVolume(physVol);
+	  m_gemDigitizer[5]->setBase(636.8,788.9);
+	  m_gemDigitizer[5]->setSize(391);
+	  m_gemDigitizer[5]->setPitch(1.660);
+	  m_gemDigitizer[5]->setMeasY(false);
+	}
+	else if (svol.detectorId==37) {
+	  m_gemDigitizer[6]->setPhysicalVolume(physVol);
+	  m_gemDigitizer[6]->setBase(636.8,788.9);
+	  m_gemDigitizer[6]->setSize(391);
+	  m_gemDigitizer[6]->setPitch(1.660);
+	  m_gemDigitizer[6]->setMeasY(false);
+	}
+	
       }
       else {
 	std::cout << "ERROR: volume already present: " << m_activeVolumes[i] << std::endl;
@@ -626,6 +686,8 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	runStepAction->GetDigHitIndex().push_back(hitIndex);
       }
     }
+    
+
     
     
     
