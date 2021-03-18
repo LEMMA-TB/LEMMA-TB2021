@@ -3,8 +3,8 @@
 #include "Randomize.hh"
 
 SiDigitizer::SiDigitizer() :
-  m_xRes(0.010),
-  m_yRes(0.010)
+  m_xRes(0.007),
+  m_yRes(0.007)
 {
 
 }
@@ -36,15 +36,22 @@ bool SiDigitizer::digitize()
 bool SiDigitizer::getPosition(const G4ThreeVector hitPos, G4double deposit, G4ThreeVector& digitPos, G4ThreeVector& digitPosErr)
 {
 
-  G4double dx = G4RandGauss::shoot(0.0,m_xRes);
-  G4double dy = G4RandGauss::shoot(0.0,m_yRes);
+  double res = m_xRes;
+  double test = G4RandFlat::shoot();
+  if (test>0.3) {
+    res=res*2.;
+  }
+
+  
+  G4double dx = G4RandGauss::shoot(0.0,res);
+  G4double dy = G4RandGauss::shoot(0.0,res);
 
   digitPos.setX(hitPos.x()+dx);
   digitPos.setY(hitPos.y()+dy);
   digitPos.setZ(hitPos.z());
 
-  digitPosErr.setX(m_xRes);
-  digitPosErr.setY(m_yRes);
+  digitPosErr.setX(res);
+  digitPosErr.setY(res);
   digitPosErr.setZ(0.0);
 
   /// false to be added (inefficiencies)

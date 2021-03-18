@@ -97,6 +97,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	analysisManager->CreateNtupleDColumn(0,"xErrDig",RunVectorXErrDig);
 	analysisManager->CreateNtupleDColumn(0,"yErrDig",RunVectorYErrDig);
 	analysisManager->CreateNtupleDColumn(0,"zErrDig",RunVectorZErrDig);
+	analysisManager->CreateNtupleIColumn(0,"digSubdet",RunVectorDigSubdet);
 	analysisManager->CreateNtupleIColumn(0,"digHitIndex",RunVectorDigHitIndex);
 	
 	// ######### BEAM NTUPLE

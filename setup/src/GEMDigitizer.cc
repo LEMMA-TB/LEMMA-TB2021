@@ -33,10 +33,23 @@ bool GEMDigitizer::getPosition(const G4ThreeVector hitPos, G4double deposit, G4T
   double pitch = m_minPitch + (ypos/m_ySize)*(maxPitch-m_minPitch);
 
   double test = G4RandFlat::shoot();
-  if ( test>0.5 ) {
+  double test1 = G4RandFlat::shoot()*0.05;
+  double test2 = G4RandFlat::shoot()*0.05;
+  //  double test3 = G4RandFlat::shoot()*0.05;
+  //  if ( test<0.45+test1 ) {
+  if ( test<0.5+test1 ) {
+    pitch = pitch*1.0;
+  }
+  else if ( test<0.95+test2) {
     pitch = pitch*2.0;
   }
-
+  else {
+    pitch = pitch*3.0;
+  }
+  //  else {
+  //  pitch = pitch*4.0;
+  // }
+  
   double xres = pitch/sqrt(12);
   double yres = 0.0;
   if ( this->getMeasY() ) {
@@ -61,7 +74,11 @@ bool GEMDigitizer::getPosition(const G4ThreeVector hitPos, G4double deposit, G4T
   digitPosErr.setZ(0.0);
 
   /// false to be added (inefficiencies)
-  
+
+  //  std::cout << "ysize, minBase, maxBase, pitch: " << m_ySize << " " << m_minBase << " "
+  //	    << m_maxBase << " " << pitch << std::endl;
+  //std::cout << "Hit position: " <<  hitPos << std::endl;
+  //std::cout << "Dgiit position: " <<  digitPos << std::endl;
 
   return true;
   

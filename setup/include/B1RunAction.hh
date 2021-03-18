@@ -69,7 +69,7 @@ public:
 	std::vector<G4double>& GetXErrDig() {return RunVectorXErrDig; }
 	std::vector<G4double>& GetYErrDig() {return RunVectorYErrDig; }
 	std::vector<G4double>& GetZErrDig() {return RunVectorZErrDig; }
-
+	std::vector<G4int>& GetDigSubdet() {return RunVectorDigSubdet; }
   	std::vector<G4int>& GetDigHitIndex() {return RunVectorDigHitIndex; }
 
   
@@ -407,6 +407,7 @@ private:
   std::vector<G4double> RunVectorXErrDig;
   std::vector<G4double> RunVectorYErrDig;
   std::vector<G4double> RunVectorZErrDig;
+  std::vector<G4int> RunVectorDigSubdet;
   // link to the corresponding hit that generated the digit
   std::vector<G4int> RunVectorDigHitIndex;
   

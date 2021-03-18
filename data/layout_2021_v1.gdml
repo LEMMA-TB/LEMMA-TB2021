@@ -1312,34 +1312,34 @@
       </physvol>
       <physvol name="GEM4_NEGX_DRIFT">
         <volumeref ref="GEM4_NEGX_DRIFT"/>
-        <position name="GEM4_NEGX_DRIFT_pos" unit="mm" x="-400" y="0" z="11000"/>
+        <position name="GEM4_NEGX_DRIFT_pos" unit="mm" x="-420" y="0" z="11000"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM4_NEGX_GAS">
         <volumeref ref="GEM4_NEGX_GAS"/>
-        <position name="GEM4_NEGX_GAS_pos" unit="mm" x="-400" y="0" z="11005.1"/>
+        <position name="GEM4_NEGX_GAS_pos" unit="mm" x="-420" y="0" z="11005.1"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM4_NEGX_RO">
         <volumeref ref="GEM4_NEGX_RO"/>
-        <position name="GEM4_NEGX_RO_pos" unit="mm" x="-400" y="0" z="11010.2"/>
+        <position name="GEM4_NEGX_RO_pos" unit="mm" x="-420" y="0" z="11010.2"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
       </physvol> 
       <physvol name="GEM4_POSX_DRIFT">
         <volumeref ref="GEM4_POSX_DRIFT"/>
-        <position name="GEM4_POSX_DRIFT_pos" unit="mm" x="+400" y="0" z="11000"/>
+        <position name="GEM4_POSX_DRIFT_pos" unit="mm" x="+420" y="0" z="11000"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM4_POSX_GAS">
         <volumeref ref="GEM4_POSX_GAS"/>
-        <position name="GEM4_POSX_GAS_pos" unit="mm" x="+400" y="0" z="11005.1"/>
+        <position name="GEM4_POSX_GAS_pos" unit="mm" x="+420" y="0" z="11005.1"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
       </physvol>
       <physvol name="GEM4_POSX_RO">
         <volumeref ref="GEM4_POSX_RO"/>
-        <position name="GEM4_POSX_RO_pos" unit="mm" x="+400" y="0" z="11010.2"/>
+        <position name="GEM4_POSX_RO_pos" unit="mm" x="+420" y="0" z="11010.2"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
-      </physvol> -->
+      </physvol> 
       <physvol name="CaloTable1">
         <volumeref ref="CaloTable1"/>
         <position name="CaloTable1_pos" unit="mm" x="450" y="0" z="12548"/>
@@ -1429,7 +1429,7 @@
       <physvol name="S5">
         <volumeref ref="S5"/>
         <position name="S5_pos" unit="mm" x="-496" y="0" z="14864"/>
-      </physvol> -->
+      </physvol>
 <!--      <physvol name="Dummy0">
         <volumeref ref="Dummy0"/>
         <position name="Dummy0_pos" unit="mm" x="0" y="0" z="4639.3"/>

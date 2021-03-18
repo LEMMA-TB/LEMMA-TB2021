@@ -76,6 +76,7 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetXErrDig()).clear();
 	(fRunAction->GetYErrDig()).clear();
 	(fRunAction->GetZErrDig()).clear();
+	(fRunAction->GetDigSubdet()).clear();
 	(fRunAction->GetDigHitIndex()).clear();
 	
 	
