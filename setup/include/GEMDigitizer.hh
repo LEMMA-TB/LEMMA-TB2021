@@ -19,9 +19,6 @@ public:
   
   bool getPosition(const G4ThreeVector hitPos, G4double deposit, G4ThreeVector& digitPos, G4ThreeVector& digitPosErr);
   
-  void setSubdet(int subdet) {m_subdet=subdet;}
-  int  getSubdet() {return m_subdet;}
-
   void setPitch(double minPitch) {m_minPitch=minPitch;}
   double getPitch() {return m_minPitch;}
   
@@ -33,8 +30,6 @@ public:
   double getSize() {return m_ySize;}
   
 private:
-
-  int m_subdet;
 
   double m_minBase;
   double m_maxBase;

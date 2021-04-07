@@ -278,6 +278,7 @@
     <box lunit="mm" name="Shield" x="800" y="1800" z="400"/>
     <box lunit="mm" name="Mu1" x="693" y="840" z="13"/>
     <box lunit="mm" name="Mu2" x="693" y="840" z="13"/>
+    <box lunit="mm" name="Mu3" x="693" y="840" z="13"/>
     <box lunit="mm" name="S4" x="310" y="150" z="10"/>
     <box lunit="mm" name="S5" x="310" y="150" z="10"/>
     <box lunit="mm" name="Dummy" x="3000" y="3000" z="0.1"/>
@@ -1184,6 +1185,10 @@
       <materialref ref="G4_AIR"/>
       <solidref ref="Mu2"/>
     </volume>
+    <volume name="Mu3">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="Mu3"/>
+    </volume>
     <volume name="S4">
       <materialref ref="G4_PLASTIC_SC_VINYLTOLUENE"/>
       <solidref ref="S4"/>
@@ -1210,6 +1215,10 @@
       <physvol name="Target">
         <volumeref ref="Target"/>
         <position name="Target_pos" unit="mm" x="0" y="0" z="1200.0"/>
+      </physvol>
+      <physvol name="Dummy0">
+        <volumeref ref="Dummy0"/>
+        <position name="Dummy0_pos" unit="mm" x="0" y="0" z="1300."/>
       </physvol>
       <physvol name="S1">
         <volumeref ref="S1"/>
@@ -1339,7 +1348,7 @@
         <volumeref ref="GEM4_POSX_RO"/>
         <position name="GEM4_POSX_RO_pos" unit="mm" x="+420" y="0" z="11010.2"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
-      </physvol> 
+      </physvol>
       <physvol name="CaloTable1">
         <volumeref ref="CaloTable1"/>
         <position name="CaloTable1_pos" unit="mm" x="450" y="0" z="12548"/>
@@ -1352,88 +1361,133 @@
       </physvol>
       <physvol name="Shield1">
         <volumeref ref="Shield"/>
-        <position name="Shield1_pos" unit="mm" x="487.1" y="0" z="13686.6"/>
+        <position name="Shield1_pos" unit="mm" x="600." y="0" z="13500."/>
       </physvol>
       <physvol name="Shield2">
         <volumeref ref="Shield"/>
-        <position name="Shield2_pos" unit="mm" x="-705.4" y="0" z="13670.6"/>
+        <position name="Shield2_pos" unit="mm" x="-600." y="0" z="13500."/>
       </physvol>
-      <physvol name="Mu1">
+
+      <!--  FIRST LAYER OF MUON CHAMBERS -->
+      <physvol name="Mu1_X">
         <volumeref ref="Mu1"/>
-        <position name="Mu1_pos" unit="mm" x="567.5" y="0" z="13946.5"/>
+        <position name="Mu1_pos" unit="mm" x="600.0" y="0" z="14000."/>
       </physvol>
-      <physvol name="Mu2">
+      <physvol name="Mu2_X">
         <volumeref ref="Mu2"/>
-        <position name="Mu2_pos" unit="mm" x="-647.5" y="0" z="13937.5"/>
+        <position name="Mu2_pos" unit="mm" x="-600.0" y="0" z="14000."/>
       </physvol>
-      <physvol copynumber="1" name="Mu1">
+      <physvol copynumber="1" name="Mu1_X">
         <volumeref ref="Mu1"/>
-        <position name="Mu1_pos" unit="mm" x="567.5" y="0" z="13959.5"/>
+        <position name="Mu1_pos" unit="mm" x="600.0" y="0" z="14013"/>
       </physvol>
-      <physvol copynumber="1" name="Mu2">
+      <physvol copynumber="1" name="Mu2_X">
         <volumeref ref="Mu2"/>
-        <position name="Mu2_pos" unit="mm" x="-647.5" y="0" z="13950.5"/>
+        <position name="Mu2_pos" unit="mm" x="-600.0" y="0" z="14013"/>
       </physvol>
-      <physvol copynumber="2" name="Mu1">
+      <physvol copynumber="2" name="Mu1_X">
         <volumeref ref="Mu1"/>
-        <position name="Mu1_pos" unit="mm" x="567.5" y="0" z="13972.5"/>
+        <position name="Mu1_pos" unit="mm" x="600" y="0" z="14026"/>
       </physvol>
-      <physvol copynumber="2" name="Mu2">
+      <physvol copynumber="2" name="Mu2_X">
         <volumeref ref="Mu2"/>
-        <position name="Mu2_pos" unit="mm" x="-647.5" y="0" z="13963.5"/>
+        <position name="Mu2_pos" unit="mm" x="-600" y="0" z="14026"/>
       </physvol>
-      <physvol copynumber="3" name="Mu1">
+      <physvol copynumber="3" name="Mu1_X">
         <volumeref ref="Mu1"/>
-        <position name="Mu1_pos" unit="mm" x="567.5" y="0" z="13985.5"/>
+        <position name="Mu1_pos" unit="mm" x="600.0" y="0" z="14039"/>
       </physvol>
-      <physvol copynumber="3" name="Mu2">
+      <physvol copynumber="3" name="Mu2_X">
         <volumeref ref="Mu2"/>
-        <position name="Mu2_pos" unit="mm" x="-647.5" y="0" z="13976.5"/>
+        <position name="Mu2_pos" unit="mm" x="-600" y="0" z="14039"/>
       </physvol>
-      <physvol copynumber="4" name="Mu1">
+
+      <!--  SECOND LAYER OF MUON CHAMBERS -->
+      <physvol copynumber="4" name="Mu1_Y">
         <volumeref ref="Mu1"/>
-        <position name="Mu1_pos" unit="mm" x="607.5" y="0" z="14768.5"/>
+        <position name="Mu1_pos" unit="mm" x="600" y="0" z="14500"/>
+	<rotation name="Mu1_rotate" unit="deg" z="90"/>
       </physvol>
-      <physvol copynumber="4" name="Mu2">
+      <physvol copynumber="4" name="Mu2_Y">
         <volumeref ref="Mu2"/>
-        <position name="Mu2_pos" unit="mm" x="-687.5" y="0" z="14759.5"/>
+        <position name="Mu2_pos" unit="mm" x="-600" y="0" z="14500"/>
+	<rotation name="Mu2_rotate" unit="deg" z="90"/>
       </physvol>
-      <physvol copynumber="5" name="Mu1">
+      <physvol copynumber="5" name="Mu1_Y">
         <volumeref ref="Mu1"/>
-        <position name="Mu1_pos" unit="mm" x="607.5" y="0" z="14781.5"/>
+        <position name="Mu1_pos" unit="mm" x="600" y="0" z="14513"/>
+	<rotation name="Mu1_rotate" unit="deg" z="90"/>
       </physvol>
-      <physvol copynumber="5" name="Mu2">
+      <physvol copynumber="5" name="Mu2_Y">
         <volumeref ref="Mu2"/>
-        <position name="Mu2_pos" unit="mm" x="-687.5" y="0" z="14772.5"/>
+        <position name="Mu2_pos" unit="mm" x="-600" y="0" z="14513"/>
+	<rotation name="Mu2_rotate" unit="deg" z="90"/>
       </physvol>
-      <physvol copynumber="6" name="Mu1">
+      <physvol copynumber="6" name="Mu1_Y">
         <volumeref ref="Mu1"/>
-        <position name="Mu1_pos" unit="mm" x="607.5" y="0" z="14794.5"/>
+        <position name="Mu1_pos" unit="mm" x="600" y="0" z="14526."/>
+	<rotation name="Mu1_rotate" unit="deg" z="90"/>
       </physvol>
-      <physvol copynumber="6" name="Mu2">
+      <physvol copynumber="6" name="Mu2_Y">
         <volumeref ref="Mu2"/>
-        <position name="Mu2_pos" unit="mm" x="-687.5" y="0" z="14785.5"/>
+        <position name="Mu2_pos" unit="mm" x="-600" y="0" z="14526."/>
+	<rotation name="Mu2_rotate" unit="deg" z="90"/>
       </physvol>
-      <physvol copynumber="7" name="Mu1">
+      <physvol copynumber="7" name="Mu1_Y">
         <volumeref ref="Mu1"/>
-        <position name="Mu1_pos" unit="mm" x="607.5" y="0" z="14807.5"/>
+        <position name="Mu1_pos" unit="mm" x="600" y="0" z="14539"/>
+	<rotation name="Mu1_rotate" unit="deg" z="90"/>
       </physvol>
-      <physvol copynumber="7" name="Mu2">
+      <physvol copynumber="7" name="Mu2_Y">
         <volumeref ref="Mu2"/>
-        <position name="Mu2_pos" unit="mm" x="-687.5" y="0" z="14798.5"/>
+        <position name="Mu2_pos" unit="mm" x="-600" y="0" z="14539"/>
+	<rotation name="Mu2_rotate" unit="deg" z="90"/>
       </physvol>
+
+      <!--  THIRD LAYER OF MUON CHAMBERS -->
+      <physvol copynumber="8" name="Mu1_X">
+        <volumeref ref="Mu1"/>
+        <position name="Mu1_pos" unit="mm" x="600" y="0" z="15000"/>
+      </physvol>
+      <physvol copynumber="9" name="Mu2_X">
+        <volumeref ref="Mu2"/>
+        <position name="Mu2_pos" unit="mm" x="-600" y="0" z="15000"/>
+      </physvol>
+      <physvol copynumber="10" name="Mu1_X">
+        <volumeref ref="Mu1"/>
+        <position name="Mu1_pos" unit="mm" x="600" y="0" z="15013"/>
+      </physvol>
+      <physvol copynumber="11" name="Mu2_X">
+        <volumeref ref="Mu2"/>
+        <position name="Mu2_pos" unit="mm" x="-600" y="0" z="15013"/>
+      </physvol>
+      <physvol copynumber="12" name="Mu1_X">
+        <volumeref ref="Mu1"/>
+        <position name="Mu1_pos" unit="mm" x="600" y="0" z="15026"/>
+      </physvol>
+      <physvol copynumber="13" name="Mu2_X">
+        <volumeref ref="Mu2"/>
+        <position name="Mu2_pos" unit="mm" x="-600" y="0" z="15026"/>
+      </physvol>
+      <physvol copynumber="14" name="Mu1_X">
+        <volumeref ref="Mu1"/>
+        <position name="Mu1_pos" unit="mm" x="600" y="0" z="15039"/>
+      </physvol>
+      <physvol copynumber="15" name="Mu2_X">
+        <volumeref ref="Mu2"/>
+        <position name="Mu2_pos" unit="mm" x="-600" y="0" z="15039"/>
+      </physvol>
+
+      
       <physvol name="S4">
         <volumeref ref="S4"/>
-        <position name="S4_pos" unit="mm" x="464" y="0" z="14864"/>
+        <position name="S4_pos" unit="mm" x="600" y="0" z="15150"/>
       </physvol>
       <physvol name="S5">
         <volumeref ref="S5"/>
-        <position name="S5_pos" unit="mm" x="-496" y="0" z="14864"/>
-      </physvol>
-<!--      <physvol name="Dummy0">
-        <volumeref ref="Dummy0"/>
-        <position name="Dummy0_pos" unit="mm" x="0" y="0" z="4639.3"/>
-      </physvol>
+        <position name="S5_pos" unit="mm" x="-600" y="0" z="15150"/>
+      </physvol>   
+<!--
       <physvol name="Dummy1">
         <volumeref ref="Dummy1"/>
         <position name="Dummy1_pos" unit="mm" x="0" y="0" z="23920"/>

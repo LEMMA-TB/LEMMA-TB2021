@@ -356,7 +356,7 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	
 	fNHits=0;
 	fNoCriteria=fTriggerLogic.size();
-//	G4cout<<"CIAONE fTriggerLogic.size()= "<<fNoCriteria<<G4endl;
+
 	ResetShowCriteria();
 
 }
@@ -375,17 +375,15 @@ void B1EventAction::EndOfEventAction(const G4Event* evt){
 	analysisManager->AddNtupleRow(2);
 	analysisManager->AddNtupleRow(3);
 	
-//	if ((100/fPrintModulo*evtNb)%NevTot==0) G4cout <<"\n---> End of Event: "<<evt->GetEventID()<<G4endl;
+	//	if ((1000/fPrintModulo*evtNb)%NevTot==0) G4cout <<"\n---> End of Event: "<<evt->GetEventID()<<G4endl;
 	
 	//	if (fShowCriteria1==TRUE && fShowCriteria2==TRUE && fShowCriteria3==TRUE) {
 	//it = find(AllMothers.begin(), AllMothers.end(),temp);
 	G4double somma=0;
 	for (int ii=0; ii<fNoCriteria; ii++) somma+=fShowCriteria[ii];
 	if (somma==fNoCriteria) {
-		G4Event* evt2 = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
-		evt2->KeepTheEvent();
-//		G4cout<<"BINGO! Trigger"<<G4endl;
-//		for (int ii=0; ii<fNoCriteria; ii++) G4cout<<"CIAONE ii "<<ii<<" fShowCriteria[ii] "<<fShowCriteria[ii]<<G4endl;
+	  G4Event* evt2 = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
+	  evt2->KeepTheEvent();
 	}
 	
 }

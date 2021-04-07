@@ -4,7 +4,7 @@
 #include "globals.hh"
 #include "G4VPhysicalVolume.hh"
 #include "G4VUserDetectorConstruction.hh"
-#include "G4cache.hh"
+#include "G4Cache.hh"
 #include "G4GDMLParser.hh"
 
 #include <map>

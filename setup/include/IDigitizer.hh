@@ -54,6 +54,9 @@ public:
 
   virtual void setMeasY(bool measY) {m_measY=measY;}
   virtual bool getMeasY() {return m_measY;}
+
+  virtual void setSubdet(int subdet)  {m_subdet=subdet;}
+  virtual int  getSubdet() {return m_subdet;}
   
 private:
   
@@ -64,7 +67,11 @@ private:
   /// to be digitized
   G4VPhysicalVolume* m_physicalVolume;
 
+  /// define if the detector measures the 2nd coordinate
   bool m_measY;
+  
+  /// subdetector Id
+  int m_subdet;
   
 };  // IDigitizer
 

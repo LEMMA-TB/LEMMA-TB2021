@@ -46,7 +46,7 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
     "GEM2_NEGX_DRIFT","GEM2_NEGX_GAS","GEM2_NEGX_RO","GEM2_POSX_DRIFT","GEM2_POSX_GAS","GEM2_POSX_RO",
     "GEM3_NEGX_DRIFT","GEM3_NEGX_GAS","GEM3_NEGX_RO","GEM3_POSX_DRIFT","GEM3_POSX_GAS","GEM3_POSX_RO",
     "GEM4_NEGX_DRIFT","GEM4_NEGX_GAS","GEM4_NEGX_RO","GEM4_POSX_DRIFT","GEM4_POSX_GAS","GEM4_POSX_RO",
-    "Pb1a","Pb1b","Pb1c","Pb2a","Pb2b","Pb2c","Mu1","Mu2"};
+    "Pb1a","Pb1b","Pb1c","Pb2a","Pb2b","Pb2c","Mu1","Mu2","Dummy0"};
 
   m_detectorId = {9,10,11,12,25,20,21,22,
     -1,31,-1,
@@ -55,7 +55,7 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
     -1,35,-1,-1,34,-1,
     -1,37,-1,-1,36,-1,
     41,42,43,44,45,46,
-    61,62
+    61,62,100
   };
 
 
