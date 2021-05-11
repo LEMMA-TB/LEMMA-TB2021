@@ -484,7 +484,7 @@ void B1SteppingAction2018::UserSteppingAction(const G4Step* step){
 	       }
 	       // What enters T5
 	       if (NextVol && ThisVol->GetName()==worldName && ( NextVol->GetName()=="T5") ) {
-		       (runStepAction->GetVectorT5EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
+		 (runStepAction->GetVectorT5EnterEne()).push_back(step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/GeV);
 		       (runStepAction->GetVectorT5EnterPart()).push_back(step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding());
 		       (runStepAction->GetVectorT5EnterX()).push_back(step->GetPostStepPoint()->GetPosition().x()/cm);
 		       (runStepAction->GetVectorT5EnterY()).push_back(step->GetPostStepPoint()->GetPosition().y()/cm);
