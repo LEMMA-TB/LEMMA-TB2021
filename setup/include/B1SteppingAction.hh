@@ -27,18 +27,22 @@ typedef std::map<std::string,ScoringVolume> ScoringVolumesMap;
 class B1SteppingAction : public G4UserSteppingAction
 {
 public:
-  B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::map<G4int,G4int> & ChannelMap, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic, G4bool Aug2018Flag);
+  
+  B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic, G4bool Aug2018Flag);
   virtual ~B1SteppingAction();
   // method from the base class
   virtual void UserSteppingAction(const G4Step*);
   
 private:
+
   B1EventAction* fEventAction;
   B1RunAction* runStepAction;
 
   std::vector<std::string> m_activeVolumes;
   std::vector<int> m_detectorId;
   ScoringVolumesMap m_scoringVolumes;
+
+  std::map<std::string,int> m_caloChannelsMap[2];
   
   G4bool fStoreCaloEnDepFlag;
   G4bool fStoreGammaConvDepFlag;
@@ -48,7 +52,6 @@ private:
   
   G4bool fAug2018Flag;
   
-  std::map<G4int,G4int> fChannelMap;
   G4bool fDetEnterExitFlag;
   std::vector<G4int>  fTriggerLogic;
   

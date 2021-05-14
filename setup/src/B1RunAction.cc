@@ -15,8 +15,8 @@
 #include <sstream>
 #include <map>
 
-B1RunAction::B1RunAction(const std::map<G4int,G4int> & ChannelMap)
-: G4UserRunAction(), fChannelMap(ChannelMap)
+B1RunAction::B1RunAction()
+: G4UserRunAction()
 {}
 
 B1RunAction::~B1RunAction(){}
@@ -391,19 +391,9 @@ void B1RunAction::BeginOfRunAction(const G4Run*){
 	
 
 	// ######### CREATE CALOMAP HISTO
-	analysisManager->CreateH1("CaloMap","CaloMap",fChannelMap.size(),0.,fChannelMap.size());
+	analysisManager->CreateH1("CaloMap","CaloMap",10,0.,10);
 	analysisManager->SetH1XAxisTitle(0,"Channel");
 	analysisManager->SetH1YAxisTitle(0,"Detector-SubDet");
-#if 0
-	for (int ii=0; ii<(int)fChannelMap.size() && G4Threading::G4GetThreadId()==-1; ii++) { //write CaloMap histo only once if MT to avoid problems
-//		analysisManager->FillH1(0, ii, fChannelMap[ii]);
-	}
-	
-//	auto iter = Mappa.find((41+ii)*100);
-	for (std::map<G4int,G4int>::iterator iter= fChannelMap.begin(); G4Threading::G4GetThreadId()==-1&& iter!=fChannelMap.end(); ++iter) {
-		G4cout<<"ITERATORE first= "<<iter->first<<" second= "<<iter->second<<G4endl;
-	}
-#endif
 	
 	
 }

@@ -52,11 +52,11 @@ int main(int argc,char** argv)
 	// ################### These are defaults, can be overridden by command line ####
 	// ###############
 	
-	G4bool CalibMuMBeamFlag=false;  //switching on this flag generates mu- primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
+	G4bool CalibMuMBeamFlag=true;  //switching on this flag generates mu- primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
 	G4bool CalibMuPBeamFlag=false;  //switching on this flag generates mu+ primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
 	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu- beam at the end of the target, to simulate the muon production: E in 15-30 GeV, along Z
 	G4bool ElectronBeamFlag=false;  //switching on this flag generates e- beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
-	G4double BeamEnergy=44.0*GeV; //Primary Beam Energy (18, 22, 26 GeV options for e+ calibration) - 45 GeV for real TB
+	G4double BeamEnergy=22.0*GeV; //Primary Beam Energy (18, 22, 26 GeV options for e+ calibration) - 45 GeV for real TB
 	G4bool SimpleFlag=false; //Generates a "simple-ideal" beam: no spread, no emittance...
 	G4double BeamDP=0.017; //was 0.01, but Mario obtained 1.7%
 	
@@ -240,76 +240,64 @@ int main(int argc,char** argv)
 	// ##################### PREPARE CALO-MAP VECTOR
 	// ###############
 	
-#if 1
-	std::vector<G4int> ChannelMap={4100, 4200, 4300, 4400, 4500, 4600}; //PbGlasses
-	
-	for (int ii=0; ii<34; ii++) { //Ce1 (34 channels)
-		ChannelMap.push_back(5100+ii);
-	}
-	for (int ii=0; ii<24; ii++) { //Ce2 (24 channels)
-		ChannelMap.push_back(5200+ii);
-	}
-	ChannelMap.push_back(7700);
-#endif
-	
-	std::map<G4int,G4int> Mappa;
+	std::map<G4String,G4int> Mappa;
 	
 #if 1
-	Mappa[4100]=0;
-	Mappa[4200]=1;
-	Mappa[4300]=2;
-	Mappa[4400]=3;
-	Mappa[4500]=4;
-	Mappa[4600]=5;
+	Mappa["Pb1a"]=0;
+	Mappa["Pb1b"]=1;
+	Mappa["Pb1c"]=2;
+	Mappa["Pb2a"]=3;
+	Mappa["Pb2b"]=4;
+	Mappa["Pb2c"]=5;
 	
-	Mappa[7700]=6;
+	//	Mappa[7700]=6;
 	
-	Mappa[5100]=10;
-	Mappa[5101]=10;
-	Mappa[5102]=10;
-	Mappa[5103]=11;
-	Mappa[5104]=11;
-	Mappa[5105]=11;
-	
-	
-	Mappa[5119]=12;
-	Mappa[5120]=12;
-	Mappa[5121]=12;
-	Mappa[5122]=13;
-	Mappa[5123]=13;
-	Mappa[5124]=13;
-	
-	
-	Mappa[5200]=14;
-	Mappa[5201]=15;
-	Mappa[5202]=16;
-	Mappa[5203]=16;
-	Mappa[5204]=16;
-	Mappa[5205]=17;
-	Mappa[5206]=17;
-	Mappa[5207]=17;
-	
-	Mappa[5208]=18;
-	Mappa[5209]=18;
-	Mappa[5210]=18;
-	
-	Mappa[5211]=19;
-	Mappa[5212]=19;
-	Mappa[5213]=19;
-	
-	Mappa[5214]=20;
-	Mappa[5215]=21;
-	Mappa[5216]=22;
-	Mappa[5217]=22;
-	Mappa[5218]=22;
-	Mappa[5219]=23;
-	Mappa[5220]=23;
-	Mappa[5221]=23;
+//	Mappa[5100]=10;
+//	Mappa[5101]=10;
+//	Mappa[5102]=10;
+//	Mappa[5103]=11;
+//	Mappa[5104]=11;
+//	Mappa[5105]=11;
+//	
+//	
+//	Mappa[5119]=12;
+//	Mappa[5120]=12;
+//	Mappa[5121]=12;
+//	Mappa[5122]=13;
+//	Mappa[5123]=13;
+//	Mappa[5124]=13;
+//	
+//	
+//	Mappa[5200]=14;
+//	Mappa[5201]=15;
+//	Mappa[5202]=16;
+//	Mappa[5203]=16;
+//	Mappa[5204]=16;
+//	Mappa[5205]=17;
+//	Mappa[5206]=17;
+//	Mappa[5207]=17;
+//	
+//	Mappa[5208]=18;
+//	Mappa[5209]=18;
+//	Mappa[5210]=18;
+//	
+//	Mappa[5211]=19;
+//	Mappa[5212]=19;
+//	Mappa[5213]=19;
+//	
+//	Mappa[5214]=20;
+//	Mappa[5215]=21;
+//	Mappa[5216]=22;
+//	Mappa[5217]=22;
+//	Mappa[5218]=22;
+//	Mappa[5219]=23;
+//	Mappa[5220]=23;
+//	Mappa[5221]=23;
 	
 	
 #endif
 	G4int NDumChannels=1;
-	G4int NTotChannels=Mappa[5221]+1+NDumChannels;
+	G4int NTotChannels=0;
 	
 	// ###############
 	// ##################### END: PREPARE CALO-MAP VECTOR
@@ -317,17 +305,6 @@ int main(int argc,char** argv)
 	G4cout<<"DIMENSIONE MAPPA: size= "<<Mappa.size()<<G4endl;
 	
 	G4cout<<"DIMENSIONE MAPPA: max element = "<<NTotChannels<<G4endl;
-	
-#if 0
-	for (int ii=0; ii<ChannelMap.size(); ii++) G4cout<<"MAPPA vector: i= "<<ii<<" channel= "<<ChannelMap.at(ii)<<G4endl;
-	
-	//	std::vector<int>::iterator iteratore;
-	for (int ii=0; ii<3; ii++) {
-		//		iteratore = find(Mappa.begin(), Mappa.end(),4100+ii);
-		auto iter = Mappa.find((41+ii)*100);
-		if (iter != Mappa.end()) G4cout<<"MAPPA map: i= "<<ii<<" looking for "<< (41+ii)*100<<" iter->first= "<<iter->first<<" iter->second= "<<iter->second<<" Mappa[]= "<<Mappa[(41+ii)*100]<<G4endl;
-	}
-#endif
 	
 	
 	
@@ -392,11 +369,11 @@ int main(int argc,char** argv)
 	  if (ReadGeoFromFile) {
 	    if ( MTFlag ) {
 	      runManagerMT->SetUserInitialization(tbDetector);
-	      runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
+	      runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
 	      runManagerMT->Initialize();  // init kernel
 	    } else {
 	      runManager->SetUserInitialization(tbDetector);
-	      runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
+	      runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
 	      runManager->Initialize();  // init kernel
 	    }
 	    
@@ -407,12 +384,12 @@ int main(int argc,char** argv)
 	      
 	      if (!Aug2018Flag) 	runManagerMT->SetUserInitialization(detector);
 	      else runManagerMT->SetUserInitialization(detectorAug);
-	      runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
+	      runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
 	      runManagerMT->Initialize();  // init kernel
 	    } else {
 	      if (!Aug2018Flag) 	runManager->SetUserInitialization(detector);
 	      else runManager->SetUserInitialization(detectorAug);
-	      runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, Mappa, DetEnterExitFlag,NTotChannels, TriggerLogic,  TargMat, TargDZ, Aug2018Flag));
+	      runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag,NTotChannels, TriggerLogic,  TargMat, TargDZ, Aug2018Flag));
 	      runManager->Initialize();  // init kernel
 	    }
 	  }

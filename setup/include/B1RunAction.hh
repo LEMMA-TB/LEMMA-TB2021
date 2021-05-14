@@ -11,7 +11,7 @@ class G4LogicalVolume;
 class B1RunAction : public G4UserRunAction
 {
 public:
-	B1RunAction(const std::map<G4int,G4int> &);
+	B1RunAction();
 	virtual ~B1RunAction();
 	virtual G4Run* GenerateRun();
 	virtual void BeginOfRunAction(const G4Run*);
@@ -693,8 +693,6 @@ private:
   std::vector<G4double> BeamInfoCZ;
   std::vector<G4double> BeamInfoEne;
   std::vector<G4double> BeamInfoPart;
-  
-  std::map<G4int,G4int> fChannelMap;
   
   
 };

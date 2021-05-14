@@ -41,6 +41,7 @@ G4VPhysicalVolume* TBDetectorConstruction::Construct()
     m_logicalVolumes.insert(std::pair<G4String,G4LogicalVolume*>(name,vol));
   
   }
+  std::cout << "End of the volume initialization " << std::endl;
   return world;
 }
 
@@ -53,6 +54,8 @@ bool TBDetectorConstruction::exportGeometry(G4VPhysicalVolume* physVol)
 
 G4LogicalVolume* TBDetectorConstruction::getScoringVolume(G4String volName) const
 {
+
+  std::cout << "Inside getscoringvolume " << std::endl;
 
   G4LogicalVolume* vol = NULL;
 
@@ -72,6 +75,7 @@ G4LogicalVolume* TBDetectorConstruction::getScoringVolume(G4String volName) cons
 G4VPhysicalVolume* TBDetectorConstruction::getPhysicalVolume(G4String volName) const
 {
 
+  std::cout << "Inside getphysicalvolume " << std::endl;
   G4VPhysicalVolume* vol = NULL;
 
   std::map<G4String,G4VPhysicalVolume*>::const_iterator it;
@@ -89,14 +93,14 @@ G4VPhysicalVolume* TBDetectorConstruction::getPhysicalVolume(G4String volName) c
 
 
 void TBDetectorConstruction::ConstructSDandField(){
-  if( m_channeling==true ){
-    G4LogicalVolume* crystalLogic = G4LogicalVolumeStore::GetInstance()->GetVolume("crystal.logic");
-    G4ChannelingOptrMultiParticleChangeCrossSection* testMany = new G4ChannelingOptrMultiParticleChangeCrossSection();
-    testMany->AttachTo(crystalLogic);
-    G4cout << " Attaching biasing operator " << testMany->GetName()
-	   << " to logical volume " << crystalLogic->GetName()
-	   << G4endl;
-  }
+  //  if( m_channeling==true ){
+  //    G4LogicalVolume* crystalLogic = G4LogicalVolumeStore::GetInstance()->GetVolume("crystal.logic");
+  //   G4ChannelingOptrMultiParticleChangeCrossSection* testMany = new G4ChannelingOptrMultiParticleChangeCrossSection();
+  //    testMany->AttachTo(crystalLogic);
+  //    G4cout << " Attaching biasing operator " << testMany->GetName()
+  //	   << " to logical volume " << crystalLogic->GetName()
+  //	   << G4endl;
+  // }
   
   // =============================
   //       MAGNETIC FIELD

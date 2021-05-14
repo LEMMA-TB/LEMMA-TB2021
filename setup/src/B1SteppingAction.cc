@@ -20,7 +20,7 @@
 #define FLAG2018A
 
 
-B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, const std::map<G4int,G4int> & ChannelMap, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic, G4bool Aug2018Flag)
+B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic, G4bool Aug2018Flag)
  : G4UserSteppingAction(),
    fEventAction(eventAction),
    runStepAction(runAction),
@@ -28,7 +28,6 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
    fStoreGammaConvDepFlag(StoreGammaConvDepFlag),
    fEThr(EThr),
    fAug2018Flag(Aug2018Flag),
-   fChannelMap(ChannelMap),
    fDetEnterExitFlag(DetEnterExitFlag),
    fTriggerLogic(TriggerLogic),
    m_readGeoFromFile(true)
@@ -54,10 +53,67 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
     -1,33,-1,-1,32,-1,
     -1,35,-1,-1,34,-1,
     -1,37,-1,-1,36,-1,
-    41,42,43,51,44,45,46,52,
+    41,42,43,52,44,45,46,51,
     61,62,100,101
   };
 
+  // Ce1 e' VERSA ( a X>0 ), subdetector 52 
+
+  std::vector<std::string> caloVChannelNames =
+    {"CeVW","CeVAlu1","CeVAlu2",
+     "CeVSiO1a","CeVSiO1b","CeVSiO1c",
+     "CeVSiO6a","CeVSiO6b","CeVSiO6c",
+     "CeVSiOtilt0a","CeVSiOtilt0b","CeVSiOtilt0c","CeVSiOtilt0d","CeVSiOtilt0e","CeVSiOtilt0f","CeVSiOtilt0g","CeVSiOtilt0h",
+     "CeVSiOtilt1a","CeVSiOtilt1b","CeVSiOtilt1c","CeVSiOtilt1d","CeVSiOtilt1e","CeVSiOtilt1f","CeVSiOtilt1g","CeVSiOtilt1h"};
+
+
+  std::vector<int> caloVChannelId =
+    {0,1,2,
+     8,9,10,
+     8,9,10,
+     0,1,2,3,4,5,6,7,
+     14,15,16,17,18,19,20,21};
+
+  // Ce2 e' HORSA ( a X<0 ), subdetector 51 
+
+
+  std::vector<std::string> caloHChannelNames =
+    {"CeHW","CeHAlu1","CeHAlu2",
+     "CeHSiO0a","CeHSiO0b","CeHSiO0c",
+     "CeHSiO1a","CeHSiO1b","CeHSiO1c",
+     "CeHSiO2a","CeHSiO2b","CeHSiO2c",
+     "CeHSiO3a","CeHSiO3b","CeHSiO3c",
+     "CeHSiO4a","CeHSiO4b","CeHSiO4c",
+     "CeHSiO5a","CeHSiO5b","CeHSiO5c",
+     "CeHSiO6a","CeHSiO6b","CeHSiO6c",
+     "CeHSiO7a","CeHSiO7b","CeHSiO7c"};
+
+  std::vector<int> caloHChannelId =
+    {0,1,2,
+     0,1,2,
+     0,1,2,
+     0,1,2,
+     0,1,2,
+     0,1,2,
+     0,1,2,
+     0,1,2,
+     0,1,2};
+
+  //// build the map of the calo channels
+  int iv = 0;
+  for ( auto it : caloVChannelNames )
+    {
+      m_caloChannelsMap[0].insert(std::pair<std::string,int>(it,caloVChannelId[iv]));
+	++iv;
+    }
+  //// build the map of the calo channels
+  int ih = 0;
+  for ( auto it : caloHChannelNames )
+    {
+      m_caloChannelsMap[1].insert(std::pair<std::string,int>(it,caloHChannelId[iv]));
+	++ih;
+    }
+  
 
 }
 
@@ -428,7 +484,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
   G4bool SHOW = false;
   G4bool dofill = false;
   G4int subdet=-1;
-  
+
   // find the correct subdetector ID
   for ( auto it : m_scoringVolumes ) {
     if ( volume == it.second.volume ) {
@@ -502,9 +558,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 #endif
   /// ###############
   // ##############################################################################
-  
-  
-  
+    
   
   G4int CopyNb=step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
   G4double DepEne=step->GetTotalEnergyDeposit()/GeV;
@@ -513,21 +567,22 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
   // ##############################################################################
   // ##################### CALORIMETER SCORING
   // ###############
-  
   if (fStoreCaloEnDepFlag && ((subdet>=41 && subdet <=46) || subdet==51 || subdet==52 || subdet == 77)) {
-    //		std::vector<G4int>::iterator it;
-    G4int CaloChannelToSearch=100*subdet+CopyNb;
-    
-    auto it = fChannelMap.find(CaloChannelToSearch);
-    
-    //		it = find(fChannelMap.begin(), fChannelMap.end(),CaloChannelToSearch); //cerco l'attuale canale nella lista di quelli già visti
-    if (it != fChannelMap.end()) { //se ho trovato il canale, scrivo il deposito energia nella posizione corrispondente del vettore
-      (runStepAction->GetCaloEnDep())[it->second]+=DepEne;
-      
-      if (0 && (subdet==52 || subdet==51))		G4cout<<"DEBUG !!! subdet= "<<subdet<<" Nome= "<<step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName()<<" CopyNb="<<CopyNb<<" Cerco canale "<<CaloChannelToSearch<<" Trovato in pos= "<<it->second<<G4endl;
+
+    std::string volName;
+    if ( ThisVol ) { 
+      volName = ThisVol->GetName();
     }
+    
+    int icalo = subdet-51;
+    auto it = m_caloChannelsMap[icalo].find(volName);
+
+    if ( it != m_caloChannelsMap[icalo].end() ) {
+      (runStepAction->GetCaloEnDep())[it->second]+=DepEne;
+    }
+    
   }
-  
+
   /// ###############
   // ##############################################################################
   
