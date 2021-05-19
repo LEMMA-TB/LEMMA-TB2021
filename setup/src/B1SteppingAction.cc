@@ -43,7 +43,7 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
     "GEM2_NEGX_DRIFT","GEM2_NEGX_GAS","GEM2_NEGX_RO","GEM2_POSX_DRIFT","GEM2_POSX_GAS","GEM2_POSX_RO",
     "GEM3_NEGX_DRIFT","GEM3_NEGX_GAS","GEM3_NEGX_RO","GEM3_POSX_DRIFT","GEM3_POSX_GAS","GEM3_POSX_RO",
     "GEM4_NEGX_DRIFT","GEM4_NEGX_GAS","GEM4_NEGX_RO","GEM4_POSX_DRIFT","GEM4_POSX_GAS","GEM4_POSX_RO",
-    "Pb1a","Pb1b","Pb1c","Ce1","Pb2a","Pb2b","Pb2c","Ce2","Mu1","Mu2","Dummy0","Dummy1"};
+    "Pb1a","Pb1b","Pb1c","Ce1","Pb2c","Pb2b","Pb2a","Ce2","Mu1","Mu2","Dummy0","Dummy1"};
 
   m_detectorId = {9,10,11,12,25,20,21,22,
     -1,31,-1,
@@ -72,7 +72,7 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
      4,4,4,4,4,4,4,4};
 
   std::vector<int> caloVChannelId =
-    {0,0,0,
+    {-1,-1,-1,
      16,16,17,17,18,18,19,19,
      10,10,10,
      11,11,11,
@@ -102,7 +102,7 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
      8,8,8 };
      
   std::vector<int> caloHChannelId =
-    {0,1,2,
+    {-1,-1,-1,
      12,12,12,
      12,12,12,
      13,13,13,
@@ -587,6 +587,25 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
   // ###############
   if (fStoreCaloEnDepFlag && ((subdet>=41 && subdet <=46) || subdet==51 || subdet==52 || subdet == 77)) {
 
+    if (subdet==41) {
+      caloChannel=1;
+    }
+    else if (subdet==42) {
+      caloChannel=0;
+    }
+    else if (subdet==43) {
+      caloChannel=2;
+    }
+    else if (subdet==44) {
+      caloChannel=3;
+    }
+    else if (subdet==45) {
+      caloChannel=5;
+    }
+    else if (subdet==46) {
+      caloChannel=4;
+    }
+    
     if ( caloChannel != -1 ) { 
       (runStepAction->GetCaloEnDep())[caloChannel]+=DepEne;
     }
