@@ -1,7 +1,5 @@
 #include "B1SteppingAction.hh"
 #include "B1EventAction.hh"
-#include "B1DetectorConstruction.hh"
-#include "B1DetectorConstructionAug.hh"
 #include "TBDetectorConstruction.hh"
 #include "HistoManager.hh"
 #include "B1RunAction.hh"
@@ -19,15 +17,15 @@
 
 #define FLAG2018A
 
+using namespace std;
 
-B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic, G4bool Aug2018Flag)
+B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runAction, G4bool StoreCaloEnDepFlag, G4bool StoreGammaConvDepFlag, G4double EThr, G4bool DetEnterExitFlag, const std::vector<G4int>  & TriggerLogic)
  : G4UserSteppingAction(),
    fEventAction(eventAction),
    runStepAction(runAction),
    fStoreCaloEnDepFlag(StoreCaloEnDepFlag),
    fStoreGammaConvDepFlag(StoreGammaConvDepFlag),
    fEThr(EThr),
-   fAug2018Flag(Aug2018Flag),
    fDetEnterExitFlag(DetEnterExitFlag),
    fTriggerLogic(TriggerLogic),
    m_readGeoFromFile(true)
@@ -57,26 +55,30 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
     61,62,100,101
   };
 
-  // Ce1 e' VERSA ( a X>0 ), subdetector 52 
-
+  // Ce1 is VERSA ( a X>0 ), subdetector 52 (CaloTable1)
   std::vector<std::string> caloVChannelNames =
     {"CeVW","CeVAlu1","CeVAlu2",
+     "CeVSiOtilt0a","CeVSiOtilt0b","CeVSiOtilt0c","CeVSiOtilt0d","CeVSiOtilt0e","CeVSiOtilt0f","CeVSiOtilt0g","CeVSiOtilt0h",
      "CeVSiO1a","CeVSiO1b","CeVSiO1c",
      "CeVSiO6a","CeVSiO6b","CeVSiO6c",
-     "CeVSiOtilt0a","CeVSiOtilt0b","CeVSiOtilt0c","CeVSiOtilt0d","CeVSiOtilt0e","CeVSiOtilt0f","CeVSiOtilt0g","CeVSiOtilt0h",
      "CeVSiOtilt1a","CeVSiOtilt1b","CeVSiOtilt1c","CeVSiOtilt1d","CeVSiOtilt1e","CeVSiOtilt1f","CeVSiOtilt1g","CeVSiOtilt1h"};
 
 
+  std::vector<int> caloVCopyId =
+    {10,0,9,
+     1,1,1,1,1,1,1,1,
+     2,2,2,
+     3,3,3,
+     4,4,4,4,4,4,4,4};
+
   std::vector<int> caloVChannelId =
-    {0,1,2,
-     8,9,10,
-     8,9,10,
-     0,1,2,3,4,5,6,7,
-     14,15,16,17,18,19,20,21};
+    {0,0,0,
+     16,16,17,17,18,18,19,19,
+     10,10,10,
+     11,11,11,
+     20,20,21,21,22,22,23,23};
 
-  // Ce2 e' HORSA ( a X<0 ), subdetector 51 
-
-
+  // Ce2 is HORSA ( a X<0 ), subdetector 51 (CaloTable2)
   std::vector<std::string> caloHChannelNames =
     {"CeHW","CeHAlu1","CeHAlu2",
      "CeHSiO0a","CeHSiO0b","CeHSiO0c",
@@ -88,30 +90,43 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
      "CeHSiO6a","CeHSiO6b","CeHSiO6c",
      "CeHSiO7a","CeHSiO7b","CeHSiO7c"};
 
+  std::vector<int> caloHCopyId =
+    {10,0,9,
+     1,1,1,
+     2,2,2,
+     3,3,3,
+     4,4,4,
+     5,5,5,
+     6,6,6,
+     7,7,7,
+     8,8,8 };
+     
   std::vector<int> caloHChannelId =
     {0,1,2,
-     0,1,2,
-     0,1,2,
-     0,1,2,
-     0,1,2,
-     0,1,2,
-     0,1,2,
-     0,1,2,
-     0,1,2};
+     12,12,12,
+     12,12,12,
+     13,13,13,
+     13,13,13,
+     14,14,14,
+     14,14,14,
+     15,15,15,
+     15,15,15  };
 
-  //// build the map of the calo channels
-  int iv = 0;
-  for ( auto it : caloVChannelNames )
-    {
-      m_caloChannelsMap[0].insert(std::pair<std::string,int>(it,caloVChannelId[iv]));
-	++iv;
-    }
   //// build the map of the calo channels
   int ih = 0;
   for ( auto it : caloHChannelNames )
     {
-      m_caloChannelsMap[1].insert(std::pair<std::string,int>(it,caloHChannelId[iv]));
+      m_caloChannelsMap[0].insert(std::pair<std::string,int>(it,caloHChannelId[ih]));
+      m_caloLayersMap[0].insert(std::pair<std::string,int>(it,caloHCopyId[ih]));
 	++ih;
+    }
+  //// build the map of the calo channels
+  int iv = 0;
+  for ( auto it : caloVChannelNames )
+    {
+      m_caloChannelsMap[1].insert(std::pair<std::string,int>(it,caloVChannelId[iv]));
+      m_caloLayersMap[1].insert(std::pair<std::string,int>(it,caloVCopyId[iv]));
+	++iv;
     }
   
 
@@ -469,21 +484,12 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
     }
   }
   
-  // Were HORSA and VERSA flipped?
-  B1DetectorConstruction* detectorConstructionNonConst = (B1DetectorConstruction*)
-    (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-  
-  //#ifndef FLAG2018A
-  G4bool HorsaVersaFlip=false;
-  if (!fAug2018Flag) 	HorsaVersaFlip=detectorConstructionNonConst->GetHorsaVersaFlip();
-  else HorsaVersaFlip=true;
-  //#else
-  //
-  //#endif
   
   G4bool SHOW = false;
   G4bool dofill = false;
   G4int subdet=-1;
+  G4int caloChannel=-1;
+  G4int CopyNb=step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
 
   // find the correct subdetector ID
   for ( auto it : m_scoringVolumes ) {
@@ -491,6 +497,18 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
       subdet = it.second.detectorId;
       dofill=true;
       break;
+    }
+    /// if not found among the scoring volumes check the calo components
+    for (unsigned int i=0 ; i<2 ; i++ ) {
+      auto it_calo = m_caloChannelsMap[i].find(ThisVol->GetName());
+      if ( it_calo != m_caloChannelsMap[i].end() ) {
+	subdet = 51+i;
+	caloChannel = it_calo->second;
+      }
+      auto it_calo_layer = m_caloLayersMap[i].find(ThisVol->GetName());
+      if ( it_calo_layer != m_caloLayersMap[i].end() ) {
+	CopyNb = it_calo_layer->second;
+      }
     }
   }
   
@@ -560,25 +578,17 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
   // ##############################################################################
     
   
-  G4int CopyNb=step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
   G4double DepEne=step->GetTotalEnergyDeposit()/GeV;
   G4int Pid=step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding();
-  
+
+
   // ##############################################################################
   // ##################### CALORIMETER SCORING
   // ###############
   if (fStoreCaloEnDepFlag && ((subdet>=41 && subdet <=46) || subdet==51 || subdet==52 || subdet == 77)) {
 
-    std::string volName;
-    if ( ThisVol ) { 
-      volName = ThisVol->GetName();
-    }
-    
-    int icalo = subdet-51;
-    auto it = m_caloChannelsMap[icalo].find(volName);
-
-    if ( it != m_caloChannelsMap[icalo].end() ) {
-      (runStepAction->GetCaloEnDep())[it->second]+=DepEne;
+    if ( caloChannel != -1 ) { 
+      (runStepAction->GetCaloEnDep())[caloChannel]+=DepEne;
     }
     
   }
@@ -605,7 +615,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
 	    }
 	    // se sono nel detector di Cerenkov
 	    else if (subdet==80 && CerFotLambda>CerFotLambdaCut) {
-	      //							(runStepAction->GetCerenkovDepoOpt())[CopyNb]+=1; //incremento di 1 il contatore di fotoni cerenkov del rispettivo canale
+
 	    }
 	    //						G4cout<<"DEBUG Cerenkov!!! Energia fotone= "<<CerFotEne<<", lamda [um]= "<< CerFotLambda<<", subdet= "<<subdet<<  G4endl;
 	  }

@@ -246,7 +246,6 @@
       <fraction n="1" ref="Fe"/>
     </material>
   </materials>
-
   <solids>
     <tube aunit="deg" deltaphi="360" lunit="mm" name="Target" rmax="20" rmin="0" startphi="0" z="60"/>
     <box lunit="mm" name="S1" x="100" y="100" z="10"/>
@@ -284,7 +283,6 @@
     <box lunit="mm" name="Dummy" x="3000" y="3000" z="0.1"/>
     <box lunit="mm" name="World" x="8000" y="8000" z="80000"/>
   </solids>
-
   <structure>
     <volume name="Target">
       <materialref ref="G4_Be"/>
@@ -1348,7 +1346,7 @@
         <volumeref ref="GEM4_POSX_RO"/>
         <position name="GEM4_POSX_RO_pos" unit="mm" x="+420" y="0" z="11010.2"/>
 	<rotation name="GEM4_rotate" unit="deg" x="90"/>
-      </physvol>
+      </physvol> -->
       <physvol name="CaloTable1">
         <volumeref ref="CaloTable1"/>
         <position name="CaloTable1_pos" unit="mm" x="260" y="0" z="12548"/>
@@ -1366,8 +1364,7 @@
       <physvol name="Shield2">
         <volumeref ref="Shield"/>
         <position name="Shield2_pos" unit="mm" x="-600." y="0" z="13500."/>
-      </physvol>
-      <!--  FIRST LAYER OF MUON CHAMBERS -->
+      </physvol> 
       <physvol name="Mu1_X">
         <volumeref ref="Mu1"/>
         <position name="Mu1_pos" unit="mm" x="600.0" y="0" z="14000."/>
@@ -1400,7 +1397,6 @@
         <volumeref ref="Mu2"/>
         <position name="Mu2_pos" unit="mm" x="-600" y="0" z="14039"/>
       </physvol>
-      <!--  SECOND LAYER OF MUON CHAMBERS -->
       <physvol copynumber="4" name="Mu1_Y">
         <volumeref ref="Mu1"/>
         <position name="Mu1_pos" unit="mm" x="600" y="0" z="14500"/>
@@ -1441,7 +1437,6 @@
         <position name="Mu2_pos" unit="mm" x="-600" y="0" z="14539"/>
 	<rotation name="Mu2_rotate" unit="deg" z="90"/>
       </physvol>
-      <!--  THIRD LAYER OF MUON CHAMBERS -->
       <physvol copynumber="8" name="Mu1_X">
         <volumeref ref="Mu1"/>
         <position name="Mu1_pos" unit="mm" x="600" y="0" z="15000"/>
@@ -1481,8 +1476,8 @@
       <physvol name="S5">
         <volumeref ref="S5"/>
         <position name="S5_pos" unit="mm" x="-600" y="0" z="15150"/>
-      </physvol>   
-<!--
+      </physvol> 
+      <!--
       <physvol name="Dummy1">
         <volumeref ref="Dummy1"/>
         <position name="Dummy1_pos" unit="mm" x="0" y="0" z="12500"/>

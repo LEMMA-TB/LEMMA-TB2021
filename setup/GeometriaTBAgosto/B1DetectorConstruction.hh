@@ -5,6 +5,7 @@
 #include "G4ThreeVector.hh"
 #include "G4Cache.hh"
 #include "G4MagneticField.hh"
+#include "G4LogicalVolume.hh"
 
 class G4VPhysicalVolume;
 class G4LogicalVolume;
@@ -13,7 +14,7 @@ class PurgMagTabulatedField3D;
 class B1DetectorConstruction : public G4VUserDetectorConstruction
 {
 public:
-	B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFieldFlag, G4double MagField, G4double GeometryZoom, G4bool AllVacFlag);
+	B1DetectorConstruction(G4bool TargetFlag, G4bool FlipFieldFlag, G4double MagField, G4double GeometryZoom, G4bool AllVacFlag, G4int TargMat, G4double TargDZ);
 	virtual ~B1DetectorConstruction();
 	virtual G4VPhysicalVolume* Construct();
 	virtual void ConstructSDandField();
@@ -21,8 +22,13 @@ public:
 	G4LogicalVolume* GetScoringVolume_S1() const { return fScoringVolume_S1; }
 	G4LogicalVolume* GetScoringVolume_T1() const { return fScoringVolume_T1; }
 	G4LogicalVolume* GetScoringVolume_T2() const { return fScoringVolume_T2; }
+	G4LogicalVolume* GetScoringVolume_T3() const { return fScoringVolume_T3; }
 	G4LogicalVolume* GetScoringVolume_Targ()   const { return fScoringVolume_Targ; }
+	G4LogicalVolume* GetScoringVolume_Dummy()   const { return fScoringVolume_Dummy; }
 	G4LogicalVolume* GetScoringVolume_C0() const { return fScoringVolume_C0; }
+	G4LogicalVolume* GetScoringVolume_T4() const { return fScoringVolume_T4; }
+	G4LogicalVolume* GetScoringVolume_T5() const { return fScoringVolume_T5; }
+	G4LogicalVolume* GetScoringVolume_T6() const { return fScoringVolume_T6; }
 	G4LogicalVolume* GetScoringVolume_C1() const { return fScoringVolume_C1; }
 	G4LogicalVolume* GetScoringVolume_C2() const { return fScoringVolume_C2; }
 	G4LogicalVolume* GetScoringVolume_C3() const { return fScoringVolume_C3; }
@@ -33,6 +39,9 @@ public:
 	G4LogicalVolume* GetScoringVolume_S2() const { return fScoringVolume_S2; }
 	G4LogicalVolume* GetScoringVolume_S3() const { return fScoringVolume_S3; }
 	G4LogicalVolume* GetScoringVolume_S4() const { return fScoringVolume_S4; }
+	G4LogicalVolume* GetScoringVolume_S5() const { return fScoringVolume_S5; }
+	G4LogicalVolume* GetScoringVolume_S6() const { return fScoringVolume_S6; }
+	G4LogicalVolume* GetScoringVolume_S7() const { return fScoringVolume_S7; }
 	G4LogicalVolume* GetScoringVolume_Pb1a() const { return fScoringVolume_Pb1a; }
 	G4LogicalVolume* GetScoringVolume_Pb1b() const { return fScoringVolume_Pb1b; }
 	G4LogicalVolume* GetScoringVolume_Pb1c() const { return fScoringVolume_Pb1c; }
@@ -52,8 +61,13 @@ protected:
 	G4LogicalVolume*  fScoringVolume_S1;
 	G4LogicalVolume*  fScoringVolume_T1;
 	G4LogicalVolume*  fScoringVolume_T2;
+	G4LogicalVolume*  fScoringVolume_T3;
 	G4LogicalVolume*  fScoringVolume_Targ;
+	G4LogicalVolume*  fScoringVolume_Dummy;
 	G4LogicalVolume*  fScoringVolume_C0;
+	G4LogicalVolume*  fScoringVolume_T4;
+	G4LogicalVolume*  fScoringVolume_T5;
+	G4LogicalVolume*  fScoringVolume_T6;
 	G4LogicalVolume*  fScoringVolume_C1;
 	G4LogicalVolume*  fScoringVolume_C2;
 	G4LogicalVolume*  fScoringVolume_C3;
@@ -64,6 +78,9 @@ protected:
 	G4LogicalVolume*  fScoringVolume_S2;
 	G4LogicalVolume*  fScoringVolume_S3;
 	G4LogicalVolume*  fScoringVolume_S4;
+	G4LogicalVolume*  fScoringVolume_S5;
+	G4LogicalVolume*  fScoringVolume_S6;
+	G4LogicalVolume*  fScoringVolume_S7;
 	G4LogicalVolume*  fScoringVolume_Pb1a;
 	G4LogicalVolume*  fScoringVolume_Pb1b;
 	G4LogicalVolume*  fScoringVolume_Pb1c;
@@ -89,7 +106,9 @@ private:
 	G4double fMagField;
 	G4double fGeometryZoom;
 	G4bool fAllVacFlag;
-	G4bool HorsaVersaFlip=true;
+	G4bool HorsaVersaFlip=false;
+	G4int fTargMat;
+	G4double fTargDZ;
 
 public:
 	void SetChanneling(bool aBool, G4String aString) {

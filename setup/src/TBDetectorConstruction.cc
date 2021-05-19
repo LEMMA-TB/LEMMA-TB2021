@@ -11,7 +11,7 @@
 TBDetectorConstruction::TBDetectorConstruction(G4String fileName) :
   G4VUserDetectorConstruction(),
   m_fileName(fileName),
-  m_fMagField(-2.0)
+  m_fMagField(2.0)
 {
 
   m_parser.Read(m_fileName,false);
@@ -127,8 +127,8 @@ void TBDetectorConstruction::ConstructSDandField(){
 //  }
 //  else
 //    { //fixed constant map has been requested
-      G4double fieldValue=fabs(m_fMagField*CLHEP::tesla);
-      if (m_fFlipFieldFlag) fieldValue*=-1;
+      G4double fieldValue=m_fMagField*CLHEP::tesla;
+
       G4cout<<"#### Constant Magnetic field has been requested, with a value of : "<<fieldValue/tesla<<G4endl;
       
       G4UniformMagField* myField = new G4UniformMagField(G4ThreeVector(0., fieldValue, 0.));

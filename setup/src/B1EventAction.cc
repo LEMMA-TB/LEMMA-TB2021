@@ -58,7 +58,7 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 	(fRunAction->GetCopyNb()).clear();
 	
 	(fRunAction->GetCaloEnDep()).clear();
-	(fRunAction->GetCaloEnDep()).assign(fNOfCaloChannels,0);
+	(fRunAction->GetCaloEnDep()).assign(30,0);
 	
 	(fRunAction->GetVectorCross()).clear();
 	

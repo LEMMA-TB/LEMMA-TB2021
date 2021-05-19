@@ -1,7 +1,5 @@
 #include "B1RunAction.hh"
 #include "B1PrimaryGeneratorAction.hh"
-#include "B1DetectorConstruction.hh"
-#include "B1DetectorConstructionAug.hh"
 #include "B1Run.hh"
 #include "G4AccumulableManager.hh"
 #include "HistoManager.hh"

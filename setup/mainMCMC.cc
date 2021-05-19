@@ -3,8 +3,6 @@
 //----------------------------------
 #include "G4UImanager.hh"
 #include "G4Run.hh"
-#include "B1DetectorConstruction.hh"
-#include "B1DetectorConstructionAug.hh"
 #include "TBDetectorConstruction.hh"
 #include "B1ActionInitialization.hh"
 #include "G4StepLimiterPhysics.hh"
@@ -317,8 +315,6 @@ int main(int argc,char** argv)
 	G4String ctype = "Si" ;  // "C" or "Si"
 	
 	//Define both DetConst (Aug/Sept)
-	B1DetectorConstruction* detector;
-	B1DetectorConstructionAug* detectorAug;
 	TBDetectorConstruction* tbDetector;
 	
 	if ( ReadGeoFromFile )  {
@@ -326,16 +322,6 @@ int main(int argc,char** argv)
 	  tbDetector = new TBDetectorConstruction(GeoFileName);
 	  
 	}
-	else if (!ReadGeoFromFile && !Aug2018Flag) { // september 2018 setup
-		G4cout<<"September Geometry required"<<G4endl;
-		detector=new B1DetectorConstruction( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag, TargMat, TargDZ);
-		detector->SetChanneling(channeling,ctype);
-	}
-	else { //august 2018 setup
-		G4cout<<"August Geometry required"<<G4endl;
-		detectorAug =new B1DetectorConstructionAug( TargetFlag, FlipFieldFlag, MagField, GeometryZoom, AllVacFlag);		detectorAug->SetChanneling(channeling,ctype);
-	}
-	
 	if ( FTFP ){
 		G4PhysListFactory *physListFactory = new G4PhysListFactory();
 		G4VModularPhysicsList* physics =
@@ -369,31 +355,15 @@ int main(int argc,char** argv)
 	  if (ReadGeoFromFile) {
 	    if ( MTFlag ) {
 	      runManagerMT->SetUserInitialization(tbDetector);
-	      runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
+	      runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ));
 	      runManagerMT->Initialize();  // init kernel
 	    } else {
 	      runManager->SetUserInitialization(tbDetector);
-	      runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
+	      runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ));
 	      runManager->Initialize();  // init kernel
 	    }
 	    
 	  }
-	  else {
-	    if (MTFlag) {
-	      
-	      
-	      if (!Aug2018Flag) 	runManagerMT->SetUserInitialization(detector);
-	      else runManagerMT->SetUserInitialization(detectorAug);
-	      runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ, Aug2018Flag));
-	      runManagerMT->Initialize();  // init kernel
-	    } else {
-	      if (!Aug2018Flag) 	runManager->SetUserInitialization(detector);
-	      else runManager->SetUserInitialization(detectorAug);
-	      runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy,BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag,StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag,NTotChannels, TriggerLogic,  TargMat, TargDZ, Aug2018Flag));
-	      runManager->Initialize();  // init kernel
-	    }
-	  }
-
 	
 	  G4VisManager* visManager ;
 if (VisFlag) {	
