@@ -12,7 +12,7 @@ class B1RunAction;
 class B1EventAction : public G4UserEventAction
 {
 public:
-  B1EventAction(B1RunAction* runAction, G4int NOfCaloChannels, const std::vector<G4int>  & TriggerLogic);
+  B1EventAction(B1RunAction* runAction, const std::vector<G4int>  & TriggerLogic);
   virtual ~B1EventAction();    
   virtual void BeginOfEventAction(const G4Event* evt);
   virtual void EndOfEventAction(const G4Event* evt);
@@ -50,8 +50,6 @@ private:
 	G4double fBeamCY;
 	G4double fBeamCZ;
 	G4int fNHits;
-	G4int fNOfCaloChannels;
-//	G4int NHitsCounter;
 	G4int fPrintModulo = 1; //in percentage: write every X %
 	std::vector<G4int> fShowCriteria;
 	G4int fNoCriteria;

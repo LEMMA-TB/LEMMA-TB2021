@@ -234,77 +234,6 @@ int main(int argc,char** argv)
 		runManager= new G4RunManager;
 	}
 	
-	// ##############################################################################
-	// ##################### PREPARE CALO-MAP VECTOR
-	// ###############
-	
-	std::map<G4String,G4int> Mappa;
-	
-#if 1
-	Mappa["Pb1a"]=0;
-	Mappa["Pb1b"]=1;
-	Mappa["Pb1c"]=2;
-	Mappa["Pb2a"]=3;
-	Mappa["Pb2b"]=4;
-	Mappa["Pb2c"]=5;
-	
-	//	Mappa[7700]=6;
-	
-//	Mappa[5100]=10;
-//	Mappa[5101]=10;
-//	Mappa[5102]=10;
-//	Mappa[5103]=11;
-//	Mappa[5104]=11;
-//	Mappa[5105]=11;
-//	
-//	
-//	Mappa[5119]=12;
-//	Mappa[5120]=12;
-//	Mappa[5121]=12;
-//	Mappa[5122]=13;
-//	Mappa[5123]=13;
-//	Mappa[5124]=13;
-//	
-//	
-//	Mappa[5200]=14;
-//	Mappa[5201]=15;
-//	Mappa[5202]=16;
-//	Mappa[5203]=16;
-//	Mappa[5204]=16;
-//	Mappa[5205]=17;
-//	Mappa[5206]=17;
-//	Mappa[5207]=17;
-//	
-//	Mappa[5208]=18;
-//	Mappa[5209]=18;
-//	Mappa[5210]=18;
-//	
-//	Mappa[5211]=19;
-//	Mappa[5212]=19;
-//	Mappa[5213]=19;
-//	
-//	Mappa[5214]=20;
-//	Mappa[5215]=21;
-//	Mappa[5216]=22;
-//	Mappa[5217]=22;
-//	Mappa[5218]=22;
-//	Mappa[5219]=23;
-//	Mappa[5220]=23;
-//	Mappa[5221]=23;
-	
-	
-#endif
-	G4int NDumChannels=1;
-	G4int NTotChannels=0;
-	
-	// ###############
-	// ##################### END: PREPARE CALO-MAP VECTOR
-	// ##############################################################################
-	G4cout<<"DIMENSIONE MAPPA: size= "<<Mappa.size()<<G4endl;
-	
-	G4cout<<"DIMENSIONE MAPPA: max element = "<<NTotChannels<<G4endl;
-	
-	
 	
 	// ##############################################################################
 	// ##################### PHYSICS LIST AND DETECTOR CONSTRUCTION
@@ -355,11 +284,11 @@ int main(int argc,char** argv)
 	  if (ReadGeoFromFile) {
 	    if ( MTFlag ) {
 	      runManagerMT->SetUserInitialization(tbDetector);
-	      runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ));
+	      runManagerMT->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag, TriggerLogic, TargMat , TargDZ));
 	      runManagerMT->Initialize();  // init kernel
 	    } else {
 	      runManager->SetUserInitialization(tbDetector);
-	      runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag, NTotChannels, TriggerLogic, TargMat , TargDZ));
+	      runManager->SetUserInitialization(new B1ActionInitialization(BeamEnergy, BeamDP, CalibMuMBeamFlag, CalibMuPBeamFlag, ProdMuonBeamFlag, ElectronBeamFlag, SimpleFlag, StoreCaloEnDepFlag, StoreGammaConvFlag, ExtSourceFlagBha, ExtSourceFlagMu, RootCutThr, DetEnterExitFlag, TriggerLogic, TargMat , TargDZ));
 	      runManager->Initialize();  // init kernel
 	    }
 	    

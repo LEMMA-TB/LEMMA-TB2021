@@ -7,11 +7,10 @@
 #include "B5Analysis.hh"
 #include "B1RunAction.hh"
 
-B1EventAction::B1EventAction(B1RunAction* runAction, G4int NOfCaloChannels, const	std::vector<G4int>  & TriggerLogic )
+B1EventAction::B1EventAction(B1RunAction* runAction, const std::vector<G4int>  & TriggerLogic )
 : G4UserEventAction(),
 fRunAction(runAction),
 fNHits(0),
-fNOfCaloChannels(NOfCaloChannels),
 fTriggerLogic(TriggerLogic)
 
 {} 
