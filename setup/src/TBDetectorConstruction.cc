@@ -11,7 +11,7 @@
 TBDetectorConstruction::TBDetectorConstruction(G4String fileName) :
   G4VUserDetectorConstruction(),
   m_fileName(fileName),
-  m_fMagField(2.0)
+  m_fMagField(-2.0)
 {
 
   m_parser.Read(m_fileName,false);
