@@ -29,5 +29,7 @@ void B1ActionInitialization::Build() const
 	SetUserAction(eventAction);
 	SetUserAction(new B1SteppingAction(eventAction, runAction, fStoreCaloEnDepFlag, fStoreGammaConvDepFlag, fEThr, fDetEnterExitFlag, fTriggerLogic));
 	SetUserAction(new B1StackingAction(eventAction, runAction, fStoreGammaConvDepFlag));
+
+
 }
 

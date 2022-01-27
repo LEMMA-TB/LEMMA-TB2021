@@ -60,6 +60,9 @@ private:
   SiDigitizer* m_siDigitizer;
   /// digitizer of each gem
   GEMDigitizer* m_gemDigitizer[7];
+
+  /// muon counter for signal filter
+  int m_nMuon;
   
   
 };

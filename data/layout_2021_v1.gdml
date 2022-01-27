@@ -280,7 +280,7 @@
     <box lunit="mm" name="Mu3" x="693" y="840" z="13"/>
     <box lunit="mm" name="S4" x="310" y="150" z="10"/>
     <box lunit="mm" name="S5" x="310" y="150" z="10"/>
-    <box lunit="mm" name="Dummy" x="3000" y="3000" z="0.1"/>
+    <box lunit="mm" name="Dummy" x="7000" y="7000" z="0.1"/>
     <box lunit="mm" name="World" x="8000" y="8000" z="80000"/>
   </solids>
   <structure>

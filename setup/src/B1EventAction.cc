@@ -11,8 +11,9 @@ B1EventAction::B1EventAction(B1RunAction* runAction, const std::vector<G4int>  &
 : G4UserEventAction(),
 fRunAction(runAction),
 fNHits(0),
-fTriggerLogic(TriggerLogic)
-
+  fTriggerLogic(TriggerLogic),
+  m_evTotal(0),
+  m_evAccepted(0)
 {} 
 
 B1EventAction::~B1EventAction(){}
@@ -361,29 +362,42 @@ void B1EventAction::BeginOfEventAction(const G4Event* evt){
 }
 
 void B1EventAction::EndOfEventAction(const G4Event* evt){
-	
-	auto analysisManager = G4AnalysisManager::Instance();
-	
-	analysisManager->FillNtupleDColumn(0,8,fNHits);
-	//	analysisManager->FillNtupleDColumn(0,34,fCerenkovEneTot);
-	//	analysisManager->FillNtupleIColumn(0,37,fPbGlass_PulseHeight);
-	//	analysisManager->FillNtupleDColumn(0,38,fPbGlass_DepEne);
-	
-	analysisManager->AddNtupleRow(0);
-	analysisManager->AddNtupleRow(1);
-	analysisManager->AddNtupleRow(2);
-	analysisManager->AddNtupleRow(3);
-	
-	//	if ((1000/fPrintModulo*evtNb)%NevTot==0) G4cout <<"\n---> End of Event: "<<evt->GetEventID()<<G4endl;
-	
-	//	if (fShowCriteria1==TRUE && fShowCriteria2==TRUE && fShowCriteria3==TRUE) {
-	//it = find(AllMothers.begin(), AllMothers.end(),temp);
-	G4double somma=0;
-	for (int ii=0; ii<fNoCriteria; ii++) somma+=fShowCriteria[ii];
-	if (somma==fNoCriteria) {
-	  G4Event* evt2 = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
-	  evt2->KeepTheEvent();
-	}
+
+  m_evTotal++;
+  if ( m_evTotal%100000==0 ) {
+    std::cout << ">>> Number of generated and accepted events: " << m_evTotal << " " << m_evAccepted << std::endl;
+  }
+  
+  if (evt->IsAborted()) {
+    return;
+  }
+  m_evAccepted++;
+  if ( m_evAccepted%1000==0 ) {
+    std::cout << ">>> Number of accepted events: " << m_evAccepted << std::endl;
+  }
+  //  std::cout << "In end of event !!! " << std::endl;
+  auto analysisManager = G4AnalysisManager::Instance();
+  
+  analysisManager->FillNtupleDColumn(0,8,fNHits);
+  //	analysisManager->FillNtupleDColumn(0,34,fCerenkovEneTot);
+  //	analysisManager->FillNtupleIColumn(0,37,fPbGlass_PulseHeight);
+  //	analysisManager->FillNtupleDColumn(0,38,fPbGlass_DepEne);
+  
+  analysisManager->AddNtupleRow(0);
+  analysisManager->AddNtupleRow(1);
+  analysisManager->AddNtupleRow(2);
+  analysisManager->AddNtupleRow(3);
+  
+  //	if ((1000/fPrintModulo*evtNb)%NevTot==0) G4cout <<"\n---> End of Event: "<<evt->GetEventID()<<G4endl;
+  
+  //	if (fShowCriteria1==TRUE && fShowCriteria2==TRUE && fShowCriteria3==TRUE) {
+  //it = find(AllMothers.begin(), AllMothers.end(),temp);
+  G4double somma=0;
+  for (int ii=0; ii<fNoCriteria; ii++) somma+=fShowCriteria[ii];
+  if (somma==fNoCriteria) {
+    G4Event* evt2 = G4EventManager::GetEventManager()->GetNonconstCurrentEvent();
+    evt2->KeepTheEvent();
+  }
 	
 }
 

@@ -50,11 +50,11 @@ int main(int argc,char** argv)
 	// ################### These are defaults, can be overridden by command line ####
 	// ###############
 	
-	G4bool CalibMuMBeamFlag=true;  //switching on this flag generates mu- primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
+	G4bool CalibMuMBeamFlag=false;  //switching on this flag generates mu- primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
 	G4bool CalibMuPBeamFlag=false;  //switching on this flag generates mu+ primary beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
 	G4bool ProdMuonBeamFlag=false;  //switching on this flag generates mu- beam at the end of the target, to simulate the muon production: E in 15-30 GeV, along Z
 	G4bool ElectronBeamFlag=false;  //switching on this flag generates e- beam, otherwise e+. The SimpleFlag is still considered for the beam distribution
-	G4double BeamEnergy=22.0*GeV; //Primary Beam Energy (18, 22, 26 GeV options for e+ calibration) - 45 GeV for real TB
+	G4double BeamEnergy=45.0*GeV; //Primary Beam Energy (18, 22, 26 GeV options for e+ calibration) - 45 GeV for real TB
 	G4bool SimpleFlag=false; //Generates a "simple-ideal" beam: no spread, no emittance...
 	G4double BeamDP=0.017; //was 0.01, but Mario obtained 1.7%
 	
@@ -87,7 +87,7 @@ int main(int argc,char** argv)
 	G4String GeoFileName="layout.gdml";
 	
 	G4bool VisFlag=false; //To enable visualization
-	G4int NoOfPrimToGen=1000, Verbose=0;
+	G4int NoOfPrimToGen=100, Verbose=0;
 	G4String MacroName="";
 	G4String FileNameLabel="";
 	G4UIExecutive* ui = 0;
@@ -321,9 +321,9 @@ if (VisFlag) {
 	}
 	else {
 		// interactive mode
-		UImanager->ApplyCommand("/control/execute init_vis.mac");
-		ui->SessionStart();
-		delete ui;
+	  UImanager->ApplyCommand("/control/execute init_vis.mac");
+	  ui->SessionStart();
+	  delete ui;
 	}
 	
 	//RETRIEVE RUN TO GET THE NUMBER OF EVENTS I AM SIMULATING

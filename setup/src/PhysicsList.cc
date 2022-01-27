@@ -50,6 +50,7 @@
 #include "G4OpBoundaryProcess.hh"
 #include "G4ShortLivedConstructor.hh"
 
+#include "G4NistManager.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -248,7 +249,7 @@ void PhysicsList::ConstructGeneral()
 	// Scale muon pair cross section, toggle bias
 	// Function call moved from SetCuts to ConstructGeneral
 	// to allow proper funcionalities with MultiThread
-	//	SetAnnihiToMuPairFac(1.e6);
+	SetAnnihiToMuPairFac(1.e0);
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	
 }
@@ -272,15 +273,22 @@ void PhysicsList::SetCuts()
 
 void PhysicsList::SetAnnihiToMuPairFac(G4double fac)
 {
-	G4ProcessTable* theProcessTable = G4ProcessTable::GetProcessTable();
-	G4AnnihiToMuPair* annihiToMuPairProcess = (G4AnnihiToMuPair*)
-	theProcessTable->FindProcess("AnnihiToMuPair","e+");
-	if(annihiToMuPairProcess){
-		annihiToMuPairProcess->SetCrossSecFactor(fac);
-		G4cout << "FAC= "<<fac<<G4endl;
-	}else G4cout
-		<< "Warning. No process AnnihiToMuPair found, SetAnnihiToMuPairFac ignored"
-		<< G4endl;
+  G4ProcessTable* theProcessTable = G4ProcessTable::GetProcessTable();
+  G4AnnihiToMuPair* annihiToMuPairProcess = (G4AnnihiToMuPair*)
+    theProcessTable->FindProcess("AnnihiToMuPair","e+");
+  if(annihiToMuPairProcess){
+    G4NistManager* nist = G4NistManager::Instance();
+    annihiToMuPairProcess->SetCrossSecFactor(fac);
+    G4cout << "FAC= "<<fac<<G4endl;
+    
+    //    G4cout << ">>>>>>>> Cross section in nb: " << G4endl;
+    //G4Material* mat = nist->FindOrBuildMaterial("G4_Be");
+    //for (double en = 40000 ; en <80000 ; en+=500 ) {
+    // G4cout << en << " " << annihiToMuPairProcess->ComputeCrossSectionPerAtom(en,1)*1.E+22*1.E+9 << G4endl;
+    //}
+  }else G4cout
+	  << "Warning. No process AnnihiToMuPair found, SetAnnihiToMuPairFac ignored"
+	  << G4endl;
 }
 
 

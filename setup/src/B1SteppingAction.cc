@@ -28,7 +28,8 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
    fEThr(EThr),
    fDetEnterExitFlag(DetEnterExitFlag),
    fTriggerLogic(TriggerLogic),
-   m_readGeoFromFile(true)
+   m_readGeoFromFile(true),
+   m_nMuon(0)
 {
 
   // create the digitizers
@@ -43,7 +44,7 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
     "GEM2_NEGX_DRIFT","GEM2_NEGX_GAS","GEM2_NEGX_RO","GEM2_POSX_DRIFT","GEM2_POSX_GAS","GEM2_POSX_RO",
     "GEM3_NEGX_DRIFT","GEM3_NEGX_GAS","GEM3_NEGX_RO","GEM3_POSX_DRIFT","GEM3_POSX_GAS","GEM3_POSX_RO",
     "GEM4_NEGX_DRIFT","GEM4_NEGX_GAS","GEM4_NEGX_RO","GEM4_POSX_DRIFT","GEM4_POSX_GAS","GEM4_POSX_RO",
-    "Pb1a","Pb1b","Pb1c","Ce1","Pb2c","Pb2b","Pb2a","Ce2","Mu1","Mu2","Dummy0","Dummy1"};
+    "Pb1a","Pb1b","Pb1c","Ce1","Pb2c","Pb2b","Pb2a","Ce2","Mu1_X","Mu2_X","Dummy0"};
 
   m_detectorId = {9,10,11,12,25,20,21,22,
     -1,31,-1,
@@ -52,7 +53,7 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction, B1RunAction* runA
     -1,35,-1,-1,34,-1,
     -1,37,-1,-1,36,-1,
     41,42,43,52,44,45,46,51,
-    61,62,100,101
+    61,62,100
   };
 
   // Ce1 is VERSA ( a X>0 ), subdetector 52 (CaloTable1)
@@ -588,22 +589,22 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
   if (fStoreCaloEnDepFlag && ((subdet>=41 && subdet <=46) || subdet==51 || subdet==52 || subdet == 77)) {
 
     if (subdet==41) {
-      caloChannel=1;
+      caloChannel=4;
     }
     else if (subdet==42) {
-      caloChannel=0;
-    }
-    else if (subdet==43) {
-      caloChannel=2;
-    }
-    else if (subdet==44) {
-      caloChannel=3;
-    }
-    else if (subdet==45) {
       caloChannel=5;
     }
+    else if (subdet==43) {
+      caloChannel=3;
+    }
+    else if (subdet==44) {
+      caloChannel=2;
+    }
+    else if (subdet==45) {
+      caloChannel=0;
+    }
     else if (subdet==46) {
-      caloChannel=4;
+      caloChannel=1;
     }
     
     if ( caloChannel != -1 ) { 
@@ -642,33 +643,43 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step){
       }
     }
   }
+
   
-  
-  //##################################################
-  //##################################################
-  //############ CENTRAL CORE OF SCORING #############
-  //##################################################
-  
-  
-  //-- store info
-  //	if (dofill && ((step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary)
-  //				   || (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary)) && !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<EThr) ) { //If Output Cut required do not store photons under a certain energy
-  //#### NORMAL
-  //	if (dofill && ((step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary) || (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary)) && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
-  //### FINE NORMAL
-  
-  //	ALL
-  //	if (dofill  && subdet!=76  && subdet!=77  && subdet!=78 && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
-  
-  /* //tentativo di capire perchè quando si usa generatore esterno l'informazione in GetPrimaryVertex è sempre relativa alla prima riga del file di dati esterni.. PACE!
-     G4int temp=G4RunManager::GetRunManager()->GetCurrentEvent()->GetPrimaryVertex()->GetPrimary()->GetPDGcode();
-     G4double tempEne=G4RunManager::GetRunManager()->GetCurrentEvent()->GetPrimaryVertex()->GetPrimary()->GetKineticEnergy();
-     if (0&&temp!=13) G4cout<<"CIAO "<<temp<<G4endl;
-     
-     if (step->GetTrack()->GetParentID()==0 && step->GetTrack()->GetCurrentStepNumber()==1) G4cout<< "DEBUG ParentId="<< step->GetTrack()->GetParentID()<<" Part= "<<step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding()<<" Ene="<< step->GetTrack()->GetDynamicParticle()->GetKineticEnergy()/keV<<" temp= "<<temp<<" tempEne=" <<tempEne/keV<<G4endl;
-  */
-  
-  
+  /// count the muons produced in the Target
+  if ( ThisVol && step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary &&
+       ThisVol->GetName() == "Target" ) {
+
+    G4int Idp = step->GetTrack()->GetDynamicParticle()->GetDefinition()->GetPDGEncoding();
+
+    //    std::cout << "found a particle: " << Idp << std::endl;
+    if ( abs(Idp)==13 ) {
+      m_nMuon += 1;
+    }
+
+  }
+
+  /// check the status at the entrance of T4
+  if ( ThisVol && step->GetPostStepPoint()->GetStepStatus()==fGeomBoundary &&
+       ThisVol->GetName() == "Dummy0" ) {
+
+    if ( m_nMuon >=1 ) {
+
+      std::cout << "Good event ! nmuons: " << m_nMuon << std::endl;
+      
+      m_nMuon=0;
+      
+    }
+    else {
+
+      //      std::cout << "Aborting the event !! nmuons: " << m_nMuon << std::endl;
+      m_nMuon=0;
+      /// abort the event
+      //G4RunManager::GetRunManager()->AbortEvent();
+      
+    }
+
+  }
+    
   // SOLO PRE/POST - PRE
   if (dofill && (step->GetPreStepPoint()->GetStepStatus()==fGeomBoundary) && (!fCutFlag || !(Pid==22 && step->GetPreStepPoint()->GetMomentum().mag()<fEThr*GeV) )) { //If Output Cut required do not store photons under a certain energy - Logic expression: A & B & !(!C || !(D & E) )
     
